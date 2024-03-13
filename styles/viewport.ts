@@ -9,10 +9,12 @@ export const Device = {
   desktop: `(min-width : ${ViewportBoundary.mobile}px)`,
 };
 
-export const isDesktopOrLaptop = useMediaQuery({
-  query: `(min-width : ${ViewportBoundary.mobile}px)`,
-});
+export const isDesktopOrLaptop = () => {
+  return useMediaQuery({ query: `(min-width : ${ViewportBoundary.mobile}px)` });
+};
 
-export const isMobile = useMediaQuery({
-  query: `(max-width : ${ViewportBoundary.mobile - 1}px)`,
-});
+export const isMobile = () => {
+  return useMediaQuery({
+    query: `(max-width : ${ViewportBoundary.mobile - 1}px)`,
+  });
+};
