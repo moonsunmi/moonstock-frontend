@@ -1,4 +1,3 @@
-import React from "react";
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import { GrayColors } from "styles/colors";

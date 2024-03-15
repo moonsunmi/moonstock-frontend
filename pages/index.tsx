@@ -1,4 +1,3 @@
-import React from "react";
 import PageWrapper from "@/components/layouts/PageWrapper";
 
 export default function Home() {
