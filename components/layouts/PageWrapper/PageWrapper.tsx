@@ -23,6 +23,7 @@ const ChildrenWrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  padding: 10px;
 
   @media screen and ${Device.desktop} {
     max-width: ${ViewportBoundary.mobile - 1}px;
