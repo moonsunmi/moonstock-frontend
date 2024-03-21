@@ -3,16 +3,16 @@ import { Box } from "@mui/material";
 import NumberInput from "./NumberInput";
 import { GrayColors } from "styles/colors";
 import { H2 } from "@/components/typographies";
-import { useEffect, useState, ChangeEvent, useRef } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 
 type InputsType = {
-  averagePrice: number | "";
+  price: number | "";
   quantity: number | "";
 };
 
 const Calculation = () => {
   const [inputs, setInputs] = useState<InputsType>({
-    averagePrice: "",
+    price: "",
     quantity: "",
   });
 
@@ -24,10 +24,10 @@ const Calculation = () => {
   };
 
   useEffect(() => {
-    if (inputs.averagePrice && inputs.quantity)
-      setInvestment(inputs.averagePrice * inputs.quantity);
+    if (inputs.price && inputs.quantity)
+      setInvestment(inputs.price * inputs.quantity);
     else setInvestment("");
-  }, [inputs.averagePrice, inputs.quantity]);
+  }, [inputs.price, inputs.quantity]);
 
   return (
     <Wrapper>
@@ -42,18 +42,26 @@ const Calculation = () => {
         autoComplete="off"
       >
         <NumberInput
-          name="averagePrice"
+          id="price"
+          name="price"
           label="보유 평단"
-          value={inputs.averagePrice}
+          value={inputs.price}
           onChange={handleChange}
         />
         <NumberInput
+          id="quantity"
           name="quantity"
           label="보유 수량"
           value={inputs.quantity}
           onChange={handleChange}
         />
-        <NumberInput label="기존 투자액" value={investment} aria-readonly />
+        <NumberInput
+          id="investment"
+          name="investment"
+          label="기존 투자액"
+          value={investment}
+          aria-readonly
+        />
       </Box>
     </Wrapper>
   );
