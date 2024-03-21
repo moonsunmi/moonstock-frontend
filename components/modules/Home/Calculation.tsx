@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 import NumberInput from "./NumberInput";
 import { GrayColors } from "styles/colors";
-import { H2 } from "@/components/typographies";
+import { Span1 } from "@/components/typographies";
 import { useEffect, useState, ChangeEvent } from "react";
 
 type InputsType = {
@@ -16,22 +16,21 @@ const Calculation = () => {
     quantity: "",
   });
 
-  const [investment, setInvestment] = useState<number | "">("");
+  const [investment, setInvestment] = useState<number>(0);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setInputs({ ...inputs, [name]: Number(value) === 0 ? "" : value });
+    const formattedValue = value === "" ? "" : Number(value);
+    setInputs({ ...inputs, [name]: formattedValue });
   };
 
   useEffect(() => {
-    if (inputs.price && inputs.quantity)
-      setInvestment(inputs.price * inputs.quantity);
-    else setInvestment("");
+    setInvestment(Number(inputs.price) * Number(inputs.quantity));
   }, [inputs.price, inputs.quantity]);
 
   return (
     <Wrapper>
-      <H2>보유 주식 정보</H2>
+      <Span1>보유 주식 정보</Span1>
       <Box
         component="form"
         display="flex"
