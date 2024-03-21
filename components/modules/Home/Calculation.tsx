@@ -1,36 +1,20 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 import NumberInput from "./NumberInput";
-import { GrayColors } from "styles/colors";
+import { ColorTypes, GrayColors } from "styles/colors";
 import { Span1 } from "@/components/typographies";
-import { useEffect, useState, ChangeEvent } from "react";
+import useInvestment from "hooks/useInvestment";
 
-type InputsType = {
-  price: number | "";
-  quantity: number | "";
+type Props = {
+  title: string;
+  bgColor?: ColorTypes;
 };
 
-const Calculation = () => {
-  const [inputs, setInputs] = useState<InputsType>({
-    price: "",
-    quantity: "",
-  });
-
-  const [investment, setInvestment] = useState<number>(0);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    const formattedValue = value === "" ? "" : Number(value);
-    setInputs({ ...inputs, [name]: formattedValue });
-  };
-
-  useEffect(() => {
-    setInvestment(Number(inputs.price) * Number(inputs.quantity));
-  }, [inputs.price, inputs.quantity]);
-
+const Calculation = ({ title, bgColor = GrayColors.gray100 }: Props) => {
+  const { inputs, total, handleChange } = useInvestment();
   return (
-    <Wrapper>
-      <Span1>보유 주식 정보</Span1>
+    <Wrapper bgColor={bgColor}>
+      <Span1>{title}</Span1>
       <Box
         component="form"
         display="flex"
@@ -43,22 +27,22 @@ const Calculation = () => {
         <NumberInput
           id="price"
           name="price"
-          label="보유 평단"
+          label="가격"
           value={inputs.price}
           onChange={handleChange}
         />
         <NumberInput
           id="quantity"
           name="quantity"
-          label="보유 수량"
+          label="수량"
           value={inputs.quantity}
           onChange={handleChange}
         />
         <NumberInput
-          id="investment"
-          name="investment"
-          label="기존 투자액"
-          value={investment}
+          id="total"
+          name="total"
+          label="총합"
+          value={total}
           aria-readonly
         />
       </Box>
@@ -66,8 +50,8 @@ const Calculation = () => {
   );
 };
 
-const Wrapper = styled.div`
-  background-color: ${GrayColors.gray100};
+const Wrapper = styled.div<{ bgColor: ColorTypes }>`
+  background-color: ${(props) => props.bgColor};
   padding: 5px;
   margin: 5px;
 `;
