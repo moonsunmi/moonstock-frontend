@@ -29,7 +29,7 @@ function stockReducer(
 ): StockInfoType[] {
   switch (action.type) {
     case "ADD_ROW":
-      return state;
+      return state; // todo
     case "UPDATE_ROW":
       return state.map((stock) =>
         stock.id === action.payload.id ? { ...action.payload } : stock

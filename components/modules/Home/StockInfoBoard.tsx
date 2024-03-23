@@ -13,7 +13,7 @@ import FormWrapper from "./FormWrapper";
 const StockInfoBoard = memo(({ stockInfo }: { stockInfo: StockInfoType }) => {
   const { dispatch } = useStockContext();
 
-  const handleInputFormat = useCallback(
+  const handleInput = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.target;
       const formattedValue =
@@ -23,7 +23,7 @@ const StockInfoBoard = memo(({ stockInfo }: { stockInfo: StockInfoType }) => {
         payload: { ...stockInfo, [name]: formattedValue },
       });
     },
-    [dispatch, stockInfo]
+    [dispatch, stockInfo] //todo
   );
 
   useEffect(() => {
@@ -45,14 +45,14 @@ const StockInfoBoard = memo(({ stockInfo }: { stockInfo: StockInfoType }) => {
           name="price"
           label="가격"
           value={stockInfo.price}
-          onChange={handleInputFormat}
+          onChange={handleInput}
         />
         <NumberInput
           id="quantity"
           name="quantity"
           label="수량"
           value={stockInfo.quantity}
-          onChange={handleInputFormat}
+          onChange={handleInput}
         />
         <NumberInput
           id="total"
