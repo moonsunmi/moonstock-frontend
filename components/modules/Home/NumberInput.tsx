@@ -5,7 +5,7 @@ type Props = {
   scroll?: boolean;
 } & TextFieldProps;
 
-const NumberInput = ({ scroll = false, ...rest }: Props) => {
+const NumberInput = memo(({ scroll = false, ...rest }: Props) => {
   return (
     <>
       <TextField
@@ -27,6 +27,6 @@ const NumberInput = ({ scroll = false, ...rest }: Props) => {
       />
     </>
   );
-};
+});
 
 export default NumberInput;

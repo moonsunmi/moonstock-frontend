@@ -1,30 +1,27 @@
 import { StockContext } from "@/contexts/stockContext/StockContext";
 import {
+  ActionType,
   StockInfoType,
   stockReducer,
 } from "@/contexts/stockContext/stockReducer";
 import { useReducer } from "react";
 import StockInfoBoard from "./StockInfoBoard";
-
-const initialState: StockInfoType[] = [
-  {
-    id: "heldStock",
-    title: "보유 주식",
-    price: "",
-    quantity: "",
-    total: "",
-  },
-  {
-    id: "addedStock1",
-    title: "추가 매수1",
-    price: "",
-    quantity: "",
-    total: "",
-  },
-];
+import { Button } from "@mui/material";
+import { initialStocks } from "@/contexts/stockContext/initialStocks";
 
 const Calculation = () => {
-  const [state, dispatch] = useReducer(stockReducer, initialState);
+  const [state, dispatch] = useReducer(stockReducer, initialStocks);
+
+  const addStock = () => {
+    const newStock: StockInfoType = {
+      id: `addedStock${Date.now()}`,
+      title: "추가 매수",
+      price: "",
+      quantity: "",
+      total: "",
+    };
+    dispatch({ type: ActionType.ADD_ROW, payload: newStock });
+  };
 
   return (
     <>
@@ -32,6 +29,9 @@ const Calculation = () => {
         {state.map((item: StockInfoType) => {
           return <StockInfoBoard key={item.id} stockInfo={item} />;
         })}
+        <Button variant="outlined" onClick={addStock}>
+          매수 추가
+        </Button>
       </StockContext.Provider>
     </>
   );
