@@ -9,7 +9,7 @@ type StockInfoType = {
 enum ActionType {
   ADD_ROW = "ADD_ROW",
   UPDATE_ROW = "UPDATE_ROW",
-  DELETE_ROW = "DELETE_ROW",
+  REMOVE_ROW = "REMOVE_ROW",
 }
 
 interface AddRowAction {
@@ -22,7 +22,12 @@ interface UpdateRowAction {
   payload: StockInfoType;
 }
 
-type StockAction = AddRowAction | UpdateRowAction;
+interface RemoveRowAction {
+  type: ActionType;
+  payload: { id: string };
+}
+
+type StockAction = AddRowAction | UpdateRowAction | RemoveRowAction;
 
 function stockReducer(
   state: StockInfoType[],
@@ -30,9 +35,9 @@ function stockReducer(
 ): StockInfoType[] {
   switch (action.type) {
     case "ADD_ROW":
-      return state.concat(action.payload); // todo
-    case "DELETE_ROW":
-      return state;
+      return state.concat(action.payload);
+    case "REMOVE_ROW":
+      return state.filter((stock) => stock.id !== action.payload.id);
     case "UPDATE_ROW":
       return state.map((stock) =>
         stock.id === action.payload.id ? { ...action.payload } : stock

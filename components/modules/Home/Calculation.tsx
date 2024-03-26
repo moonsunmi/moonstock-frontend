@@ -1,13 +1,14 @@
 import { StockContext } from "@/contexts/stockContext/StockContext";
+import { initialStocks } from "@/contexts/stockContext/initialStocks";
 import {
   ActionType,
   StockInfoType,
   stockReducer,
 } from "@/contexts/stockContext/stockReducer";
+import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 import { useReducer } from "react";
 import StockInfoBoard from "./StockInfoBoard";
-import { Button } from "@mui/material";
-import { initialStocks } from "@/contexts/stockContext/initialStocks";
 
 const Calculation = () => {
   const [state, dispatch] = useReducer(stockReducer, initialStocks);
@@ -27,7 +28,11 @@ const Calculation = () => {
     <>
       <StockContext.Provider value={{ state, dispatch }}>
         {state.map((item: StockInfoType) => {
-          return <StockInfoBoard key={item.id} stockInfo={item} />;
+          return (
+            <Wrapper key={item.id}>
+              <StockInfoBoard key={item.id} stockInfo={item} />
+            </Wrapper>
+          );
         })}
         <Button variant="outlined" onClick={addStock}>
           매수 추가
@@ -36,5 +41,9 @@ const Calculation = () => {
     </>
   );
 };
+
+const Wrapper = styled.div`
+  align-items: center;
+`;
 
 export default Calculation;

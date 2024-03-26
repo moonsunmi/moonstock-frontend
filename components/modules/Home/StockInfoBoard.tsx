@@ -1,14 +1,16 @@
 import { Span1 } from "@/components/typographies";
 import { useStockContext } from "@/contexts/stockContext/StockContext";
+import { red } from "@mui/material/colors";
 import {
   ActionType,
   StockInfoType,
 } from "@/contexts/stockContext/stockReducer";
 import styled from "@emotion/styled";
 import { ChangeEvent, memo, useCallback, useEffect } from "react";
-import { ColorTypes, GrayColors } from "styles/colors";
+import { ColorTypes, GrayColors, PrimaryColors } from "styles/colors";
 import NumberInput from "./NumberInput";
 import FormWrapper from "./FormWrapper";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 const StockInfoBoard = memo(({ stockInfo }: { stockInfo: StockInfoType }) => {
   const { dispatch } = useStockContext();
@@ -25,6 +27,10 @@ const StockInfoBoard = memo(({ stockInfo }: { stockInfo: StockInfoType }) => {
     },
     [dispatch, stockInfo] //todo
   );
+
+  const handleRemove = () => {
+    dispatch({ type: ActionType.REMOVE_ROW, payload: { id: stockInfo.id } });
+  };
 
   useEffect(() => {
     dispatch({
@@ -61,6 +67,7 @@ const StockInfoBoard = memo(({ stockInfo }: { stockInfo: StockInfoType }) => {
           value={stockInfo.total}
           aria-readonly
         />
+        <RemoveCircleIcon color="warning" onClick={handleRemove} />
       </FormWrapper>
     </Wrapper>
   );

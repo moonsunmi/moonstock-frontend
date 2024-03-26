@@ -9,7 +9,7 @@ export const initialStocks: StockInfoType[] = [
     total: "",
   },
   {
-    id: `addedStock${Date.now()}`,
+    id: `addedStock1`,
     title: "추가 매수",
     price: "",
     quantity: "",
