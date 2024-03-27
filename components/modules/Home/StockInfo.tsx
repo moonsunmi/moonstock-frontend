@@ -5,11 +5,12 @@ import {
   StockInfoType,
 } from "@/contexts/stockContext/stockReducer";
 import styled from "@emotion/styled";
-import { ChangeEvent, useEffect, useState } from "react";
-import { grey } from "@mui/material/colors";
-import NumberInput from "./NumberInput";
-import FormWrapper from "./FormWrapper";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { grey } from "@mui/material/colors";
+import { ChangeEvent, useEffect, useState } from "react";
+import { formatNumberToKorean } from "utils/formatNumberToKorean";
+import FormWrapper from "./FormWrapper";
+import NumberInput from "./NumberInput";
 
 type Inputs = {
   price: string;
@@ -35,10 +36,6 @@ const StockInfo = ({
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setInputs({ ...inputs, [name]: value.replaceAll(",", "") });
-  };
-
-  const formatNumber = (number: number) => {
-    return isNaN(number) ? "" : new Intl.NumberFormat("ko-kr").format(number);
   };
 
   const handleRemove = () => {
@@ -76,7 +73,11 @@ const StockInfo = ({
           id="price"
           name="price"
           label="가격"
-          value={inputs.price === "" ? "" : formatNumber(Number(inputs.price))}
+          value={
+            inputs.price === ""
+              ? ""
+              : formatNumberToKorean(Number(inputs.price))
+          }
           onBlur={handleBlur}
           onChange={handleInput}
         />
@@ -85,7 +86,9 @@ const StockInfo = ({
           name="quantity"
           label="수량"
           value={
-            inputs.quantity === "" ? "" : formatNumber(Number(inputs.quantity))
+            inputs.quantity === ""
+              ? ""
+              : formatNumberToKorean(Number(inputs.quantity))
           }
           onBlur={handleBlur}
           onChange={handleInput}
@@ -94,7 +97,11 @@ const StockInfo = ({
           id="investment"
           name="investment"
           label="총합"
-          value={inputs.investment}
+          value={
+            inputs.investment === ""
+              ? ""
+              : formatNumberToKorean(Number(inputs.investment))
+          }
           aria-readonly
         />
         <RemoveCircleIcon color="warning" onClick={handleRemove} />
