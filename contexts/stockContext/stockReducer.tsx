@@ -1,9 +1,10 @@
+type NumberInput = "" | number;
+
 type StockInfoType = {
   id: string;
   title: string;
-  price: "" | number;
-  quantity: "" | number;
-  total: "" | number;
+  price: NumberInput;
+  quantity: NumberInput;
 };
 
 enum ActionType {

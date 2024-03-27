@@ -6,13 +6,11 @@ export const initialStocks: StockInfoType[] = [
     title: "보유 주식",
     price: "",
     quantity: "",
-    total: "",
   },
   {
     id: `addedStock1`,
     title: "추가 매수",
     price: "",
     quantity: "",
-    total: "",
   },
 ];
