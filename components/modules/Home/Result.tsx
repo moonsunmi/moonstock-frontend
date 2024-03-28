@@ -5,16 +5,16 @@ import { formatNumberToKorean } from "utils/formatNumberToKorean";
 const Result = ({ stocks }: { stocks: StockInfoType[] }) => {
   function calculateWholeStocks() {
     let quantity = 0;
-    let investment = 0;
+    let InvestmentAmount = 0;
     stocks.map((item) => {
       quantity += item.price === "" ? 0 : Number(item.quantity);
-      investment += Number(item.price) * Number(item.quantity);
+      InvestmentAmount += Number(item.price) * Number(item.quantity);
     });
-    let price: number | "" = quantity === 0 ? "" : investment / quantity;
-    return { price, quantity, investment };
+    let price: number | "" = quantity === 0 ? "" : InvestmentAmount / quantity;
+    return { price, quantity, InvestmentAmount };
   }
 
-  const { price, quantity, investment } = calculateWholeStocks();
+  const { price, quantity, InvestmentAmount } = calculateWholeStocks();
 
   return (
     <List
@@ -30,7 +30,7 @@ const Result = ({ stocks }: { stocks: StockInfoType[] }) => {
       </ListItemText>
       <ListItemText>총 개수: {formatNumberToKorean(quantity)}</ListItemText>
       <ListItemText>
-        총 투자 금액: {formatNumberToKorean(investment)}
+        총 투자 금액: {formatNumberToKorean(InvestmentAmount)}
       </ListItemText>
     </List>
   );

@@ -12,17 +12,35 @@ import NumberInput from "./NumberInput";
 type Inputs = {
   price: string;
   quantity: string;
-  investment: string;
+  InvestmentAmount: string;
+};
+
+type InputField = {
+  id: keyof Inputs;
+  name: keyof Inputs;
+  label: string;
+  readOnly?: boolean;
 };
 
 const StockInfo = ({ stockInfo }: { stockInfo: StockInfoType }) => {
   const [inputs, setInputs] = useState<Inputs>({
     price: stockInfo.price.toString(),
     quantity: stockInfo.quantity.toString(),
-    investment: "",
+    InvestmentAmount: "",
   });
 
   const { dispatch } = useStockContext();
+
+  const inputFields: InputField[] = [
+    { id: "price", name: "price", label: "가격" },
+    { id: "quantity", name: "quantity", label: "수량" },
+    {
+      id: "InvestmentAmount",
+      name: "InvestmentAmount",
+      label: "투자금액",
+      readOnly: true,
+    },
+  ];
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -40,7 +58,7 @@ const StockInfo = ({ stockInfo }: { stockInfo: StockInfoType }) => {
 
       setInputs({
         ...inputs,
-        investment: (price * quantity).toString(),
+        InvestmentAmount: (price * quantity).toString(),
       });
 
       dispatch({
@@ -58,41 +76,22 @@ const StockInfo = ({ stockInfo }: { stockInfo: StockInfoType }) => {
     <Container>
       <Typography variant="h6">{stockInfo.title}</Typography>
       <FormGroup sx={{ display: "flex", flexDirection: "row", gap: 1, mb: 3 }}>
-        <NumberInput
-          id="price"
-          name="price"
-          label="가격"
-          value={
-            inputs.price === ""
-              ? ""
-              : formatNumberToKorean(Number(inputs.price))
-          }
-          onBlur={handleBlur}
-          onChange={handleInput}
-        />
-        <NumberInput
-          id="quantity"
-          name="quantity"
-          label="수량"
-          value={
-            inputs.quantity === ""
-              ? ""
-              : formatNumberToKorean(Number(inputs.quantity))
-          }
-          onBlur={handleBlur}
-          onChange={handleInput}
-        />
-        <NumberInput
-          id="investment"
-          name="investment"
-          label="총합"
-          value={
-            inputs.investment === ""
-              ? ""
-              : formatNumberToKorean(Number(inputs.investment))
-          }
-          aria-readonly
-        />
+        {inputFields.map((field) => (
+          <NumberInput
+            key={field.id}
+            id={field.id}
+            name={field.name}
+            label={field.label}
+            value={
+              inputs[field.name] === ""
+                ? ""
+                : formatNumberToKorean(Number(inputs[field.name]))
+            }
+            onBlur={field.readOnly ? undefined : handleBlur}
+            onChange={field.readOnly ? undefined : handleInput}
+            aria-readonly={field.readOnly}
+          />
+        ))}
         <RemoveCircleIcon color="warning" onClick={handleRemove} />
       </FormGroup>
     </Container>
