@@ -2,7 +2,7 @@ type NumberInput = "" | number;
 
 type StockInfoType = {
   id: string;
-  title: string;
+  label: string;
   price: NumberInput;
   quantity: NumberInput;
 };

@@ -16,11 +16,21 @@ type Inputs = {
 };
 
 type InputField = {
-  id: keyof Inputs;
   name: keyof Inputs;
   label: string;
   readOnly?: boolean;
+  width?: number;
 };
+
+const inputFields: InputField[] = [
+  { name: "price", label: "가격", width: 115 },
+  { name: "quantity", label: "수량", width: 100 },
+  {
+    name: "InvestmentAmount",
+    label: "투자금액",
+    readOnly: true,
+  },
+];
 
 const StockInfo = ({ stockInfo }: { stockInfo: StockInfoType }) => {
   const [inputs, setInputs] = useState<Inputs>({
@@ -30,17 +40,6 @@ const StockInfo = ({ stockInfo }: { stockInfo: StockInfoType }) => {
   });
 
   const { dispatch } = useStockContext();
-
-  const inputFields: InputField[] = [
-    { id: "price", name: "price", label: "가격" },
-    { id: "quantity", name: "quantity", label: "수량" },
-    {
-      id: "InvestmentAmount",
-      name: "InvestmentAmount",
-      label: "투자금액",
-      readOnly: true,
-    },
-  ];
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -74,14 +73,14 @@ const StockInfo = ({ stockInfo }: { stockInfo: StockInfoType }) => {
 
   return (
     <Container>
-      <Typography variant="h6">{stockInfo.title}</Typography>
+      <Typography variant="h6">{stockInfo.label}</Typography>
       <FormGroup sx={{ display: "flex", flexDirection: "row", gap: 1, mb: 3 }}>
         {inputFields.map((field) => (
           <NumberInput
-            key={field.id}
-            id={field.id}
+            key={`${stockInfo.id}-${field.name}`}
             name={field.name}
             label={field.label}
+            sx={{ width: field.width || 180 }}
             value={
               inputs[field.name] === ""
                 ? ""

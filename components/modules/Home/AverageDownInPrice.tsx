@@ -6,8 +6,9 @@ import {
   stockReducer,
 } from "@/contexts/stockContext/stockReducer";
 import styled from "@emotion/styled";
-import { Box, Button, Container, Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { useReducer } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Result from "./Result";
 import StockInfo from "./StockInfo";
 
@@ -16,8 +17,8 @@ const AverageDownInPrice = () => {
 
   const addStock = () => {
     const newStock: StockInfoType = {
-      id: `addedStock${Date.now()}`,
-      title: "추가 매수",
+      id: uuidv4(),
+      label: "추가 매수",
       price: "",
       quantity: "",
     };

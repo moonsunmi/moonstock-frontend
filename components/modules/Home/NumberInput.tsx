@@ -9,11 +9,13 @@ const NumberInput = memo(({ scroll = false, ...rest }: Props) => {
   return (
     <>
       <TextField
-        id="outlined-basic"
         size="small"
-        sx={{ mt: 1.5 }}
+        sx={{ mt: 2 }}
         InputProps={{
           sx: {
+            "& input": {
+              textAlign: "right",
+            },
             "& input[type=number]::-webkit-inner-spin-button, & input[type=number]::-webkit-outer-spin-button":
               scroll
                 ? {}
