@@ -1,15 +1,39 @@
-import styled from "@emotion/styled";
-import { H1, H2 } from "@/components/typographies";
+import {
+  AppBar,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+
+const navItems = ["물타기 계산기"];
 
 const NavBar = () => {
   return (
-    <Wrapper>
-      <H1>MoonStock</H1> <H1>물타기 계산기</H1>
-    </Wrapper>
+    <AppBar position="absolute">
+      <Toolbar>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+        >
+          MOONSTOCK
+        </Typography>
+        <List>
+          {navItems.map((item) => (
+            <ListItem key={item} disablePadding>
+              <ListItemButton>
+                <ListItemText primary={item} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Toolbar>
+    </AppBar>
   );
 };
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+
 export default NavBar;

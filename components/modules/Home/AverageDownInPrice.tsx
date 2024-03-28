@@ -6,7 +6,7 @@ import {
   stockReducer,
 } from "@/contexts/stockContext/stockReducer";
 import styled from "@emotion/styled";
-import { Button } from "@mui/material";
+import { Box, Button, Container, Paper } from "@mui/material";
 import { useReducer } from "react";
 import Result from "./Result";
 import StockInfo from "./StockInfo";
@@ -25,14 +25,17 @@ const AverageDownInPrice = () => {
   };
 
   return (
-    <>
+    <Paper
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+      }}
+      aria-label="Calculate Average Down In Price"
+    >
       <StockContext.Provider value={{ state, dispatch }}>
         {state.map((item: StockInfoType) => {
-          return (
-            <Wrapper key={item.id}>
-              <StockInfo key={item.id} stockInfo={item} />
-            </Wrapper>
-          );
+          return <StockInfo key={item.id} stockInfo={item} />;
         })}
         <ButtonWrapper>
           <Button variant="outlined" onClick={addStock}>
@@ -41,20 +44,14 @@ const AverageDownInPrice = () => {
         </ButtonWrapper>
         <Result stocks={state} />
       </StockContext.Provider>
-    </>
+    </Paper>
   );
 };
-
-const Wrapper = styled.div`
-  align-items: center;
-`;
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 5px;
-  align-items: right;
-  padding: 5px;
+  margin: 20px;
 `;
 
 export default AverageDownInPrice;

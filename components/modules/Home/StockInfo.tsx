@@ -1,15 +1,12 @@
-import { Span1 } from "@/components/typographies";
 import { useStockContext } from "@/contexts/stockContext/StockContext";
 import {
   ActionType,
   StockInfoType,
 } from "@/contexts/stockContext/stockReducer";
-import styled from "@emotion/styled";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { grey } from "@mui/material/colors";
-import { ChangeEvent, useEffect, useState } from "react";
+import { Container, FormGroup, Typography } from "@mui/material";
+import { ChangeEvent, useState } from "react";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
-import FormWrapper from "./FormWrapper";
 import NumberInput from "./NumberInput";
 
 type Inputs = {
@@ -18,13 +15,7 @@ type Inputs = {
   investment: string;
 };
 
-const StockInfo = ({
-  stockInfo,
-  bgColor = grey[200],
-}: {
-  stockInfo: StockInfoType;
-  bgColor?: string;
-}) => {
+const StockInfo = ({ stockInfo }: { stockInfo: StockInfoType }) => {
   const [inputs, setInputs] = useState<Inputs>({
     price: stockInfo.price.toString(),
     quantity: stockInfo.quantity.toString(),
@@ -63,12 +54,10 @@ const StockInfo = ({
     }
   };
 
-  useEffect(() => {}, [stockInfo.price, stockInfo.quantity]);
-
   return (
-    <Wrapper bgColor={bgColor}>
-      <Span1>{stockInfo.title}</Span1>
-      <FormWrapper>
+    <Container>
+      <Typography variant="h6">{stockInfo.title}</Typography>
+      <FormGroup sx={{ display: "flex", flexDirection: "row", gap: 1, mb: 3 }}>
         <NumberInput
           id="price"
           name="price"
@@ -105,16 +94,9 @@ const StockInfo = ({
           aria-readonly
         />
         <RemoveCircleIcon color="warning" onClick={handleRemove} />
-      </FormWrapper>
-    </Wrapper>
+      </FormGroup>
+    </Container>
   );
 };
-
-const Wrapper = styled.div<{ bgColor: string }>`
-  background-color: ${(props) => props.bgColor};
-  padding: 5px;
-  margin: 5px;
-  border-radius: 5px;
-`;
 
 export default StockInfo;

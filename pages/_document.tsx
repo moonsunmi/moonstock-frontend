@@ -45,7 +45,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
           />
-        </Head>{" "}
+        </Head>
         <body>
           <Main />
           <NextScript />

@@ -11,6 +11,7 @@ const NumberInput = memo(({ scroll = false, ...rest }: Props) => {
       <TextField
         id="outlined-basic"
         size="small"
+        sx={{ mt: 1.5 }}
         InputProps={{
           sx: {
             "& input[type=number]::-webkit-inner-spin-button, & input[type=number]::-webkit-outer-spin-button":
