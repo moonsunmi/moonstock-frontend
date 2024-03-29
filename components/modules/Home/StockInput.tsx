@@ -2,7 +2,7 @@ import { useStockContext } from "@/contexts/stockContext/StockContext";
 import { ActionType, StockInfo } from "@/contexts/stockContext/stockReducer";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Container, FormGroup, Typography } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import useStockInput from "hooks/useStockInput";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 import NumberInput from "./NumberInput";
 
@@ -21,12 +21,12 @@ enum FieldWidth {
   big = 180,
 }
 
-type Inputs = {
+export type Inputs = {
   [InputFieldName.price]: string;
   [InputFieldName.quantity]: string;
 };
 
-type Output = {
+export type Output = {
   [OutputFieldName.investmentAmount]: string;
 };
 
@@ -54,19 +54,12 @@ const outputField: OutputField = {
 };
 
 const StockInput = ({ stockInfo }: { stockInfo: StockInfo }) => {
-  const [inputs, setInputs] = useState<Inputs>({
+  const { inputs, output, handleInput, updateOutput } = useStockInput({
     price: stockInfo.price.toString(),
     quantity: stockInfo.quantity.toString(),
   });
 
-  const [output, setOutput] = useState<Output>({ investmentAmount: "" });
-
   const { dispatch } = useStockContext();
-
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setInputs({ ...inputs, [name]: value.replaceAll(",", "") });
-  };
 
   const handleRemove = () => {
     dispatch({ type: ActionType.REMOVE_ROW, payload: { id: stockInfo.id } });
@@ -74,17 +67,13 @@ const StockInput = ({ stockInfo }: { stockInfo: StockInfo }) => {
 
   const handleBlur = () => {
     if (inputs.price !== "" && inputs.quantity !== "") {
-      let price = Number(inputs.price);
-      let quantity = Number(inputs.quantity);
-
-      setOutput({ investmentAmount: (price * quantity).toString() });
-
+      updateOutput();
       dispatch({
         type: ActionType.UPDATE_ROW,
         payload: {
           ...stockInfo,
-          price: price,
-          quantity: quantity,
+          price: Number(inputs.price),
+          quantity: Number(inputs.quantity),
         },
       });
     }
