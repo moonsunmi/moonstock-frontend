@@ -1,6 +1,6 @@
 type NumberInput = "" | number;
 
-type StockInfoType = {
+type StockInfo = {
   id: string;
   label: string;
   price: NumberInput;
@@ -15,12 +15,12 @@ enum ActionType {
 
 interface AddRowAction {
   type: ActionType;
-  payload: StockInfoType;
+  payload: StockInfo;
 }
 
 interface UpdateRowAction {
   type: ActionType;
-  payload: StockInfoType;
+  payload: StockInfo;
 }
 
 interface RemoveRowAction {
@@ -30,10 +30,7 @@ interface RemoveRowAction {
 
 type StockAction = AddRowAction | UpdateRowAction | RemoveRowAction;
 
-function stockReducer(
-  state: StockInfoType[],
-  action: StockAction
-): StockInfoType[] {
+function stockReducer(state: StockInfo[], action: StockAction): StockInfo[] {
   switch (action.type) {
     case "ADD_ROW":
       return state.concat(action.payload);
@@ -48,5 +45,5 @@ function stockReducer(
   }
 }
 
-export type { StockInfoType, StockAction };
+export type { StockInfo, StockAction };
 export { stockReducer, ActionType };

@@ -2,7 +2,7 @@ import { StockContext } from "@/contexts/stockContext/StockContext";
 import { initialStocks } from "@/contexts/stockContext/initialStocks";
 import {
   ActionType,
-  StockInfoType,
+  StockInfo,
   stockReducer,
 } from "@/contexts/stockContext/stockReducer";
 import styled from "@emotion/styled";
@@ -10,13 +10,13 @@ import { Button, Paper } from "@mui/material";
 import { useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Result from "./Result";
-import StockInfo from "./StockInfo";
+import StockInput from "./StockInput";
 
 const AverageDownInPrice = () => {
   const [state, dispatch] = useReducer(stockReducer, initialStocks);
 
   const addStock = () => {
-    const newStock: StockInfoType = {
+    const newStock: StockInfo = {
       id: uuidv4(),
       label: "추가 매수",
       price: "",
@@ -30,13 +30,12 @@ const AverageDownInPrice = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        width: "100%",
       }}
       aria-label="Calculate Average Down In Price"
     >
       <StockContext.Provider value={{ state, dispatch }}>
-        {state.map((item: StockInfoType) => {
-          return <StockInfo key={item.id} stockInfo={item} />;
+        {state.map((item: StockInfo) => {
+          return <StockInput key={item.id} stockInfo={item} />;
         })}
         <ButtonWrapper>
           <Button variant="outlined" onClick={addStock}>

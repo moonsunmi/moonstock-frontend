@@ -1,12 +1,12 @@
 import { Dispatch, createContext, useContext } from "react";
-import { StockAction, StockInfoType } from "./stockReducer";
+import { StockAction, StockInfo } from "./stockReducer";
 
-interface StockContextType {
-  state: StockInfoType[];
+interface StockContext {
+  state: StockInfo[];
   dispatch: Dispatch<StockAction>;
 }
 
-const StockContext = createContext<StockContextType | null>(null);
+const StockContext = createContext<StockContext | null>(null);
 
 const useStockContext = () => {
   const value = useContext(StockContext);
