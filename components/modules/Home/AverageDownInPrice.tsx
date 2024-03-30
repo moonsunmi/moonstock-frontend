@@ -3,7 +3,7 @@ import { initialStocks } from "@/contexts/stockContext/initialStocks";
 import stockReducer from "@/contexts/stockContext/stockReducer";
 import styled from "@emotion/styled";
 import { Button, Paper } from "@mui/material";
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import { ActionType } from "types/actionTypes";
 import { StockInfo } from "types/stockTypes";
 import { v4 as uuidv4 } from "uuid";
@@ -13,7 +13,7 @@ import StockInput from "./StockInput";
 const AverageDownInPrice = () => {
   const [state, dispatch] = useReducer(stockReducer, initialStocks);
 
-  const addStock = () => {
+  const addStock = useCallback(() => {
     const newStock: StockInfo = {
       id: uuidv4(),
       label: "추가 매수",
@@ -21,7 +21,7 @@ const AverageDownInPrice = () => {
       quantity: "",
     };
     dispatch({ type: ActionType.ADD_ROW, payload: newStock });
-  };
+  }, [dispatch]);
 
   return (
     <Paper

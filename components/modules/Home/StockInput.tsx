@@ -13,6 +13,7 @@ import {
 import { StockInfo } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 import NumberInput from "./NumberInput";
+import { memo, useCallback } from "react";
 
 const inputFields: InputField[] = [
   { name: InputFieldName.price, label: "가격", width: fieldWidths.medium },
@@ -25,7 +26,7 @@ const outputField: OutputField = {
   width: fieldWidths.big,
 };
 
-const StockInput = ({ stockInfo }: { stockInfo: StockInfo }) => {
+const StockInput = memo(({ stockInfo }: { stockInfo: StockInfo }) => {
   const { inputs, output, handleInput, updateOutput } = useStockInput({
     price: stockInfo.price.toString(),
     quantity: stockInfo.quantity.toString(),
@@ -33,11 +34,11 @@ const StockInput = ({ stockInfo }: { stockInfo: StockInfo }) => {
 
   const { dispatch } = useStockContext();
 
-  const handleRemove = () => {
+  const handleRemove = useCallback(() => {
     dispatch({ type: ActionType.REMOVE_ROW, payload: { id: stockInfo.id } });
-  };
+  }, [dispatch, stockInfo.id]);
 
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     if (inputs.price !== "" && inputs.quantity !== "") {
       updateOutput();
       dispatch({
@@ -49,7 +50,7 @@ const StockInput = ({ stockInfo }: { stockInfo: StockInfo }) => {
         },
       });
     }
-  };
+  }, [inputs.price, inputs.quantity, dispatch]);
 
   return (
     <Container sx={{ padding: 1.5 }}>
@@ -88,6 +89,6 @@ const StockInput = ({ stockInfo }: { stockInfo: StockInfo }) => {
       </FormGroup>
     </Container>
   );
-};
+});
 
 export default StockInput;
