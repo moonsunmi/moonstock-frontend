@@ -7,12 +7,6 @@ export enum OutputFieldName {
   investmentAmount = "investmentAmount",
 }
 
-export enum FieldWidth {
-  small = 100,
-  medium = 115,
-  big = 180,
-}
-
 export type Inputs = {
   [InputFieldName.price]: string;
   [InputFieldName.quantity]: string;

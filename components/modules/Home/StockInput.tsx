@@ -2,9 +2,9 @@ import { useStockContext } from "@/contexts/stockContext/StockContext";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Container, FormGroup, Typography } from "@mui/material";
 import useStockInput from "hooks/useStockInput";
+import { fieldWidths } from "styles/width";
 import { ActionType } from "types/actionTypes";
 import {
-  FieldWidth,
   InputField,
   InputFieldName,
   OutputField,
@@ -15,14 +15,14 @@ import { formatNumberToKorean } from "utils/formatNumberToKorean";
 import NumberInput from "./NumberInput";
 
 const inputFields: InputField[] = [
-  { name: InputFieldName.price, label: "가격", width: FieldWidth.medium },
-  { name: InputFieldName.quantity, label: "수량", width: FieldWidth.small },
+  { name: InputFieldName.price, label: "가격", width: fieldWidths.medium },
+  { name: InputFieldName.quantity, label: "수량", width: fieldWidths.small },
 ];
 
 const outputField: OutputField = {
   name: OutputFieldName.investmentAmount,
   label: "투자금액",
-  width: FieldWidth.big,
+  width: fieldWidths.big,
 };
 
 const StockInput = ({ stockInfo }: { stockInfo: StockInfo }) => {
