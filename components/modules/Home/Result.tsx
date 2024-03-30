@@ -3,7 +3,7 @@ import { StockInfo } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 
 interface CalculationResult {
-  quantity: number;
+  totalQuantity: number;
   investmentAmount: number;
   averagePrice: number;
 }
@@ -11,29 +11,34 @@ interface CalculationResult {
 const Result = ({ stocks }: { stocks: StockInfo[] }) => {
   function calculateWholeStocks(): CalculationResult {
     const initialResult: CalculationResult = {
-      quantity: 0,
+      totalQuantity: 0,
       investmentAmount: 0,
       averagePrice: 0,
     };
 
-    const result = stocks.reduce((acc, item) => {
-      if (item.price !== "" && item.quantity !== "") {
-        return {
-          quantity: acc.quantity + item.quantity,
-          investmentAmount: acc.investmentAmount + item.price * item.quantity,
-          averagePrice: 0,
-        };
-      }
-      return acc;
-    }, initialResult);
+    const result = stocks.reduce(
+      (acc, { price: currentPrice, quantity: currentQuantity }) => {
+        if (currentPrice !== "" && currentQuantity !== "") {
+          return {
+            totalQuantity: acc.totalQuantity + currentQuantity,
+            investmentAmount:
+              acc.investmentAmount + currentPrice * currentQuantity,
+            averagePrice: 0,
+          };
+        }
+        return acc;
+      },
+      initialResult
+    );
 
-    if (result.quantity > 0) {
-      result.averagePrice = result.investmentAmount / result.quantity;
+    if (result.totalQuantity > 0) {
+      result.averagePrice = result.investmentAmount / result.totalQuantity;
     }
     return result;
   }
 
-  const { averagePrice, quantity, investmentAmount } = calculateWholeStocks();
+  const { averagePrice, totalQuantity, investmentAmount } =
+    calculateWholeStocks();
 
   return (
     <List
@@ -47,7 +52,9 @@ const Result = ({ stocks }: { stocks: StockInfo[] }) => {
       <ListItemText>
         평균 단가:{formatNumberToKorean(averagePrice.toFixed(2))}
       </ListItemText>
-      <ListItemText>총 개수: {formatNumberToKorean(quantity)}</ListItemText>
+      <ListItemText>
+        총 개수: {formatNumberToKorean(totalQuantity)}
+      </ListItemText>
       <ListItemText>
         총 투자 금액: {formatNumberToKorean(investmentAmount)}
       </ListItemText>
