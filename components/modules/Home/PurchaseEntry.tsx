@@ -10,10 +10,10 @@ import {
   OutputField,
   OutputFieldName,
 } from "types/formTypes";
-import { StockInfo } from "types/stockTypes";
+import { Purchase } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 import NumberInput from "./NumberInput";
-import { memo, useCallback } from "react";
+import { useCallback } from "react";
 
 const inputFields: InputField[] = [
   { name: InputFieldName.price, label: "가격", width: fieldWidths.medium },
@@ -26,17 +26,17 @@ const outputField: OutputField = {
   width: fieldWidths.big,
 };
 
-const StockInput = memo(({ stockInfo }: { stockInfo: StockInfo }) => {
+const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
   const { inputs, output, handleInput, updateOutput } = useStockInput({
-    price: stockInfo.price.toString(),
-    quantity: stockInfo.quantity.toString(),
+    price: purchase.price.toString(),
+    quantity: purchase.quantity.toString(),
   });
 
   const { dispatch } = useStockContext();
 
   const handleRemove = useCallback(() => {
-    dispatch({ type: ActionType.REMOVE_ROW, payload: { id: stockInfo.id } });
-  }, [dispatch, stockInfo.id]);
+    dispatch({ type: ActionType.REMOVE_ROW, payload: { id: purchase.id } });
+  }, [dispatch, purchase.id]);
 
   const handleBlur = useCallback(() => {
     if (inputs.price !== "" && inputs.quantity !== "") {
@@ -44,7 +44,7 @@ const StockInput = memo(({ stockInfo }: { stockInfo: StockInfo }) => {
       dispatch({
         type: ActionType.UPDATE_ROW,
         payload: {
-          ...stockInfo,
+          ...purchase,
           price: Number(inputs.price),
           quantity: Number(inputs.quantity),
         },
@@ -54,13 +54,13 @@ const StockInput = memo(({ stockInfo }: { stockInfo: StockInfo }) => {
 
   return (
     <Container sx={{ padding: 1.5 }}>
-      <Typography variant="subtitle1">{stockInfo.label}</Typography>
+      <Typography variant="subtitle1">{purchase.label}</Typography>
       <FormGroup
         sx={{ display: "flex", flexDirection: "row", gap: 1, mt: 1.5 }}
       >
         {inputFields.map((field) => (
           <NumberInput
-            key={`${stockInfo.id}-${field.name}`}
+            key={`${purchase.id}-${field.name}`}
             name={field.name}
             label={field.label}
             sx={{ width: field.width }}
@@ -74,7 +74,7 @@ const StockInput = memo(({ stockInfo }: { stockInfo: StockInfo }) => {
           />
         ))}
         <NumberInput
-          key={`${stockInfo.id}-${outputField.name}`}
+          key={`${purchase.id}-${outputField.name}`}
           name={outputField.name}
           label={outputField.label}
           sx={{ width: outputField.width }}
@@ -89,6 +89,6 @@ const StockInput = memo(({ stockInfo }: { stockInfo: StockInfo }) => {
       </FormGroup>
     </Container>
   );
-});
+};
 
-export default StockInput;
+export default PurchaseEntry;

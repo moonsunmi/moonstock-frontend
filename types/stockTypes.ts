@@ -1,6 +1,6 @@
 import { FieldNumberValue } from "./formTypes";
 
-export type StockInfo = {
+export type Purchase = {
   id: string;
   label: string;
   price: FieldNumberValue;

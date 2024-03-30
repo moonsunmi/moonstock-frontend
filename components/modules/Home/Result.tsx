@@ -1,5 +1,5 @@
 import { List, ListItemText } from "@mui/material";
-import { StockInfo } from "types/stockTypes";
+import { Purchase } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 
 interface CalculationResult {
@@ -8,7 +8,7 @@ interface CalculationResult {
   averagePrice: number;
 }
 
-const Result = ({ stocks }: { stocks: StockInfo[] }) => {
+const Result = ({ purchases }: { purchases: Purchase[] }) => {
   function calculateWholeStocks(): CalculationResult {
     const initialResult: CalculationResult = {
       totalQuantity: 0,
@@ -16,7 +16,7 @@ const Result = ({ stocks }: { stocks: StockInfo[] }) => {
       averagePrice: 0,
     };
 
-    const result = stocks.reduce(
+    const result = purchases.reduce(
       (acc, { price: currentPrice, quantity: currentQuantity }) => {
         if (currentPrice !== "" && currentQuantity !== "") {
           return {
