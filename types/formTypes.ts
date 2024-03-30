@@ -16,16 +16,4 @@ export type Output = {
   [OutputFieldName.investmentAmount]: string;
 };
 
-export interface InputField {
-  name: InputFieldName;
-  label: string;
-  width: number;
-}
-
-export interface OutputField {
-  name: OutputFieldName;
-  label: string;
-  width: number;
-}
-
 export type FieldNumberValue = "" | number;

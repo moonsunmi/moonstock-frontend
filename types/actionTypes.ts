@@ -1,4 +1,4 @@
-import { StockInfo } from "types/stockTypes";
+import { Purchase } from "types/stockTypes";
 
 export enum ActionType {
   ADD_ROW = "ADD_ROW",
@@ -8,12 +8,12 @@ export enum ActionType {
 
 interface AddRowAction {
   type: ActionType.ADD_ROW;
-  payload: StockInfo;
+  payload: Purchase;
 }
 
 interface UpdateRowAction {
   type: ActionType.UPDATE_ROW;
-  payload: StockInfo;
+  payload: Purchase;
 }
 
 interface RemoveRowAction {
@@ -21,4 +21,4 @@ interface RemoveRowAction {
   payload: { id: string };
 }
 
-export type StockAction = AddRowAction | UpdateRowAction | RemoveRowAction;
+export type PurchaseAction = AddRowAction | UpdateRowAction | RemoveRowAction;

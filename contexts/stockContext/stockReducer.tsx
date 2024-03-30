@@ -1,10 +1,10 @@
-import { StockAction } from "types/actionTypes";
-import { StockInfo } from "types/stockTypes";
+import { PurchaseAction } from "types/actionTypes";
+import { Purchase } from "types/stockTypes";
 
 export default function stockReducer(
-  state: StockInfo[] = [],
-  action: StockAction
-): StockInfo[] {
+  state: Purchase[] = [],
+  action: PurchaseAction
+): Purchase[] {
   switch (action.type) {
     case "ADD_ROW":
       return [...state, action.payload];

@@ -2,29 +2,13 @@ import { useStockContext } from "@/contexts/stockContext/StockContext";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Container, FormGroup, Typography } from "@mui/material";
 import useStockInput from "hooks/useStockInput";
+import { useCallback } from "react";
 import { fieldWidths } from "styles/width";
 import { ActionType } from "types/actionTypes";
-import {
-  InputField,
-  InputFieldName,
-  OutputField,
-  OutputFieldName,
-} from "types/formTypes";
+import { InputFieldName, OutputFieldName } from "types/formTypes";
 import { Purchase } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
-import NumberInput from "./NumberInput";
-import { useCallback } from "react";
-
-const inputFields: InputField[] = [
-  { name: InputFieldName.price, label: "가격", width: fieldWidths.medium },
-  { name: InputFieldName.quantity, label: "수량", width: fieldWidths.small },
-];
-
-const outputField: OutputField = {
-  name: OutputFieldName.investmentAmount,
-  label: "투자금액",
-  width: fieldWidths.big,
-};
+import NumberTextField from "./NumberTextField";
 
 const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
   const { inputs, output, handleInput, updateOutput } = useStockInput({
@@ -53,37 +37,48 @@ const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
   }, [inputs.price, inputs.quantity, dispatch]);
 
   return (
-    <Container sx={{ padding: 1.5 }}>
+    <Container sx={{ padding: 1.5 }} aria-label="Purchase Entry List">
       <Typography variant="subtitle1">{purchase.label}</Typography>
       <FormGroup
         sx={{ display: "flex", flexDirection: "row", gap: 1, mt: 1.5 }}
       >
-        {inputFields.map((field) => (
-          <NumberInput
-            key={`${purchase.id}-${field.name}`}
-            name={field.name}
-            label={field.label}
-            sx={{ width: field.width }}
-            value={
-              inputs[field.name] === ""
-                ? ""
-                : formatNumberToKorean(Number(inputs[field.name]))
-            }
-            onBlur={handleBlur}
-            onChange={handleInput}
-          />
-        ))}
-        <NumberInput
-          key={`${purchase.id}-${outputField.name}`}
-          name={outputField.name}
-          label={outputField.label}
-          sx={{ width: outputField.width }}
+        <NumberTextField
+          key={`${purchase.id}-${InputFieldName.price}`}
+          name={InputFieldName.price}
+          label="가격"
+          value={
+            inputs.price === ""
+              ? ""
+              : formatNumberToKorean(Number(inputs.price))
+          }
+          sx={{ width: fieldWidths.medium }}
+          onBlur={handleBlur}
+          onChange={handleInput}
+        />
+        <NumberTextField
+          key={`${purchase.id}-${InputFieldName.quantity}`}
+          name={InputFieldName.quantity}
+          label="수량"
+          value={
+            inputs.quantity === ""
+              ? ""
+              : formatNumberToKorean(Number(inputs.quantity))
+          }
+          sx={{ width: fieldWidths.small }}
+          onBlur={handleBlur}
+          onChange={handleInput}
+        />
+        <NumberTextField
+          key={`${purchase.id}-${OutputFieldName.investmentAmount}`}
+          name={OutputFieldName.investmentAmount}
+          label="총합"
           value={
             output.investmentAmount === ""
               ? ""
               : formatNumberToKorean(Number(output.investmentAmount))
           }
-          aria-readonly={true}
+          sx={{ width: fieldWidths.big }}
+          aria-readonly
         />
         <RemoveCircleIcon color="warning" onClick={handleRemove} />
       </FormGroup>
