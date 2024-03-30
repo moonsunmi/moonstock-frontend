@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from "react";
-import { Inputs } from "types/formTypes";
+import { Inputs, Output } from "types/formTypes";
 
 const useStockInput = (initialInputs: Inputs) => {
-  const [inputs, setInputs] = useState(initialInputs);
-  const [output, setOutput] = useState({ investmentAmount: "" });
+  const [inputs, setInputs] = useState<Inputs>(initialInputs);
+  const [output, setOutput] = useState<Output>({ investmentAmount: "" });
 
   const updateOutput = () => {
     let price = Number(inputs.price);

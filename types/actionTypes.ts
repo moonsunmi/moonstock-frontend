@@ -7,17 +7,17 @@ export enum ActionType {
 }
 
 interface AddRowAction {
-  type: ActionType;
+  type: ActionType.ADD_ROW;
   payload: StockInfo;
 }
 
 interface UpdateRowAction {
-  type: ActionType;
+  type: ActionType.UPDATE_ROW;
   payload: StockInfo;
 }
 
 interface RemoveRowAction {
-  type: ActionType;
+  type: ActionType.REMOVE_ROW;
   payload: { id: string };
 }
 

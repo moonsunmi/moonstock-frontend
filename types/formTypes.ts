@@ -34,4 +34,4 @@ export interface OutputField {
   width: number;
 }
 
-export type NumberInput = "" | number;
+export type FieldNumberValue = "" | number;

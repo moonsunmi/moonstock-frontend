@@ -1,8 +1,8 @@
-import { NumberInput } from "./formTypes";
+import { FieldNumberValue } from "./formTypes";
 
 export type StockInfo = {
   id: string;
   label: string;
-  price: NumberInput;
-  quantity: NumberInput;
+  price: FieldNumberValue;
+  quantity: FieldNumberValue;
 };
