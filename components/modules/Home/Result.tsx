@@ -2,19 +2,38 @@ import { List, ListItemText } from "@mui/material";
 import { StockInfo } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 
+interface CalculationResult {
+  quantity: number;
+  investmentAmount: number;
+  averagePrice: number;
+}
+
 const Result = ({ stocks }: { stocks: StockInfo[] }) => {
-  function calculateWholeStocks() {
-    let quantity = 0;
-    let InvestmentAmount = 0;
-    stocks.map((item) => {
-      quantity += item.price === "" ? 0 : Number(item.quantity);
-      InvestmentAmount += Number(item.price) * Number(item.quantity);
-    });
-    let price: number | "" = quantity === 0 ? "" : InvestmentAmount / quantity;
-    return { price, quantity, InvestmentAmount };
+  function calculateWholeStocks(): CalculationResult {
+    const initialResult: CalculationResult = {
+      quantity: 0,
+      investmentAmount: 0,
+      averagePrice: 0,
+    };
+
+    const result = stocks.reduce((acc, item) => {
+      if (item.price !== "" && item.quantity !== "") {
+        return {
+          quantity: acc.quantity + item.quantity,
+          investmentAmount: acc.investmentAmount + item.price * item.quantity,
+          averagePrice: 0,
+        };
+      }
+      return acc;
+    }, initialResult);
+
+    if (result.quantity > 0) {
+      result.averagePrice = result.investmentAmount / result.quantity;
+    }
+    return result;
   }
 
-  const { price, quantity, InvestmentAmount } = calculateWholeStocks();
+  const { averagePrice, quantity, investmentAmount } = calculateWholeStocks();
 
   return (
     <List
@@ -26,11 +45,11 @@ const Result = ({ stocks }: { stocks: StockInfo[] }) => {
       aria-label="Investment Report"
     >
       <ListItemText>
-        평균 단가: {price === "" ? "-" : formatNumberToKorean(price.toFixed(2))}
+        평균 단가:{formatNumberToKorean(averagePrice.toFixed(2))}
       </ListItemText>
       <ListItemText>총 개수: {formatNumberToKorean(quantity)}</ListItemText>
       <ListItemText>
-        총 투자 금액: {formatNumberToKorean(InvestmentAmount)}
+        총 투자 금액: {formatNumberToKorean(investmentAmount)}
       </ListItemText>
     </List>
   );
