@@ -1,6 +1,6 @@
-import { StockInfoType } from "./stockReducer";
+import { StockInfo } from "types/stockTypes";
 
-export const initialStocks: StockInfoType[] = [
+export const initialStocks: StockInfo[] = [
   {
     id: "heldStock",
     label: "보유 주식",

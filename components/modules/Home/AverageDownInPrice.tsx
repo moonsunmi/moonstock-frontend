@@ -1,13 +1,11 @@
 import { StockContext } from "@/contexts/stockContext/StockContext";
 import { initialStocks } from "@/contexts/stockContext/initialStocks";
-import {
-  ActionType,
-  StockInfo,
-  stockReducer,
-} from "@/contexts/stockContext/stockReducer";
+import stockReducer from "@/contexts/stockContext/stockReducer";
 import styled from "@emotion/styled";
 import { Button, Paper } from "@mui/material";
 import { useReducer } from "react";
+import { ActionType } from "types/actionTypes";
+import { StockInfo } from "types/stockTypes";
 import { v4 as uuidv4 } from "uuid";
 import Result from "./Result";
 import StockInput from "./StockInput";

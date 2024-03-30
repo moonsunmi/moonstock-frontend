@@ -1,5 +1,5 @@
-import { Inputs } from "@/components/modules/Home/StockInput";
 import { ChangeEvent, useState } from "react";
+import { Inputs } from "types/formTypes";
 
 const useStockInput = (initialInputs: Inputs) => {
   const [inputs, setInputs] = useState(initialInputs);

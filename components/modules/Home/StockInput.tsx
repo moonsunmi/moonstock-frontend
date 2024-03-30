@@ -1,46 +1,18 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
-import { ActionType, StockInfo } from "@/contexts/stockContext/stockReducer";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Container, FormGroup, Typography } from "@mui/material";
 import useStockInput from "hooks/useStockInput";
+import { ActionType } from "types/actionTypes";
+import {
+  FieldWidth,
+  InputField,
+  InputFieldName,
+  OutputField,
+  OutputFieldName,
+} from "types/formTypes";
+import { StockInfo } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 import NumberInput from "./NumberInput";
-
-enum InputFieldName {
-  price = "price",
-  quantity = "quantity",
-}
-
-enum OutputFieldName {
-  investmentAmount = "investmentAmount",
-}
-
-enum FieldWidth {
-  small = 100,
-  medium = 115,
-  big = 180,
-}
-
-export type Inputs = {
-  [InputFieldName.price]: string;
-  [InputFieldName.quantity]: string;
-};
-
-export type Output = {
-  [OutputFieldName.investmentAmount]: string;
-};
-
-interface InputField {
-  name: InputFieldName;
-  label: string;
-  width: number;
-}
-
-interface OutputField {
-  name: OutputFieldName;
-  label: string;
-  width: number;
-}
 
 const inputFields: InputField[] = [
   { name: InputFieldName.price, label: "가격", width: FieldWidth.medium },
@@ -81,7 +53,7 @@ const StockInput = ({ stockInfo }: { stockInfo: StockInfo }) => {
 
   return (
     <Container sx={{ padding: 1.5 }}>
-      <Typography variant="h7">{stockInfo.label}</Typography>
+      <Typography variant="subtitle1">{stockInfo.label}</Typography>
       <FormGroup
         sx={{ display: "flex", flexDirection: "row", gap: 1, mt: 1.5 }}
       >

@@ -1,5 +1,6 @@
 import { Dispatch, createContext, useContext } from "react";
-import { StockAction, StockInfo } from "./stockReducer";
+import { StockAction } from "types/actionTypes";
+import { StockInfo } from "types/stockTypes";
 
 interface StockContext {
   state: StockInfo[];

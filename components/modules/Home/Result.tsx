@@ -1,8 +1,8 @@
-import { StockInfoType } from "@/contexts/stockContext/stockReducer";
 import { List, ListItemText } from "@mui/material";
+import { StockInfo } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 
-const Result = ({ stocks }: { stocks: StockInfoType[] }) => {
+const Result = ({ stocks }: { stocks: StockInfo[] }) => {
   function calculateWholeStocks() {
     let quantity = 0;
     let InvestmentAmount = 0;

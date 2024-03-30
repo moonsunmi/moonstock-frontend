@@ -1,36 +1,10 @@
-type NumberInput = "" | number;
+import { StockAction } from "types/actionTypes";
+import { StockInfo } from "types/stockTypes";
 
-type StockInfo = {
-  id: string;
-  label: string;
-  price: NumberInput;
-  quantity: NumberInput;
-};
-
-enum ActionType {
-  ADD_ROW = "ADD_ROW",
-  UPDATE_ROW = "UPDATE_ROW",
-  REMOVE_ROW = "REMOVE_ROW",
-}
-
-interface AddRowAction {
-  type: ActionType;
-  payload: StockInfo;
-}
-
-interface UpdateRowAction {
-  type: ActionType;
-  payload: StockInfo;
-}
-
-interface RemoveRowAction {
-  type: ActionType;
-  payload: { id: string };
-}
-
-type StockAction = AddRowAction | UpdateRowAction | RemoveRowAction;
-
-function stockReducer(state: StockInfo[], action: StockAction): StockInfo[] {
+export default function stockReducer(
+  state: StockInfo[],
+  action: StockAction
+): StockInfo[] {
   switch (action.type) {
     case "ADD_ROW":
       return state.concat(action.payload);
@@ -44,6 +18,3 @@ function stockReducer(state: StockInfo[], action: StockAction): StockInfo[] {
       throw new Error(`Unhandled action type ${action.type}`);
   }
 }
-
-export type { StockInfo, StockAction };
-export { stockReducer, ActionType };
