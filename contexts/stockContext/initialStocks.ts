@@ -1,6 +1,6 @@
-import { StockInfo } from "types/stockTypes";
+import { Purchase } from "types/stockTypes";
 
-export const initialStocks: StockInfo[] = [
+export const initialStocks: Purchase[] = [
   {
     id: "heldStock",
     label: "보유 주식",
