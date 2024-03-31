@@ -34,7 +34,7 @@ const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
         },
       });
     }
-  }, [inputs.price, inputs.quantity, dispatch]);
+  }, [inputs.price, inputs.quantity, dispatch, purchase, updateOutput]);
 
   return (
     <Container sx={{ padding: 1.5 }} aria-label="Purchase Entry List">

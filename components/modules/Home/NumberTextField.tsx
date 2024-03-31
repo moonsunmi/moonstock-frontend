@@ -1,11 +1,10 @@
 import { TextField, TextFieldProps } from "@mui/material";
-import { memo } from "react";
 
 type Props = {
   scroll?: boolean;
 } & TextFieldProps;
 
-const NumberTextField = memo(({ scroll = false, ...rest }: Props) => {
+const NumberTextField = ({ scroll = false, ...rest }: Props) => {
   return (
     <>
       <TextField
@@ -29,6 +28,6 @@ const NumberTextField = memo(({ scroll = false, ...rest }: Props) => {
       />
     </>
   );
-});
+};
 
 export default NumberTextField;
