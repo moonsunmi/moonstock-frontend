@@ -1,5 +1,5 @@
 export const fieldWidths = {
-  small: 100,
-  medium: 115,
-  big: 180,
+  narrow: 95,
+  medium: 110,
+  wide: 180,
 };

@@ -9,7 +9,6 @@ const NumberTextField = ({ scroll = false, ...rest }: Props) => {
     <>
       <TextField
         size="small"
-        sx={{ mt: 2 }}
         InputProps={{
           sx: {
             "& input": {
