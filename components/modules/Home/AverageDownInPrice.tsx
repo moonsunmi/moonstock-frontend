@@ -28,6 +28,7 @@ const AverageDownInPrice = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        overflow: "auto",
       }}
       aria-label="Calculate Average Down In Price"
     >

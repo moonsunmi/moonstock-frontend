@@ -1,9 +1,10 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Container, FormGroup, Typography } from "@mui/material";
+import { Container, FormGroup, Grid, Typography } from "@mui/material";
+import { blue } from "@mui/material/colors";
 import useStockInput from "hooks/useStockInput";
 import { useCallback } from "react";
-import { fieldWidths } from "styles/width";
+import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
 import { InputFieldName, OutputFieldName } from "types/formTypes";
 import { Purchase } from "types/stockTypes";
@@ -36,54 +37,70 @@ const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
     }
   }, [inputs.price, inputs.quantity, dispatch, purchase, updateOutput]);
 
+  const formatNumberToKoreanOrEmpty = (price: string | number) => {
+    return price === "" ? "" : formatNumberToKorean(Number(price));
+  };
+
   return (
-    <Container sx={{ padding: 1.5 }} aria-label="Purchase Entry List">
+    <Container
+      sx={{ margin: 1, padding: 1, bgcolor: blue[50], width: "auto" }}
+      aria-label="Purchase Entry List"
+    >
       <Typography variant="subtitle1">{purchase.label}</Typography>
       <FormGroup
-        sx={{ display: "flex", flexDirection: "row", gap: 1, mt: 1.5 }}
+        sx={{
+          mt: 1.5,
+          maxWidth: "md",
+        }}
       >
-        <NumberTextField
-          key={`${purchase.id}-${InputFieldName.price}`}
-          name={InputFieldName.price}
-          label="가격"
-          value={
-            inputs.price === ""
-              ? ""
-              : formatNumberToKorean(Number(inputs.price))
-          }
-          sx={{ width: fieldWidths.medium }}
-          onBlur={handleBlur}
-          onChange={handleInput}
-        />
-        <NumberTextField
-          key={`${purchase.id}-${InputFieldName.quantity}`}
-          name={InputFieldName.quantity}
-          label="수량"
-          value={
-            inputs.quantity === ""
-              ? ""
-              : formatNumberToKorean(Number(inputs.quantity))
-          }
-          sx={{ width: fieldWidths.small }}
-          onBlur={handleBlur}
-          onChange={handleInput}
-        />
-        <NumberTextField
-          key={`${purchase.id}-${OutputFieldName.investmentAmount}`}
-          name={OutputFieldName.investmentAmount}
-          label="총합"
-          value={
-            output.investmentAmount === ""
-              ? ""
-              : formatNumberToKorean(Number(output.investmentAmount))
-          }
-          sx={{ width: fieldWidths.big }}
-          aria-readonly
-        />
-        <RemoveCircleIcon color="warning" onClick={handleRemove} />
+        <Grid container spacing={1} sx={{ alignItems: "center" }}>
+          <Grid item xs={7} sm={4}>
+            <NumberTextField
+              fullWidth
+              key={`${purchase.id}-${InputFieldName.price}`}
+              name={InputFieldName.price}
+              label="가격"
+              value={formatNumberToKoreanOrEmpty(inputs.price)}
+              onBlur={handleBlur}
+              onChange={handleInput}
+            />
+          </Grid>
+          <Grid item xs={5} sm={2}>
+            <NumberTextField
+              fullWidth
+              key={`${purchase.id}-${InputFieldName.quantity}`}
+              name={InputFieldName.quantity}
+              label="수량"
+              value={formatNumberToKoreanOrEmpty(inputs.quantity)}
+              onBlur={handleBlur}
+              onChange={handleInput}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TotalRemoveWrapper>
+              <NumberTextField
+                key={`${purchase.id}-${OutputFieldName.investmentAmount}`}
+                name={OutputFieldName.investmentAmount}
+                label="총합"
+                value={formatNumberToKoreanOrEmpty(output.investmentAmount)}
+                sx={{ flexGrow: 1 }}
+                aria-readonly
+              />
+              <RemoveCircleIcon color="warning" onClick={handleRemove} />
+            </TotalRemoveWrapper>
+          </Grid>
+        </Grid>
       </FormGroup>
     </Container>
   );
 };
+
+const TotalRemoveWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+`;
 
 export default PurchaseEntry;
