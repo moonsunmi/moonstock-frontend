@@ -1,16 +1,15 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Container, FormGroup, Grid, Typography } from "@mui/material";
+import { blue } from "@mui/material/colors";
 import useStockInput from "hooks/useStockInput";
 import { useCallback } from "react";
-import { fieldWidths } from "styles/width";
+import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
 import { InputFieldName, OutputFieldName } from "types/formTypes";
 import { Purchase } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumberToKorean";
 import NumberTextField from "./NumberTextField";
-import styled from "styled-components";
-import { blue } from "@mui/material/colors";
 
 const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
   const { inputs, output, handleInput, updateOutput } = useStockInput({
@@ -38,6 +37,10 @@ const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
     }
   }, [inputs.price, inputs.quantity, dispatch, purchase, updateOutput]);
 
+  const formatNumberToKoreanOrEmpty = (price: string | number) => {
+    return price === "" ? "" : formatNumberToKorean(Number(price));
+  };
+
   return (
     <Container
       sx={{ margin: 1, padding: 1, bgcolor: blue[50], width: "auto" }}
@@ -46,9 +49,6 @@ const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
       <Typography variant="subtitle1">{purchase.label}</Typography>
       <FormGroup
         sx={{
-          // display: "flex",
-          // flexDirection: "row",
-          // gap: 1,
           mt: 1.5,
           maxWidth: "md",
         }}
@@ -60,12 +60,7 @@ const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
               key={`${purchase.id}-${InputFieldName.price}`}
               name={InputFieldName.price}
               label="가격"
-              value={
-                inputs.price === ""
-                  ? ""
-                  : formatNumberToKorean(Number(inputs.price))
-              }
-              // sx={{ width: fieldWidths.medium }}
+              value={formatNumberToKoreanOrEmpty(inputs.price)}
               onBlur={handleBlur}
               onChange={handleInput}
             />
@@ -76,11 +71,7 @@ const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
               key={`${purchase.id}-${InputFieldName.quantity}`}
               name={InputFieldName.quantity}
               label="수량"
-              value={
-                inputs.quantity === ""
-                  ? ""
-                  : formatNumberToKorean(Number(inputs.quantity))
-              }
+              value={formatNumberToKoreanOrEmpty(inputs.quantity)}
               onBlur={handleBlur}
               onChange={handleInput}
             />
@@ -91,11 +82,7 @@ const PurchaseEntry = ({ purchase }: { purchase: Purchase }) => {
                 key={`${purchase.id}-${OutputFieldName.investmentAmount}`}
                 name={OutputFieldName.investmentAmount}
                 label="총합"
-                value={
-                  output.investmentAmount === ""
-                    ? ""
-                    : formatNumberToKorean(Number(output.investmentAmount))
-                }
+                value={formatNumberToKoreanOrEmpty(output.investmentAmount)}
                 sx={{ flexGrow: 1 }}
                 aria-readonly
               />
