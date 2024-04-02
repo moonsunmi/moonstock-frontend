@@ -1,63 +1,44 @@
-import { List, ListItemText } from "@mui/material";
-import { Purchase } from "types/stockTypes";
-import { formatNumberToKorean } from "utils/formatNumberToKorean";
+import { useStockContext } from "@/contexts/stockContext/StockContext";
+import { List } from "@mui/material";
+import useInvestmentState from "hooks/useInvestmentState";
+import ResultItem from "./ResultItem";
 
-interface CalculationResult {
-  totalQuantity: number;
-  investmentAmount: number;
-  averagePrice: number;
-}
-
-const Result = ({ purchases }: { purchases: Purchase[] }) => {
-  function calculateWholeStocks(): CalculationResult {
-    const initialResult: CalculationResult = {
-      totalQuantity: 0,
-      investmentAmount: 0,
-      averagePrice: 0,
-    };
-
-    const result = purchases.reduce(
-      (acc, { price: currentPrice, quantity: currentQuantity }) => {
-        if (currentPrice !== "" && currentQuantity !== "") {
-          return {
-            totalQuantity: acc.totalQuantity + currentQuantity,
-            investmentAmount:
-              acc.investmentAmount + currentPrice * currentQuantity,
-            averagePrice: 0,
-          };
-        }
-        return acc;
-      },
-      initialResult
-    );
-
-    if (result.totalQuantity > 0) {
-      result.averagePrice = result.investmentAmount / result.totalQuantity;
-    }
-    return result;
-  }
-
+const Result = () => {
+  const {
+    state: { holdingStocks },
+  } = useStockContext();
+  const { calculateInvestmentState } = useInvestmentState();
   const { averagePrice, totalQuantity, investmentAmount } =
-    calculateWholeStocks();
+    calculateInvestmentState();
 
   return (
     <List
       sx={{
-        padding: "10px",
         borderTop: 2,
         borderColor: "darkslateblue",
       }}
       aria-label="Investment Report"
     >
-      <ListItemText>
-        평균 단가:{formatNumberToKorean(averagePrice.toFixed(2))}
-      </ListItemText>
-      <ListItemText>
-        총 개수: {formatNumberToKorean(totalQuantity)}
-      </ListItemText>
-      <ListItemText>
-        총 투자 금액: {formatNumberToKorean(investmentAmount)}
-      </ListItemText>
+      <ResultItem
+        label="평균 단가"
+        holdingStocks={holdingStocks.price}
+        currentValue={averagePrice}
+        unit="원"
+      />
+      <ResultItem
+        label="총 개수"
+        holdingStocks={holdingStocks.quantity}
+        currentValue={totalQuantity}
+        unit="개"
+      />
+      <ResultItem
+        label="총 투자금"
+        holdingStocks={
+          Number(holdingStocks.price) * Number(holdingStocks.quantity)
+        }
+        currentValue={investmentAmount}
+        unit="원"
+      />
     </List>
   );
 };

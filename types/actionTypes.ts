@@ -1,24 +1,34 @@
 import { Purchase } from "types/stockTypes";
 
 export enum ActionType {
-  ADD_ROW = "ADD_ROW",
-  UPDATE_ROW = "UPDATE_ROW",
-  REMOVE_ROW = "REMOVE_ROW",
+  ADD_PURCHASE = "addPurchase",
+  UPDATE_PURCHASE = "updatePurchase",
+  REMOVE_PURCHASE = "removePurchase",
+  UPDATE_HOLDING_STOCKS = "updateHoldingStocks",
 }
 
-interface AddRowAction {
-  type: ActionType.ADD_ROW;
+interface AddPurchaseAction {
+  type: ActionType.ADD_PURCHASE;
   payload: Purchase;
 }
 
-interface UpdateRowAction {
-  type: ActionType.UPDATE_ROW;
+interface UpdatePurchaseAction {
+  type: ActionType.UPDATE_PURCHASE;
   payload: Purchase;
 }
 
-interface RemoveRowAction {
-  type: ActionType.REMOVE_ROW;
+interface RemovePurchaseAction {
+  type: ActionType.REMOVE_PURCHASE;
   payload: { id: string };
 }
 
-export type PurchaseAction = AddRowAction | UpdateRowAction | RemoveRowAction;
+interface UpdateHoldingStocksAction {
+  type: ActionType.UPDATE_HOLDING_STOCKS;
+  payload: Purchase;
+}
+
+export type PurchaseAction =
+  | AddPurchaseAction
+  | UpdatePurchaseAction
+  | RemovePurchaseAction
+  | UpdateHoldingStocksAction;

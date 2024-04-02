@@ -1,9 +1,9 @@
 import { Dispatch, createContext, useContext } from "react";
 import { PurchaseAction } from "types/actionTypes";
-import { Purchase } from "types/stockTypes";
+import { StockPurchaseInfo } from "types/stockTypes";
 
 interface StockContext {
-  state: Purchase[];
+  state: StockPurchaseInfo;
   dispatch: Dispatch<PurchaseAction>;
 }
 

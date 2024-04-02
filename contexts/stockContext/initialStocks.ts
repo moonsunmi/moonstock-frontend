@@ -1,16 +1,16 @@
-import { Purchase } from "types/stockTypes";
+import { Purchase, StockPurchaseInfo } from "types/stockTypes";
 
-export const initialStocks: Purchase[] = [
-  {
-    id: "heldStock",
-    label: "보유 주식",
+export const initialStockPurchaseInfo: StockPurchaseInfo = {
+  holdingStocks: {
+    id: "holdingStocks",
     price: "",
     quantity: "",
   },
-  {
-    id: `addedStock1`,
-    label: "추가 매수",
-    price: "",
-    quantity: "",
-  },
-];
+  additionalPurchases: [
+    {
+      id: `addedStock1`, // TODO: ID: uuid로 해야 할지도.
+      price: "",
+      quantity: "",
+    },
+  ],
+};
