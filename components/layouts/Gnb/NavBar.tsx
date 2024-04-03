@@ -12,7 +12,7 @@ const navItems = ["물타기 계산기"];
 
 const NavBar = () => {
   return (
-    <AppBar position="absolute">
+    <AppBar position="fixed">
       <Toolbar>
         <Typography
           variant="h6"

@@ -15,12 +15,14 @@ type TotalAmountFieldProps = {
   purchase: Purchase;
   label: string;
   purchaseType: PurchaseType;
+  isDeletable: boolean;
 };
 
 const TotalAmountField = ({
   purchase,
   label,
   purchaseType,
+  isDeletable = true,
 }: TotalAmountFieldProps) => {
   const { inputs, output, handleInput, updateOutput } = useStockInput({
     price: purchase.price.toString(),
@@ -100,7 +102,9 @@ const TotalAmountField = ({
                 sx={{ flexGrow: 1 }}
                 aria-readonly
               />
-              <RemoveCircleIcon color="warning" onClick={handleRemove} />
+              {isDeletable && (
+                <RemoveCircleIcon color="warning" onClick={handleRemove} />
+              )}
             </TotalRemoveWrapper>
           </Grid>
         </Grid>
