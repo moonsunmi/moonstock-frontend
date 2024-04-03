@@ -6,24 +6,24 @@ import useStockInput from "hooks/useStockInput";
 import { useCallback } from "react";
 import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
-import { InputFieldName, OutputFieldName } from "types/formTypes";
+import { InputField, OutputField } from "types/formTypes";
 import { Purchase, PurchaseType } from "types/stockTypes";
 import { formatNumberToKorean } from "utils/formatNumber";
 import NumberTextField from "./NumberTextField";
 
-type TotalAmountFieldProps = {
+type PurchaseInfoProps = {
   purchase: Purchase;
   label: string;
   purchaseType: PurchaseType;
-  isDeletable: boolean;
+  isDeletable?: boolean;
 };
 
-const TotalAmountField = ({
+const PurchaseInfo = ({
   purchase,
   label,
   purchaseType,
   isDeletable = true,
-}: TotalAmountFieldProps) => {
+}: PurchaseInfoProps) => {
   const { inputs, output, handleInput, updateOutput } = useStockInput({
     price: purchase.price.toString(),
     quantity: purchase.quantity.toString(),
@@ -33,7 +33,7 @@ const TotalAmountField = ({
 
   const handleRemove = useCallback(() => {
     dispatch({
-      type: ActionType.REMOVE_PURCHASE,
+      type: ActionType.REMOVE_ADDITIONAL,
       payload: { id: purchase.id },
     });
   }, [dispatch, purchase.id]);
@@ -42,9 +42,9 @@ const TotalAmountField = ({
     updateOutput();
     dispatch({
       type:
-        purchaseType === PurchaseType.ADDITIONAL_PURCHASES
-          ? ActionType.UPDATE_PURCHASE
-          : ActionType.UPDATE_HOLDING_STOCKS,
+        purchaseType === PurchaseType.ADDITIONS
+          ? ActionType.UPDATE_ADDITIONAL
+          : ActionType.UPDATE_HOLDING,
       payload: {
         ...purchase,
         price: Number(inputs.price),
@@ -73,8 +73,8 @@ const TotalAmountField = ({
           <Grid item xs={7} sm={4}>
             <NumberTextField
               fullWidth
-              key={`${purchase.id}-${InputFieldName.price}`}
-              name={InputFieldName.price}
+              key={`${purchase.id}-${InputField.price}`}
+              name={InputField.price}
               label="가격"
               value={formatNumberToKoreanOrEmpty(inputs.price)}
               onBlur={handleBlur}
@@ -84,8 +84,8 @@ const TotalAmountField = ({
           <Grid item xs={5} sm={2}>
             <NumberTextField
               fullWidth
-              key={`${purchase.id}-${InputFieldName.quantity}`}
-              name={InputFieldName.quantity}
+              key={`${purchase.id}-${InputField.quantity}`}
+              name={InputField.quantity}
               label="수량"
               value={formatNumberToKoreanOrEmpty(inputs.quantity)}
               onBlur={handleBlur}
@@ -95,8 +95,8 @@ const TotalAmountField = ({
           <Grid item xs={12} sm={6}>
             <TotalRemoveWrapper>
               <NumberTextField
-                key={`${purchase.id}-${OutputFieldName.investmentAmount}`}
-                name={OutputFieldName.investmentAmount}
+                key={`${purchase.id}-${OutputField.investmentAmount}`}
+                name={OutputField.investmentAmount}
                 label="총합"
                 value={formatNumberToKoreanOrEmpty(output.investmentAmount)}
                 sx={{ flexGrow: 1 }}
@@ -121,4 +121,4 @@ const TotalRemoveWrapper = styled.div`
   width: 100%;
 `;
 
-export default TotalAmountField;
+export default PurchaseInfo;

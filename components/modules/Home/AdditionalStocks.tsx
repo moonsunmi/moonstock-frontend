@@ -5,11 +5,11 @@ import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
 import { Purchase, PurchaseType } from "types/stockTypes";
 import { v4 as uuidv4 } from "uuid";
-import TotalAmountField from "./TotalAmountField";
+import PurchaseInfo from "./PurchaseInfo";
 
-const PurchaseEntry = () => {
+const AdditionalStocks = () => {
   const {
-    state: { additionalPurchases },
+    state: { additions },
     dispatch,
   } = useStockContext();
 
@@ -19,18 +19,18 @@ const PurchaseEntry = () => {
       price: "",
       quantity: "",
     };
-    dispatch({ type: ActionType.ADD_PURCHASE, payload: newStock });
+    dispatch({ type: ActionType.ADD_ADDITIONAL, payload: newStock });
   }, [dispatch]);
 
   return (
     <>
-      {additionalPurchases.map((purchase: Purchase) => {
+      {additions.map((purchase: Purchase) => {
         return (
-          <TotalAmountField
+          <PurchaseInfo
             key={purchase.id}
             label="추가 매수"
             purchase={purchase}
-            purchaseType={PurchaseType.ADDITIONAL_PURCHASES}
+            purchaseType={PurchaseType.ADDITIONS}
           />
         );
       })}
@@ -49,4 +49,4 @@ const ButtonWrapper = styled.div`
   margin: 20px;
 `;
 
-export default PurchaseEntry;
+export default AdditionalStocks;

@@ -1,19 +1,19 @@
-export enum InputFieldName {
+export enum InputField {
   price = "price",
   quantity = "quantity",
 }
 
-export enum OutputFieldName {
+export enum OutputField {
   investmentAmount = "investmentAmount",
 }
 
 export type Inputs = {
-  [InputFieldName.price]: string;
-  [InputFieldName.quantity]: string;
+  [InputField.price]: string;
+  [InputField.quantity]: string;
 };
 
 export type Output = {
-  [OutputFieldName.investmentAmount]: string;
+  [OutputField.investmentAmount]: string;
 };
 
-export type FieldNumberValue = "" | number;
+export type FieldValue = "" | number;

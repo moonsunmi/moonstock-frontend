@@ -5,17 +5,17 @@ import ResultItem from "./ResultItem";
 
 const Result = () => {
   const {
-    state: { holdingStocks },
+    state: { holding },
   } = useStockContext();
   const { calculateInvestmentState } = useInvestmentState();
   const { averagePrice, totalQuantity, investmentAmount } =
     calculateInvestmentState();
 
   const isResultShow: boolean =
-    holdingStocks.price === "" ||
-    holdingStocks.quantity === "" ||
-    holdingStocks.price === 0 ||
-    holdingStocks.quantity === 0;
+    holding.price === "" ||
+    holding.quantity === "" ||
+    holding.price === 0 ||
+    holding.quantity === 0;
 
   return (
     <List
@@ -31,21 +31,19 @@ const Result = () => {
         <>
           <ResultItem
             label="평균 단가"
-            holdingStocks={holdingStocks.price}
+            holding={holding.price}
             currentValue={averagePrice}
             unit="원"
           />
           <ResultItem
             label="총 개수"
-            holdingStocks={holdingStocks.quantity}
+            holding={holding.quantity}
             currentValue={totalQuantity}
             unit="개"
           />
           <ResultItem
             label="총 투자금"
-            holdingStocks={
-              Number(holdingStocks.price) * Number(holdingStocks.quantity)
-            }
+            holding={Number(holding.price) * Number(holding.quantity)}
             currentValue={investmentAmount}
             unit="원"
           />

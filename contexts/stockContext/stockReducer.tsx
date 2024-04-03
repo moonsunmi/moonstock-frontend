@@ -6,25 +6,24 @@ export default function stockReducer(
   action: PurchaseAction
 ): StockPurchaseInfo {
   switch (action.type) {
-    case ActionType.ADD_PURCHASE:
+    case ActionType.ADD_ADDITIONAL:
       return {
         ...state,
-        additionalPurchases: [...state.additionalPurchases, action.payload],
+        additions: [...state.additions, action.payload],
       };
-    case ActionType.REMOVE_PURCHASE:
-      const removedAdditionalPurchases = state.additionalPurchases.filter(
+    case ActionType.REMOVE_ADDITIONAL:
+      const removedAdditionals = state.additions.filter(
         (stock) => stock.id !== action.payload.id
       );
-      return { ...state, additionalPurchases: removedAdditionalPurchases };
-    case ActionType.UPDATE_PURCHASE:
-      const updatedAdditionalPurchases = state.additionalPurchases.map(
-        (stock) =>
-          stock.id === action.payload.id ? { ...action.payload } : stock
+      return { ...state, additions: removedAdditionals };
+    case ActionType.UPDATE_ADDITIONAL:
+      const updatedAdditionals = state.additions.map((stock) =>
+        stock.id === action.payload.id ? { ...action.payload } : stock
       );
-      return { ...state, additionalPurchases: updatedAdditionalPurchases };
-    case ActionType.UPDATE_HOLDING_STOCKS:
-      return { ...state, holdingStocks: { ...action.payload } };
+      return { ...state, additions: updatedAdditionals };
+    case ActionType.UPDATE_HOLDING:
+      return { ...state, holding: { ...action.payload } };
     default:
-      throw new Error(`Unhandled action type ${action.type}`);
+      throw new Error("Unhandled action type");
   }
 }

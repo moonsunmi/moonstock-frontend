@@ -1,18 +1,18 @@
 import { ListItem } from "@mui/material";
 import CalculateGap from "./CalculateGap";
 import { formatNumberToKorean } from "utils/formatNumber";
-import { FieldNumberValue } from "types/formTypes";
+import { FieldValue } from "types/formTypes";
 
 type ResultItemProps = {
   label: string;
-  holdingStocks: FieldNumberValue;
+  holding: FieldValue;
   currentValue: number;
   unit: "원" | "개";
 };
 
 const ResultItem = ({
   label,
-  holdingStocks,
+  holding,
   currentValue,
   unit,
 }: ResultItemProps) => {
@@ -22,7 +22,7 @@ const ResultItem = ({
         {label}: {formatNumberToKorean(currentValue)}
         {unit}
       </span>{" "}
-      <CalculateGap before={holdingStocks} after={currentValue} />
+      <CalculateGap before={holding} after={currentValue} />
     </ListItem>
   );
 };

@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import { blue, grey, red } from "@mui/material/colors";
-import { FieldNumberValue } from "types/formTypes";
+import { FieldValue } from "types/formTypes";
 import { formatNumberToKorean, toNumber } from "utils/formatNumber";
 
 type CalculateGapProps = {
-  before: FieldNumberValue | number;
-  after: FieldNumberValue | number;
+  before: FieldValue | number;
+  after: FieldValue | number;
 };
 
 const CalculateGap = ({ before, after }: CalculateGapProps) => {

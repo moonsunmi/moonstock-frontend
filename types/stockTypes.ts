@@ -1,17 +1,17 @@
-import { FieldNumberValue } from "./formTypes";
+import { FieldValue } from "./formTypes";
 
 export type Purchase = {
   id: string;
-  price: FieldNumberValue;
-  quantity: FieldNumberValue;
+  price: FieldValue;
+  quantity: FieldValue;
 };
 
 export enum PurchaseType {
-  HOLDING_STOCKS = "holdingStocks",
-  ADDITIONAL_PURCHASES = "additionalPurchases",
+  HOLDING = "holding",
+  ADDITIONS = "additions",
 }
 
 export type StockPurchaseInfo = {
-  [PurchaseType.HOLDING_STOCKS]: Purchase;
-  [PurchaseType.ADDITIONAL_PURCHASES]: Purchase[];
+  [PurchaseType.HOLDING]: Purchase;
+  [PurchaseType.ADDITIONS]: Purchase[];
 };

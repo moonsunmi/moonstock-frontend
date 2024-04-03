@@ -10,17 +10,16 @@ const useInvestmentState = () => {
 
   function calculateInvestmentState() {
     const {
-      state: { holdingStocks, additionalPurchases },
+      state: { holding, additions },
     } = useStockContext();
 
     const initialResult: CalculationResult = {
-      totalQuantity: toNumber(holdingStocks.quantity),
-      investmentAmount:
-        toNumber(holdingStocks.price) * toNumber(holdingStocks.quantity),
+      totalQuantity: toNumber(holding.quantity),
+      investmentAmount: toNumber(holding.price) * toNumber(holding.quantity),
       averagePrice: 0,
     };
 
-    const result = additionalPurchases.reduce((acc, { price, quantity }) => {
+    const result = additions.reduce((acc, { price, quantity }) => {
       const currentPrice = toNumber(price);
       const currentQuantity = toNumber(quantity);
 

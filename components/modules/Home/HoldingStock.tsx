@@ -1,19 +1,18 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
-import TotalAmountField from "./TotalAmountField";
 import { PurchaseType } from "types/stockTypes";
-import { memo } from "react";
+import TotalAmountField from "./PurchaseInfo";
 
 const HoldingStock = () => {
   const {
-    state: { holdingStocks },
+    state: { holding },
   } = useStockContext();
 
   return (
     <>
       <TotalAmountField
         label="보유 주식"
-        purchase={holdingStocks}
-        purchaseType={PurchaseType.HOLDING_STOCKS}
+        purchase={holding}
+        purchaseType={PurchaseType.HOLDING}
         isDeletable={false}
       />
     </>
