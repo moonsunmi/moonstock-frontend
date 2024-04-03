@@ -1,10 +1,10 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
+import { createInitialPurchase } from "@/contexts/stockContext/initialStocks";
 import { Button } from "@mui/material";
 import { useCallback } from "react";
 import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
 import { Purchase, PurchaseType } from "types/stockTypes";
-import { v4 as uuidv4 } from "uuid";
 import PurchaseInfo from "./PurchaseInfo";
 
 const AdditionalStocks = () => {
@@ -14,11 +14,7 @@ const AdditionalStocks = () => {
   } = useStockContext();
 
   const addStock = useCallback(() => {
-    const newStock: Purchase = {
-      id: uuidv4(),
-      price: "",
-      quantity: "",
-    };
+    const newStock: Purchase = createInitialPurchase();
     dispatch({ type: ActionType.ADD_ADDITIONAL, payload: newStock });
   }, [dispatch]);
 

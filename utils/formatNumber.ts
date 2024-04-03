@@ -1,5 +1,3 @@
-import { FieldValue } from "types/formTypes";
-
 export const formatNumberToKorean = (
   value: number | string,
   fixed: number = 2
@@ -10,5 +8,3 @@ export const formatNumberToKorean = (
     ? ""
     : new Intl.NumberFormat("ko-kr").format(fixedNumber);
 };
-
-export const toNumber = (value: FieldValue): number => Number(value) || 0;

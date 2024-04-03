@@ -1,30 +1,36 @@
 import Box from "@mui/material/Box";
-import { blue, grey, red } from "@mui/material/colors";
-import { FieldValue } from "types/formTypes";
-import { formatNumberToKorean, toNumber } from "utils/formatNumber";
+import { memo } from "react";
+import { FieldValue, valueChangeIndicator } from "types/formTypes";
+import { formatNumberToKorean } from "utils/formatNumber";
 
 type CalculateGapProps = {
   before: FieldValue;
   after: FieldValue;
 };
 
-const CalculateGap = ({ before, after }: CalculateGapProps) => {
-  const gap = toNumber(before) - toNumber(after);
-  const upOrDown: { symbol: "-" | "↓" | "↑"; color: string } =
-    gap === 0
-      ? { symbol: "-", color: grey[600] }
-      : gap > 0
-      ? { symbol: "↓", color: blue[800] }
-      : { symbol: "↑", color: red[800] };
+function getChangeType(gap: number) {
+  return gap === 0
+    ? valueChangeIndicator.even
+    : gap > 0
+    ? valueChangeIndicator.decrease
+    : valueChangeIndicator.increase;
+}
+
+const CalculateGap = memo(({ before, after }: CalculateGapProps) => {
+  const gap = Number(before) - Number(after);
+  const symbolStyle = getChangeType(gap);
 
   const amount =
     gap === 0 ? "변화 없음" : `${formatNumberToKorean(Math.abs(gap))} `;
 
   return (
-    <Box component="span" color={upOrDown.color}>
+    <Box component="span" color={symbolStyle.color} sx={{ ml: 1 }}>
       ({amount}
-      {upOrDown.symbol})
+      {symbolStyle.symbol})
     </Box>
   );
-};
+});
+
+CalculateGap.displayName = "CalculateGap";
+
 export default CalculateGap;

@@ -8,12 +8,28 @@ import {
   Typography,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useMemo } from "react";
 import { NumericFormat } from "react-number-format";
 import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
-import { FieldValue } from "types/formTypes";
 import { Purchase, PurchaseType } from "types/stockTypes";
+
+const commonInputprops = {
+  style: { textAlign: "right" as const },
+};
+
+const readOnlyInputProps = {
+  ...commonInputprops,
+  readOnly: true,
+};
+
+const commonNumericFormatProps = {
+  customInput: TextField,
+  thousandSeparator: ",",
+  allowNegative: false,
+  fullWidth: true,
+  size: "small" as const,
+};
 
 type PurchaseInfoProps = {
   purchase: Purchase;
@@ -29,7 +45,6 @@ const PurchaseInfo = ({
   isDeletable = true,
 }: PurchaseInfoProps) => {
   const { dispatch } = useStockContext();
-  const [total, setTotal] = useState<FieldValue>("");
 
   const handleRemove = useCallback(() => {
     dispatch({
@@ -54,30 +69,10 @@ const PurchaseInfo = ({
     [dispatch, purchase, purchaseType]
   );
 
-  useEffect(
-    function updateTotal() {
-      if (purchase.price !== "" && purchase.quantity !== "")
-        setTotal(Number(purchase.price) * Number(purchase.quantity));
-    },
-    [purchase.price, purchase.quantity]
-  );
-
-  const commonInputprops = {
-    style: { textAlign: "right" as const },
-  };
-
-  const readOnlyInputProps = {
-    ...commonInputprops,
-    readOnly: true,
-  };
-
-  const commonNumericFormatProps = {
-    customInput: TextField,
-    thousandSeparator: ",",
-    allowNegative: false,
-    fullWidth: true,
-    size: "small" as const,
-  };
+  const total = useMemo(() => {
+    if (purchase.price !== "" && purchase.quantity !== "")
+      return Number(purchase.price) * Number(purchase.quantity);
+  }, [purchase.price, purchase.quantity]);
 
   return (
     <Container
@@ -124,7 +119,7 @@ const PurchaseInfo = ({
               {isDeletable && (
                 <RemoveCircleIcon
                   color="warning"
-                  aria-label="icon to remove additional purchase field"
+                  aria-label="Icon To Remove Additional Purchase Field"
                   onClick={handleRemove}
                 />
               )}

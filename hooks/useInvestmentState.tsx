@@ -1,5 +1,4 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
-import { toNumber } from "utils/formatNumber";
 
 const useInvestmentState = () => {
   interface CalculationResult {
@@ -14,14 +13,14 @@ const useInvestmentState = () => {
     } = useStockContext();
 
     const initialResult: CalculationResult = {
-      totalQuantity: toNumber(holding.quantity),
-      investmentAmount: toNumber(holding.price) * toNumber(holding.quantity),
+      totalQuantity: Number(holding.quantity),
+      investmentAmount: Number(holding.price) * Number(holding.quantity),
       averagePrice: 0,
     };
 
     const result = additions.reduce((acc, { price, quantity }) => {
-      const currentPrice = toNumber(price);
-      const currentQuantity = toNumber(quantity);
+      const currentPrice = Number(price);
+      const currentQuantity = Number(quantity);
 
       if (price !== 0 && quantity !== 0) {
         return {
