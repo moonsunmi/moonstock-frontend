@@ -50,7 +50,14 @@ const PurchaseInfo = ({
         quantity: Number(inputs.quantity),
       },
     });
-  }, [inputs.price, inputs.quantity, dispatch, purchase, updateOutput]);
+  }, [
+    inputs.price,
+    inputs.quantity,
+    dispatch,
+    purchase,
+    purchaseType,
+    updateOutput,
+  ]);
 
   return (
     <Container

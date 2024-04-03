@@ -1,6 +1,5 @@
 import { TextField, TextFieldProps } from "@mui/material";
 import { memo } from "react";
-import { FieldValue } from "types/formTypes";
 import { formatNumberToKorean } from "utils/formatNumber";
 
 type Props = {
@@ -37,5 +36,6 @@ const NumberTextField = memo(({ scroll = false, value, ...rest }: Props) => {
     </>
   );
 });
+NumberTextField.displayName = "NumberTextField";
 
 export default NumberTextField;
