@@ -4,8 +4,8 @@ import { FieldValue } from "types/formTypes";
 import { formatNumberToKorean, toNumber } from "utils/formatNumber";
 
 type CalculateGapProps = {
-  before: FieldValue | number;
-  after: FieldValue | number;
+  before: FieldValue;
+  after: FieldValue;
 };
 
 const CalculateGap = ({ before, after }: CalculateGapProps) => {

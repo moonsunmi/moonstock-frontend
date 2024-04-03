@@ -1,4 +1,6 @@
-import { Purchase, StockPurchaseInfo } from "types/stockTypes";
+import { StockPurchaseInfo } from "types/stockTypes";
+
+export const initialStock = {}; // todo.
 
 export const initialPurchases: StockPurchaseInfo = {
   holding: {
