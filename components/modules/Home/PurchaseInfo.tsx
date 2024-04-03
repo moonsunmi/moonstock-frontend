@@ -1,14 +1,35 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Container, FormGroup, Grid, Typography } from "@mui/material";
+import {
+  Container,
+  FormGroup,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { blue } from "@mui/material/colors";
-import useStockInput from "hooks/useStockInput";
-import { useCallback } from "react";
+import { ChangeEvent, useCallback, useMemo } from "react";
+import { NumericFormat } from "react-number-format";
 import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
-import { InputField, OutputField } from "types/formTypes";
 import { Purchase, PurchaseType } from "types/stockTypes";
-import NumberTextField from "./NumberTextField";
+
+const commonInputprops = {
+  style: { textAlign: "right" as const },
+};
+
+const readOnlyInputProps = {
+  ...commonInputprops,
+  readOnly: true,
+};
+
+const commonNumericFormatProps = {
+  customInput: TextField,
+  thousandSeparator: ",",
+  allowNegative: false,
+  fullWidth: true,
+  size: "small" as const,
+};
 
 type PurchaseInfoProps = {
   purchase: Purchase;
@@ -23,11 +44,6 @@ const PurchaseInfo = ({
   purchaseType,
   isDeletable = true,
 }: PurchaseInfoProps) => {
-  const { inputs, output, handleInput, updateOutput } = useStockInput({
-    price: purchase.price.toString(),
-    quantity: purchase.quantity.toString(),
-  });
-
   const { dispatch } = useStockContext();
 
   const handleRemove = useCallback(() => {
@@ -37,27 +53,26 @@ const PurchaseInfo = ({
     });
   }, [dispatch, purchase.id]);
 
-  const handleBlur = useCallback(() => {
-    updateOutput();
-    dispatch({
-      type:
-        purchaseType === PurchaseType.ADDITIONS
-          ? ActionType.UPDATE_ADDITIONAL
-          : ActionType.UPDATE_HOLDING,
-      payload: {
-        ...purchase,
-        price: Number(inputs.price),
-        quantity: Number(inputs.quantity),
-      },
-    });
-  }, [
-    inputs.price,
-    inputs.quantity,
-    dispatch,
-    purchase,
-    purchaseType,
-    updateOutput,
-  ]);
+  const dispatchValue = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      dispatch({
+        type:
+          purchaseType === PurchaseType.ADDITIONS
+            ? ActionType.UPDATE_ADDITIONAL
+            : ActionType.UPDATE_HOLDING,
+        payload: {
+          ...purchase,
+          [e.target.name]: Number(e.target.value.replaceAll(",", "")),
+        },
+      });
+    },
+    [dispatch, purchase, purchaseType]
+  );
+
+  const total = useMemo(() => {
+    if (purchase.price !== "" && purchase.quantity !== "")
+      return Number(purchase.price) * Number(purchase.quantity);
+  }, [purchase.price, purchase.quantity]);
 
   return (
     <Container
@@ -73,39 +88,40 @@ const PurchaseInfo = ({
       >
         <Grid container spacing={1} sx={{ alignItems: "center" }}>
           <Grid item xs={7} sm={4}>
-            <NumberTextField
-              fullWidth
-              key={`${purchase.id}-${InputField.price}`}
-              name={InputField.price}
+            <NumericFormat
+              name="price"
+              value={purchase.price}
               label="가격"
-              value={inputs.price}
-              onBlur={handleBlur}
-              onChange={handleInput}
+              onBlur={dispatchValue}
+              {...commonNumericFormatProps}
+              inputProps={commonInputprops}
             />
           </Grid>
           <Grid item xs={5} sm={2}>
-            <NumberTextField
-              fullWidth
-              key={`${purchase.id}-${InputField.quantity}`}
-              name={InputField.quantity}
+            <NumericFormat
+              name="quantity"
+              value={purchase.quantity}
               label="수량"
-              value={inputs.quantity}
-              onBlur={handleBlur}
-              onChange={handleInput}
+              onBlur={dispatchValue}
+              {...commonNumericFormatProps}
+              inputProps={commonInputprops}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TotalRemoveWrapper>
-              <NumberTextField
-                key={`${purchase.id}-${OutputField.investmentAmount}`}
-                name={OutputField.investmentAmount}
+              <NumericFormat
+                name="investmentAmount"
+                value={total}
                 label="총합"
-                value={output.investmentAmount}
-                sx={{ flexGrow: 1 }}
-                aria-readonly
+                {...commonNumericFormatProps}
+                inputProps={readOnlyInputProps}
               />
               {isDeletable && (
-                <RemoveCircleIcon color="warning" onClick={handleRemove} />
+                <RemoveCircleIcon
+                  color="warning"
+                  aria-label="Icon To Remove Additional Purchase Field"
+                  onClick={handleRemove}
+                />
               )}
             </TotalRemoveWrapper>
           </Grid>

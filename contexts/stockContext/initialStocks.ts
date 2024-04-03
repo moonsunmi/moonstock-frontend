@@ -1,4 +1,11 @@
 import { Purchase, StockPurchaseInfo } from "types/stockTypes";
+import { v4 as uuidv4 } from "uuid";
+
+export const createInitialPurchase = (): Purchase => ({
+  id: uuidv4(),
+  price: "",
+  quantity: "",
+});
 
 export const initialPurchases: StockPurchaseInfo = {
   holding: {
@@ -6,11 +13,5 @@ export const initialPurchases: StockPurchaseInfo = {
     price: "",
     quantity: "",
   },
-  additions: [
-    {
-      id: `addedStock1`, // TODO: ID: uuid로 해야 할지도.
-      price: "",
-      quantity: "",
-    },
-  ],
+  additions: [createInitialPurchase()],
 };

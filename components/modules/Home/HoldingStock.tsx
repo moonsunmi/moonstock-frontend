@@ -1,6 +1,6 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
 import { PurchaseType } from "types/stockTypes";
-import TotalAmountField from "./PurchaseInfo";
+import PurchaseInfo from "./PurchaseInfo";
 
 const HoldingStock = () => {
   const {
@@ -9,7 +9,7 @@ const HoldingStock = () => {
 
   return (
     <>
-      <TotalAmountField
+      <PurchaseInfo
         label="보유 주식"
         purchase={holding}
         purchaseType={PurchaseType.HOLDING}

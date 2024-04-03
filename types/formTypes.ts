@@ -1,19 +1,19 @@
-export enum InputField {
-  price = "price",
-  quantity = "quantity",
-}
+import { blue, grey, red } from "@mui/material/colors";
 
-export enum OutputField {
-  investmentAmount = "investmentAmount",
-}
+type InputField = "price" | "quantity";
 
 export type Inputs = {
-  [InputField.price]: string;
-  [InputField.quantity]: string;
+  [key in InputField]: string;
 };
 
 export type Output = {
-  [OutputField.investmentAmount]: string;
+  investmentAmount: string;
 };
 
 export type FieldValue = "" | number;
+
+export const valueChangeIndicator = {
+  even: { symbol: "-", color: grey[600] },
+  decrease: { symbol: "↓", color: blue[800] },
+  increase: { symbol: "↑", color: red[800] },
+};
