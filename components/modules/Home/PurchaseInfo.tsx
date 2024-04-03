@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
 import { InputField, OutputField } from "types/formTypes";
 import { Purchase, PurchaseType } from "types/stockTypes";
-import { formatNumberToKorean } from "utils/formatNumber";
 import NumberTextField from "./NumberTextField";
 
 type PurchaseInfoProps = {
@@ -53,10 +52,6 @@ const PurchaseInfo = ({
     });
   }, [inputs.price, inputs.quantity, dispatch, purchase, updateOutput]);
 
-  const formatNumberToKoreanOrEmpty = (price: string | number) => {
-    return price === "" ? "" : formatNumberToKorean(Number(price));
-  };
-
   return (
     <Container
       sx={{ margin: 1, padding: 1, bgcolor: blue[50], width: "auto" }}
@@ -76,7 +71,7 @@ const PurchaseInfo = ({
               key={`${purchase.id}-${InputField.price}`}
               name={InputField.price}
               label="가격"
-              value={formatNumberToKoreanOrEmpty(inputs.price)}
+              value={inputs.price}
               onBlur={handleBlur}
               onChange={handleInput}
             />
@@ -87,7 +82,7 @@ const PurchaseInfo = ({
               key={`${purchase.id}-${InputField.quantity}`}
               name={InputField.quantity}
               label="수량"
-              value={formatNumberToKoreanOrEmpty(inputs.quantity)}
+              value={inputs.quantity}
               onBlur={handleBlur}
               onChange={handleInput}
             />
@@ -98,7 +93,7 @@ const PurchaseInfo = ({
                 key={`${purchase.id}-${OutputField.investmentAmount}`}
                 name={OutputField.investmentAmount}
                 label="총합"
-                value={formatNumberToKoreanOrEmpty(output.investmentAmount)}
+                value={output.investmentAmount}
                 sx={{ flexGrow: 1 }}
                 aria-readonly
               />

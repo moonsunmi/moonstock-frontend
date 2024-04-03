@@ -1,14 +1,23 @@
 import { TextField, TextFieldProps } from "@mui/material";
+import { memo } from "react";
+import { FieldValue } from "types/formTypes";
+import { formatNumberToKorean } from "utils/formatNumber";
 
 type Props = {
   scroll?: boolean;
+  value: string;
 } & TextFieldProps;
 
-const NumberTextField = ({ scroll = false, ...rest }: Props) => {
+const formatNumberToKoreanOrEmpty = (price: string | number) => {
+  return price === "" ? "" : formatNumberToKorean(Number(price));
+};
+
+const NumberTextField = memo(({ scroll = false, value, ...rest }: Props) => {
   return (
     <>
       <TextField
         size="small"
+        value={formatNumberToKoreanOrEmpty(value)}
         InputProps={{
           sx: {
             "& input": {
@@ -27,6 +36,6 @@ const NumberTextField = ({ scroll = false, ...rest }: Props) => {
       />
     </>
   );
-};
+});
 
 export default NumberTextField;
