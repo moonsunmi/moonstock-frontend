@@ -1,51 +1,41 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
 import { createInitialPurchase } from "@/contexts/stockContext/initialStocks";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { blue, red } from "@mui/material/colors";
+import { Box, Button, TextField } from "@mui/material";
 import instance from "api/apiClient";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
+import { apiStatus } from "types/apiStatus";
 import { Purchase, StockInfoType } from "types/stockTypes";
+import StatusDescription from "./StatusDescription";
 
 const getStockInfo = async (stockName: string) => {
   try {
     const response = await instance.get("", { params: { itmsNm: stockName } });
     return response.data.response.body;
   } catch (error) {
-    console.log("주식 정보를 가져오는 데 실패했습니다.", error);
+    throw new Error("서버 응답 에러");
   }
 };
 
 const AddPurchase = () => {
   const [stockName, setStockName] = useState<string>("");
-  const [stockInfo, setStockInfo] = useState<StockInfoType | null>(null);
-  const [isError, setIsError] = useState(false);
+  const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
 
   const { dispatch } = useStockContext();
 
   const addPurchase = useCallback(() => {
     const newPurchase: Purchase = createInitialPurchase();
     dispatch({ type: ActionType.ADD_ADDITIONAL, payload: newPurchase });
+    setStockName("");
   }, [dispatch]);
 
   const handleClick = async () => {
-    const data = await getStockInfo(stockName);
-    console.log(data);
-    setStockInfo(data);
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setStockName(e.target.value);
-  };
-
-  useEffect(
-    function updatePrice() {
-      if (stockInfo?.totalCount === 0) {
-        setIsError(true);
-      } else {
-        setIsError(false);
-        const newPrice = stockInfo?.items?.item[0]?.clpr;
+    setStatus(apiStatus.loading);
+    try {
+      const data: StockInfoType = await getStockInfo(stockName);
+      if (data && data.totalCount > 0) {
+        const newPrice = data.items?.item[0]?.clpr;
         if (newPrice) {
           const newPurchase: Purchase = createInitialPurchase({
             price: Number(newPrice.replace(",", "")),
@@ -55,43 +45,53 @@ const AddPurchase = () => {
             payload: newPurchase,
           });
         }
+        setStockName("");
+        setStatus(apiStatus.idle);
+      } else {
+        setStatus(apiStatus.noResult);
       }
-    },
-    [stockInfo, dispatch]
-  );
+    } catch {
+      setStatus(apiStatus.error);
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setStockName(e.target.value);
+  };
 
   return (
     <ButtonWrapper>
       <Box>
-        <div>
+        <LiveStkPrcWrapper>
           <TextField
             size="small"
             label="종목 이름"
+            value={stockName}
             placeholder="ex) 삼성전자"
             onChange={handleChange}
           />
-          <Button variant="outlined" onClick={handleClick}>
-            종목 가격으로 매수 추가
+          <Button
+            variant="outlined"
+            onClick={handleClick}
+            disabled={!stockName.trim()}
+          >
+            가격 입력
           </Button>
-        </div>
+        </LiveStkPrcWrapper>
         <div>
-          {isError ? (
-            <Typography variant="caption" color={red[300]}>
-              종목 이름을 다시 확인해 주세요
-            </Typography>
-          ) : (
-            <Typography variant="caption" color={blue[300]}>
-              현재 가격(전날 기준)이 자동으로 입력됩니다.
-            </Typography>
-          )}
+          <StatusDescription status={status} />
         </div>
       </Box>
       <Button variant="outlined" onClick={addPurchase}>
-        매수 빈칸 추가
+        빈칸 추가
       </Button>
     </ButtonWrapper>
   );
 };
+const LiveStkPrcWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;

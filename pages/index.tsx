@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <Container sx={{ display: "flex", justifyContent: "center" }}>
         <NavBar />
-        <Box component="main" sx={{ height: "100vh" }}>
+        <Box component="main" sx={{ height: "100vh", minWidth: "280px" }}>
           <AverageDownInPrice />
         </Box>
       </Container>
