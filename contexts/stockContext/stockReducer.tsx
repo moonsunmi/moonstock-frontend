@@ -18,10 +18,10 @@ export default function stockReducer(
       return { ...state, additions: removedAdditionals };
     case ActionType.UPDATE_ADDITIONAL:
       const updatedAdditionals = state.additions.map((stock) =>
-        stock.id === action.payload.id ? { ...action.payload } : stock
+        stock.id === action.payload.id ? { ...stock, ...action.payload } : stock
       );
       return { ...state, additions: updatedAdditionals };
-    case ActionType.UPDATE_HOLDING:
+    case ActionType.UPDATE_HOLDING: // TODO. 여기도 부분 수정 가능하게 바꾸기
       return { ...state, holding: { ...action.payload } };
     default:
       throw new Error("Unhandled action type");

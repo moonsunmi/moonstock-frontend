@@ -3,8 +3,9 @@ import { initialPurchases } from "@/contexts/stockContext/initialStocks";
 import stockReducer from "@/contexts/stockContext/stockReducer";
 import { Paper } from "@mui/material";
 import { useReducer } from "react";
-import HoldingStock from "./HoldingStock";
+import AddPurchase from "./AddPurchase";
 import AdditionalStocks from "./AdditionalStocks";
+import HoldingStock from "./HoldingStock";
 import Result from "./Result";
 
 const AverageDownInPrice = () => {
@@ -23,6 +24,7 @@ const AverageDownInPrice = () => {
       <StockContext.Provider value={{ state, dispatch }}>
         <HoldingStock />
         <AdditionalStocks />
+        <AddPurchase />
         <Result />
       </StockContext.Provider>
     </Paper>

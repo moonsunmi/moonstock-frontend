@@ -1,10 +1,17 @@
+import { FieldValue } from "types/formTypes";
 import { Purchase, StockPurchaseInfo } from "types/stockTypes";
 import { v4 as uuidv4 } from "uuid";
 
-export const createInitialPurchase = (): Purchase => ({
+export const createInitialPurchase = ({
+  price = "",
+  quantity = "",
+}: {
+  price?: FieldValue;
+  quantity?: FieldValue;
+} = {}): Purchase => ({
   id: uuidv4(),
-  price: "",
-  quantity: "",
+  price: price,
+  quantity: quantity,
 });
 
 export const initialPurchases: StockPurchaseInfo = {
@@ -13,5 +20,5 @@ export const initialPurchases: StockPurchaseInfo = {
     price: "",
     quantity: "",
   },
-  additions: [createInitialPurchase()],
+  additions: [],
 };
