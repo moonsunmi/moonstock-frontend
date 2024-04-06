@@ -8,6 +8,7 @@ import { ActionType } from "types/actionTypes";
 import { apiStatus } from "types/apiStatus";
 import { Purchase, StockInfoType } from "types/stockTypes";
 import StatusDescription from "./StatusDescription";
+import StyledButton from "./StyledButton";
 
 const getStockInfo = async (stockName: string) => {
   try {
@@ -60,7 +61,7 @@ const AddPurchase = () => {
   };
 
   return (
-    <Grid container spacing={1} width="100%" sx={{ margin: 0, padding: 1 }}>
+    <Grid container spacing={1} width="100vw" sx={{ padding: 1 }}>
       <Grid item xs={12} sm={6}>
         <TextField
           size="small"
@@ -72,25 +73,12 @@ const AddPurchase = () => {
         />
       </Grid>
       <Grid item xs={6} sm={3}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={handleClick}
-          disabled={!stockName.trim()}
-          sx={{ wordBreak: "keep-all" }}
-        >
+        <StyledButton onClick={handleClick} disabled={!stockName.trim()}>
           가격 입력
-        </Button>
+        </StyledButton>
       </Grid>
       <Grid item xs={6} sm={3}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={addPurchase}
-          sx={{ wordBreak: "keep-all" }}
-        >
-          빈칸 추가
-        </Button>
+        <StyledButton onClick={addPurchase}>빈칸 추가</StyledButton>
       </Grid>
       <Grid item xs={12} sm={9}>
         <StatusDescription status={status} />
@@ -99,9 +87,4 @@ const AddPurchase = () => {
   );
 };
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 20px;
-`;
 export default AddPurchase;
