@@ -1,6 +1,6 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
 import { createInitialPurchase } from "@/contexts/stockContext/initialStocks";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import instance from "api/apiClient";
 import { ChangeEvent, useCallback, useState } from "react";
 import styled from "styled-components";
@@ -32,6 +32,7 @@ const AddPurchase = () => {
 
   const handleClick = async () => {
     setStatus(apiStatus.loading);
+    setStockName("");
     try {
       const data: StockInfoType = await getStockInfo(stockName);
       if (data && data.totalCount > 0) {
@@ -45,7 +46,6 @@ const AddPurchase = () => {
             payload: newPurchase,
           });
         }
-        setStockName("");
         setStatus(apiStatus.idle);
       } else {
         setStatus(apiStatus.noResult);
@@ -60,38 +60,44 @@ const AddPurchase = () => {
   };
 
   return (
-    <ButtonWrapper>
-      <Box>
-        <LiveStkPrcWrapper>
-          <TextField
-            size="small"
-            label="종목 이름"
-            value={stockName}
-            placeholder="ex) 삼성전자"
-            onChange={handleChange}
-          />
-          <Button
-            variant="outlined"
-            onClick={handleClick}
-            disabled={!stockName.trim()}
-          >
-            가격 입력
-          </Button>
-        </LiveStkPrcWrapper>
-        <div>
-          <StatusDescription status={status} />
-        </div>
-      </Box>
-      <Button variant="outlined" onClick={addPurchase}>
-        빈칸 추가
-      </Button>
-    </ButtonWrapper>
+    <Grid container spacing={1} width="100%" sx={{ margin: 0, padding: 1 }}>
+      <Grid item xs={12} sm={6}>
+        <TextField
+          size="small"
+          label="종목 이름"
+          value={stockName}
+          placeholder="ex) 삼성전자"
+          onChange={handleChange}
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={6} sm={3}>
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={handleClick}
+          disabled={!stockName.trim()}
+          sx={{ wordBreak: "keep-all" }}
+        >
+          가격 입력
+        </Button>
+      </Grid>
+      <Grid item xs={6} sm={3}>
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={addPurchase}
+          sx={{ wordBreak: "keep-all" }}
+        >
+          빈칸 추가
+        </Button>
+      </Grid>
+      <Grid item xs={12} sm={9}>
+        <StatusDescription status={status} />
+      </Grid>
+    </Grid>
   );
 };
-const LiveStkPrcWrapper = styled.div`
-  display: flex;
-  gap: 5px;
-`;
 
 const ButtonWrapper = styled.div`
   display: flex;
