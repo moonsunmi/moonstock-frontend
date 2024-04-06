@@ -136,7 +136,6 @@ const TotalRemoveWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 3px;
-  width: 100%;
 `;
 
 export default PurchaseInfo;
