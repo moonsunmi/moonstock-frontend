@@ -27,6 +27,13 @@ const AddPurchase = () => {
       const response = await fetch(
         `/api/getStockInfo?stockName=${encodeURIComponent(stockName)}`
       );
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData.message);
+        setStatus(apiStatus.error);
+        return;
+      }
+
       const data: StockInfoType = await response.json();
       if (data && data.totalCount > 0) {
         const newPrice = data.items?.item[0]?.clpr;
@@ -43,7 +50,8 @@ const AddPurchase = () => {
       } else {
         setStatus(apiStatus.noResult);
       }
-    } catch {
+    } catch (error) {
+      console.error("네트워크 요청 중 에러가 발생했습니다.", error);
       setStatus(apiStatus.error);
     }
   };
