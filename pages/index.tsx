@@ -8,8 +8,8 @@ export default function Home() {
       <Container sx={{ display: "flex", justifyContent: "center" }}>
         <NavBar />
         <Box
+          minWidth="280px"
           component="main"
-          minHeight="280px"
           height="100vh"
           paddingBottom="20px"
         >

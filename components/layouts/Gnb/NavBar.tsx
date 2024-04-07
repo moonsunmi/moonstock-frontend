@@ -26,7 +26,10 @@ const NavBar = () => {
           {navItems.map((item) => (
             <ListItem key={item} disablePadding>
               <ListItemButton>
-                <ListItemText primary={item} />
+                <ListItemText
+                  primary={item}
+                  sx={{ whiteSpace: "nowrap", overflow: "hidden" }}
+                />
               </ListItemButton>
             </ListItem>
           ))}

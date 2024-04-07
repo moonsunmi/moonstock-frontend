@@ -1,23 +1,12 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
 import { createInitialPurchase } from "@/contexts/stockContext/initialStocks";
-import { Box, Button, Grid, TextField } from "@mui/material";
-import instance from "api/apiClient";
+import { Grid, TextField } from "@mui/material";
 import { ChangeEvent, useCallback, useState } from "react";
-import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
 import { apiStatus } from "types/apiStatus";
 import { Purchase, StockInfoType } from "types/stockTypes";
 import StatusDescription from "./StatusDescription";
 import StyledButton from "./StyledButton";
-
-const getStockInfo = async (stockName: string) => {
-  try {
-    const response = await instance.get("", { params: { itmsNm: stockName } });
-    return response.data.response.body;
-  } catch (error) {
-    throw new Error("서버 응답 에러");
-  }
-};
 
 const AddPurchase = () => {
   const [stockName, setStockName] = useState<string>("");
@@ -35,7 +24,17 @@ const AddPurchase = () => {
     setStatus(apiStatus.loading);
     setStockName("");
     try {
-      const data: StockInfoType = await getStockInfo(stockName);
+      const response = await fetch(
+        `/api/getStockInfo?stockName=${encodeURIComponent(stockName)}`
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData.message);
+        setStatus(apiStatus.error);
+        return;
+      }
+
+      const data: StockInfoType = await response.json();
       if (data && data.totalCount > 0) {
         const newPrice = data.items?.item[0]?.clpr;
         if (newPrice) {
@@ -51,7 +50,8 @@ const AddPurchase = () => {
       } else {
         setStatus(apiStatus.noResult);
       }
-    } catch {
+    } catch (error) {
+      console.error("네트워크 요청 중 에러가 발생했습니다.", error);
       setStatus(apiStatus.error);
     }
   };
@@ -61,7 +61,7 @@ const AddPurchase = () => {
   };
 
   return (
-    <Grid container spacing={1} width="100vw" sx={{ padding: 1 }}>
+    <Grid container spacing={1} sx={{ padding: 1 }}>
       <Grid item xs={12} sm={6}>
         <TextField
           size="small"
