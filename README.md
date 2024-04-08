@@ -1,36 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+장기 주식 투자자를 위한 여러 툴을 제공하는 MOONSTOCK 서비스입니다.
 
-## Getting Started
+### 물타기 계산기
 
-First, run the development server:
+![스크린샷 2024-04-08 오후 9 09 24](https://github.com/moonsunmi/moonstock/assets/36723012/57b58be7-3562-4773-ab5c-07bfe84a94f4)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+같은 종목의 주식을 추가 매수했을 때 가격이 어느 정도 나올지 계산해 볼 수 있습니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. 현재 보유하고 있는 주식의 가격과 수량을 입력합니다.
+2. 추가 매수하려는 주식의 가격과 수량을 입력합니다.
+   1. 해당 주식의 가격을 자동으로 입력하고 싶다면, '종목 이름'을 입력한 후 [가격입력] 버튼을 누릅니다.
+   2. 가격을 스스로 입력하고 싶다면 [빈칸추가] 버튼을 눌러 추가 매수 칸을 만듭니다.
+3. 지속적인 분할 매수를 할 예정이라면, [빈칸추가] 버튼을 여러 번 눌러 여러 가격과 수량을 입력합니다.
