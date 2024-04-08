@@ -1,3 +1,5 @@
+"use client";
+
 import NavBar from "@/components/layouts/Gnb/NavBar";
 import AverageDownInPrice from "@/components/modules/Home/AverageDownInPrice";
 import { Box, Container } from "@mui/material";
