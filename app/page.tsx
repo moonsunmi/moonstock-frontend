@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "Good tools for investor",
 };
 
-export default async function Page() {
+export default function Page() {
   return <Home />;
 }
