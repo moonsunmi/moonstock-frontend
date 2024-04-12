@@ -1,10 +1,11 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
-import { createInitialPurchase } from "@/contexts/stockContext/initialStocks";
-import { Grid, TextField } from "@mui/material";
+import { createInitialPurchase } from "@/contexts/stockContext/initialPurchases";
+import { Grid } from "@mui/material";
 import { ChangeEvent, useCallback, useState } from "react";
 import { ActionType } from "types/actionTypes";
 import { apiStatus } from "types/apiStatus";
 import { Purchase, StockInfoType } from "types/stockTypes";
+import SearchBox from "./SearchBox";
 import StatusDescription from "./StatusDescription";
 import StyledButton from "./StyledButton";
 
@@ -46,7 +47,7 @@ const AddPurchase = () => {
             payload: newPurchase,
           });
         }
-        setStatus(apiStatus.idle);
+        setStatus(apiStatus.success);
       } else {
         setStatus(apiStatus.noResult);
       }
@@ -56,21 +57,14 @@ const AddPurchase = () => {
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStockName(e.target.value);
   };
 
   return (
     <Grid container spacing={1} sx={{ padding: 1 }}>
       <Grid item xs={12} sm={6}>
-        <TextField
-          size="small"
-          label="종목 이름"
-          value={stockName}
-          placeholder="ex) 삼성전자"
-          onChange={handleChange}
-          fullWidth
-        />
+        <SearchBox value={stockName} onChange={onChange} />
       </Grid>
       <Grid item xs={6} sm={3}>
         <StyledButton onClick={handleClick} disabled={!stockName.trim()}>

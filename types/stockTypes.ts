@@ -42,3 +42,9 @@ export type StockInfoType = {
     ];
   };
 };
+
+export type StockList = {
+  ticker: string;
+  name: string;
+  market: string;
+};

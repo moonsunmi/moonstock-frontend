@@ -20,7 +20,10 @@ const descriptionMessage = {
     message: "loading...",
     color: color.info,
   },
-
+  [apiStatus.success]: {
+    message: "가격 정보가 채워졌어요.",
+    color: color.info,
+  },
   [apiStatus.error]: {
     message: "서버 문제로 에러가 발생했습니다. 잠시 후 시도해 주세요.",
     color: color.error,

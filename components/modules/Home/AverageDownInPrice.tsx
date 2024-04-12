@@ -1,5 +1,5 @@
 import { StockContext } from "@/contexts/stockContext/StockContext";
-import { initialPurchases } from "@/contexts/stockContext/initialStocks";
+import { initialPurchases } from "@/contexts/stockContext/initialPurchases";
 import stockReducer from "@/contexts/stockContext/stockReducer";
 import { Paper } from "@mui/material";
 import { useReducer } from "react";
