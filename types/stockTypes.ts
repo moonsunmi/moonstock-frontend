@@ -16,7 +16,7 @@ export type StockPurchaseInfo = {
   [PurchaseType.ADDITIONS]: Purchase[];
 };
 
-export type StockInfoType = {
+export type StockInfo = {
   numOfRows: number;
   pageNo: number;
   totalCount: number;
@@ -43,7 +43,7 @@ export type StockInfoType = {
   };
 };
 
-export type StockList = {
+export type Stock = {
   ticker: string;
   name: string;
   market: string;

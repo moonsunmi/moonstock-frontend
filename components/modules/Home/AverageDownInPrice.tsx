@@ -1,3 +1,4 @@
+"use client";
 import { StockContext } from "@/contexts/stockContext/StockContext";
 import { initialPurchases } from "@/contexts/stockContext/initialPurchases";
 import stockReducer from "@/contexts/stockContext/stockReducer";
@@ -7,8 +8,9 @@ import AddPurchase from "./AddPurchase";
 import AdditionalStocks from "./AdditionalStocks";
 import HoldingStock from "./HoldingStock";
 import Result from "./Result";
+import { Stock } from "types/stockTypes";
 
-const AverageDownInPrice = () => {
+const AverageDownInPrice = ({ stockList }: { stockList: Stock[] }) => {
   const [state, dispatch] = useReducer(stockReducer, initialPurchases);
 
   return (
@@ -24,7 +26,7 @@ const AverageDownInPrice = () => {
       <StockContext.Provider value={{ state, dispatch }}>
         <HoldingStock />
         <AdditionalStocks />
-        <AddPurchase />
+        <AddPurchase stockList={stockList} />
         <Result />
       </StockContext.Provider>
     </Paper>

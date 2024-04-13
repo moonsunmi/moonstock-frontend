@@ -4,12 +4,12 @@ import { Grid } from "@mui/material";
 import { ChangeEvent, useCallback, useState } from "react";
 import { ActionType } from "types/actionTypes";
 import { apiStatus } from "types/apiStatus";
-import { Purchase, StockInfoType } from "types/stockTypes";
+import { Purchase, Stock, StockInfo } from "types/stockTypes";
 import SearchBox from "./SearchBox";
 import StatusDescription from "./StatusDescription";
 import StyledButton from "./StyledButton";
 
-const AddPurchase = () => {
+const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
   const [stockName, setStockName] = useState<string>("");
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
 
@@ -35,7 +35,7 @@ const AddPurchase = () => {
         return;
       }
 
-      const data: StockInfoType = await response.json();
+      const data: StockInfo = await response.json();
       if (data && data.totalCount > 0) {
         const newPrice = data.items?.item[0]?.clpr;
         if (newPrice) {
@@ -64,7 +64,11 @@ const AddPurchase = () => {
   return (
     <Grid container spacing={1} sx={{ padding: 1 }}>
       <Grid item xs={12} sm={6}>
-        <SearchBox value={stockName} onChange={onChange} />
+        <SearchBox
+          value={stockName}
+          onChange={onChange}
+          stockList={stockList}
+        />
       </Grid>
       <Grid item xs={6} sm={3}>
         <StyledButton onClick={handleClick} disabled={!stockName.trim()}>
