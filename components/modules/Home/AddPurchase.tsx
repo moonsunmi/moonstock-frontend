@@ -1,14 +1,15 @@
 import { useStockContext } from "@/contexts/stockContext/StockContext";
-import { createInitialPurchase } from "@/contexts/stockContext/initialStocks";
-import { Grid, TextField } from "@mui/material";
+import { createInitialPurchase } from "@/contexts/stockContext/initialPurchases";
+import { Grid } from "@mui/material";
 import { ChangeEvent, useCallback, useState } from "react";
 import { ActionType } from "types/actionTypes";
 import { apiStatus } from "types/apiStatus";
-import { Purchase, StockInfoType } from "types/stockTypes";
+import { Purchase, Stock, StockInfo } from "types/stockTypes";
+import SearchBox from "./SearchBox";
 import StatusDescription from "./StatusDescription";
 import StyledButton from "./StyledButton";
 
-const AddPurchase = () => {
+const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
   const [stockName, setStockName] = useState<string>("");
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
 
@@ -34,7 +35,7 @@ const AddPurchase = () => {
         return;
       }
 
-      const data: StockInfoType = await response.json();
+      const data: StockInfo = await response.json();
       if (data && data.totalCount > 0) {
         const newPrice = data.items?.item[0]?.clpr;
         if (newPrice) {
@@ -46,7 +47,7 @@ const AddPurchase = () => {
             payload: newPurchase,
           });
         }
-        setStatus(apiStatus.idle);
+        setStatus(apiStatus.success);
       } else {
         setStatus(apiStatus.noResult);
       }
@@ -56,20 +57,17 @@ const AddPurchase = () => {
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStockName(e.target.value);
   };
 
   return (
     <Grid container spacing={1} sx={{ padding: 1 }}>
       <Grid item xs={12} sm={6}>
-        <TextField
-          size="small"
-          label="종목 이름"
+        <SearchBox
           value={stockName}
-          placeholder="ex) 삼성전자"
-          onChange={handleChange}
-          fullWidth
+          onChange={onChange}
+          stockList={stockList}
         />
       </Grid>
       <Grid item xs={6} sm={3}>
