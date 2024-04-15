@@ -30,11 +30,9 @@ const descriptionMessage = {
   },
 };
 
-const StatusDescription = ({ status }: { status: apiStatus }) => {
-  return (
-    <Typography variant="caption" color={descriptionMessage[status].color}>
-      {descriptionMessage[status].message}
-    </Typography>
-  );
-};
+const StatusDescription = ({ status }: { status: apiStatus }) => (
+  <Typography variant="caption" color={descriptionMessage[status].color}>
+    {descriptionMessage[status].message}
+  </Typography>
+);
 export default StatusDescription;

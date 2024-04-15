@@ -15,15 +15,13 @@ const ResultItem = ({
   holding,
   currentValue,
   unit,
-}: ResultItemProps) => {
-  return (
-    <ListItem>
-      <span>
-        {label}: {formatNumberToKorean(currentValue)}
-        {unit}
-      </span>{" "}
-      <CalculateGap before={holding} after={currentValue} />
-    </ListItem>
-  );
-};
+}: ResultItemProps) => (
+  <ListItem>
+    <span>
+      {label}: {formatNumberToKorean(currentValue)}
+      {unit}
+    </span>{" "}
+    <CalculateGap before={holding} after={currentValue} />
+  </ListItem>
+);
 export default ResultItem;
