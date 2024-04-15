@@ -8,13 +8,12 @@ type CalculateGapProps = {
   after: FieldValue;
 };
 
-function getChangeType(gap: number) {
-  return gap === 0
+const getChangeType = (gap: number) =>
+  gap === 0
     ? valueChangeIndicator.even
     : gap > 0
     ? valueChangeIndicator.decrease
     : valueChangeIndicator.increase;
-}
 
 const CalculateGap = memo(({ before, after }: CalculateGapProps) => {
   const gap = Number(before) - Number(after);

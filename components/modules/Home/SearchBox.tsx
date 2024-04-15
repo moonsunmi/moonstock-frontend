@@ -18,15 +18,17 @@ export default function SearchBox({
   onChange,
   stockList,
 }: SearchBoxProps) {
-  const options = useMemo(
-    () => stockList.map((option) => option.name),
-    [stockList]
+  const filter = useMemo(
+    () =>
+      createFilterOptions<Stock>({
+        stringify: (option) =>
+          `${option.ticker.padStart(6, "0")} ${option.name}`,
+      }),
+    []
   );
 
-  const filter = useMemo(() => createFilterOptions<string>(), []);
-
   const filterOptions = useMemo(() => {
-    return (options: string[], params: FilterOptionsState<string>) => {
+    return (options: Stock[], params: FilterOptionsState<Stock>) => {
       const { inputValue } = params;
       if (inputValue === "") return [];
 
@@ -39,8 +41,11 @@ export default function SearchBox({
     <Autocomplete
       id="free-solo-demo"
       freeSolo
-      options={options}
+      options={stockList}
       filterOptions={filterOptions}
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : `${option.ticker} ${option.name}`
+      }
       renderInput={(params) => (
         <TextField
           label="종목 이름"
@@ -50,6 +55,20 @@ export default function SearchBox({
           fullWidth
           {...{ value, onChange }}
         />
+      )}
+      renderOption={(props, option) => (
+        <li {...props} key={option.ticker}>
+          {option.ticker.padStart(6, "0")} {option.name}
+          <span
+            style={{
+              marginLeft: "auto",
+              fontSize: "10px",
+              letterSpacing: "-1px",
+            }}
+          >
+            {option.market}
+          </span>
+        </li>
       )}
     />
   );
