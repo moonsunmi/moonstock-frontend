@@ -1,24 +1,21 @@
 "use client";
 
-import { CssBaseline, createTheme } from "@mui/material";
+import NavBar from "@/app/ui/NavBar";
 import StyledComponentsRegistry from "lib/registry";
-import { ThemeProvider } from "styled-components";
-import "./globals.css";
+import "@/app/ui/globals.css";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const theme = createTheme();
-
   return (
     <html lang="en">
       <StyledComponentsRegistry>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <body>{children}</body>
-        </ThemeProvider>
+        <body>
+          <NavBar />
+          {children}
+        </body>
       </StyledComponentsRegistry>
     </html>
   );

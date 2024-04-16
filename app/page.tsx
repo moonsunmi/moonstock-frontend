@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import Home from "./home";
+import { permanentRedirect } from "next/navigation";
 
 export default async function Page() {
-  return <Home />;
+  return permanentRedirect("/averageInPrice");
 }
 
 export const metadata: Metadata = {

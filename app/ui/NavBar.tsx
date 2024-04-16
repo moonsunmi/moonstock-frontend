@@ -19,7 +19,7 @@ const NavBar = () => (
         component="div"
         sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
       >
-        MOONSTOCK
+        MoonStock
       </Typography>
       <List>
         {navItems.map((item) => (
