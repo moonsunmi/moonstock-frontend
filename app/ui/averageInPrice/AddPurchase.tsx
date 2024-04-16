@@ -10,7 +10,7 @@ import StatusDescription from "./StatusDescription";
 import StyledButton from "./StyledButton";
 
 const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
-  const [stockName, setStockName] = useState<string>("");
+  const [userInput, setUserInput] = useState<string>("");
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
 
   const { dispatch } = useStockContext();
@@ -18,15 +18,15 @@ const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
   const addPurchase = useCallback(() => {
     const newPurchase: Purchase = createInitialPurchase();
     dispatch({ type: ActionType.ADD_ADDITIONAL, payload: newPurchase });
-    setStockName("");
+    setUserInput("");
   }, [dispatch]);
 
   const handleClick = async () => {
     setStatus(apiStatus.loading);
-    setStockName("");
+    setUserInput("");
     try {
       const response = await fetch(
-        `/api/getStockInfo?stockName=${encodeURIComponent(stockName)}`
+        `/api/getStockInfo?stockName=${encodeURIComponent(userInput)}`
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -57,21 +57,21 @@ const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
     }
   };
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setStockName(e.target.value);
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUserInput(event.target.value);
   };
 
   return (
     <Grid container spacing={1} sx={{ padding: 1 }}>
       <Grid item xs={12} sm={6}>
         <SearchBox
-          value={stockName}
+          value={userInput}
           onChange={onChange}
           stockList={stockList}
         />
       </Grid>
       <Grid item xs={6} sm={3}>
-        <StyledButton onClick={handleClick} disabled={!stockName.trim()}>
+        <StyledButton onClick={handleClick} disabled={!userInput.trim()}>
           가격 입력
         </StyledButton>
       </Grid>
