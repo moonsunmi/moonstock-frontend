@@ -37,6 +37,23 @@ export default function SearchBox({
     };
   }, [filter, value]);
 
+  const handleAutocompleteChange = (
+    event: any,
+    newValue: Stock | string | null
+  ) => {
+    let valueToSend: string = "";
+
+    if (typeof newValue === "string") {
+      valueToSend = newValue;
+    } else if (newValue !== null) {
+      valueToSend = newValue.name;
+    }
+
+    onChange({
+      target: { value: valueToSend, name: "autocomplete" },
+    } as React.ChangeEvent<HTMLInputElement>);
+  };
+
   return (
     <Autocomplete
       id="free-solo-demo"
@@ -44,8 +61,9 @@ export default function SearchBox({
       options={stockList}
       filterOptions={filterOptions}
       getOptionLabel={(option) =>
-        typeof option === "string" ? option : `${option.ticker} ${option.name}`
+        typeof option === "string" ? option : `${option.name}`
       }
+      onChange={handleAutocompleteChange}
       renderInput={(params) => (
         <TextField
           label="종목 이름"
