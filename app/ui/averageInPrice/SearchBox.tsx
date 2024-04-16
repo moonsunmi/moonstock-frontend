@@ -72,6 +72,9 @@ export default function SearchBox({
           placeholder="ex) 삼성전자"
           fullWidth
           {...{ value, onChange }}
+          onFocus={(event: React.FocusEvent<HTMLInputElement>) => {
+            event.target.select();
+          }}
         />
       )}
       renderOption={(props, option) => (
