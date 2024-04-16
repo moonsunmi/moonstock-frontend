@@ -54,7 +54,7 @@ const PurchaseInfo = ({
   }, [dispatch, purchase.id]);
 
   const dispatchValue = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
       dispatch({
         type:
           purchaseType === PurchaseType.ADDITIONS
@@ -62,7 +62,7 @@ const PurchaseInfo = ({
             : ActionType.UPDATE_HOLDING,
         payload: {
           ...purchase,
-          [e.target.name]: Number(e.target.value.replaceAll(",", "")),
+          [event.target.name]: Number(event.target.value.replaceAll(",", "")),
         },
       });
     },

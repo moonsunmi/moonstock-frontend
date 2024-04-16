@@ -57,8 +57,8 @@ const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
     }
   };
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserInput(e.target.value);
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUserInput(event.target.value);
   };
 
   return (
