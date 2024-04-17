@@ -1,4 +1,4 @@
-import AverageDownInPrice from "@/app/ui/averageInPrice/AverageDownInPrice";
+import AverageDownInPrice from "@/components/averageInPrice/AverageDownInPrice";
 import { Box, Container } from "@mui/material";
 import { sql } from "@vercel/postgres";
 import { Stock } from "types/stockTypes";

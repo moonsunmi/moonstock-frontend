@@ -26,7 +26,7 @@ const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
     setUserInput("");
     try {
       const response = await fetch(
-        `/api/getStockInfo?stockName=${encodeURIComponent(userInput)}`
+        `/api/stock-info?stockName=${encodeURIComponent(userInput)}`
       );
       if (!response.ok) {
         const errorData = await response.json();

@@ -1,7 +1,6 @@
 "use client";
 
-import NavBar from "@/app/ui/NavBar";
-import StyledComponentsRegistry from "lib/registry";
+import NavBar from "@/components/NavBar";
 import "@/app/ui/globals.css";
 
 export default function RootLayout({
@@ -11,12 +10,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <StyledComponentsRegistry>
-        <body>
-          <NavBar />
-          {children}
-        </body>
-      </StyledComponentsRegistry>
+      <body>
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }

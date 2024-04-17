@@ -10,7 +10,6 @@ import {
 import { blue } from "@mui/material/colors";
 import { ChangeEvent, useCallback, useMemo } from "react";
 import { NumericFormat } from "react-number-format";
-import styled from "styled-components";
 import { ActionType } from "types/actionTypes";
 import { Purchase, PurchaseType } from "types/stockTypes";
 
@@ -107,35 +106,28 @@ const PurchaseInfo = ({
               inputProps={commonInputprops}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TotalRemoveWrapper>
-              <NumericFormat
-                name="investmentAmount"
-                value={total}
-                label="총합"
-                {...commonNumericFormatProps}
-                inputProps={readOnlyInputProps}
-              />
-              {isDeletable && (
-                <RemoveCircleIcon
-                  color="warning"
-                  aria-label="Icon To Remove Additional Purchase Field"
-                  onClick={handleRemove}
-                />
-              )}
-            </TotalRemoveWrapper>
+          <Grid item xs={isDeletable ? 11 : 12} sm={5.5}>
+            <NumericFormat
+              name="investmentAmount"
+              value={total}
+              label="총합"
+              {...commonNumericFormatProps}
+              inputProps={readOnlyInputProps}
+            />
           </Grid>
+          {isDeletable && (
+            <Grid item xs={1} sm={0.5}>
+              <RemoveCircleIcon
+                color="warning"
+                aria-label="Icon To Remove Additional Purchase Field"
+                onClick={handleRemove}
+              />
+            </Grid>
+          )}
         </Grid>
       </FormGroup>
     </Container>
   );
 };
-
-const TotalRemoveWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 3px;
-`;
 
 export default PurchaseInfo;
