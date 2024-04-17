@@ -9,7 +9,7 @@
           {
             "case": "kebab",
             "target": "**/app/**",
-            "patterns": "^(page|layout|loading|error|not-found|route|template).tsx$"
+            "patterns": "^(page|layout|loading|error|not-found|route|template).(tsx|ts)$"
           },
           {
             "case": "camel",

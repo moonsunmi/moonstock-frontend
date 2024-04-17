@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { permanentRedirect } from "next/navigation";
 
 export default async function Page() {
-  return permanentRedirect("/averageInPrice");
+  return permanentRedirect("/average-in-price");
 }
 
 export const metadata: Metadata = {
