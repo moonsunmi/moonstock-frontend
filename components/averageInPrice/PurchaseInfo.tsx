@@ -115,15 +115,18 @@ const PurchaseInfo = ({
               inputProps={readOnlyInputProps}
             />
           </Grid>
-          {isDeletable && (
-            <Grid item xs={1} sm={0.5}>
+          <Grid item xs={1} sm={0.5}>
+            {isDeletable ? (
               <RemoveCircleIcon
                 color="warning"
                 aria-label="Icon To Remove Additional Purchase Field"
                 onClick={handleRemove}
+                fontSize="small"
               />
-            </Grid>
-          )}
+            ) : (
+              <div style={{ width: 20 }}></div>
+            )}
+          </Grid>
         </Grid>
       </FormGroup>
     </Container>
