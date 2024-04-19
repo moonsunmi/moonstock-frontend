@@ -2,13 +2,17 @@ import {
   AppBar,
   List,
   ListItem,
-  ListItemButton,
   ListItemText,
+  Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
+import Link from "./Link";
 
-const navItems = ["물타기 계산기"];
+const navItems = [
+  { name: "물타기", url: "/average-down" },
+  { name: "보유종목", url: "/stock-board" },
+];
 
 const NavBar = () => (
   <AppBar position="fixed">
@@ -21,15 +25,18 @@ const NavBar = () => (
       >
         MoonStock
       </Typography>
-      <List>
+      <List component={Stack} direction="row" gap={1}>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton>
+          <ListItem key={item.name} disablePadding>
+            <Link
+              href={item.url}
+              sx={{ display: "flex", alignItems: "center", color: "white" }}
+            >
               <ListItemText
-                primary={item}
+                primary={item.name}
                 sx={{ whiteSpace: "nowrap", overflow: "hidden" }}
               />
-            </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>

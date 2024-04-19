@@ -10,7 +10,7 @@ import HoldingStock from "./HoldingStock";
 import Result from "./Result";
 import { Stock } from "types/stockTypes";
 
-const AverageDownInPrice = ({ stockList }: { stockList: Stock[] }) => {
+const AverageDown = ({ stockList }: { stockList: Stock[] }) => {
   const [state, dispatch] = useReducer(stockReducer, initialPurchases);
 
   return (
@@ -33,4 +33,4 @@ const AverageDownInPrice = ({ stockList }: { stockList: Stock[] }) => {
   );
 };
 
-export default AverageDownInPrice;
+export default AverageDown;
