@@ -1,5 +1,5 @@
 import RegisterStocksButton from "@/components/stockBoard/RegisterStocksButton";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Paper } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 
 const rows: GridRowsProp = [
@@ -33,7 +33,7 @@ const columns: GridColDef[] = [
 
 export default function Page() {
   return (
-    <Container component="main">
+    <Paper component="main" sx={{ margin: 3, padding: 1, mt: 10 }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -47,9 +47,9 @@ export default function Page() {
         pageSizeOptions={[10]}
       />
 
-      <Box display="flex" justifyContent="center" margin={5}>
+      <Box display="flex" justifyContent="center" margin={3}>
         <RegisterStocksButton sx={{ width: { xs: "234px", sm: "50%" } }} />
       </Box>
-    </Container>
+    </Paper>
   );
 }

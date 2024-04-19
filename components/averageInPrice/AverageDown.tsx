@@ -14,22 +14,12 @@ const AverageDown = ({ stockList }: { stockList: Stock[] }) => {
   const [state, dispatch] = useReducer(stockReducer, initialPurchases);
 
   return (
-    <Paper
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        overflow: "auto",
-        mt: 10,
-      }}
-      aria-label="Calculate Average Down In Price"
-    >
-      <StockContext.Provider value={{ state, dispatch }}>
-        <HoldingStock />
-        <AdditionalStocks />
-        <AddPurchase stockList={stockList} />
-        <Result />
-      </StockContext.Provider>
-    </Paper>
+    <StockContext.Provider value={{ state, dispatch }}>
+      <HoldingStock />
+      <AdditionalStocks />
+      <AddPurchase stockList={stockList} />
+      <Result />
+    </StockContext.Provider>
   );
 };
 
