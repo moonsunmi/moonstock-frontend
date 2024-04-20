@@ -1,5 +1,4 @@
-import AverageDownInPrice from "@/components/averageInPrice/AverageDownInPrice";
-import { Box, Container } from "@mui/material";
+import AverageDown from "@/components/averageInPrice/AverageDown";
 import { sql } from "@vercel/postgres";
 import { Stock } from "types/stockTypes";
 
@@ -20,14 +19,5 @@ export default async function Page() {
 
   const results: Stock[] = await getStockList();
 
-  return (
-    <Container
-      sx={{ display: "flex", justifyContent: "center" }}
-      component="main"
-    >
-      <Box minWidth="280px" height="100vh" paddingBottom="20px">
-        <AverageDownInPrice stockList={results} />
-      </Box>
-    </Container>
-  );
+  return <AverageDown stockList={results} />;
 }
