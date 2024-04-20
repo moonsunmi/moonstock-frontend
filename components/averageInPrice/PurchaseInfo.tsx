@@ -75,7 +75,13 @@ const PurchaseInfo = ({
 
   return (
     <Container
-      sx={{ margin: 1, padding: 1, bgcolor: blue[50], width: "auto" }}
+      sx={{
+        marginTop: 1,
+        padding: 1,
+        bgcolor: blue[50],
+        width: "auto",
+        borderRadius: 2,
+      }}
       aria-label="Purchase Entry List"
     >
       <Typography variant="subtitle1">{label}</Typography>

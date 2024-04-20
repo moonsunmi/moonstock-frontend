@@ -1,10 +1,10 @@
 "use client";
 
 import "@/app/ui/globals.css";
-import NavBar from "@/components/NavBar";
-import { ThemeProvider } from "@mui/material/styles";
+import DrawerLeft from "@/components/LeftBar";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
+import { ThemeProvider } from "@mui/material/styles";
 import theme from "utils/theme";
 
 export default function RootLayout({
@@ -18,8 +18,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <NavBar />
-            {children}
+            <DrawerLeft>{children}</DrawerLeft>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

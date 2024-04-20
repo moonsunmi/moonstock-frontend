@@ -62,7 +62,7 @@ const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
   };
 
   return (
-    <Grid container spacing={1} sx={{ padding: 1 }}>
+    <Grid container spacing={1} sx={{ padding: 1, marginTop: 1 }}>
       <Grid item xs={12} sm={6}>
         <SearchBox
           value={userInput}

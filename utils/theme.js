@@ -9,11 +9,6 @@ const notoSans = Noto_Sans_KR({
 });
 
 const theme = createTheme({
-  palette: {
-    background: {
-      default: "#f0f0f0",
-    },
-  },
   typography: {
     fontFamily: notoSans.style.fontFamily,
   },
