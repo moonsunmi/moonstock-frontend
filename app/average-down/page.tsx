@@ -14,9 +14,6 @@ async function getStockList() {
 }
 
 export default async function Page() {
-  const componentType = typeof window === "undefined" ? "server" : "client";
-  console.log(`Home ${componentType} component`);
-
   const results: Stock[] = await getStockList();
 
   return <AverageDown stockList={results} />;
