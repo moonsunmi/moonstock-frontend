@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { memo } from "react";
 import { FieldValue, valueChangeIndicator } from "types/formTypes";
-import { formatNumberToKorean } from "utils/formatNumber";
+import { formatNumToKR } from "utils/formatNumber";
 
 type CalculateGapProps = {
   before: FieldValue;
@@ -19,8 +19,7 @@ const CalculateGap = memo(({ before, after }: CalculateGapProps) => {
   const gap = Number(before) - Number(after);
   const symbolStyle = getChangeType(gap);
 
-  const amount =
-    gap === 0 ? "변화 없음" : `${formatNumberToKorean(Math.abs(gap))} `;
+  const amount = gap === 0 ? "변화 없음" : `${formatNumToKR(Math.abs(gap))} `;
 
   return (
     <Box component="span" color={symbolStyle.color} sx={{ ml: 1 }}>

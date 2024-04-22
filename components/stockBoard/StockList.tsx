@@ -1,28 +1,12 @@
 "use client";
+
+import { formatNumToKR } from "@/utils/formatNumber";
 import {
   DataGrid,
   GridColDef,
   GridColumnMenu,
   GridColumnMenuProps,
-  GridRowsProp,
 } from "@mui/x-data-grid";
-
-const rows: GridRowsProp = [
-  {
-    id: 1,
-    name: "한일시멘트",
-    price: "10,000",
-    quantity: "20",
-    investmentAmount: "200,000",
-  },
-  {
-    id: 2,
-    name: "삼성전자",
-    price: "20,000",
-    quantity: "50",
-    investmentAmount: "1,000,000",
-  },
-];
 
 const columns: GridColDef[] = [
   {
@@ -35,18 +19,21 @@ const columns: GridColDef[] = [
     headerName: "평균 단가",
     flex: 0.9,
     align: "right",
+    valueFormatter: (value) => formatNumToKR(value),
   },
   {
     field: "quantity",
     headerName: "수량",
     flex: 0.5,
     align: "right",
+    valueFormatter: (value) => formatNumToKR(value),
   },
   {
     field: "investmentAmount",
     headerName: "투자금액",
     flex: 1,
     align: "right",
+    valueFormatter: (value) => formatNumToKR(value),
   },
 ];
 
@@ -54,7 +41,22 @@ function CustomColumnMenu(props: GridColumnMenuProps) {
   return <GridColumnMenu {...props} slots={{ columnMenuColumnsItem: null }} />;
 }
 
-export default function StockList() {
+type DataRow = {
+  name: string;
+  price: number;
+  quantity: number;
+  investmentAmount: number;
+};
+
+export default function StockList({
+  datarows,
+}: {
+  datarows: DataRow[] | undefined;
+}) {
+  const rows = datarows
+    ? datarows.map((datarow, index) => ({ ...datarow, id: index }))
+    : [];
+
   return (
     <div style={{ width: "100%" }}>
       <DataGrid
