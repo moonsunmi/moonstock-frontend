@@ -1,6 +1,6 @@
+import StyledButton from "@/app/components/averageInPrice/StyledButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ButtonProps } from "@mui/material";
-import StyledButton from "../averageInPrice/StyledButton";
 
 export default function RegisterStocksButton({ ...rest }: ButtonProps) {
   return (

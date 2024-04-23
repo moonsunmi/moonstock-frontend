@@ -1,6 +1,6 @@
+import { apiStatus } from "@/app/types/apiStatus";
 import { Typography } from "@mui/material";
 import { blue, red } from "@mui/material/colors";
-import { apiStatus } from "types/apiStatus";
 
 const color = {
   info: blue[300],

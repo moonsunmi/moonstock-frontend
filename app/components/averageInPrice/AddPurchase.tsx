@@ -1,10 +1,10 @@
-import { useStockContext } from "@/contexts/stockContext/StockContext";
-import { createInitialPurchase } from "@/contexts/stockContext/initialPurchases";
+import { useStockContext } from "@/app/context/stockContext/StockContext";
+import { createInitialPurchase } from "@/app/context/stockContext/initialPurchases";
+import { ActionType } from "@/app/types/actionTypes";
+import { apiStatus } from "@/app/types/apiStatus";
+import { Purchase, Stock, StockInfo } from "@/app/types/stockTypes";
 import { Grid } from "@mui/material";
 import { ChangeEvent, useCallback, useState } from "react";
-import { ActionType } from "types/actionTypes";
-import { apiStatus } from "types/apiStatus";
-import { Purchase, Stock, StockInfo } from "types/stockTypes";
 import SearchBox from "./SearchBox";
 import StatusDescription from "./StatusDescription";
 import StyledButton from "./StyledButton";

@@ -1,6 +1,6 @@
+import { PurchaseAction } from "@/app/types/actionTypes";
+import { StockPurchaseInfo } from "@/app/types/stockTypes";
 import { Dispatch, createContext, useContext } from "react";
-import { PurchaseAction } from "types/actionTypes";
-import { StockPurchaseInfo } from "types/stockTypes";
 
 interface StockContext {
   state: StockPurchaseInfo;

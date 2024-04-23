@@ -1,3 +1,4 @@
+import { Stock } from "@/app/types/stockTypes";
 import {
   Autocomplete,
   FilterOptionsState,
@@ -5,7 +6,6 @@ import {
   createFilterOptions,
 } from "@mui/material";
 import { ChangeEvent, useMemo } from "react";
-import { Stock } from "types/stockTypes";
 
 type SearchBoxProps = {
   value: string;

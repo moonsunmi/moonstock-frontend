@@ -1,5 +1,5 @@
-import { FieldValue } from "types/formTypes";
-import { Purchase, StockPurchaseInfo } from "types/stockTypes";
+import { FieldValue } from "@/app/types/formTypes";
+import { Purchase, StockPurchaseInfo } from "@/app/types/stockTypes";
 import { v4 as uuidv4 } from "uuid";
 
 export const createInitialPurchase = ({

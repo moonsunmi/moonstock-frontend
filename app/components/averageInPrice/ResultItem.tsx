@@ -1,7 +1,7 @@
+import { FieldValue } from "@/app/types/formTypes";
+import { formatNumToKR } from "@/app/utils/formatNumber";
 import { ListItem } from "@mui/material";
 import CalculateGap from "./CalculateGap";
-import { formatNumToKR } from "utils/formatNumber";
-import { FieldValue } from "types/formTypes";
 
 type ResultItemProps = {
   label: string;

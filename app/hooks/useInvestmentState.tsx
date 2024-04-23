@@ -1,4 +1,4 @@
-import { useStockContext } from "@/contexts/stockContext/StockContext";
+import { useStockContext } from "@/app/context/stockContext/StockContext";
 
 const useInvestmentState = () => {
   interface CalculationResult {

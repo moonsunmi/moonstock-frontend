@@ -1,4 +1,4 @@
-import { Purchase } from "types/stockTypes";
+import { Purchase } from "@/app/types/stockTypes";
 
 export enum ActionType {
   ADD_ADDITIONAL = "addAdditional",

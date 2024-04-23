@@ -1,6 +1,6 @@
-import AverageDown from "@/components/averageInPrice/AverageDown";
+import AverageDown from "@/app/components/averageInPrice/AverageDown";
 import { sql } from "@vercel/postgres";
-import { Stock } from "types/stockTypes";
+import { Stock } from "../types/stockTypes";
 
 async function getStockList() {
   try {

@@ -1,5 +1,5 @@
-import { useStockContext } from "@/contexts/stockContext/StockContext";
-import { PurchaseType } from "types/stockTypes";
+import { useStockContext } from "@/app/context/stockContext/StockContext";
+import { PurchaseType } from "@/app/types/stockTypes";
 import PurchaseInfo from "./PurchaseInfo";
 
 const HoldingStock = () => {

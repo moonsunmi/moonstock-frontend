@@ -19,6 +19,10 @@
           {
             "case": "pascal",
             "target": "**/components/**"
+          },
+          {
+            "case": "ignore",
+            "target": "**/app/lib/**"
           }
         ]
       }

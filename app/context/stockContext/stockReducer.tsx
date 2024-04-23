@@ -1,5 +1,5 @@
-import { ActionType, PurchaseAction } from "types/actionTypes";
-import { StockPurchaseInfo } from "types/stockTypes";
+import { ActionType, PurchaseAction } from "@/app/types/actionTypes";
+import { StockPurchaseInfo } from "@/app/types/stockTypes";
 
 export default function stockReducer(
   state: StockPurchaseInfo,

@@ -1,4 +1,6 @@
-import { useStockContext } from "@/contexts/stockContext/StockContext";
+import { useStockContext } from "@/app/context/stockContext/StockContext";
+import { ActionType } from "@/app/types/actionTypes";
+import { Purchase, PurchaseType } from "@/app/types/stockTypes";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
   Container,
@@ -10,8 +12,6 @@ import {
 import { blue } from "@mui/material/colors";
 import { ChangeEvent, useCallback, useMemo } from "react";
 import { NumericFormat } from "react-number-format";
-import { ActionType } from "types/actionTypes";
-import { Purchase, PurchaseType } from "types/stockTypes";
 
 const commonInputprops = {
   style: { textAlign: "right" as const },

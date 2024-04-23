@@ -1,7 +1,7 @@
+import { FieldValue, valueChangeIndicator } from "@/app/types/formTypes";
+import { formatNumToKR } from "@/app/utils/formatNumber";
 import Box from "@mui/material/Box";
 import { memo } from "react";
-import { FieldValue, valueChangeIndicator } from "types/formTypes";
-import { formatNumToKR } from "utils/formatNumber";
 
 type CalculateGapProps = {
   before: FieldValue;

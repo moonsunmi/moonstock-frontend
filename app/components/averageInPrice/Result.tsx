@@ -1,6 +1,6 @@
-import { useStockContext } from "@/contexts/stockContext/StockContext";
+import { useStockContext } from "@/app/context/stockContext/StockContext";
+import useInvestmentState from "@/app/hooks/useInvestmentState";
 import { List, ListItem } from "@mui/material";
-import useInvestmentState from "hooks/useInvestmentState";
 import ResultItem from "./ResultItem";
 
 const Result = () => {

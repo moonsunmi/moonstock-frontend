@@ -1,9 +1,9 @@
 "use client";
-import { StockContext } from "@/contexts/stockContext/StockContext";
-import { initialPurchases } from "@/contexts/stockContext/initialPurchases";
-import stockReducer from "@/contexts/stockContext/stockReducer";
+import { StockContext } from "@/app/context/stockContext/StockContext";
+import { initialPurchases } from "@/app/context/stockContext/initialPurchases";
+import stockReducer from "@/app/context/stockContext/stockReducer";
+import { Stock } from "@/app/types/stockTypes";
 import { useReducer } from "react";
-import { Stock } from "types/stockTypes";
 import AddPurchase from "./AddPurchase";
 import AdditionalStocks from "./AdditionalStocks";
 import HoldingStock from "./HoldingStock";

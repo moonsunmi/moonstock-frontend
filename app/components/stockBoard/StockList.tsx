@@ -1,6 +1,6 @@
 "use client";
 
-import { formatNumToKR } from "@/utils/formatNumber";
+import { formatNumToKR } from "@/app/utils/formatNumber";
 import {
   DataGrid,
   GridColDef,
