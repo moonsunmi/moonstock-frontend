@@ -1,5 +1,5 @@
-import { useStockContext } from "@/app/context/stockContext/StockContext";
-import { createInitialPurchase } from "@/app/context/stockContext/initialPurchases";
+import { useStockContext } from "@/app/context/stock/StockContext";
+import { createInitialPurchase } from "@/app/context/stock/initialPurchases";
 import { ActionType } from "@/app/types/actionTypes";
 import { apiStatus } from "@/app/types/apiStatus";
 import { Purchase, Stock, StockInfo } from "@/app/types/stockTypes";

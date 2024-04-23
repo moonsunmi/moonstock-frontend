@@ -1,4 +1,4 @@
-import { useStockContext } from "@/app/context/stockContext/StockContext";
+import { useStockContext } from "@/app/context/stock/StockContext";
 import { ActionType } from "@/app/types/actionTypes";
 import { Purchase, PurchaseType } from "@/app/types/stockTypes";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";

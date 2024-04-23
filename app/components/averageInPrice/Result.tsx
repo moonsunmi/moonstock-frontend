@@ -1,4 +1,4 @@
-import { useStockContext } from "@/app/context/stockContext/StockContext";
+import { useStockContext } from "@/app/context/stock/StockContext";
 import useInvestmentState from "@/app/hooks/useInvestmentState";
 import { List, ListItem } from "@mui/material";
 import ResultItem from "./ResultItem";

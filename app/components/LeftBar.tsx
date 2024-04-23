@@ -2,7 +2,7 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoneyIcon from "@mui/icons-material/Money";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { IconButton } from "@mui/material";
+import { Container, IconButton } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -14,6 +14,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -24,6 +25,7 @@ export default function ResponsiveDrawer({
 }: {
   children: React.ReactNode;
 }) {
+  // const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -73,6 +75,9 @@ export default function ResponsiveDrawer({
           </ListItem>
         ))}
       </List>
+      <Container sx={{ textAlign: "center" }}>
+        {/* {session ? "로그아웃" : "로그인"} */}
+      </Container>
     </div>
   );
 

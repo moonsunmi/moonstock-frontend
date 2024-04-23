@@ -1,12 +1,15 @@
 "use client";
 
+import RegisterStocksButton from "@/app/components/stockBoard/RegisterStocksButton";
 import { formatNumToKR } from "@/app/utils/formatNumber";
+import { Box } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridColumnMenu,
   GridColumnMenuProps,
 } from "@mui/x-data-grid";
+// import { Session } from "next-auth";
 
 const columns: GridColDef[] = [
   {
@@ -52,29 +55,35 @@ export default function StockList({
   datarows,
 }: {
   datarows: DataRow[] | undefined;
+  // session: Session | null;
 }) {
   const rows = datarows
     ? datarows.map((datarow, index) => ({ ...datarow, id: index }))
     : [];
 
   return (
-    <div style={{ width: "100%" }}>
-      <DataGrid
-        columnHeaderHeight={45}
-        rowHeight={45}
-        className="myDataGrid"
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
+    <>
+      <div style={{ width: "100%" }}>
+        <DataGrid
+          columnHeaderHeight={45}
+          rowHeight={45}
+          className="myDataGrid"
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
             },
-          },
-        }}
-        slots={{ columnMenu: CustomColumnMenu }}
-        pageSizeOptions={[10]}
-      />
-    </div>
+          }}
+          slots={{ columnMenu: CustomColumnMenu }}
+          pageSizeOptions={[10]}
+        />
+      </div>
+      <Box display="flex" justifyContent="center" margin={3}>
+        <RegisterStocksButton sx={{ width: { xs: "234px", sm: "50%" } }} />
+      </Box>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { useStockContext } from "@/app/context/stockContext/StockContext";
+import { useStockContext } from "@/app/context/stock/StockContext";
 import { PurchaseType } from "@/app/types/stockTypes";
 import PurchaseInfo from "./PurchaseInfo";
 
