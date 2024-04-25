@@ -1,3 +1,4 @@
+"use client";
 import { useStockContext } from "@/app/context/stock/StockContext";
 import { createInitialPurchase } from "@/app/context/stock/initialPurchases";
 import { ActionType } from "@/app/types/actionTypes";

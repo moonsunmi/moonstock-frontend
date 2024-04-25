@@ -1,3 +1,4 @@
+"use client";
 import { PurchaseAction } from "@/app/types/actionTypes";
 import { StockPurchaseInfo } from "@/app/types/stockTypes";
 import { Dispatch, createContext, useContext } from "react";

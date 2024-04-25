@@ -1,3 +1,4 @@
+"use client";
 import { useStockContext } from "@/app/context/stock/StockContext";
 import { PurchaseType } from "@/app/types/stockTypes";
 import PurchaseInfo from "./PurchaseInfo";

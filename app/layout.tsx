@@ -1,14 +1,13 @@
-"use client";
-
 import DrawerLeft from "@/app/components/LeftBar";
 import "@/app/ui/globals.css";
-import theme from "@/app/utils/theme";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
+import MuiThemeProvider from "./context/theme-provider";
+import ThemeRegistry from "./ThemeRegistry";
 
 export default async function RootLayout({
   children,
@@ -21,11 +20,10 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <AppRouterCacheProvider>
-          {/* <SessionProvider session={session}> */}
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
+          <ThemeRegistry options={{ key: "mui" }}>
+            {/* <SessionProvider session={session}> */}
             <DrawerLeft>{children}</DrawerLeft>
-          </ThemeProvider>
+          </ThemeRegistry>
           {/* </SessionProvider> */}
         </AppRouterCacheProvider>
       </body>

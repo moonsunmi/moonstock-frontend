@@ -1,3 +1,4 @@
+"use client";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoneyIcon from "@mui/icons-material/Money";
