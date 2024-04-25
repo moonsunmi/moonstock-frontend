@@ -3,14 +3,12 @@ import { useStockContext } from "@/app/context/stock/StockContext";
 import { createInitialPurchase } from "@/app/context/stock/initialPurchases";
 import { ActionType } from "@/app/types/actionTypes";
 import { apiStatus } from "@/app/types/apiStatus";
-import { Purchase, Stock, StockInfo } from "@/app/types/stockTypes";
-import { Grid } from "@mui/material";
+import { Purchase, StockInfo } from "@/app/types/stockTypes";
 import { ChangeEvent, useCallback, useState } from "react";
-import SearchBox from "./SearchBox";
-import StatusDescription from "./StatusDescription";
-import StyledButton from "./StyledButton";
+import AddPurchaseView from "./AddPurchaseView";
+import { Stock } from "@prisma/client";
 
-const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
+const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
   const [userInput, setUserInput] = useState<string>("");
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
 
@@ -63,27 +61,15 @@ const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
   };
 
   return (
-    <Grid container spacing={1} sx={{ padding: 1, marginTop: 1 }}>
-      <Grid item xs={12} sm={6}>
-        <SearchBox
-          value={userInput}
-          onChange={onChange}
-          stockList={stockList}
-        />
-      </Grid>
-      <Grid item xs={6} sm={3}>
-        <StyledButton onClick={handleClick} disabled={!userInput.trim()}>
-          가격 입력
-        </StyledButton>
-      </Grid>
-      <Grid item xs={6} sm={3}>
-        <StyledButton onClick={addPurchase}>빈칸 추가</StyledButton>
-      </Grid>
-      <Grid item xs={12} sm={9}>
-        <StatusDescription status={status} />
-      </Grid>
-    </Grid>
+    <AddPurchaseView
+      handleClick={handleClick}
+      userInput={userInput}
+      onChange={onChange}
+      addPurchase={addPurchase}
+      stockList={stockList}
+      status={status}
+    />
   );
 };
 
-export default AddPurchase;
+export default AddPurchaseContainer;
