@@ -8,7 +8,7 @@ type ResultListProps = {
   calculationResult: CalculationResult;
 };
 
-const Result = ({
+const ResultView = ({
   isResultShow,
   holding,
   calculationResult,
@@ -49,4 +49,5 @@ const Result = ({
     </List>
   );
 };
-export default Result;
+
+export default ResultView;

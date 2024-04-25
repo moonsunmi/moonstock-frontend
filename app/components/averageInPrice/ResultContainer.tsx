@@ -1,7 +1,7 @@
 "use client";
 import { useStockContext } from "@/app/context/stock/StockContext";
 import useInvestmentState from "@/app/hooks/useInvestmentState";
-import Result from "./Result";
+import ResultView from "./ResultView";
 
 const ResultContainer = () => {
   const {
@@ -17,7 +17,7 @@ const ResultContainer = () => {
     holding.quantity === 0;
 
   return (
-    <Result
+    <ResultView
       isResultShow={isResultShow}
       holding={holding}
       calculationResult={calculationResult}

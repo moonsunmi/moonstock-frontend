@@ -1,7 +1,7 @@
 "use client";
 import { useStockContext } from "@/app/context/stock/StockContext";
 import { PurchaseType } from "@/app/types/stockTypes";
-import PurchaseInfo from "./PurchaseInfo";
+import PurchaseInfoContainer from "./PurchaseInfoContainer";
 
 const HoldingStock = () => {
   const {
@@ -9,14 +9,12 @@ const HoldingStock = () => {
   } = useStockContext();
 
   return (
-    <>
-      <PurchaseInfo
-        label="보유 주식"
-        purchase={holding}
-        purchaseType={PurchaseType.HOLDING}
-        isDeletable={false}
-      />
-    </>
+    <PurchaseInfoContainer
+      label="보유 주식"
+      purchase={holding}
+      purchaseType={PurchaseType.HOLDING}
+      isDeletable={false}
+    />
   );
 };
 

@@ -1,7 +1,7 @@
 "use client";
 import { useStockContext } from "@/app/context/stock/StockContext";
 import { Purchase, PurchaseType } from "@/app/types/stockTypes";
-import PurchaseInfo from "./PurchaseInfo";
+import PurchaseInfo from "./PurchaseInfoView";
 
 const AdditionalStocks = () => {
   const {
