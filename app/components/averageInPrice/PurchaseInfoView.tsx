@@ -31,7 +31,6 @@ const commonNumericFormatProps = {
 type PurchaseInfoViewProps = {
   purchase: Purchase;
   label: string;
-  // purchaseType: PurchaseType;
   isDeletable?: boolean;
   total: number | undefined;
   dispatchValue: (event: ChangeEvent<HTMLInputElement>) => void;

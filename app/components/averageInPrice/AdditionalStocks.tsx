@@ -1,7 +1,7 @@
 "use client";
 import { useStockContext } from "@/app/context/stock/StockContext";
 import { Purchase, PurchaseType } from "@/app/types/stockTypes";
-import PurchaseInfo from "./PurchaseInfoView";
+import PurchaseInfoContainer from "./PurchaseInfoContainer";
 
 const AdditionalStocks = () => {
   const {
@@ -12,7 +12,7 @@ const AdditionalStocks = () => {
     <>
       {additions.map((purchase: Purchase) => {
         return (
-          <PurchaseInfo
+          <PurchaseInfoContainer
             key={purchase.id}
             label="추가 매수"
             purchase={purchase}
