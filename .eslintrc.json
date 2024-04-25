@@ -8,21 +8,18 @@
         "rules": [
           {
             "case": "kebab",
-            "target": "**/app/**",
-            "patterns": "^(page|layout|loading|error|not-found|route|template).(tsx|ts)$"
+            "target": "**/api/**"
           },
+          {
+            "case": "kebab",
+            "target": "**/app/api/**",
+            "patterns": "route.(tsx|ts)$"
+          },
+
           {
             "case": "camel",
             "target": "**/hooks/**",
             "patterns": "^use"
-          },
-          {
-            "case": "pascal",
-            "target": "**/components/**"
-          },
-          {
-            "case": "ignore",
-            "target": "**/app/lib/**"
           }
         ]
       }
