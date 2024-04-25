@@ -48,3 +48,9 @@ export type Stock = {
   name: string;
   market: string;
 };
+
+export type CalculationResult = {
+  totalQuantity: number;
+  investmentAmount: number;
+  averagePrice: number;
+};

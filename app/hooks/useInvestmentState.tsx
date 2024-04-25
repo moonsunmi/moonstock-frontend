@@ -1,12 +1,7 @@
 import { useStockContext } from "@/app/context/stock/StockContext";
+import { CalculationResult } from "../types/stockTypes";
 
 const useInvestmentState = () => {
-  interface CalculationResult {
-    totalQuantity: number;
-    investmentAmount: number;
-    averagePrice: number;
-  }
-
   function calculateInvestmentState() {
     const {
       state: { holding, additions },

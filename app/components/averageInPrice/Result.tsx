@@ -1,23 +1,19 @@
-"use client";
-import { useStockContext } from "@/app/context/stock/StockContext";
-import useInvestmentState from "@/app/hooks/useInvestmentState";
+import { CalculationResult, Purchase } from "@/app/types/stockTypes";
 import { List, ListItem } from "@mui/material";
 import ResultItem from "./ResultItem";
 
-const Result = () => {
-  const {
-    state: { holding },
-  } = useStockContext();
-  const { calculateInvestmentState } = useInvestmentState();
-  const { averagePrice, totalQuantity, investmentAmount } =
-    calculateInvestmentState();
+type ResultListProps = {
+  isResultShow: boolean;
+  holding: Purchase;
+  calculationResult: CalculationResult;
+};
 
-  const isResultShow: boolean =
-    holding.price === "" ||
-    holding.quantity === "" ||
-    holding.price === 0 ||
-    holding.quantity === 0;
-
+const Result = ({
+  isResultShow,
+  holding,
+  calculationResult,
+}: ResultListProps) => {
+  const { averagePrice, totalQuantity, investmentAmount } = calculationResult;
   return (
     <List
       sx={{
@@ -53,5 +49,4 @@ const Result = () => {
     </List>
   );
 };
-
 export default Result;
