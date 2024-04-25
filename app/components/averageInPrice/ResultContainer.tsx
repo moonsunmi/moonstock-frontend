@@ -7,8 +7,7 @@ const ResultContainer = () => {
   const {
     state: { holding },
   } = useStockContext();
-  const { calculateInvestmentState } = useInvestmentState();
-  const calculationResult = calculateInvestmentState();
+  const result = useInvestmentState();
 
   const isResultShow: boolean =
     holding.price === "" ||
@@ -20,7 +19,7 @@ const ResultContainer = () => {
     <ResultView
       isResultShow={isResultShow}
       holding={holding}
-      calculationResult={calculationResult}
+      calculationResult={result}
     />
   );
 };

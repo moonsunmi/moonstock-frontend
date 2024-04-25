@@ -51,7 +51,6 @@ const PurchaseInfoContainer = ({
     <PurchaseInfoView
       label={label}
       purchase={purchase}
-      //   purchaseType={purchaseType}
       total={total}
       isDeletable={isDeletable}
       dispatchValue={dispatchValue}
