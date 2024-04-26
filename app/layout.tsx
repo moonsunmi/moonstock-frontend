@@ -1,13 +1,13 @@
-import DrawerLeft from "@/app/components/LeftBar";
-import "@/app/ui/globals.css";
+import DrawerLeft from "@/components/UI/LeftBar";
+import "@/app/globals.css";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/lib/auth";
-import MuiThemeProvider from "./context/theme-provider";
-import ThemeRegistry from "./ThemeRegistry";
+import { authOptions } from "@/lib/auth";
+import MuiThemeProvider from "@/context/theme-provider";
+import ThemeRegistry from "../context/ThemeRegistry";
 
 export default async function RootLayout({
   children,
