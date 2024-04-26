@@ -12,13 +12,13 @@ const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
   const [userInput, setUserInput] = useState<string>("");
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
 
-  const { dispatch } = useAdditionsContext();
+  const { additionDispatch } = useAdditionsContext();
 
   const addPurchase = useCallback(() => {
     const newPurchase: Purchase = createInitialPurchase();
-    dispatch({ type: ActionType.ADD, payload: newPurchase });
+    additionDispatch({ type: ActionType.ADD, payload: newPurchase });
     setUserInput("");
-  }, [dispatch]);
+  }, [additionDispatch]);
 
   const handleClick = async () => {
     setStatus(apiStatus.loading);
@@ -41,7 +41,7 @@ const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
           const newPurchase: Purchase = createInitialPurchase({
             price: Number(newPrice.replace(",", "")),
           });
-          dispatch({
+          additionDispatch({
             type: ActionType.ADD,
             payload: newPurchase,
           });

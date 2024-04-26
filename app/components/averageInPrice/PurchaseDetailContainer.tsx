@@ -1,35 +1,32 @@
-// import { useStockContext } from "@/app/context/stock/StockContext";
+import { useAdditionsContext } from "@/app/context/additionals/AdditionsContext";
 import { ActionType } from "@/app/types/actionTypes";
-import { Purchase, PurchaseType } from "@/app/types/stockTypes";
+import { Purchase } from "@/app/types/stockTypes";
 import { ChangeEvent, useCallback, useMemo } from "react";
 import PurchaseDetailView from "./PurchaseDetailView";
-import { useAdditionsContext } from "@/app/context/additionals/AdditionsContext";
 
 type PurchaseDetailContainerProps = {
   purchase: Purchase;
   label: string;
-  purchaseType: PurchaseType;
   isDeletable?: boolean;
 };
 
 const PurchaseDetailContainer = ({
   purchase,
   label,
-  purchaseType,
   isDeletable = true,
 }: PurchaseDetailContainerProps) => {
-  const { dispatch } = useAdditionsContext();
+  const { additionDispatch } = useAdditionsContext();
 
   const handleRemove = useCallback(() => {
-    dispatch({
+    additionDispatch({
       type: ActionType.REMOVE,
       payload: { id: purchase.id },
     });
-  }, [dispatch, purchase.id]);
+  }, [additionDispatch, purchase.id]);
 
   const dispatchValue = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      dispatch({
+      additionDispatch({
         type: ActionType.UPDATE,
         payload: {
           ...purchase,
@@ -37,7 +34,7 @@ const PurchaseDetailContainer = ({
         },
       });
     },
-    [dispatch, purchase, purchaseType]
+    [additionDispatch, purchase]
   );
 
   const investmentAmount = useMemo(() => {

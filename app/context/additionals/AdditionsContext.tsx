@@ -4,18 +4,19 @@ import { Dispatch, createContext, useContext } from "react";
 
 // TODO. createContext's type
 interface AdditionalContext {
-  state: Purchase[];
-  dispatch: Dispatch<PurchaseAction>;
+  // TODO. rectify. Addition
+  additions: Purchase[];
+  additionDispatch: Dispatch<PurchaseAction>;
 }
 
 const AdditionsContext = createContext<AdditionalContext | null>(null);
 
 const useAdditionsContext = () => {
-  const value = useContext(AdditionsContext);
-  if (value === null) {
-    throw new Error("useAdditionsContext should be within AdditiosProvider");
+  const additions = useContext(AdditionsContext);
+  if (!additions) {
+    throw new Error("useAdditionsContext should be within AdditionsProvider");
   }
-  return value;
+  return additions;
 };
 
 export { AdditionsContext, useAdditionsContext };

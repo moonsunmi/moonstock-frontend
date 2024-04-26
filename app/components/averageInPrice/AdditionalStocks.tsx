@@ -1,20 +1,19 @@
 "use client";
-import { Purchase, PurchaseType } from "@/app/types/stockTypes";
-import PurchaseDetailContainer from "./PurchaseDetailContainer";
 import { useAdditionsContext } from "@/app/context/additionals/AdditionsContext";
+import { Purchase } from "@/app/types/stockTypes";
+import PurchaseDetailContainer from "./PurchaseDetailContainer";
 
 const AdditionalStocks = () => {
-  const { state } = useAdditionsContext();
+  const { additions } = useAdditionsContext();
 
   return (
     <>
-      {state.map((purchase: Purchase) => {
+      {additions.map((purchase: Purchase) => {
         return (
           <PurchaseDetailContainer
             key={purchase.id}
             label="추가 매수"
             purchase={purchase}
-            purchaseType={PurchaseType.ADDITIONS}
           />
         );
       })}

@@ -42,7 +42,7 @@ const NumericInput = ({
       label={label}
       onBlur={onBlur}
       {...commonNumericFormatProps}
-      inputProps={readOnly ? readOnlyInputProps : commonNumericFormatProps}
+      inputProps={readOnly ? readOnlyInputProps : commonInputprops}
     />
   );
 };

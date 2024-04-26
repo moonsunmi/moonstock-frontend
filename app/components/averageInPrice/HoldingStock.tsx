@@ -1,21 +1,18 @@
-// "use client";
-// // import { useStockContext } from "@/app/context/stock/StockContext";
-// import { PurchaseType } from "@/app/types/stockTypes";
-// import PurchaseDetailContainer from "./PurchaseDetailContainer";
+"use client";
 
-// const HoldingStock = () => {
-//   const {
-//     state: { holding },
-//   } = useStockContext();
+import { useHoldingsContext } from "@/app/context/holdings/HoldingsContext";
+import PurchaseDetailContainer from "./PurchaseDetailContainer";
 
-//   return (
-//     <PurchaseDetailContainer
-//       label="보유 주식"
-//       purchase={holding}
-//       purchaseType={PurchaseType.HOLDING}
-//       isDeletable={false}
-//     />
-//   );
-// };
+const HoldingStock = () => {
+  const { holdings } = useHoldingsContext();
 
-// export default HoldingStock;
+  return (
+    <PurchaseDetailContainer
+      label="보유 주식"
+      purchase={holdings[0]} // Currently using first holding for now, but planning to update for handling multiple holdings
+      isDeletable={false}
+    />
+  );
+};
+
+export default HoldingStock;
