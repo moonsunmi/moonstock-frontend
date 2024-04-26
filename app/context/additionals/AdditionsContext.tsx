@@ -13,7 +13,7 @@ const AdditionsContext = createContext<AdditionalContext | null>(null);
 const useAdditionsContext = () => {
   const value = useContext(AdditionsContext);
   if (value === null) {
-    throw new Error("useAdditionalContext should be within AdditionalContext");
+    throw new Error("useAdditionsContext should be within AdditiosProvider");
   }
   return value;
 };
