@@ -1,4 +1,4 @@
-import StyledButton from "@/app/components/averageInPrice/StyledButton";
+import StyledButton from "@/app/components/customUI/StyledButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ButtonProps } from "@mui/material";
 

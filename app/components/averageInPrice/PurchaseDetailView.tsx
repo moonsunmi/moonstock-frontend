@@ -1,32 +1,9 @@
 import { Purchase } from "@/app/types/stockTypes";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import {
-  Container,
-  FormGroup,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Container, FormGroup, Grid, Typography } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { ChangeEvent } from "react";
-import { NumericFormat } from "react-number-format";
-
-const commonInputprops = {
-  style: { textAlign: "right" as const },
-};
-
-const readOnlyInputProps = {
-  ...commonInputprops,
-  readOnly: true,
-};
-
-const commonNumericFormatProps = {
-  customInput: TextField,
-  thousandSeparator: ",",
-  allowNegative: false,
-  fullWidth: true,
-  size: "small" as const,
-};
+import NumericInput from "../customUI/NumericInput";
 
 type PurchaseDetailViewProps = {
   purchase: Purchase;
@@ -65,32 +42,27 @@ const PurchaseDetailView = ({
       >
         <Grid container spacing={1} sx={{ alignItems: "center" }}>
           <Grid item xs={7} sm={4}>
-            <NumericFormat
+            <NumericInput
               name="price"
               value={purchase.price}
               label="가격"
               onBlur={dispatchValue}
-              {...commonNumericFormatProps}
-              inputProps={commonInputprops}
             />
           </Grid>
           <Grid item xs={5} sm={2}>
-            <NumericFormat
+            <NumericInput
               name="quantity"
               value={purchase.quantity}
               label="수량"
               onBlur={dispatchValue}
-              {...commonNumericFormatProps}
-              inputProps={commonInputprops}
             />
           </Grid>
           <Grid item xs={isDeletable ? 11 : 12} sm={5.5}>
-            <NumericFormat
+            <NumericInput
               name="investmentAmount"
-              value={investmentAmount}
+              value={investmentAmount || ""}
               label="총합"
-              {...commonNumericFormatProps}
-              inputProps={readOnlyInputProps}
+              onBlur={() => {}}
             />
           </Grid>
           <Grid item xs={1} sm={0.5}>

@@ -2,9 +2,9 @@ import { apiStatus } from "@/app/types/apiStatus";
 import { Stock } from "@/app/types/stockTypes";
 import { Grid } from "@mui/material";
 import { ChangeEvent } from "react";
-import SearchBox from "./SearchBox";
+import SearchBox from "../customUI/SearchBox";
 import StatusDescription from "./StatusDescription";
-import StyledButton from "./StyledButton";
+import StyledButton from "../customUI/StyledButton";
 
 type AddPurchaseViewProps = {
   handleClick: () => Promise<void>;
