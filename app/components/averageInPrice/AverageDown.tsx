@@ -1,8 +1,8 @@
+import StockProvider from "@/app/context/stock/StockProvider";
 import { Stock } from "@/app/types/stockTypes";
-import AddPurchase from "./AddPurchase";
+import AddPurchaseContainer from "./AddPurchaseContainer";
 import AdditionalStocks from "./AdditionalStocks";
 import HoldingStock from "./HoldingStock";
-import StockProvider from "@/app/context/stock/StockProvider";
 import ResultContainer from "./ResultContainer";
 
 const AverageDown = ({ stockList }: { stockList: Stock[] }) => {
@@ -10,7 +10,7 @@ const AverageDown = ({ stockList }: { stockList: Stock[] }) => {
     <StockProvider>
       <HoldingStock />
       <AdditionalStocks />
-      <AddPurchase stockList={stockList} />
+      <AddPurchaseContainer stockList={stockList} />
       <ResultContainer />
     </StockProvider>
   );

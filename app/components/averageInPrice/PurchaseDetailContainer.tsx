@@ -2,21 +2,21 @@ import { useStockContext } from "@/app/context/stock/StockContext";
 import { ActionType } from "@/app/types/actionTypes";
 import { Purchase, PurchaseType } from "@/app/types/stockTypes";
 import { ChangeEvent, useCallback, useMemo } from "react";
-import PurchaseInfoView from "./PurchaseInfoView";
+import PurchaseDetailView from "./PurchaseDetailView";
 
-type PurchaseInfoContainerProps = {
+type PurchaseDetailContainerProps = {
   purchase: Purchase;
   label: string;
   purchaseType: PurchaseType;
   isDeletable?: boolean;
 };
 
-const PurchaseInfoContainer = ({
+const PurchaseDetailContainer = ({
   purchase,
   label,
   purchaseType,
   isDeletable = true,
-}: PurchaseInfoContainerProps) => {
+}: PurchaseDetailContainerProps) => {
   const { dispatch } = useStockContext();
 
   const handleRemove = useCallback(() => {
@@ -42,16 +42,16 @@ const PurchaseInfoContainer = ({
     [dispatch, purchase, purchaseType]
   );
 
-  const total = useMemo(() => {
+  const investmentAmount = useMemo(() => {
     if (purchase.price !== "" && purchase.quantity !== "")
       return Number(purchase.price) * Number(purchase.quantity);
   }, [purchase.price, purchase.quantity]);
 
   return (
-    <PurchaseInfoView
+    <PurchaseDetailView
       label={label}
       purchase={purchase}
-      total={total}
+      investmentAmount={investmentAmount}
       isDeletable={isDeletable}
       dispatchValue={dispatchValue}
       handleRemove={handleRemove}
@@ -59,4 +59,4 @@ const PurchaseInfoContainer = ({
   );
 };
 
-export default PurchaseInfoContainer;
+export default PurchaseDetailContainer;

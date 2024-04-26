@@ -1,12 +1,12 @@
 import { useStockContext } from "@/app/context/stock/StockContext";
-import { CalculationResult } from "../types/stockTypes";
+import { TradeDetail } from "../types/stockTypes";
 
 const useInvestmentState = () => {
   const {
     state: { holding, additions },
   } = useStockContext();
 
-  const initialResult: CalculationResult = {
+  const initialResult: TradeDetail = {
     totalQuantity: Number(holding.quantity),
     investmentAmount: Number(holding.price) * Number(holding.quantity),
     averagePrice: 0,

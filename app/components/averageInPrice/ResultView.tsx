@@ -1,19 +1,19 @@
-import { CalculationResult, Purchase } from "@/app/types/stockTypes";
+import { TradeDetail, Purchase } from "@/app/types/stockTypes";
 import { List, ListItem } from "@mui/material";
 import ResultItem from "./ResultItem";
 
-type ResultListProps = {
+type ResultViewProps = {
   isResultShow: boolean;
   holding: Purchase;
-  calculationResult: CalculationResult;
+  tradeDetail: TradeDetail;
 };
 
 const ResultView = ({
   isResultShow,
   holding,
-  calculationResult,
-}: ResultListProps) => {
-  const { averagePrice, totalQuantity, investmentAmount } = calculationResult;
+  tradeDetail,
+}: ResultViewProps) => {
+  const { averagePrice, totalQuantity, investmentAmount } = tradeDetail;
   return (
     <List
       sx={{
