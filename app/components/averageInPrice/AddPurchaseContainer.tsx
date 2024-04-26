@@ -3,7 +3,7 @@ import { useStockContext } from "@/app/context/stock/StockContext";
 import { createInitialPurchase } from "@/app/context/stock/initialPurchases";
 import { ActionType } from "@/app/types/actionTypes";
 import { apiStatus } from "@/app/types/apiStatus";
-import { Purchase, StockInfo } from "@/app/types/stockTypes";
+import { Purchase, APIStockDetail } from "@/app/types/stockTypes";
 import { ChangeEvent, useCallback, useState } from "react";
 import AddPurchaseView from "./AddPurchaseView";
 import { Stock } from "@prisma/client";
@@ -34,7 +34,7 @@ const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
         return;
       }
 
-      const data: StockInfo = await response.json();
+      const data: APIStockDetail = await response.json();
       if (data && data.totalCount > 0) {
         const newPrice = data.items?.item[0]?.clpr;
         if (newPrice) {

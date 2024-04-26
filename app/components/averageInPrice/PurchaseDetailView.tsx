@@ -1,4 +1,4 @@
-import { Purchase, PurchaseType } from "@/app/types/stockTypes";
+import { Purchase } from "@/app/types/stockTypes";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
   Container,
@@ -28,23 +28,23 @@ const commonNumericFormatProps = {
   size: "small" as const,
 };
 
-type PurchaseInfoViewProps = {
+type PurchaseDetailViewProps = {
   purchase: Purchase;
   label: string;
   isDeletable?: boolean;
-  total: number | undefined;
+  investmentAmount: number | undefined;
   dispatchValue: (event: ChangeEvent<HTMLInputElement>) => void;
   handleRemove: () => void;
 };
 
-const PurchaseInfoView = ({
+const PurchaseDetailView = ({
   label,
   purchase,
-  total,
+  investmentAmount,
   isDeletable,
   dispatchValue,
   handleRemove,
-}: PurchaseInfoViewProps) => {
+}: PurchaseDetailViewProps) => {
   return (
     <Container
       sx={{
@@ -87,7 +87,7 @@ const PurchaseInfoView = ({
           <Grid item xs={isDeletable ? 11 : 12} sm={5.5}>
             <NumericFormat
               name="investmentAmount"
-              value={total}
+              value={investmentAmount}
               label="총합"
               {...commonNumericFormatProps}
               inputProps={readOnlyInputProps}
@@ -110,4 +110,4 @@ const PurchaseInfoView = ({
     </Container>
   );
 };
-export default PurchaseInfoView;
+export default PurchaseDetailView;

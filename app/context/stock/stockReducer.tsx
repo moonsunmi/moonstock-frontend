@@ -1,10 +1,10 @@
 import { ActionType, PurchaseAction } from "@/app/types/actionTypes";
-import { StockPurchaseInfo } from "@/app/types/stockTypes";
+import { StockPurchaseDetail } from "@/app/types/stockTypes";
 
 export default function stockReducer(
-  state: StockPurchaseInfo,
+  state: StockPurchaseDetail,
   action: PurchaseAction
-): StockPurchaseInfo {
+): StockPurchaseDetail {
   switch (action.type) {
     case ActionType.ADD_ADDITIONAL:
       return {

@@ -1,10 +1,10 @@
 "use client";
 import { PurchaseAction } from "@/app/types/actionTypes";
-import { StockPurchaseInfo } from "@/app/types/stockTypes";
+import { StockPurchaseDetail } from "@/app/types/stockTypes";
 import { Dispatch, createContext, useContext } from "react";
 
 interface StockContext {
-  state: StockPurchaseInfo;
+  state: StockPurchaseDetail;
   dispatch: Dispatch<PurchaseAction>;
 }
 

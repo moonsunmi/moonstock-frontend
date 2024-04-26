@@ -19,7 +19,7 @@ const ResultContainer = () => {
     <ResultView
       isResultShow={isResultShow}
       holding={holding}
-      calculationResult={result}
+      tradeDetail={result}
     />
   );
 };

@@ -11,12 +11,12 @@ export enum PurchaseType {
   ADDITIONS = "additions",
 }
 
-export type StockPurchaseInfo = {
+export type StockPurchaseDetail = {
   [PurchaseType.HOLDING]: Purchase;
   [PurchaseType.ADDITIONS]: Purchase[];
 };
 
-export type StockInfo = {
+export type APIStockDetail = {
   numOfRows: number;
   pageNo: number;
   totalCount: number;
@@ -49,7 +49,7 @@ export type Stock = {
   market: string;
 };
 
-export type CalculationResult = {
+export type TradeDetail = {
   totalQuantity: number;
   investmentAmount: number;
   averagePrice: number;
