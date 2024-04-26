@@ -2,14 +2,12 @@ import { PurchaseAction } from "@/types/actionTypes";
 import { Purchase } from "@/types/stockTypes";
 import { Dispatch, createContext, useContext } from "react";
 
-// TODO. createContext's type
-interface AdditionalContext {
-  // TODO. rectify. Addition
+interface AdditionsContext {
   additions: Purchase[];
-  additionDispatch: Dispatch<PurchaseAction>;
+  additionsDispatch: Dispatch<PurchaseAction>;
 }
 
-const AdditionsContext = createContext<AdditionalContext | null>(null);
+const AdditionsContext = createContext<AdditionsContext | null>(null);
 
 const useAdditionsContext = () => {
   const additions = useContext(AdditionsContext);
