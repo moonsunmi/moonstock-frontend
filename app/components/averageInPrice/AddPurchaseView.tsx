@@ -1,10 +1,10 @@
 import { apiStatus } from "@/app/types/apiStatus";
-import { Stock } from "@/app/types/stockTypes";
 import { Grid } from "@mui/material";
 import { ChangeEvent } from "react";
 import SearchBox from "../customUI/SearchBox";
 import StatusDescription from "./StatusDescription";
 import StyledButton from "../customUI/StyledButton";
+import { Stock } from "@prisma/client";
 
 type AddPurchaseViewProps = {
   handleClick: () => Promise<void>;

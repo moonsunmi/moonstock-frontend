@@ -1,5 +1,4 @@
 "use client";
-import { useStockContext } from "@/app/context/stock/StockContext";
 import { createInitialPurchase } from "@/app/context/stock/initialPurchases";
 import { ActionType } from "@/app/types/actionTypes";
 import { apiStatus } from "@/app/types/apiStatus";
@@ -7,16 +6,17 @@ import { Purchase, APIStockDetail } from "@/app/types/stockTypes";
 import { ChangeEvent, useCallback, useState } from "react";
 import AddPurchaseView from "./AddPurchaseView";
 import { Stock } from "@prisma/client";
+import { useAdditionsContext } from "@/app/context/additionals/AdditionsContext";
 
 const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
   const [userInput, setUserInput] = useState<string>("");
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
 
-  const { dispatch } = useStockContext();
+  const { dispatch } = useAdditionsContext();
 
   const addPurchase = useCallback(() => {
     const newPurchase: Purchase = createInitialPurchase();
-    dispatch({ type: ActionType.ADD_ADDITIONAL, payload: newPurchase });
+    dispatch({ type: ActionType.ADD, payload: newPurchase });
     setUserInput("");
   }, [dispatch]);
 
@@ -42,7 +42,7 @@ const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
             price: Number(newPrice.replace(",", "")),
           });
           dispatch({
-            type: ActionType.ADD_ADDITIONAL,
+            type: ActionType.ADD,
             payload: newPurchase,
           });
         }

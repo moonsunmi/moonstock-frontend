@@ -1,34 +1,24 @@
 import { Purchase } from "@/app/types/stockTypes";
 
 export enum ActionType {
-  ADD_ADDITIONAL = "addAdditional",
-  UPDATE_ADDITIONAL = "updateAdditional",
-  REMOVE_ADDITIONAL = "removeAdditional",
-  UPDATE_HOLDING = "updateHolding",
+  ADD = "add",
+  UPDATE = "update",
+  REMOVE = "remove",
 }
 
-interface AddAdditional {
-  type: ActionType.ADD_ADDITIONAL;
+interface AddPurchase {
+  type: ActionType.ADD;
   payload: Purchase;
 }
 
-interface UpdateAdditional {
-  type: ActionType.UPDATE_ADDITIONAL;
+interface UpdatePurchase {
+  type: ActionType.UPDATE;
   payload: Purchase;
 }
 
-interface RemoveAdditional {
-  type: ActionType.REMOVE_ADDITIONAL;
+interface RemovePurchase {
+  type: ActionType.REMOVE;
   payload: { id: string };
 }
 
-interface UpdateHolding {
-  type: ActionType.UPDATE_HOLDING;
-  payload: Purchase;
-}
-
-export type PurchaseAction =
-  | AddAdditional
-  | UpdateAdditional
-  | RemoveAdditional
-  | UpdateHolding;
+export type PurchaseAction = AddPurchase | UpdatePurchase | RemovePurchase;

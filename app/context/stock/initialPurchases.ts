@@ -1,5 +1,5 @@
 import { FieldValue } from "@/app/types/formTypes";
-import { Purchase, StockPurchaseDetail } from "@/app/types/stockTypes";
+import { Purchase } from "@/app/types/stockTypes";
 import { v4 as uuidv4 } from "uuid";
 
 export const createInitialPurchase = ({
@@ -14,11 +14,8 @@ export const createInitialPurchase = ({
   quantity: quantity,
 });
 
-export const initialPurchases: StockPurchaseDetail = {
-  holding: {
-    id: "holding",
-    price: "",
-    quantity: "",
-  },
-  additions: [],
+export const initialPurchase: Purchase = {
+  id: "holding",
+  price: "",
+  quantity: "",
 };

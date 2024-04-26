@@ -1,10 +1,10 @@
-import { Stock } from "@/app/types/stockTypes";
 import {
   Autocomplete,
   FilterOptionsState,
   TextField,
   createFilterOptions,
 } from "@mui/material";
+import { Stock } from "@prisma/client";
 import { ChangeEvent, useMemo } from "react";
 
 type SearchBoxProps = {

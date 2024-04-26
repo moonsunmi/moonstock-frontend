@@ -1,5 +1,4 @@
 "use client";
-import { useStockContext } from "@/app/context/stock/StockContext";
 import useInvestmentState from "@/app/hooks/useInvestmentState";
 import ResultView from "./ResultView";
 

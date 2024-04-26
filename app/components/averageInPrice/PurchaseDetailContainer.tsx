@@ -1,8 +1,9 @@
-import { useStockContext } from "@/app/context/stock/StockContext";
+// import { useStockContext } from "@/app/context/stock/StockContext";
 import { ActionType } from "@/app/types/actionTypes";
 import { Purchase, PurchaseType } from "@/app/types/stockTypes";
 import { ChangeEvent, useCallback, useMemo } from "react";
 import PurchaseDetailView from "./PurchaseDetailView";
+import { useAdditionsContext } from "@/app/context/additionals/AdditionsContext";
 
 type PurchaseDetailContainerProps = {
   purchase: Purchase;
@@ -17,11 +18,11 @@ const PurchaseDetailContainer = ({
   purchaseType,
   isDeletable = true,
 }: PurchaseDetailContainerProps) => {
-  const { dispatch } = useStockContext();
+  const { dispatch } = useAdditionsContext();
 
   const handleRemove = useCallback(() => {
     dispatch({
-      type: ActionType.REMOVE_ADDITIONAL,
+      type: ActionType.REMOVE,
       payload: { id: purchase.id },
     });
   }, [dispatch, purchase.id]);
@@ -29,10 +30,7 @@ const PurchaseDetailContainer = ({
   const dispatchValue = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       dispatch({
-        type:
-          purchaseType === PurchaseType.ADDITIONS
-            ? ActionType.UPDATE_ADDITIONAL
-            : ActionType.UPDATE_HOLDING,
+        type: ActionType.UPDATE,
         payload: {
           ...purchase,
           [event.target.name]: Number(event.target.value.replaceAll(",", "")),

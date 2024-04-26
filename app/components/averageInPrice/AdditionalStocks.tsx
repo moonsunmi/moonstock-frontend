@@ -1,16 +1,14 @@
 "use client";
-import { useStockContext } from "@/app/context/stock/StockContext";
 import { Purchase, PurchaseType } from "@/app/types/stockTypes";
 import PurchaseDetailContainer from "./PurchaseDetailContainer";
+import { useAdditionsContext } from "@/app/context/additionals/AdditionsContext";
 
 const AdditionalStocks = () => {
-  const {
-    state: { additions },
-  } = useStockContext();
+  const { state } = useAdditionsContext();
 
   return (
     <>
-      {additions.map((purchase: Purchase) => {
+      {state.map((purchase: Purchase) => {
         return (
           <PurchaseDetailContainer
             key={purchase.id}

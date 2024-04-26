@@ -1,18 +1,21 @@
-import StockProvider from "@/app/context/stock/StockProvider";
-import { Stock } from "@/app/types/stockTypes";
+// import StockProvider from "@/app/context/stock/StockProvider";
+import AdditionsProvider from "@/app/context/additionals/AdditionsProvider";
 import AddPurchaseContainer from "./AddPurchaseContainer";
 import AdditionalStocks from "./AdditionalStocks";
-import HoldingStock from "./HoldingStock";
+// import HoldingStock from "./HoldingStock";
 import ResultContainer from "./ResultContainer";
+import { Stock } from "@prisma/client";
 
 const AverageDown = ({ stockList }: { stockList: Stock[] }) => {
   return (
-    <StockProvider>
-      <HoldingStock />
-      <AdditionalStocks />
-      <AddPurchaseContainer stockList={stockList} />
+    <>
+      {/* <HoldingStock /> */}
+      <AdditionsProvider>
+        <AdditionalStocks />
+        <AddPurchaseContainer stockList={stockList} />
+      </AdditionsProvider>
       <ResultContainer />
-    </StockProvider>
+    </>
   );
 };
 

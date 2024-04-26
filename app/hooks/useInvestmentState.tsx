@@ -1,14 +1,17 @@
-import { useStockContext } from "@/app/context/stock/StockContext";
 import { TradeDetail } from "../types/stockTypes";
+import { useAdditionsContext } from "../context/additionals/AdditionsContext";
 
 const useInvestmentState = () => {
-  const {
-    state: { holding, additions },
-  } = useStockContext();
+  const { state: additions } = useAdditionsContext();
 
+  // const initialResult: TradeDetail = {
+  //   totalQuantity: Number(holding.quantity),
+  //   investmentAmount: Number(holding.price) * Number(holding.quantity),
+  //   averagePrice: 0,
+  // };
   const initialResult: TradeDetail = {
-    totalQuantity: Number(holding.quantity),
-    investmentAmount: Number(holding.price) * Number(holding.quantity),
+    totalQuantity: 0,
+    investmentAmount: 0,
     averagePrice: 0,
   };
 
