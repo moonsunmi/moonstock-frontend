@@ -5,7 +5,7 @@ import { Purchase } from "@/types/stockTypes";
 import PurchaseDetailContainer from "./PurchaseDetailContainer";
 
 const AdditionalStocks = () => {
-  const { additions } = useAdditionsContext();
+  const { additions, additionDispatch } = useAdditionsContext();
 
   return (
     <>
@@ -15,6 +15,7 @@ const AdditionalStocks = () => {
             key={purchase.id}
             label="추가 매수"
             purchase={purchase}
+            dispatch={additionDispatch}
           />
         );
       })}
