@@ -21,6 +21,7 @@ export default async function RootLayout({
       <body>
         <AppRouterCacheProvider>
           <ThemeRegistry options={{ key: "mui" }}>
+            <CssBaseline />
             {/* <SessionProvider session={session}> */}
             <DrawerLeft>{children}</DrawerLeft>
           </ThemeRegistry>

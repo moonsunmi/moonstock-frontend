@@ -3,7 +3,7 @@
 import { useHoldingsContext } from "@/context/HoldingsContext";
 import PurchaseDetailContainer from "./PurchaseDetailContainer";
 
-const HoldingStock = () => {
+const HoldingStocks = () => {
   const { holdings, holdingsDispatch } = useHoldingsContext();
 
   return (
@@ -16,4 +16,4 @@ const HoldingStock = () => {
   );
 };
 
-export default HoldingStock;
+export default HoldingStocks;
