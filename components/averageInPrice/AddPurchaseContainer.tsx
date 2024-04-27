@@ -1,13 +1,16 @@
 "use client";
 
+import { useAdditionsContext } from "@/context/AdditionsContext";
 import { createInitialPurchase } from "@/context/initialPurchases";
 import { ActionType } from "@/types/actionTypes";
 import { apiStatus } from "@/types/apiStatus";
-import { Purchase, APIStockDetail } from "@/types/stockTypes";
+import { APIStockDetail, Purchase } from "@/types/stockTypes";
+import { Skeleton } from "@mui/material";
+import { blue } from "@mui/material/colors";
+import { Stock } from "@prisma/client";
 import { ChangeEvent, useCallback, useState } from "react";
 import AddPurchaseView from "./AddPurchaseView";
-import { Stock } from "@prisma/client";
-import { useAdditionsContext } from "@/context/AdditionsContext";
+import { useResponsiveHeight } from "@/hooks/useResponsiveHeight";
 
 const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
   const [userInput, setUserInput] = useState<string>("");
@@ -24,6 +27,7 @@ const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
   const handleClick = async () => {
     setStatus(apiStatus.loading);
     setUserInput("");
+
     try {
       const response = await fetch(
         `/api/stock-info?stockName=${encodeURIComponent(userInput)}`
@@ -61,15 +65,29 @@ const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
     setUserInput(event.target.value);
   };
 
+  const skeletonHeight = useResponsiveHeight("PurchaseDetailContainer");
+
   return (
-    <AddPurchaseView
-      handleClick={handleClick}
-      userInput={userInput}
-      onChange={onChange}
-      addPurchase={addPurchase}
-      stockList={stockList}
-      status={status}
-    />
+    <>
+      {status === apiStatus.loading ? (
+        <Skeleton
+          variant="rectangular"
+          height={skeletonHeight}
+          sx={{ bgcolor: blue[50], mt: 1, borderRadius: 2 }}
+        />
+      ) : (
+        <></>
+      )}
+
+      <AddPurchaseView
+        handleClick={handleClick}
+        userInput={userInput}
+        onChange={onChange}
+        addPurchase={addPurchase}
+        stockList={stockList}
+        status={status}
+      />
+    </>
   );
 };
 

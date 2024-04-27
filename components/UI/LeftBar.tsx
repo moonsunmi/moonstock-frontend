@@ -67,7 +67,7 @@ export default function ResponsiveDrawer({
         ))}
       </List>
       <Divider />
-      <List>
+      {/* <List>
         {customItems.map((item) => (
           <ListItem key={item.name} disablePadding>
             <ListItemButton component={Link} href={item.url}>
@@ -76,7 +76,7 @@ export default function ResponsiveDrawer({
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
       <Container sx={{ textAlign: "center" }}>
         {/* {session ? "로그아웃" : "로그인"} */}
       </Container>
