@@ -1,27 +1,49 @@
+import { ActionType, PurchaseAction } from "@/types/actionTypes";
 import { Purchase } from "@/types/stockTypes";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Container, FormGroup, Grid, Typography } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import { ChangeEvent } from "react";
+import { ChangeEvent, Dispatch, useCallback, useMemo } from "react";
 import NumericInput from "../UI/NumericInput";
 
-type PurchaseDetailViewProps = {
+type PurchaseDetailProps = {
   purchase: Purchase;
+  dispatch: Dispatch<PurchaseAction>;
   label: string;
   isDeletable?: boolean;
-  investmentAmount: number | undefined;
-  dispatchValue: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleRemove: () => void;
 };
 
-const PurchaseDetailView = ({
-  label,
+const PurchaseDetail = ({
   purchase,
-  investmentAmount,
-  isDeletable,
-  dispatchValue,
-  handleRemove,
-}: PurchaseDetailViewProps) => {
+  dispatch,
+  label,
+  isDeletable = true,
+}: PurchaseDetailProps) => {
+  const handleRemove = useCallback(() => {
+    dispatch({
+      type: ActionType.REMOVE,
+      payload: { id: purchase.id },
+    });
+  }, [dispatch, purchase.id]);
+
+  const dispatchValue = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      dispatch({
+        type: ActionType.UPDATE,
+        payload: {
+          ...purchase,
+          [event.target.name]: Number(event.target.value.replaceAll(",", "")),
+        },
+      });
+    },
+    [dispatch, purchase]
+  );
+
+  const investmentAmount = useMemo(() => {
+    if (purchase.price !== "" && purchase.quantity !== "")
+      return Number(purchase.price) * Number(purchase.quantity);
+  }, [purchase.price, purchase.quantity]);
+
   return (
     <Container
       sx={{
@@ -82,4 +104,5 @@ const PurchaseDetailView = ({
     </Container>
   );
 };
-export default PurchaseDetailView;
+
+export default PurchaseDetail;

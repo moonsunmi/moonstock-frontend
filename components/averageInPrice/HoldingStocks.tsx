@@ -1,13 +1,13 @@
 "use client";
 
 import { useHoldingsContext } from "@/context/HoldingsContext";
-import PurchaseDetailContainer from "./PurchaseDetailContainer";
+import PurchaseDetail from "./PurchaseDetail";
 
 const HoldingStocks = () => {
   const { holdings, holdingsDispatch } = useHoldingsContext();
 
   return (
-    <PurchaseDetailContainer
+    <PurchaseDetail
       label="보유 주식"
       purchase={holdings[0]} // Currently using first holding for now, but planning to update for handling multiple holdings
       dispatch={holdingsDispatch}

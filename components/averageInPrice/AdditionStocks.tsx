@@ -2,7 +2,7 @@
 
 import { useAdditionsContext } from "@/context/AdditionsContext";
 import { Purchase } from "@/types/stockTypes";
-import PurchaseDetailContainer from "./PurchaseDetailContainer";
+import PurchaseDetailContainer from "./PurchaseDetail";
 
 const AdditionStocks = () => {
   const { additions, additionsDispatch } = useAdditionsContext();
