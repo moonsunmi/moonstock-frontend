@@ -9,7 +9,8 @@ import {
   GridColumnMenu,
   GridColumnMenuProps,
 } from "@mui/x-data-grid";
-// import { Session } from "next-auth";
+import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 
 const columns: GridColDef[] = [
   {
@@ -52,14 +53,16 @@ type DataRow = {
 };
 
 export default function StockList({
-  datarows,
+  dataRows,
 }: {
-  datarows: DataRow[] | undefined;
+  dataRows: DataRow[] | undefined;
   // session: Session | null;
 }) {
-  const rows = datarows
-    ? datarows.map((datarow, index) => ({ ...datarow, id: index }))
+  const rows = dataRows
+    ? dataRows.map((dataRow, index) => ({ ...dataRow, id: index }))
     : [];
+
+  const { data: session } = useSession();
 
   return (
     <>

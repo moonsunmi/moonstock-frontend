@@ -1,7 +1,7 @@
 "use client";
 
 import { useAdditionsContext } from "@/context/AdditionsContext";
-import { Purchase } from "@/types/stockTypes";
+import { IPurchase } from "@/types/stockTypes";
 import PurchaseDetailContainer from "./PurchaseDetail";
 
 const AdditionStocks = () => {
@@ -9,7 +9,7 @@ const AdditionStocks = () => {
 
   return (
     <>
-      {additions.map((purchase: Purchase) => {
+      {additions.map((purchase: IPurchase) => {
         return (
           <PurchaseDetailContainer
             key={purchase.id}

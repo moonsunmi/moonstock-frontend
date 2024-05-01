@@ -1,4 +1,4 @@
-import { Purchase } from "@/types/stockTypes";
+import { IPurchase } from "@/types/stockTypes";
 
 export enum ActionType {
   ADD = "add",
@@ -8,12 +8,12 @@ export enum ActionType {
 
 interface AddPurchase {
   type: ActionType.ADD;
-  payload: Purchase;
+  payload: IPurchase;
 }
 
 interface UpdatePurchase {
   type: ActionType.UPDATE;
-  payload: Purchase;
+  payload: IPurchase;
 }
 
 interface RemovePurchase {

@@ -27,7 +27,7 @@ export default function ResponsiveDrawer({
 }: {
   children: React.ReactNode;
 }) {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -50,7 +50,7 @@ export default function ResponsiveDrawer({
   ];
   const customItems = [
     { name: "보유종목", url: "/stock-board", icon: <AppRegistrationIcon /> },
-    { name: "설정", url: "", icon: <SettingsIcon /> },
+    // { name: "설정", url: "", icon: <SettingsIcon /> },
   ];
   const drawer = (
     <div>
@@ -67,7 +67,7 @@ export default function ResponsiveDrawer({
         ))}
       </List>
       <Divider />
-      {/* <List>
+      <List>
         {customItems.map((item) => (
           <ListItem key={item.name} disablePadding>
             <ListItemButton component={Link} href={item.url}>
@@ -76,9 +76,13 @@ export default function ResponsiveDrawer({
             </ListItemButton>
           </ListItem>
         ))}
-      </List> */}
+      </List>
       <Container sx={{ textAlign: "center" }}>
-        {/* {session ? "로그아웃" : "로그인"} */}
+        {session ? (
+          <Link href={"/api/auth/signout"}>로그아웃</Link>
+        ) : (
+          <Link href={"/api/auth/signin"}>로그인</Link>
+        )}
       </Container>
     </div>
   );

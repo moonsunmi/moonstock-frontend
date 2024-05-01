@@ -1,7 +1,7 @@
 "use client";
 
 import { useHoldingsContext } from "@/context/HoldingsContext";
-import useInvestmentState from "@/hooks/useInvestmentState";
+import useCalculatedInvestment from "@/hooks/useCalculatedInvestment";
 import { List, ListItem } from "@mui/material";
 import ResultItem from "./ResultItem";
 
@@ -10,7 +10,7 @@ const Result = () => {
   // Currently using first holding for now, but planning to update for handling multiple holdings
   const holding = holdings[0];
   const { averagePrice, totalQuantity, investmentAmount } =
-    useInvestmentState();
+    useCalculatedInvestment();
 
   const isResultShow: boolean =
     holding.price === "" ||

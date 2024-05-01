@@ -5,7 +5,7 @@ import { createInitialPurchase } from "@/context/initialPurchases";
 import { useResponsiveHeight } from "@/hooks/useResponsiveHeight";
 import { ActionType } from "@/types/actionTypes";
 import { apiStatus } from "@/types/apiStatus";
-import { APIStockDetail, Purchase } from "@/types/stockTypes";
+import { APIStockDetail, IPurchase } from "@/types/stockTypes";
 import { Grid, Skeleton } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { Stock } from "@prisma/client";
@@ -21,7 +21,7 @@ const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
   const { additionsDispatch } = useAdditionsContext();
 
   const addPurchase = useCallback(() => {
-    const newPurchase: Purchase = createInitialPurchase();
+    const newPurchase: IPurchase = createInitialPurchase();
     additionsDispatch({ type: ActionType.ADD, payload: newPurchase });
     setUserInput("");
   }, [additionsDispatch]);
@@ -45,7 +45,7 @@ const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
       if (data && data.totalCount > 0) {
         const newPrice = data.items?.item[0]?.clpr;
         if (newPrice) {
-          const newPurchase: Purchase = createInitialPurchase({
+          const newPurchase: IPurchase = createInitialPurchase({
             price: Number(newPrice.replace(",", "")),
           });
           additionsDispatch({

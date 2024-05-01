@@ -1,10 +1,10 @@
 import { PurchaseAction } from "@/types/actionTypes";
-import { Purchase } from "@/types/stockTypes";
+import { IPurchase } from "@/types/stockTypes";
 import { Dispatch, createContext, useContext } from "react";
 
 interface HoldingsContext {
   // TODO. Additios와 같음.
-  holdings: Purchase[];
+  holdings: IPurchase[];
   holdingsDispatch: Dispatch<PurchaseAction>;
 }
 

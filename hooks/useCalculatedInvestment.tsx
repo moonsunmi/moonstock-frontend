@@ -2,7 +2,7 @@ import { TradeDetail } from "@/types/stockTypes";
 import { useAdditionsContext } from "@/context/AdditionsContext";
 import { useHoldingsContext } from "@/context/HoldingsContext";
 
-const useInvestmentState = () => {
+const useCalculatedInvestment = () => {
   const { additions } = useAdditionsContext();
   const { holdings } = useHoldingsContext();
 
@@ -33,4 +33,4 @@ const useInvestmentState = () => {
   return result;
 };
 
-export default useInvestmentState;
+export default useCalculatedInvestment;

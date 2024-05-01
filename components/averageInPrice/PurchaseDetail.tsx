@@ -1,13 +1,14 @@
 import { ActionType, PurchaseAction } from "@/types/actionTypes";
-import { Purchase } from "@/types/stockTypes";
+import { IPurchase } from "@/types/stockTypes";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Container, FormGroup, Grid, Typography } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { ChangeEvent, Dispatch, useCallback, useMemo } from "react";
 import NumericInput from "../UI/NumericInput";
+import { useSession } from "next-auth/react";
 
 type PurchaseDetailProps = {
-  purchase: Purchase;
+  purchase: IPurchase;
   dispatch: Dispatch<PurchaseAction>;
   label: string;
   isDeletable?: boolean;
@@ -19,6 +20,8 @@ const PurchaseDetail = ({
   label,
   isDeletable = true,
 }: PurchaseDetailProps) => {
+  const session = useSession();
+
   const handleRemove = useCallback(() => {
     dispatch({
       type: ActionType.REMOVE,
@@ -55,7 +58,9 @@ const PurchaseDetail = ({
       }}
       aria-label="Purchase Entry List"
     >
-      <Typography variant="subtitle1">{label}</Typography>
+      <Typography variant="subtitle1">
+        {session.data?.user && `${session.data.user.name} 님의`} {label}
+      </Typography>
       <FormGroup
         sx={{
           mt: 1.5,
