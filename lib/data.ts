@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Transaction, TransactionType } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function getHoldings(userId: number) {
+export async function getHoldings(userId: string) {
   try {
     const transactions = await prisma.transaction.findMany({
       where: { userId: userId },

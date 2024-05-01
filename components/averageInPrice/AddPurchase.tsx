@@ -2,24 +2,26 @@
 
 import { useAdditionsContext } from "@/context/AdditionsContext";
 import { createInitialPurchase } from "@/context/initialPurchases";
+import { useResponsiveHeight } from "@/hooks/useResponsiveHeight";
 import { ActionType } from "@/types/actionTypes";
 import { apiStatus } from "@/types/apiStatus";
-import { APIStockDetail, Purchase } from "@/types/stockTypes";
-import { Skeleton } from "@mui/material";
+import { APIStockDetail, IPurchase } from "@/types/stockTypes";
+import { Grid, Skeleton } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { Stock } from "@prisma/client";
 import { ChangeEvent, useCallback, useState } from "react";
-import AddPurchaseView from "./AddPurchaseView";
-import { useResponsiveHeight } from "@/hooks/useResponsiveHeight";
+import SearchBox from "../UI/SearchBox";
+import StyledButton from "../UI/StyledButton";
+import StatusDescription from "./StatusDescription";
 
-const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
+const AddPurchase = ({ stockList }: { stockList: Stock[] }) => {
   const [userInput, setUserInput] = useState<string>("");
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
 
   const { additionsDispatch } = useAdditionsContext();
 
   const addPurchase = useCallback(() => {
-    const newPurchase: Purchase = createInitialPurchase();
+    const newPurchase: IPurchase = createInitialPurchase();
     additionsDispatch({ type: ActionType.ADD, payload: newPurchase });
     setUserInput("");
   }, [additionsDispatch]);
@@ -43,7 +45,7 @@ const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
       if (data && data.totalCount > 0) {
         const newPrice = data.items?.item[0]?.clpr;
         if (newPrice) {
-          const newPurchase: Purchase = createInitialPurchase({
+          const newPurchase: IPurchase = createInitialPurchase({
             price: Number(newPrice.replace(",", "")),
           });
           additionsDispatch({
@@ -78,17 +80,28 @@ const AddPurchaseContainer = ({ stockList }: { stockList: Stock[] }) => {
       ) : (
         <></>
       )}
-
-      <AddPurchaseView
-        handleClick={handleClick}
-        userInput={userInput}
-        onChange={onChange}
-        addPurchase={addPurchase}
-        stockList={stockList}
-        status={status}
-      />
+      <Grid container spacing={1} sx={{ padding: 1, marginTop: 1 }}>
+        <Grid item xs={12} sm={6}>
+          <SearchBox
+            value={userInput}
+            onChange={onChange}
+            stockList={stockList}
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <StyledButton onClick={handleClick} disabled={!userInput.trim()}>
+            가격 입력
+          </StyledButton>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <StyledButton onClick={addPurchase}>빈칸 추가</StyledButton>
+        </Grid>
+        <Grid item xs={12} sm={9}>
+          <StatusDescription status={status} />
+        </Grid>
+      </Grid>
     </>
   );
 };
 
-export default AddPurchaseContainer;
+export default AddPurchase;

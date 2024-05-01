@@ -4,7 +4,7 @@ import { sql } from "@vercel/postgres";
 
 async function getStockList() {
   try {
-    const res = await sql`SELECT * from "Stock"`;
+    const res = await sql`SELECT * from "stocks"`;
     const rows = res.rows;
     return rows as Stock[];
   } catch (error) {

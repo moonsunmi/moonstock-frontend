@@ -1,10 +1,10 @@
 import AdditionsProvider from "@/context/AdditionsProvider";
 import HoldingsProvider from "@/context/HoldingsProvider";
 import { Stock } from "@prisma/client";
-import AddPurchaseContainer from "./AddPurchaseContainer";
+import AddPurchase from "./AddPurchase";
 import AdditionStocks from "./AdditionStocks";
 import HoldingStocks from "./HoldingStocks";
-import ResultContainer from "./ResultContainer";
+import Result from "./Result";
 
 const AverageDown = ({ stockList }: { stockList: Stock[] }) => {
   return (
@@ -12,8 +12,8 @@ const AverageDown = ({ stockList }: { stockList: Stock[] }) => {
       <AdditionsProvider>
         <HoldingStocks />
         <AdditionStocks />
-        <AddPurchaseContainer stockList={stockList} />
-        <ResultContainer />
+        <AddPurchase stockList={stockList} />
+        <Result />
       </AdditionsProvider>
     </HoldingsProvider>
   );

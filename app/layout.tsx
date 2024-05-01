@@ -1,20 +1,19 @@
-import DrawerLeft from "@/components/UI/LeftBar";
 import "@/app/globals.css";
+import DrawerLeft from "@/components/UI/LeftBar";
+import { authOptions } from "@/lib/auth";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { ThemeProvider } from "@mui/material/styles";
-import { SessionProvider } from "next-auth/react";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import MuiThemeProvider from "@/context/theme-provider";
+import { SessionProvider } from "next-auth/react";
 import ThemeRegistry from "../context/ThemeRegistry";
+import { NextAuthProvider } from "@/context/NextAuthProvider";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">
@@ -22,10 +21,10 @@ export default async function RootLayout({
         <AppRouterCacheProvider>
           <ThemeRegistry options={{ key: "mui" }}>
             <CssBaseline />
-            {/* <SessionProvider session={session}> */}
-            <DrawerLeft>{children}</DrawerLeft>
+            <NextAuthProvider session={session}>
+              <DrawerLeft>{children}</DrawerLeft>
+            </NextAuthProvider>
           </ThemeRegistry>
-          {/* </SessionProvider> */}
         </AppRouterCacheProvider>
       </body>
     </html>

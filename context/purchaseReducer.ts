@@ -1,8 +1,8 @@
 import { ActionType, PurchaseAction } from "@/types/actionTypes";
-import { Purchase } from "@/types/stockTypes";
+import { IPurchase } from "@/types/stockTypes";
 
 export default function purchaseReducer( // TODO. purchaseReducer로 바꿔야.
-  state: Purchase[],
+  state: IPurchase[],
   action: PurchaseAction
 ) {
   switch (action.type) {

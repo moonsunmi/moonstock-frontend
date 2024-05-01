@@ -1,10 +1,10 @@
 import { FieldValue } from "./formTypes";
 
-export type Purchase = {
+export interface IPurchase {
   id: string;
   price: FieldValue;
   quantity: FieldValue;
-};
+}
 
 export enum PurchaseType {
   HOLDING = "holding",

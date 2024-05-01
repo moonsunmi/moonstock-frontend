@@ -1,19 +1,23 @@
-import { Purchase, TradeDetail } from "@/types/stockTypes";
+"use client";
+
+import { useHoldingsContext } from "@/context/HoldingsContext";
+import useCalculatedInvestment from "@/hooks/useCalculatedInvestment";
 import { List, ListItem } from "@mui/material";
 import ResultItem from "./ResultItem";
 
-type ResultViewProps = {
-  isResultShow: boolean;
-  holding: Purchase;
-  tradeDetail: TradeDetail;
-};
+const Result = () => {
+  const { holdings } = useHoldingsContext();
+  // Currently using first holding for now, but planning to update for handling multiple holdings
+  const holding = holdings[0];
+  const { averagePrice, totalQuantity, investmentAmount } =
+    useCalculatedInvestment();
 
-const ResultView = ({
-  isResultShow,
-  holding,
-  tradeDetail,
-}: ResultViewProps) => {
-  const { averagePrice, totalQuantity, investmentAmount } = tradeDetail;
+  const isResultShow: boolean =
+    holding.price === "" ||
+    holding.quantity === "" ||
+    holding.price === 0 ||
+    holding.quantity === 0;
+
   return (
     <List
       sx={{
@@ -50,4 +54,4 @@ const ResultView = ({
   );
 };
 
-export default ResultView;
+export default Result;
