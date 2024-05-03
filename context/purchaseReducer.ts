@@ -1,7 +1,7 @@
 import { ActionType, PurchaseAction } from "@/types/actionTypes";
 import { IPurchase } from "@/types/stockTypes";
 
-export default function purchaseReducer( // TODO. purchaseReducer로 바꿔야.
+export default function purchaseReducer(
   state: IPurchase[],
   action: PurchaseAction
 ) {

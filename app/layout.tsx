@@ -1,12 +1,25 @@
 import "@/app/globals.css";
 import DrawerLeft from "@/components/UI/LeftBar";
+import { NextAuthProvider } from "@/context/NextAuthProvider";
+import StockListProvider from "@/context/StockListProvider";
 import { authOptions } from "@/lib/auth";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
+import { Stock } from "@prisma/client";
+import { sql } from "@vercel/postgres";
 import { getServerSession } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 import ThemeRegistry from "../context/ThemeRegistry";
-import { NextAuthProvider } from "@/context/NextAuthProvider";
+
+async function getStockList() {
+  try {
+    const res = await sql`SELECT * from "stocks"`;
+    const rows = res.rows;
+    return rows as Stock[];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
 
 export default async function RootLayout({
   children,
@@ -14,6 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
+  const stockList: Stock[] = await getStockList();
 
   return (
     <html lang="en">
@@ -22,7 +36,11 @@ export default async function RootLayout({
           <ThemeRegistry options={{ key: "mui" }}>
             <CssBaseline />
             <NextAuthProvider session={session}>
-              <DrawerLeft>{children}</DrawerLeft>
+              <DrawerLeft>
+                <StockListProvider stockList={stockList}>
+                  {children}
+                </StockListProvider>
+              </DrawerLeft>
             </NextAuthProvider>
           </ThemeRegistry>
         </AppRouterCacheProvider>

@@ -14,7 +14,7 @@ const instance = axios.create({
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const stockName = searchParams.get("stockName"); // not cached.
+  const stockName = searchParams.get("stock-name"); // not cached.
 
   const response = await instance.get("", {
     params: { itmsNm: stockName },

@@ -3,7 +3,6 @@
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoneyIcon from "@mui/icons-material/Money";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { Container, IconButton } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
