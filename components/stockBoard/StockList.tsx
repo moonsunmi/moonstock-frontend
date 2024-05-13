@@ -42,7 +42,7 @@ function CustomColumnMenu(props: GridColumnMenuProps) {
 }
 
 type DataRow = {
-  name: string;
+  ticker: string;
   price: number;
   quantity: number;
   investmentAmount: number;

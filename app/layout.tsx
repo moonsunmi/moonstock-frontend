@@ -16,7 +16,7 @@ async function getStockList() {
     const rows = res.rows;
     return rows as Stock[];
   } catch (error) {
-    console.log(error);
+    console.log("주식 리스트를 가져오는 데 실패했습니다: ", error);
     return [];
   }
 }

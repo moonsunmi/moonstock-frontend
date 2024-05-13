@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import { hash } from "bcrypt";
 
@@ -29,7 +28,7 @@ export async function POST(request: Request) {
     //   }
     // };
   } catch (error) {
-    console.log(error);
+    console.log("사용자를 등록하는 데 실패했습니다.", error);
   }
-  return NextResponse.json({ message: "success" });
+  return Response.json({ message: "success" });
 }

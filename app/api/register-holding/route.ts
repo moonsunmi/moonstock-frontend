@@ -1,18 +1,33 @@
 import { authOptions } from "@/lib/auth";
 import { postHolding } from "@/lib/data";
+import { HttpStatusCode } from "axios";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request, response: Response) {
   const { searchParams } = new URL(request.url);
   const session = await getServerSession(authOptions);
 
   const userId = session?.user?.id || "";
-  const stockTicker = searchParams.get("stock-ticker") || "";
+  const stockTicker = searchParams.get("stockTicker") || "";
   const quantity = Number(searchParams.get("quantity"));
   const price = Number(searchParams.get("price"));
 
-  const holding = await postHolding({ userId, stockTicker, quantity, price });
-
-  return NextResponse.json(holding);
+  try {
+    const holding = await postHolding({ userId, stockTicker, quantity, price });
+    console.log("보유 주식 등록이 성공했습니다.");
+    return Response.json(
+      {
+        data: JSON.stringify(holding),
+      },
+      { status: HttpStatusCode.Ok }
+    );
+  } catch (error: any) {
+    console.log(error.message);
+    return Response.json(
+      {
+        error: error.message,
+      },
+      { status: HttpStatusCode.BadRequest }
+    );
+  }
 }

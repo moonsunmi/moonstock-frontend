@@ -10,7 +10,6 @@ function useInput(
   const [input, setInput] = useState<string>(initialInput);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(input);
     setInput(event.target.value);
   };
   return [input, setInput, handleChange];

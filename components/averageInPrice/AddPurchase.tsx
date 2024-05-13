@@ -36,7 +36,7 @@ const AddPurchase = () => {
       );
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData.message);
+        console.log("stock-name API call failed", errorData.message);
         setStatus(apiStatus.error);
         return;
       }
