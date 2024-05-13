@@ -1,5 +1,4 @@
 import axios from "axios";
-import { NextRequest } from "next/server";
 
 const instance = axios.create({
   baseURL:
@@ -12,9 +11,9 @@ const instance = axios.create({
   },
 });
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const stockName = searchParams.get("stockName"); // not cached.
+  const stockName = searchParams.get("stock-name"); // not cached.
 
   const response = await instance.get("", {
     params: { itmsNm: stockName },

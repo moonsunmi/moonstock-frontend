@@ -16,8 +16,6 @@ fs.createReadStream("stock_list.csv", { encoding: "utf-8" })
     results.push(stockData);
   })
   .on("end", async () => {
-    console.log(results);
-
     for (const item of results) {
       await prisma.stock.upsert({
         where: {

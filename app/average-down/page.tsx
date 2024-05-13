@@ -1,20 +1,21 @@
-import AverageDown from "@/components/averageInPrice/AverageDown";
-import { Stock } from "@prisma/client";
-import { sql } from "@vercel/postgres";
+import AddPurchase from "@/components/averageInPrice/AddPurchase";
+import AdditionStocks from "@/components/averageInPrice/AdditionStocks";
+import HoldingStocks from "@/components/averageInPrice/HoldingStocks";
+import Result from "@/components/averageInPrice/Result";
+import AdditionsProvider from "@/context/AdditionsProvider";
+import HoldingsProvider from "@/context/HoldingsProvider";
 
-async function getStockList() {
-  try {
-    const res = await sql`SELECT * from "stocks"`;
-    const rows = res.rows;
-    return rows as Stock[];
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-}
+const AverageDownPage = () => {
+  return (
+    <HoldingsProvider>
+      <AdditionsProvider>
+        <HoldingStocks />
+        <AdditionStocks />
+        <AddPurchase />
+        <Result />
+      </AdditionsProvider>
+    </HoldingsProvider>
+  );
+};
 
-export default async function Page() {
-  const results: Stock[] = await getStockList();
-
-  return <AverageDown stockList={results} />;
-}
+export default AverageDownPage;

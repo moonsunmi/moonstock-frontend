@@ -1,23 +1,25 @@
+import { useStockListContext } from "@/context/StockListContext";
 import {
   Autocomplete,
   FilterOptionsState,
   TextField,
+  TextFieldProps,
   createFilterOptions,
 } from "@mui/material";
 import { Stock } from "@prisma/client";
 import { ChangeEvent, useMemo } from "react";
 
-type SearchBoxProps = {
+type SearchStockInputProps = {
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  stockList: Stock[];
-};
+} & TextFieldProps;
 
-export default function SearchBox({
+function SearchStockInput({
   value,
   onChange,
-  stockList,
-}: SearchBoxProps) {
+  ...textFieldProps
+}: SearchStockInputProps) {
+  const stockList: Stock[] = useStockListContext();
   const filter = useMemo(
     () =>
       createFilterOptions<Stock>({
@@ -56,7 +58,7 @@ export default function SearchBox({
 
   return (
     <Autocomplete
-      id="free-solo-demo"
+      id="auto-highlight"
       freeSolo
       options={stockList}
       filterOptions={filterOptions}
@@ -75,6 +77,7 @@ export default function SearchBox({
           onFocus={(event: React.FocusEvent<HTMLInputElement>) => {
             event.target.select();
           }}
+          {...textFieldProps}
         />
       )}
       renderOption={(props, option) => (
@@ -94,3 +97,5 @@ export default function SearchBox({
     />
   );
 }
+
+export default SearchStockInput;

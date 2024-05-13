@@ -10,8 +10,8 @@ export const createInitialPurchase = ({
   quantity?: FieldValue;
 } = {}): IPurchase => ({
   id: uuidv4(),
-  price: price,
-  quantity: quantity,
+  price,
+  quantity,
 });
 
 export const initialPurchase: IPurchase = {

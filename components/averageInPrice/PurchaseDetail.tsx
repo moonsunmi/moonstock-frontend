@@ -1,11 +1,11 @@
 import { ActionType, PurchaseAction } from "@/types/actionTypes";
 import { IPurchase } from "@/types/stockTypes";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Container, FormGroup, Grid, Typography } from "@mui/material";
-import { blue } from "@mui/material/colors";
-import { ChangeEvent, Dispatch, useCallback, useMemo } from "react";
-import NumericInput from "../UI/NumericInput";
+import { FormGroup, Grid } from "@mui/material";
 import { useSession } from "next-auth/react";
+import { ChangeEvent, Dispatch, useCallback, useMemo } from "react";
+import ContainerBox from "../UI/ContainerBox";
+import NumericInput from "../UI/NumericInput";
 
 type PurchaseDetailProps = {
   purchase: IPurchase;
@@ -48,19 +48,12 @@ const PurchaseDetail = ({
   }, [purchase.price, purchase.quantity]);
 
   return (
-    <Container
-      sx={{
-        marginTop: 1,
-        padding: 1,
-        bgcolor: blue[50],
-        width: "auto",
-        borderRadius: 2,
-      }}
-      aria-label="Purchase Entry List"
+    <ContainerBox
+      title={
+        session.data?.user ? `${session.data.user.name} 님의 ${label}` : label
+      }
+      aria-label="Purchase Detail"
     >
-      <Typography variant="subtitle1">
-        {session.data?.user && `${session.data.user.name} 님의`} {label}
-      </Typography>
       <FormGroup
         sx={{
           mt: 1.5,
@@ -89,7 +82,6 @@ const PurchaseDetail = ({
               name="investmentAmount"
               value={investmentAmount || ""}
               label="총합"
-              onBlur={() => {}}
             />
           </Grid>
           <Grid item xs={1} sm={0.5}>
@@ -106,7 +98,7 @@ const PurchaseDetail = ({
           </Grid>
         </Grid>
       </FormGroup>
-    </Container>
+    </ContainerBox>
   );
 };
 

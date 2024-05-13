@@ -1,16 +1,12 @@
 "use client";
 
-import RegisterStocksButton from "@/components/stockBoard/RegisterStocksButton";
 import { formatNumToKR } from "@/utils/formatNumber";
-import { Box } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridColumnMenu,
   GridColumnMenuProps,
 } from "@mui/x-data-grid";
-import { Session } from "next-auth";
-import { useSession } from "next-auth/react";
 
 const columns: GridColDef[] = [
   {
@@ -46,7 +42,7 @@ function CustomColumnMenu(props: GridColumnMenuProps) {
 }
 
 type DataRow = {
-  name: string;
+  ticker: string;
   price: number;
   quantity: number;
   investmentAmount: number;
@@ -61,8 +57,6 @@ export default function StockList({
   const rows = dataRows
     ? dataRows.map((dataRow, index) => ({ ...dataRow, id: index }))
     : [];
-
-  const { data: session } = useSession();
 
   return (
     <>
@@ -84,9 +78,6 @@ export default function StockList({
           pageSizeOptions={[10]}
         />
       </div>
-      <Box display="flex" justifyContent="center" margin={3}>
-        <RegisterStocksButton sx={{ width: { xs: "234px", sm: "50%" } }} />
-      </Box>
     </>
   );
 }

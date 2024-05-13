@@ -3,12 +3,12 @@ import { TextField } from "@mui/material";
 import { ChangeEvent } from "react";
 import { NumericFormat } from "react-number-format";
 
-const commonInputprops = {
+const commonInputProps = {
   style: { textAlign: "right" as const },
 };
 
 const readOnlyInputProps = {
-  ...commonInputprops,
+  ...commonInputProps,
   readOnly: true,
 };
 
@@ -25,7 +25,7 @@ type NumericInputProps = {
   value: FieldValue;
   label: string;
   readOnly?: boolean;
-  onBlur: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const NumericInput = ({
@@ -42,7 +42,7 @@ const NumericInput = ({
       label={label}
       onBlur={onBlur}
       {...commonNumericFormatProps}
-      inputProps={readOnly ? readOnlyInputProps : commonInputprops}
+      inputProps={readOnly ? readOnlyInputProps : commonInputProps}
     />
   );
 };

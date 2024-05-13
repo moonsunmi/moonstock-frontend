@@ -5,3 +5,7 @@ export const formatNumToKR = (value: number | string, fixed: number = 2) => {
     ? ""
     : new Intl.NumberFormat("ko-kr").format(fixedNumber);
 };
+
+export const stripCommas = (value: string | undefined): string => {
+  return value?.trim().replaceAll(",", "") ?? "";
+};
