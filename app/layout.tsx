@@ -9,6 +9,8 @@ import { Stock } from "@prisma/client";
 import { sql } from "@vercel/postgres";
 import { getServerSession } from "next-auth";
 import ThemeRegistry from "../context/ThemeRegistry";
+import SignOutHandler from "@/components/client/SignOutHandler";
+import TabCounter from "@/components/client/TabCounter";
 
 async function getStockList() {
   try {
@@ -36,6 +38,8 @@ export default async function RootLayout({
           <ThemeRegistry options={{ key: "mui" }}>
             <CssBaseline />
             <NextAuthProvider session={session}>
+              <SignOutHandler />
+              {/* <TabCounter /> */}
               <DrawerLeft>
                 <StockListProvider stockList={stockList}>
                   {children}

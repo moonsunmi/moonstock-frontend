@@ -1,9 +1,9 @@
 "use client";
 
-import StyledButton from "@/components/UI/StyledButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ButtonProps } from "@mui/material";
 import { useRouter } from "next/navigation";
+import Button from "../UI/Button";
 
 export default function RegisterStocksButton({ ...rest }: ButtonProps) {
   const router = useRouter();
@@ -13,13 +13,11 @@ export default function RegisterStocksButton({ ...rest }: ButtonProps) {
   };
 
   return (
-    <>
-      <StyledButton {...rest} onClick={handleClick}>
-        <div>
-          <AddCircleOutlineIcon />
-          <div>보유 종목 등록하기</div>
-        </div>
-      </StyledButton>
-    </>
+    <Button variant="outlined" onClick={handleClick} {...rest}>
+      <div>
+        <AddCircleOutlineIcon />
+        <div>보유 종목 등록하기</div>
+      </div>
+    </Button>
   );
 }

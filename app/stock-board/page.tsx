@@ -5,13 +5,14 @@ import { getHoldings } from "@/lib/data";
 import { Box } from "@mui/material";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
-export default async function Page() {
+export default async function StockBoardPage() {
   const session = await getServerSession(authOptions);
-  if (!session?.user) {
-    redirect("api/auth/signin");
-  }
-  const dataRows = (await getHoldings(session.user.id)) || [];
+  // if (!session?.user) {
+  //   redirect("api/auth/signin");
+  // }
+  const dataRows = (await getHoldings(session?.user.id || "")) || [];
 
   return (
     <>

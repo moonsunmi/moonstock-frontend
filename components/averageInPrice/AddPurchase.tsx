@@ -7,18 +7,21 @@ import { useResponsiveHeight } from "@/hooks/useResponsiveHeight";
 import { ActionType } from "@/types/actionTypes";
 import { apiStatus } from "@/types/apiStatus";
 import { APIStockDetail, IPurchase } from "@/types/stockTypes";
-import { Grid, Skeleton } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { useCallback, useState } from "react";
 import SearchStockInput from "../UI/SearchStockInput";
-import StyledButton from "../UI/StyledButton";
 import StatusDescription from "./StatusDescription";
+import { useRouter } from "next/navigation";
+import Button from "../UI/Button";
+import PurchaseDetailContainer from "./PurchaseDetail";
 
 const AddPurchase = () => {
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
   const [input, setInput, onChange] = useInput("");
+  const route = useRouter();
 
-  const { additionsDispatch } = useAdditionsContext();
+  const { additions, additionsDispatch } = useAdditionsContext();
 
   const addPurchase = useCallback(() => {
     const newPurchase: IPurchase = createInitialPurchase();
@@ -67,6 +70,16 @@ const AddPurchase = () => {
 
   return (
     <>
+      {additions.map((purchase: IPurchase) => {
+        return (
+          <PurchaseDetailContainer
+            key={purchase.id}
+            label="추가 매수"
+            purchase={purchase}
+            dispatch={additionsDispatch}
+          />
+        );
+      })}
       {status === apiStatus.loading ? (
         <Skeleton
           variant="rectangular"
@@ -76,22 +89,20 @@ const AddPurchase = () => {
       ) : (
         <></>
       )}
-      <Grid container spacing={1} sx={{ padding: 1, marginTop: 1 }}>
-        <Grid item xs={12} sm={6}>
-          <SearchStockInput value={input} onChange={onChange} />
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <StyledButton onClick={handleClick} disabled={!input.trim()}>
-            가격 입력
-          </StyledButton>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <StyledButton onClick={addPurchase}>빈칸 추가</StyledButton>
-        </Grid>
-        <Grid item xs={12} sm={9}>
-          <StatusDescription status={status} />
-        </Grid>
-      </Grid>
+      <div className="flex gap-2">
+        <SearchStockInput value={input} onChange={onChange} className="w-1/2" />
+        <Button
+          onClick={handleClick}
+          disabled={!input.trim()}
+          className="w-1/4"
+        >
+          가격 입력
+        </Button>
+        <Button onClick={addPurchase} className="w-1/4">
+          빈칸 추가
+        </Button>
+      </div>
+      <StatusDescription status={status} />
     </>
   );
 };

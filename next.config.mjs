@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   poweredByHeader: false,
   compiler: {
     styledComponents: true,
@@ -19,6 +19,14 @@ const nextConfig = {
             value: "GET",
           },
         ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        destination: "/",
       },
     ];
   },

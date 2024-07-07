@@ -94,6 +94,7 @@ function SearchStockInput({
           </span>
         </li>
       )}
+      className="w-1/2"
     />
   );
 }
