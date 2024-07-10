@@ -1,6 +1,6 @@
 "use client";
 
-import { useHoldingsContext } from "@/context/HoldingsContext";
+import { useHoldingsContext } from "@/common/context/HoldingsContext";
 import PurchaseDetail from "./PurchaseDetail";
 
 const HoldingStocks = () => {

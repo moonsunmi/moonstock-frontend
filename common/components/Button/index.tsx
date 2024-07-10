@@ -67,8 +67,6 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
     className
   );
 
-  console.log(merged);
-
   return (
     <button ref={ref} className={merged} {...rest}>
       {children}

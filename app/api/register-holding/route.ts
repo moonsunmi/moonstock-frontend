@@ -1,5 +1,5 @@
-import { authOptions } from "@/lib/auth";
-import { postHolding } from "@/lib/data";
+import { authOptions } from "@/common/lib/auth";
+import { postHolding } from "@/common/lib/data";
 import { HttpStatusCode } from "axios";
 import { getServerSession } from "next-auth";
 

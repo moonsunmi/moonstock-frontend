@@ -1,7 +1,7 @@
 "use client";
 
-import { useHoldingsContext } from "@/context/HoldingsContext";
-import useCalculatedInvestment from "@/hooks/useCalculatedInvestment";
+import { useHoldingsContext } from "@/common/context/HoldingsContext";
+import useCalculatedInvestment from "@/common/hooks/useCalculatedInvestment";
 import { List, ListItem } from "@mui/material";
 import ResultItem from "./ResultItem";
 

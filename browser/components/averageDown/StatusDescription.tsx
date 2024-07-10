@@ -1,4 +1,4 @@
-import { fontColor } from "@/lib/color";
+import { fontColor } from "@/common/lib/color";
 import { apiStatus } from "@/types/apiStatus";
 import { Typography } from "@mui/material";
 

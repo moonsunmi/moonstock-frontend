@@ -1,11 +1,11 @@
 "use client";
 
-import ContainerBox from "@/components/UI/ContainerBox";
-import NumericInput2 from "@/components/UI/NumericInput2";
-import SearchStockInput from "@/components/UI/SearchStockInput";
-import StyledButton from "@/components/UI/StyledButton";
-import { useStockListContext } from "@/context/StockListContext";
-import useInput from "@/hooks/useInput";
+import Button from "@/common/components/Button";
+import ContainerBox from "@/browser/components/UI/ContainerBox";
+import NumericInput2 from "@/browser/components/UI/NumericInput2";
+import SearchStockInput from "@/browser/components/UI/SearchStockInput";
+import { useStockListContext } from "@/common/context/StockListContext";
+import useInput from "@/common/hooks/useInput";
 import { stripCommas } from "@/utils/formatNumber";
 import { Box, FormControl, FormGroup, Modal, Typography } from "@mui/material";
 import { Stock } from "@prisma/client";
@@ -111,9 +111,7 @@ function RegisterHoldingPage() {
             />
           </FormControl>
         </FormGroup>
-        <StyledButton type="submit" disabled={isSubmitting}>
-          등록하기
-        </StyledButton>
+        <Button disabled={isSubmitting}>등록하기</Button>
 
         <Modal
           open={open}

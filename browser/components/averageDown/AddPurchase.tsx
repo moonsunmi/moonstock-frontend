@@ -1,20 +1,25 @@
 "use client";
 
-import { useAdditionsContext } from "@/context/AdditionsContext";
-import { createInitialPurchase } from "@/context/initialPurchases";
-import useInput from "@/hooks/useInput";
-import { useResponsiveHeight } from "@/hooks/useResponsiveHeight";
+import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+// Context
+import { useAdditionsContext } from "@/common/context/AdditionsContext";
+import { createInitialPurchase } from "@/common/context/initialPurchases";
+// Components
+import { Skeleton } from "@mui/material";
+import Button from "@/common/components/Button";
+import PurchaseDetailContainer from "./PurchaseDetail";
+import SearchStockInput from "../UI/SearchStockInput";
+import StatusDescription from "./StatusDescription";
+// Hooks
+import useInput from "@/common/hooks/useInput";
+import { useResponsiveHeight } from "@/common/hooks/useResponsiveHeight";
+// Types
 import { ActionType } from "@/types/actionTypes";
 import { apiStatus } from "@/types/apiStatus";
 import { APIStockDetail, IPurchase } from "@/types/stockTypes";
-import { Skeleton } from "@mui/material";
+// Styles
 import { blue } from "@mui/material/colors";
-import { useCallback, useState } from "react";
-import SearchStockInput from "../UI/SearchStockInput";
-import StatusDescription from "./StatusDescription";
-import { useRouter } from "next/navigation";
-import Button from "../UI/Button";
-import PurchaseDetailContainer from "./PurchaseDetail";
 
 const AddPurchase = () => {
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle);
@@ -90,7 +95,9 @@ const AddPurchase = () => {
         <></>
       )}
       <div className="flex gap-2">
-        <SearchStockInput value={input} onChange={onChange} className="w-1/2" />
+        <div className="w-1/2">
+          <SearchStockInput value={input} onChange={onChange} />
+        </div>
         <Button
           onClick={handleClick}
           disabled={!input.trim()}

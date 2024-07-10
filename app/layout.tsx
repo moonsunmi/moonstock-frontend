@@ -1,16 +1,17 @@
-import "@/app/globals.css";
-import DrawerLeft from "@/components/UI/LeftBar";
-import { NextAuthProvider } from "@/context/NextAuthProvider";
-import StockListProvider from "@/context/StockListProvider";
-import { authOptions } from "@/lib/auth";
+import DrawerLeft from "@/browser/components/UI/LeftBar";
+import { NextAuthProvider } from "@/common/context/NextAuthProvider";
+import StockListProvider from "@/common/context/StockListProvider";
+import { authOptions } from "@/common/lib/auth";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Stock } from "@prisma/client";
 import { sql } from "@vercel/postgres";
 import { getServerSession } from "next-auth";
-import ThemeRegistry from "../context/ThemeRegistry";
-import SignOutHandler from "@/components/client/SignOutHandler";
-import TabCounter from "@/components/client/TabCounter";
+import ThemeRegistry from "../common/context/ThemeRegistry";
+import SignOutHandler from "@/browser/components/client/SignOutHandler";
+import TabCounter from "@/browser/components/client/TabCounter";
+// Styles
+import "./globals.css";
 
 async function getStockList() {
   try {

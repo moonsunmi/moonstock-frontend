@@ -1,6 +1,6 @@
 import { TradeDetail } from "@/types/stockTypes";
-import { useAdditionsContext } from "@/context/AdditionsContext";
-import { useHoldingsContext } from "@/context/HoldingsContext";
+import { useAdditionsContext } from "@/common/context/AdditionsContext";
+import { useHoldingsContext } from "@/common/context/HoldingsContext";
 
 const useCalculatedInvestment = () => {
   const { additions } = useAdditionsContext();

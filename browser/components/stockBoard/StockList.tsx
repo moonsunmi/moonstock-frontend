@@ -1,12 +1,17 @@
 "use client";
 
-import { formatNumToKR } from "@/utils/formatNumber";
+import { useRouter } from "next/navigation";
+// Components
 import {
   DataGrid,
   GridColDef,
   GridColumnMenu,
   GridColumnMenuProps,
 } from "@mui/x-data-grid";
+import Button from "@/common/components/Button";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+// Libs
+import { formatNumToKR } from "@/utils/formatNumber";
 
 const columns: GridColDef[] = [
   {
@@ -54,9 +59,15 @@ export default function StockList({
   dataRows: DataRow[] | undefined;
   // session: Session | null;
 }) {
+  const router = useRouter();
+
   const rows = dataRows
     ? dataRows.map((dataRow, index) => ({ ...dataRow, id: index }))
     : [];
+
+  const handleClick = () => {
+    router.push("/register-holding");
+  };
 
   return (
     <>
@@ -77,6 +88,14 @@ export default function StockList({
           slots={{ columnMenu: CustomColumnMenu }}
           pageSizeOptions={[10]}
         />
+      </div>
+      <div className="flex justify-center	">
+        <Button variant="outlined" onClick={handleClick} className="w-1/2">
+          <div>
+            <AddCircleOutlineIcon />
+            <div>보유 종목 등록하기</div>
+          </div>
+        </Button>
       </div>
     </>
   );

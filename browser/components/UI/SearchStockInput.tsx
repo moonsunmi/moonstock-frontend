@@ -1,4 +1,4 @@
-import { useStockListContext } from "@/context/StockListContext";
+import { useStockListContext } from "@/common/context/StockListContext";
 import {
   Autocomplete,
   FilterOptionsState,
@@ -94,7 +94,6 @@ function SearchStockInput({
           </span>
         </li>
       )}
-      className="w-1/2"
     />
   );
 }
