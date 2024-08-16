@@ -1,77 +1,77 @@
-"use client";
+'use client'
 
-import { useRouter } from "next/navigation";
+import {useRouter} from 'next/navigation'
 // Components
 import {
   DataGrid,
   GridColDef,
   GridColumnMenu,
-  GridColumnMenuProps,
-} from "@mui/x-data-grid";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Button from "@/common/components/Button";
+  GridColumnMenuProps
+} from '@mui/x-data-grid'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 // Libs
-import { formatNumToKR } from "@/utils/formatNumber";
+import {formatNumToKR} from '@/common/utils/formatNumber'
+import Button from '../UI/Button'
 
 const columns: GridColDef[] = [
   {
-    field: "name",
-    headerName: "종목 이름",
-    flex: 1,
+    field: 'name',
+    headerName: '종목 이름',
+    flex: 1
   },
   {
-    field: "price",
-    headerName: "평균 단가",
+    field: 'price',
+    headerName: '평균 단가',
     flex: 0.9,
-    align: "right",
-    valueFormatter: (value) => formatNumToKR(value),
+    align: 'right',
+    valueFormatter: value => formatNumToKR(value)
   },
   {
-    field: "quantity",
-    headerName: "수량",
+    field: 'quantity',
+    headerName: '수량',
     flex: 0.5,
-    align: "right",
-    valueFormatter: (value) => formatNumToKR(value),
+    align: 'right',
+    valueFormatter: value => formatNumToKR(value)
   },
   {
-    field: "investmentAmount",
-    headerName: "투자금액",
+    field: 'investmentAmount',
+    headerName: '투자금액',
     flex: 1,
-    align: "right",
-    valueFormatter: (value) => formatNumToKR(value),
-  },
-];
+    align: 'right',
+    valueFormatter: value => formatNumToKR(value)
+  }
+]
 
 function CustomColumnMenu(props: GridColumnMenuProps) {
-  return <GridColumnMenu {...props} slots={{ columnMenuColumnsItem: null }} />;
+  return <GridColumnMenu {...props} slots={{columnMenuColumnsItem: null}} />
 }
 
 type DataRow = {
-  ticker: string;
-  price: number;
-  quantity: number;
-  investmentAmount: number;
-};
+  ticker: string
+  price: number
+  quantity: number
+  investmentAmount: number
+}
 
 export default function StockList({
-  dataRows,
+  dataRows
 }: {
-  dataRows: DataRow[] | undefined;
+  dataRows: DataRow[] | undefined
   // session: Session | null;
 }) {
-  const router = useRouter();
+  const router = useRouter()
 
   const rows = dataRows
-    ? dataRows.map((dataRow, index) => ({ ...dataRow, id: index }))
-    : [];
+    ? dataRows.map((dataRow, index) => ({...dataRow, id: index}))
+    : []
 
   const handleClick = () => {
-    router.push("/register-holding");
-  };
+    router.push('/register-holding')
+  }
 
   return (
     <>
-      <div style={{ width: "100%" }}>
+      <div style={{width: '100%'}}>
         <DataGrid
           columnHeaderHeight={45}
           rowHeight={45}
@@ -81,11 +81,11 @@ export default function StockList({
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 10,
-              },
-            },
+                pageSize: 10
+              }
+            }
           }}
-          slots={{ columnMenu: CustomColumnMenu }}
+          slots={{columnMenu: CustomColumnMenu}}
           pageSizeOptions={[10]}
         />
       </div>
@@ -98,5 +98,5 @@ export default function StockList({
         </Button>
       </div>
     </>
-  );
+  )
 }

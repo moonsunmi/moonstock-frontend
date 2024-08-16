@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import { useHoldingsContext } from "@/common/context/HoldingsContext";
-import PurchaseDetail from "./PurchaseDetail";
-import Card from "@/common/components/Card";
-import Input from "@/common/components/Input";
+import {useHoldingsContext} from '@/common/context/HoldingsContext'
+import PurchaseDetail from './PurchaseDetail'
+import Card from '../UI/Card'
+import TextField from '../UI/texts/TextField'
 
 const HoldingStocks = () => {
-  const { holdings, holdingsDispatch } = useHoldingsContext();
+  const {holdings, holdingsDispatch} = useHoldingsContext()
 
   return (
     <>
@@ -18,10 +18,10 @@ const HoldingStocks = () => {
       />
       <Card>
         <p>보유주식</p>
-        <Input />
+        <TextField />
       </Card>
     </>
-  );
-};
+  )
+}
 
-export default HoldingStocks;
+export default HoldingStocks

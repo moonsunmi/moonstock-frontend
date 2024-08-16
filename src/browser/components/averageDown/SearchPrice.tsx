@@ -7,9 +7,9 @@ import {useAdditionsContext} from '@/common/context/AdditionsContext'
 import {createInitialPurchase} from '@/common/context/initialPurchases'
 // Components
 import {Skeleton} from '@mui/material'
-import Button from '@/common/components/Button'
 import PurchaseDetailContainer from './PurchaseDetail'
 import SearchStockInput from '../UI/SearchStockInput'
+import Button from '../UI/Button'
 import StatusDescription from './StatusDescription'
 // Hooks
 import useInput from '@/common/hooks/useInput'
@@ -21,18 +21,12 @@ import {APIStockDetail, IPurchase} from '@/types/stockTypes'
 // Styles
 import {blue} from '@mui/material/colors'
 
-const AddPurchase = () => {
+const SearchPrice = () => {
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle)
   const [input, setInput, onChange] = useInput('')
   const route = useRouter()
 
   const {additions, additionsDispatch} = useAdditionsContext()
-
-  const addPurchase = useCallback(() => {
-    const newPurchase: IPurchase = createInitialPurchase()
-    additionsDispatch({type: ActionType.ADD, payload: newPurchase})
-    setInput('')
-  }, [additionsDispatch, setInput])
 
   const handleClick = async () => {
     setStatus(apiStatus.loading)
@@ -101,11 +95,8 @@ const AddPurchase = () => {
         <Button
           onClick={handleClick}
           disabled={!input.trim()}
-          className="w-1/4">
+          className="w-1/2">
           가격 입력
-        </Button>
-        <Button onClick={addPurchase} className="w-1/4">
-          빈칸 추가
         </Button>
       </div>
       <StatusDescription status={status} />
@@ -113,4 +104,4 @@ const AddPurchase = () => {
   )
 }
 
-export default AddPurchase
+export default SearchPrice

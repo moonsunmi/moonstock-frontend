@@ -1,27 +1,22 @@
-import { FieldValue } from "@/types/formTypes";
-import { formatNumToKR } from "@/utils/formatNumber";
-import { ListItem } from "@mui/material";
-import CalculateGap from "./CalculateGap";
+import {FieldValue} from '@/types/formTypes'
+import {formatNumToKR} from '@/common/utils/formatNumber'
+import {ListItem} from '@mui/material'
+import CalculateGap from './CalculateGap'
 
 type ResultItemProps = {
-  label: string;
-  holding: FieldValue;
-  currentValue: number;
-  unit: "원" | "개";
-};
+  label: string
+  holding: FieldValue
+  currentValue: number
+  unit: '원' | '개'
+}
 
-const ResultItem = ({
-  label,
-  holding,
-  currentValue,
-  unit,
-}: ResultItemProps) => (
+const ResultItem = ({label, holding, currentValue, unit}: ResultItemProps) => (
   <ListItem>
     <span>
       {label}: {formatNumToKR(currentValue)}
       {unit}
-    </span>{" "}
+    </span>{' '}
     <CalculateGap before={holding} after={currentValue} />
   </ListItem>
-);
-export default ResultItem;
+)
+export default ResultItem
