@@ -8,8 +8,8 @@ import {
   GridColumnMenu,
   GridColumnMenuProps,
 } from "@mui/x-data-grid";
-import Button from "@/common/components/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Button from "@/common/components/Button";
 // Libs
 import { formatNumToKR } from "@/utils/formatNumber";
 
@@ -89,7 +89,7 @@ export default function StockList({
           pageSizeOptions={[10]}
         />
       </div>
-      <div className="flex justify-center	">
+      <div className="flex justify-center ">
         <Button variant="outlined" onClick={handleClick} className="w-1/2">
           <div>
             <AddCircleOutlineIcon />

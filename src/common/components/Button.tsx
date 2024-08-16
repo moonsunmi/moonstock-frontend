@@ -1,8 +1,6 @@
 // https://dev.to/mhcrocky/creating-a-reusable-button-component-with-react-and-tailwind-css-4dh5
 
-import clsx from "clsx";
 import { forwardRef } from "react";
-import styles from "./index.module.scss";
 
 interface ButtonOptions {
   /**
@@ -28,9 +26,24 @@ type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 const getVariant = (variant: ButtonVariant) => {
   switch (variant) {
     case "outlined":
-      return styles["btn-outline"];
+      // TODO.
+      // .btn-outline {
+      //     @apply border border-blue-300 bg-opacity-0 text-blue-500;
+      //     &:hover,
+      //     &:focus {
+      //       @apply border bg-blue-500 bg-opacity-20;
+      //     }
+      //   }
+      return undefined;
     case "ghost":
-      return styles["btn-ghost"];
+      //   .btn-ghost {
+      //     @apply border border-transparent bg-opacity-0 text-gray-500;
+      //     &:hover,
+      //     &:focus {
+      //       @apply border-gray-300;
+      //     }
+      //   }
+      return undefined;
     default:
       return undefined;
   }
@@ -60,12 +73,14 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
     ...rest
   } = props;
 
-  const merged = clsx(
-    styles["btn"],
+  const merged = [
+    "align-middle select-none font-sans font-bold text-center uppercase transition-all",
+    "disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-500 text-white shadow-md shadow-gray-900/10",
+    "hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none",
     getVariant(variant),
     getSize(size),
-    className
-  );
+    className,
+  ].join(" ");
 
   return (
     <button ref={ref} className={merged} {...rest}>
