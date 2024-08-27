@@ -2,9 +2,7 @@
 
 import {useCallback, useState} from 'react'
 
-import Card from '../UI/Card'
-import TextField from '../UI/TextField'
-import Button from '../UI/Button'
+import {Button, Card, TextField} from '../UI'
 import {Modal} from '@mui/material'
 import SearchPrice from './SearchPrice'
 

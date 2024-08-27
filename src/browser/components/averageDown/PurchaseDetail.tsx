@@ -9,8 +9,7 @@ import {
 
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import {FormGroup, Grid} from '@mui/material'
-import ContainerBox from '../UI/ContainerBox'
-import NumericInput from '../UI/NumericInput'
+import {ContainerBox, NumericInput} from '../UI'
 import {readItemFromStorageP} from '@/common/utils'
 
 type PurchaseDetailProps = {

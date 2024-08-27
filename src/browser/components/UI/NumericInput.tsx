@@ -28,7 +28,7 @@ type NumericInputProps = {
   onBlur?: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-const NumericInput = ({
+export const NumericInput = ({
   name,
   value,
   label,
@@ -46,5 +46,3 @@ const NumericInput = ({
     />
   )
 }
-
-export default NumericInput

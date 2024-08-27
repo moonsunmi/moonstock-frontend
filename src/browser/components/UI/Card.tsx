@@ -5,7 +5,11 @@ type CardProps = DetailedHTMLProps<
   HTMLDivElement & {className: string}
 >
 
-const Card = ({className: _className, children, ...props}: CardProps) => {
+export const Card = ({
+  className: _className,
+  children,
+  ...props
+}: CardProps) => {
   const className = ['bg-blue-100 p-4 rounded-lg', _className].join(' ')
   return (
     <div className={className} {...props}>
@@ -13,5 +17,3 @@ const Card = ({className: _className, children, ...props}: CardProps) => {
     </div>
   )
 }
-
-export default Card

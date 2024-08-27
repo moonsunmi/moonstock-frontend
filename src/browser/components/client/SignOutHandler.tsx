@@ -1,14 +1,13 @@
 'use client'
 
-import {signOut} from 'next-auth/react'
 import {useEffect} from 'react'
+import {signOut} from 'next-auth/react'
 
 function updateTabCounter(changeValue: -1 | 1) {
   console.log('updateTabCounter 호출', changeValue)
 
   const currentCount = parseInt(localStorage.getItem('tabCount') || '0')
   const updatedCount = currentCount + changeValue
-  //   console.log("currentCount", currentCount);
 
   localStorage.setItem('tabCount', updatedCount.toString())
   console.log('updatedCount', updatedCount)

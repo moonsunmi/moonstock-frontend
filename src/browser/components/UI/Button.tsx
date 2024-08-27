@@ -67,7 +67,7 @@ const getSizeStyle = (size: Size) => {
   }
 }
 
-const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
+export const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
   const {
     variant = 'solid',
     size = 'md',
@@ -96,4 +96,3 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
   )
 })
 Button.displayName = 'Button'
-export default Button

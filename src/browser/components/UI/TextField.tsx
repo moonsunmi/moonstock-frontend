@@ -29,7 +29,7 @@ const getSizeStyle = (size: Size) => {
   }
 }
 
-const TextField = ({...props}: InputProps) => {
+export const TextField = ({...props}: InputProps) => {
   const {className, size = 'md', ...restProps} = props
   const defaultStyle = [
     'border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 hover:opacity-[0.98]',
@@ -39,5 +39,3 @@ const TextField = ({...props}: InputProps) => {
 
   return <input className={mergedClass} {...restProps} />
 }
-
-export default TextField

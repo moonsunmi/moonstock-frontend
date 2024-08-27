@@ -1,7 +1,6 @@
 import {memo} from 'react'
 
 import {formatNumToKR} from '@/common/utils/formatNumber'
-import {Box} from '@mui/material'
 
 type CalculateGapProps = {
   before: number | ''
@@ -28,10 +27,10 @@ const CalculateGap = memo(({before, after}: CalculateGapProps) => {
   const amount = gap === 0 ? '변화 없음' : `${formatNumToKR(Math.abs(gap))} `
 
   return (
-    <Box component="span" color={symbolStyle.color} sx={{ml: 1}}>
+    <div>
       ({amount}
       {symbolStyle.symbol})
-    </Box>
+    </div>
   )
 })
 

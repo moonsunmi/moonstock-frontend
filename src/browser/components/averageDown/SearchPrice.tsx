@@ -6,15 +6,11 @@ import {useRouter} from 'next/navigation'
 import {useAdditionsContext} from '@/common/context/AdditionsContext'
 import {createInitialPurchase} from '@/common/context/initialPurchases'
 // Components
-import {Skeleton, Typography} from '@mui/material'
 import PurchaseDetailContainer from './PurchaseDetail'
-import SearchStockInput from '../UI/SearchStockInput'
-import Button from '../UI/Button'
+import {Button, SearchStockInput} from '../UI'
 // Hooks
 import useInput from '@/common/hooks/useInput'
-import {useResponsiveHeight} from '@/common/hooks/useResponsiveHeight'
 // Styles
-import {blue} from '@mui/material/colors'
 import {fontColor} from '@/common/lib/color'
 
 type APIStockDetail = {
@@ -112,8 +108,6 @@ const SearchPrice = () => {
     }
   }
 
-  const skeletonHeight = useResponsiveHeight('PurchaseDetailContainer')
-
   return (
     <>
       {additions.map((purchase: ITransaction) => {
@@ -126,15 +120,6 @@ const SearchPrice = () => {
           />
         )
       })}
-      {status === 'loading' ? (
-        <Skeleton
-          variant="rectangular"
-          height={skeletonHeight}
-          sx={{bgcolor: blue[50], mt: 1, borderRadius: 2}}
-        />
-      ) : (
-        <></>
-      )}
       <div className="flex gap-2">
         <div className="w-1/2">
           <SearchStockInput value={input} onChange={onChange} />
@@ -146,9 +131,9 @@ const SearchPrice = () => {
           가격 입력
         </Button>
       </div>
-      <Typography variant="caption" color={descriptionMessage[status].color}>
+      <p color={descriptionMessage[status].color}>
         {descriptionMessage[status].message}
-      </Typography>
+      </p>
     </>
   )
 }

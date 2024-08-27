@@ -8,7 +8,11 @@ type ContainerBoxProps = {
   children: ReactNode
 } & StackProps
 
-function ContainerBox({title, children, ...props}: ContainerBoxProps) {
+export const ContainerBox = ({
+  title,
+  children,
+  ...props
+}: ContainerBoxProps) => {
   return (
     // TODO. FormGroup도 합쳐서 formContainer라고 해야 할가?
     <Stack
@@ -26,5 +30,3 @@ function ContainerBox({title, children, ...props}: ContainerBoxProps) {
     </Stack>
   )
 }
-
-export default ContainerBox

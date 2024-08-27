@@ -1,24 +1,22 @@
-import { TextField, TextFieldProps } from "@mui/material";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
+import {TextField, TextFieldProps} from '@mui/material'
+import {NumericFormat, NumericFormatProps} from 'react-number-format'
 
 const commonNumericFormatProps = {
   customInput: TextField,
-  thousandSeparator: ",",
+  thousandSeparator: ',',
   allowNegative: false,
   fullWidth: true,
-  size: "small" as const,
-  style: { textAlign: "right" as const },
-};
+  size: 'small' as const,
+  style: {textAlign: 'right' as const}
+}
 
 type NumericInputProps = {
-  label: string;
+  label: string
 } & NumericFormatProps &
-  TextFieldProps;
+  TextFieldProps
 
-const NumericInput2 = ({ label, ...props }: NumericInputProps) => {
+export const NumericInput2 = ({label, ...props}: NumericInputProps) => {
   return (
     <NumericFormat {...props} {...commonNumericFormatProps} label={label} />
-  );
-};
-
-export default NumericInput2;
+  )
+}

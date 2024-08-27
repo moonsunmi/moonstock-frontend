@@ -9,9 +9,9 @@ import {
   GridColumnMenuProps
 } from '@mui/x-data-grid'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import {Button} from '../UI'
 // Libs
 import {formatNumToKR} from '@/common/utils/formatNumber'
-import Button from '../UI/Button'
 
 const columns: GridColDef[] = [
   {
