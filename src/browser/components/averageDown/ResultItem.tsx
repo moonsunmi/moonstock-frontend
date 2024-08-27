@@ -1,4 +1,3 @@
-import {FieldValue} from '@/types/formTypes'
 import {formatNumToKR} from '@/common/utils/formatNumber'
 import {ListItem} from '@mui/material'
 import CalculateGap from './CalculateGap'

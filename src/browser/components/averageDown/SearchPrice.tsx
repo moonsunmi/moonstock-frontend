@@ -1,6 +1,6 @@
 'use client'
 
-import {useCallback, useState} from 'react'
+import {useState} from 'react'
 import {useRouter} from 'next/navigation'
 // Context
 import {useAdditionsContext} from '@/common/context/AdditionsContext'
@@ -14,12 +14,9 @@ import StatusDescription from './StatusDescription'
 // Hooks
 import useInput from '@/common/hooks/useInput'
 import {useResponsiveHeight} from '@/common/hooks/useResponsiveHeight'
-// Types
-import {ActionType} from '@/types/actionTypes'
-import {apiStatus} from '@/types/apiStatus'
-import {APIStockDetail, IPurchase} from '@/types/stockTypes'
 // Styles
 import {blue} from '@mui/material/colors'
+import {ActionType, apiStatus} from '@/common/lib/constant'
 
 const SearchPrice = () => {
   const [status, setStatus] = useState<apiStatus>(apiStatus.idle)

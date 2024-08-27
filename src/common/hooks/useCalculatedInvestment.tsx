@@ -1,36 +1,35 @@
-import { TradeDetail } from "@/types/stockTypes";
-import { useAdditionsContext } from "@/common/context/AdditionsContext";
-import { useHoldingsContext } from "@/common/context/HoldingsContext";
+import {useAdditionsContext} from '@/common/context/AdditionsContext'
+import {useHoldingsContext} from '@/common/context/HoldingsContext'
 
 const useCalculatedInvestment = () => {
-  const { additions } = useAdditionsContext();
-  const { holdings } = useHoldingsContext();
+  const {additions} = useAdditionsContext()
+  const {holdings} = useHoldingsContext()
 
   const initialResult: TradeDetail = {
     totalQuantity: Number(holdings[0].quantity),
     investmentAmount: Number(holdings[0].price) * Number(holdings[0].quantity),
-    averagePrice: 0,
-  };
+    averagePrice: 0
+  }
 
-  const result = additions.reduce((acc, { price, quantity }) => {
-    const currentPrice = Number(price);
-    const currentQuantity = Number(quantity);
+  const result = additions.reduce((acc, {price, quantity}) => {
+    const currentPrice = Number(price)
+    const currentQuantity = Number(quantity)
 
     if (price !== 0 && quantity !== 0) {
       return {
         totalQuantity: acc.totalQuantity + currentQuantity,
         investmentAmount: acc.investmentAmount + currentPrice * currentQuantity,
-        averagePrice: 0,
-      };
+        averagePrice: 0
+      }
     } else {
-      return acc;
+      return acc
     }
-  }, initialResult);
+  }, initialResult)
 
   if (result.totalQuantity > 0) {
-    result.averagePrice = result.investmentAmount / result.totalQuantity;
+    result.averagePrice = result.investmentAmount / result.totalQuantity
   }
-  return result;
-};
+  return result
+}
 
-export default useCalculatedInvestment;
+export default useCalculatedInvestment

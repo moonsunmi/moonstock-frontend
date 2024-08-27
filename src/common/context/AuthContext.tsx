@@ -5,7 +5,6 @@ import {
   FC,
   PropsWithChildren,
   useCallback,
-  useContext,
   useEffect,
   useState
 } from 'react'
@@ -49,6 +48,8 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({
         .then(res => {
           const {status, data} = res
 
+          // todo. store token in a http-only cookie
+          // documnet.cookie = `token=${data.token}; Secure; HttpOnly`;
           U.writeStringP('jwt', data['body'] ?? '').finally(() => {
             setJwt(data['body'] ?? '')
           })

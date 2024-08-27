@@ -1,16 +1,16 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { prisma } from "./prisma";
+// import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import {NextAuthOptions} from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
+// import { prisma } from "./prisma";
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-  throw new Error("Google client Id and password are required.");
+  throw new Error('Google client Id and password are required.')
 }
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
+  // adapter: PrismaAdapter(prisma),
+  session: {strategy: 'jwt'},
 
   providers: [
     GoogleProvider({
@@ -21,23 +21,23 @@ export const authOptions: NextAuthOptions = {
           id: profile.sub,
           name: `${profile.given_name} ${profile.family_name}`,
           email: profile.email,
-          verified: profile.emailVerified,
-        };
-      },
-    }),
+          verified: profile.emailVerified
+        }
+      }
+    })
   ],
   callbacks: {
-    async jwt({ token, account, profile, user }) {
+    async jwt({token, account, profile, user}) {
       if (account && user) {
-        token.id = user.id;
+        token.id = user.id
       }
-      return token;
+      return token
     },
-    async session({ session, token }) {
-      return { ...session, user: { ...session.user, id: token.id } };
-    },
-  },
-};
+    async session({session, token}) {
+      return {...session, user: {...session.user, id: token.id}}
+    }
+  }
+}
 
 //   CredentialsProvider({
 //     // The name to display on the sign in form (e.g. 'Sign in with...')

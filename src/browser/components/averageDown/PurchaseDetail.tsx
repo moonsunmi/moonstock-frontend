@@ -1,33 +1,47 @@
-import { ActionType, PurchaseAction } from "@/types/actionTypes";
-import { IPurchase } from "@/types/stockTypes";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { FormGroup, Grid } from "@mui/material";
-import { useSession } from "next-auth/react";
-import { ChangeEvent, Dispatch, useCallback, useMemo } from "react";
-import ContainerBox from "../UI/ContainerBox";
-import NumericInput from "../UI/NumericInput";
+import {
+  ChangeEvent,
+  Dispatch,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import {FormGroup, Grid} from '@mui/material'
+import ContainerBox from '../UI/ContainerBox'
+import NumericInput from '../UI/NumericInput'
+import {readItemFromStorageP} from '@/common/utils'
+import {ActionType} from '@/common/lib/constant'
 
 type PurchaseDetailProps = {
-  purchase: IPurchase;
-  dispatch: Dispatch<PurchaseAction>;
-  label: string;
-  isDeletable?: boolean;
-};
+  purchase: IPurchase
+  dispatch: Dispatch<PurchaseAction>
+  label: string
+  isDeletable?: boolean
+}
 
 const PurchaseDetail = ({
   purchase,
   dispatch,
   label,
-  isDeletable = true,
+  isDeletable = true
 }: PurchaseDetailProps) => {
-  const session = useSession();
+  const [user, setUser] = useState({email: '', password: ''})
+
+  useEffect(() => {
+    // todo. 여기서 에러 남... 이거 서버 컴포넌트임.
+    readItemFromStorageP('user').then(user => {
+      if (user) JSON.parse(user)
+    }) // todo. 너무 느릴 거 같음.
+  }, [])
 
   const handleRemove = useCallback(() => {
     dispatch({
       type: ActionType.REMOVE,
-      payload: { id: purchase.id },
-    });
-  }, [dispatch, purchase.id]);
+      payload: {id: purchase.id}
+    })
+  }, [dispatch, purchase.id])
 
   const dispatchValue = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -35,32 +49,28 @@ const PurchaseDetail = ({
         type: ActionType.UPDATE,
         payload: {
           ...purchase,
-          [event.target.name]: Number(event.target.value.replaceAll(",", "")),
-        },
-      });
+          [event.target.name]: Number(event.target.value.replaceAll(',', ''))
+        }
+      })
     },
     [dispatch, purchase]
-  );
+  )
 
   const investmentAmount = useMemo(() => {
-    if (purchase.price !== "" && purchase.quantity !== "")
-      return Number(purchase.price) * Number(purchase.quantity);
-  }, [purchase.price, purchase.quantity]);
+    if (purchase.price !== '' && purchase.quantity !== '')
+      return Number(purchase.price) * Number(purchase.quantity)
+  }, [purchase.price, purchase.quantity])
 
   return (
     <ContainerBox
-      title={
-        session.data?.user ? `${session.data.user.name} 님의 ${label}` : label
-      }
-      aria-label="Purchase Detail"
-    >
+      title={user ? `${user.email} 님의 ${label}` : label}
+      aria-label="Purchase Detail">
       <FormGroup
         sx={{
           mt: 1.5,
-          maxWidth: "md",
-        }}
-      >
-        <Grid container spacing={1} sx={{ alignItems: "center" }}>
+          maxWidth: 'md'
+        }}>
+        <Grid container spacing={1} sx={{alignItems: 'center'}}>
           <Grid item xs={7} sm={4}>
             <NumericInput
               name="price"
@@ -80,7 +90,7 @@ const PurchaseDetail = ({
           <Grid item xs={isDeletable ? 11 : 12} sm={5.5}>
             <NumericInput
               name="investmentAmount"
-              value={investmentAmount || ""}
+              value={investmentAmount || ''}
               label="총합"
             />
           </Grid>
@@ -93,13 +103,13 @@ const PurchaseDetail = ({
                 fontSize="small"
               />
             ) : (
-              <div style={{ width: 20 }}></div>
+              <div style={{width: 20}}></div>
             )}
           </Grid>
         </Grid>
       </FormGroup>
     </ContainerBox>
-  );
-};
+  )
+}
 
-export default PurchaseDetail;
+export default PurchaseDetail

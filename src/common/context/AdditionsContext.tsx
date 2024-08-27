@@ -1,20 +1,18 @@
-import { PurchaseAction } from "@/types/actionTypes";
-import { IPurchase } from "@/types/stockTypes";
-import { Dispatch, createContext, useContext } from "react";
+import {Dispatch, createContext, useContext} from 'react'
 
 interface IAdditionsContext {
-  additions: IPurchase[];
-  additionsDispatch: Dispatch<PurchaseAction>;
+  additions: IPurchase[]
+  additionsDispatch: Dispatch<PurchaseAction>
 }
 
-const AdditionsContext = createContext<IAdditionsContext | null>(null);
+const AdditionsContext = createContext<IAdditionsContext | null>(null)
 
 const useAdditionsContext = () => {
-  const additions = useContext(AdditionsContext);
+  const additions = useContext(AdditionsContext)
   if (!additions) {
-    throw new Error("useAdditionsContext should be within AdditionsProvider");
+    throw new Error('useAdditionsContext should be within AdditionsProvider')
   }
-  return additions;
-};
+  return additions
+}
 
-export { AdditionsContext, useAdditionsContext };
+export {AdditionsContext, useAdditionsContext}

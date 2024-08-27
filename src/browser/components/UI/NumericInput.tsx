@@ -1,39 +1,39 @@
-import { FieldValue } from "@/types/formTypes";
-import { TextField } from "@mui/material";
-import { ChangeEvent } from "react";
-import { NumericFormat } from "react-number-format";
+import {ChangeEvent} from 'react'
+
+import {TextField} from '@mui/material'
+import {NumericFormat} from 'react-number-format'
 
 const commonInputProps = {
-  style: { textAlign: "right" as const },
-};
+  style: {textAlign: 'right' as const}
+}
 
 const readOnlyInputProps = {
   ...commonInputProps,
-  readOnly: true,
-};
+  readOnly: true
+}
 
 const commonNumericFormatProps = {
   customInput: TextField,
-  thousandSeparator: ",",
+  thousandSeparator: ',',
   allowNegative: false,
   fullWidth: true,
-  size: "small" as const,
-};
+  size: 'small' as const
+}
 
 type NumericInputProps = {
-  name: string;
-  value: FieldValue;
-  label: string;
-  readOnly?: boolean;
-  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
-};
+  name: string
+  value: FieldValue
+  label: string
+  readOnly?: boolean
+  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void
+}
 
 const NumericInput = ({
   name,
   value,
   label,
   readOnly = false,
-  onBlur,
+  onBlur
 }: NumericInputProps) => {
   return (
     <NumericFormat
@@ -44,7 +44,7 @@ const NumericInput = ({
       {...commonNumericFormatProps}
       inputProps={readOnly ? readOnlyInputProps : commonInputProps}
     />
-  );
-};
+  )
+}
 
-export default NumericInput;
+export default NumericInput

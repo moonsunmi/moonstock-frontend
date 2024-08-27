@@ -1,62 +1,62 @@
-"use client";
+'use client'
+import {useState} from 'react'
 
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import MenuIcon from "@mui/icons-material/Menu";
-import MoneyIcon from "@mui/icons-material/Money";
-import { Container, IconButton } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import * as React from "react";
+import {readItemFromStorageP} from '@/common/utils'
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
+import MenuIcon from '@mui/icons-material/Menu'
+import MoneyIcon from '@mui/icons-material/Money'
+import {Container, IconButton} from '@mui/material'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import Link from 'next/link'
 
-const drawerWidth = 200;
+const drawerWidth = 200
 
 export default function ResponsiveDrawer({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const { data: session } = useSession();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isClosing, setIsClosing] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
+
+  const session = readItemFromStorageP('user') // todo. 너무 느릴 거 같음.
 
   const handleDrawerClose = () => {
-    setIsClosing(true);
-    setMobileOpen(false);
-  };
+    setIsClosing(true)
+    setMobileOpen(false)
+  }
 
   const handleDrawerTransitionEnd = () => {
-    setIsClosing(false);
-  };
+    setIsClosing(false)
+  }
 
   const handleDrawerToggle = () => {
     if (!isClosing) {
-      setMobileOpen(!mobileOpen);
+      setMobileOpen(!mobileOpen)
     }
-  };
+  }
   const funcItems = [
-    { name: "물타기", url: "/average-down", icon: <MoneyIcon /> },
-  ];
+    {name: '물타기', url: '/average-down', icon: <MoneyIcon />}
+  ]
   const customItems = [
-    { name: "보유종목", url: "/stock-board", icon: <AppRegistrationIcon /> },
-    // { name: "설정", url: "", icon: <SettingsIcon /> },
-  ];
+    {name: '보유종목', url: '/stock-board', icon: <AppRegistrationIcon />}
+  ]
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        {funcItems.map((item) => (
+        {funcItems.map(item => (
           <ListItem key={item.name} disablePadding>
             <ListItemButton component={Link} href={item.url}>
               <ListItemIcon>{item.icon}</ListItemIcon>
@@ -67,7 +67,7 @@ export default function ResponsiveDrawer({
       </List>
       <Divider />
       <List>
-        {customItems.map((item) => (
+        {customItems.map(item => (
           <ListItem key={item.name} disablePadding>
             <ListItemButton component={Link} href={item.url}>
               <ListItemIcon>{item.icon}</ListItemIcon>
@@ -76,33 +76,31 @@ export default function ResponsiveDrawer({
           </ListItem>
         ))}
       </List>
-      <Container sx={{ textAlign: "center" }}>
+      <Container sx={{textAlign: 'center'}}>
         {session ? (
-          <Link href={"/api/auth/signout"}>로그아웃</Link>
+          <Link href={'/api/auth/signout'}>로그아웃</Link>
         ) : (
-          <Link href={"/api/auth/signin"}>로그인</Link>
+          <Link href={'/api/auth/signin'}>로그인</Link>
         )}
       </Container>
     </div>
-  );
+  )
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{display: 'flex'}}>
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      >
+          width: {sm: `calc(100% - ${drawerWidth}px)`},
+          ml: {sm: `${drawerWidth}px`}
+        }}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
+            sx={{mr: 2, display: {sm: 'none'}}}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
@@ -112,38 +110,35 @@ export default function ResponsiveDrawer({
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+        sx={{width: {sm: drawerWidth}, flexShrink: {sm: 0}}}
+        aria-label="mailbox folders">
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true,
+            keepMounted: true
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
+            display: {xs: 'block', sm: 'none'},
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth
+            }
+          }}>
           {drawer}
         </Drawer>
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
+            display: {xs: 'none', sm: 'block'},
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth
+            }
           }}
-          open
-        >
+          open>
           {drawer}
         </Drawer>
       </Box>
@@ -152,12 +147,11 @@ export default function ResponsiveDrawer({
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
+          width: {sm: `calc(100% - ${drawerWidth}px)`}
+        }}>
         <Toolbar />
         {children}
       </Box>
     </Box>
-  );
+  )
 }

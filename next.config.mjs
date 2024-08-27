@@ -2,34 +2,31 @@
 const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
-  compiler: {
-    styledComponents: true,
-  },
   async headers() {
     return [
       {
-        source: "/api/:path*",
+        source: '/api/:path*',
         headers: [
           {
-            key: "Access-Control-Allow-Origin",
-            value: "https://apis.data.go.kr/",
+            key: 'Access-Control-Allow-Origin',
+            value: 'https://apis.data.go.kr/'
           },
           {
-            key: "Access-Control-Allow-Methods",
-            value: "GET",
-          },
-        ],
-      },
-    ];
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET'
+          }
+        ]
+      }
+    ]
   },
   async rewrites() {
     return [
       {
-        source: "/:path*",
-        destination: "/",
-      },
-    ];
-  },
-};
+        source: '/:path*',
+        destination: '/'
+      }
+    ]
+  }
+}
 
-export default nextConfig;
+export default nextConfig

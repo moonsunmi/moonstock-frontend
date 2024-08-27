@@ -8,7 +8,7 @@ import {useStockListContext} from '@/common/context/StockListContext'
 import useInput from '@/common/hooks/useInput'
 import {stripCommas} from '@/common/utils/formatNumber'
 import {Box, FormControl, FormGroup, Modal, Typography} from '@mui/material'
-import {Stock} from '@prisma/client'
+// import {Stock} from '@prisma/client'
 import {HttpStatusCode} from 'axios'
 import {useRouter} from 'next/navigation'
 import {FormEvent, useState} from 'react'
@@ -26,7 +26,7 @@ const modalStyle = {
 
 function RegisterHoldingPage() {
   const router = useRouter()
-  const stockList: Stock[] = useStockListContext()
+  const stockList = useStockListContext()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [open, setOpen] = useState(false)
