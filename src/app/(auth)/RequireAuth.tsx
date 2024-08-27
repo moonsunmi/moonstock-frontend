@@ -1,7 +1,7 @@
-// React only (not with next.js using nextauth)
+import {FC, PropsWithChildren, useContext, useEffect} from 'react'
+
 import {AuthContext} from '@/common/context'
 import {useRouter} from 'next/navigation'
-import {FC, PropsWithChildren, useContext, useEffect} from 'react'
 
 type RequireAuthProps = {}
 

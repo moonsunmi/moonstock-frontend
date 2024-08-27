@@ -1,11 +1,17 @@
 import {memo} from 'react'
+
 import {formatNumToKR} from '@/common/utils/formatNumber'
 import {Box} from '@mui/material'
-import {valueChangeIndicator} from '@/common/lib/constant'
 
 type CalculateGapProps = {
-  before: FieldValue
-  after: FieldValue
+  before: number | ''
+  after: number | ''
+}
+
+const valueChangeIndicator = {
+  even: {symbol: '-', color: 'gray'},
+  decrease: {symbol: '↓', color: 'blue'},
+  increase: {symbol: '↑', color: 'red'}
 }
 
 const getChangeType = (gap: number) =>

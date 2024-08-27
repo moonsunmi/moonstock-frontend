@@ -1,9 +1,11 @@
 'use client'
+
+import {useCallback, useContext, useState} from 'react'
+
 import Button from '@/browser/components/UI/Button'
 import {AuthContext} from '@/common/context'
 import {Modal} from '@mui/material'
 import {useRouter} from 'next/navigation'
-import {useCallback, useContext, useState} from 'react'
 
 export default function Logout() {
   const [open, setOpen] = useState(true)

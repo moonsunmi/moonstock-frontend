@@ -12,10 +12,9 @@ import {FormGroup, Grid} from '@mui/material'
 import ContainerBox from '../UI/ContainerBox'
 import NumericInput from '../UI/NumericInput'
 import {readItemFromStorageP} from '@/common/utils'
-import {ActionType} from '@/common/lib/constant'
 
 type PurchaseDetailProps = {
-  purchase: IPurchase
+  purchase: ITransaction
   dispatch: Dispatch<PurchaseAction>
   label: string
   isDeletable?: boolean
@@ -38,15 +37,15 @@ const PurchaseDetail = ({
 
   const handleRemove = useCallback(() => {
     dispatch({
-      type: ActionType.REMOVE,
-      payload: {id: purchase.id}
+      type: 'remove',
+      payload: {id: purchase.id, price: '', quantity: ''}
     })
   }, [dispatch, purchase.id])
 
   const dispatchValue = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       dispatch({
-        type: ActionType.UPDATE,
+        type: 'update',
         payload: {
           ...purchase,
           [event.target.name]: Number(event.target.value.replaceAll(',', ''))

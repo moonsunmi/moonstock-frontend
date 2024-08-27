@@ -1,5 +1,9 @@
 'use client'
-
+import {FormEvent, useState} from 'react'
+import {HttpStatusCode} from 'axios'
+import {useRouter} from 'next/navigation'
+// Components
+import {Box, FormControl, FormGroup, Modal, Typography} from '@mui/material'
 import Button from '@/browser/components/UI/Button'
 import ContainerBox from '@/browser/components/UI/ContainerBox'
 import NumericInput2 from '@/browser/components/UI/NumericInput2'
@@ -7,11 +11,7 @@ import SearchStockInput from '@/browser/components/UI/SearchStockInput'
 import {useStockListContext} from '@/common/context/StockListContext'
 import useInput from '@/common/hooks/useInput'
 import {stripCommas} from '@/common/utils/formatNumber'
-import {Box, FormControl, FormGroup, Modal, Typography} from '@mui/material'
 // import {Stock} from '@prisma/client'
-import {HttpStatusCode} from 'axios'
-import {useRouter} from 'next/navigation'
-import {FormEvent, useState} from 'react'
 
 const modalStyle = {
   position: 'absolute' as 'absolute',

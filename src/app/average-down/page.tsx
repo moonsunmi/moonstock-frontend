@@ -1,8 +1,8 @@
 'use client'
 import {useCallback, useState} from 'react'
+import {v4 as uuidv4} from 'uuid'
 // Components
 import {Modal} from '@mui/material'
-import {v4 as uuidv4} from 'uuid'
 import Result from '@/browser/components/averageDown/Result'
 import Card from '@/browser/components/UI/Card'
 import TextField from '@/browser/components/UI/texts/TextField'
@@ -13,58 +13,10 @@ import Button from '@/browser/components/UI/Button'
 // Icons
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-
-type Transaction = {
-  id: string
-  price: string
-  quantity: string
-}
-
-const HoldingStocks = () => {
-  const [transaction, setTransaction] = useState<Transaction>({
-    id: 'holding',
-    price: '',
-    quantity: ''
-  })
-
-  const handleOnChange = useCallback(
-    (key: keyof Transaction, value: string) => {
-      setTransaction(prevState => ({...prevState, [key]: value}))
-    },
-    [transaction]
-  )
-  return (
-    <Card>
-      보유 주식
-      <div className="flex gap-2">
-        <TextField
-          className="w-1/3"
-          name="price"
-          placeholder="가격"
-          value={transaction.price}
-          onChange={e => handleOnChange('price', e.target.value)}
-        />
-        <TextField
-          className="w-1/3"
-          name="quantity"
-          placeholder="수량"
-          value={transaction.quantity}
-          onChange={e => handleOnChange('quantity', e.target.value)}
-        />
-        <TextField
-          className="w-1/3"
-          name="result"
-          placeholder="총합"
-          value={Number(transaction.price) * Number(transaction.quantity)}
-          readOnly
-        />
-      </div>
-    </Card>
-  )
-}
+import HoldingStocks from '@/browser/components/averageDown/HoldingStocks'
 
 const AddPurchaseREAL = () => {
-  const [transactions, setTransaction] = useState<Transaction[]>([
+  const [transactions, setTransaction] = useState<ITransaction[]>([
     {id: uuidv4(), price: '', quantity: ''}
   ])
 
@@ -77,7 +29,7 @@ const AddPurchaseREAL = () => {
 
   const handleOnChange = (
     id: string,
-    key: keyof Transaction,
+    key: keyof ITransaction,
     value: string
   ) => {
     setTransaction(prevState =>
@@ -145,6 +97,19 @@ const AddPurchaseREAL = () => {
 const AverageDownPage = () => {
   const [openModal_searchPrice, setOpenModal_searchPrice] =
     useState<boolean>(false)
+
+  // const [transaction, setTransaction] = useState<Transaction>({
+  //   id: 'holding',
+  //   price: '',
+  //   quantity: ''
+  // })
+
+  // const handleOnChange = useCallback(
+  //   (key: keyof Transaction, value: string) => {
+  //     setTransaction(prevState => ({...prevState, [key]: value}))
+  //   },
+  //   [transaction]
+  // )
   return (
     <HoldingsProvider>
       <AdditionsProvider>

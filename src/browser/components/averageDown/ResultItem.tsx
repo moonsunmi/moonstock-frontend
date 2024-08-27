@@ -4,7 +4,7 @@ import CalculateGap from './CalculateGap'
 
 type ResultItemProps = {
   label: string
-  holding: FieldValue
+  holding: number | ''
   currentValue: number
   unit: '원' | '개'
 }

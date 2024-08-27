@@ -22,7 +22,7 @@ const commonNumericFormatProps = {
 
 type NumericInputProps = {
   name: string
-  value: FieldValue
+  value: number | ''
   label: string
   readOnly?: boolean
   onBlur?: (event: ChangeEvent<HTMLInputElement>) => void

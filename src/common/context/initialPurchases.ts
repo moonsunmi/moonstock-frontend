@@ -4,15 +4,15 @@ export const createInitialPurchase = ({
   price = '',
   quantity = ''
 }: {
-  price?: FieldValue
-  quantity?: FieldValue
-} = {}): IPurchase => ({
+  price?: number | ''
+  quantity?: number | ''
+} = {}): ITransaction => ({
   id: uuidv4(),
   price,
   quantity
 })
 
-export const initialPurchase: IPurchase = {
+export const initialPurchase: ITransaction = {
   id: 'holding',
   price: '',
   quantity: ''

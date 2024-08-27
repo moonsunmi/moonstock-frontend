@@ -6,27 +6,77 @@ import {useRouter} from 'next/navigation'
 import {useAdditionsContext} from '@/common/context/AdditionsContext'
 import {createInitialPurchase} from '@/common/context/initialPurchases'
 // Components
-import {Skeleton} from '@mui/material'
+import {Skeleton, Typography} from '@mui/material'
 import PurchaseDetailContainer from './PurchaseDetail'
 import SearchStockInput from '../UI/SearchStockInput'
 import Button from '../UI/Button'
-import StatusDescription from './StatusDescription'
 // Hooks
 import useInput from '@/common/hooks/useInput'
 import {useResponsiveHeight} from '@/common/hooks/useResponsiveHeight'
 // Styles
 import {blue} from '@mui/material/colors'
-import {ActionType, apiStatus} from '@/common/lib/constant'
+import {fontColor} from '@/common/lib/color'
+
+type APIStockDetail = {
+  numOfRows: number
+  pageNo: number
+  totalCount: number
+  items: {
+    item: [
+      {
+        basDt: string
+        srtnCd: string
+        isinCd: string
+        itmsNm: string
+        mrktCtg: string
+        clpr: string
+        vs: string
+        fltRt: string
+        mkp: string
+        hipr: string
+        lopr: string
+        trqu: string
+        trPrc: string
+        lstgStCnt: string
+        mrktTotAmt: string
+      }
+    ]
+  }
+}
+
+const descriptionMessage: Record<ApiStatus, {message: string; color: string}> =
+  {
+    idle: {
+      message: '가격(전날 기준)이 궁금한 종목 이름을 입력해 보세요.',
+      color: fontColor.info
+    },
+    noResult: {
+      message: '종목 이름을 다시 확인해 주세요',
+      color: fontColor.error
+    },
+    loading: {
+      message: 'loading...',
+      color: fontColor.info
+    },
+    success: {
+      message: '가격 정보가 채워졌어요.',
+      color: fontColor.info
+    },
+    error: {
+      message: '서버 문제로 에러가 발생했습니다. 잠시 후 시도해 주세요.',
+      color: fontColor.error
+    }
+  }
 
 const SearchPrice = () => {
-  const [status, setStatus] = useState<apiStatus>(apiStatus.idle)
+  const [status, setStatus] = useState<ApiStatus>('idle')
   const [input, setInput, onChange] = useInput('')
   const route = useRouter()
 
   const {additions, additionsDispatch} = useAdditionsContext()
 
   const handleClick = async () => {
-    setStatus(apiStatus.loading)
+    setStatus('loading')
     setInput('')
 
     try {
@@ -36,7 +86,7 @@ const SearchPrice = () => {
       if (!response.ok) {
         const errorData = await response.json()
         console.log('stock-name API call failed', errorData.message)
-        setStatus(apiStatus.error)
+        setStatus('error')
         return
       }
 
@@ -44,21 +94,21 @@ const SearchPrice = () => {
       if (data && data.totalCount > 0) {
         const newPrice = data.items?.item[0]?.clpr
         if (newPrice) {
-          const newPurchase: IPurchase = createInitialPurchase({
+          const newPurchase: ITransaction = createInitialPurchase({
             price: Number(newPrice.replace(',', ''))
           })
           additionsDispatch({
-            type: ActionType.ADD,
+            type: 'add',
             payload: newPurchase
           })
         }
-        setStatus(apiStatus.success)
+        setStatus('success')
       } else {
-        setStatus(apiStatus.noResult)
+        setStatus('noResult')
       }
     } catch (error) {
       console.error('네트워크 요청 중 에러가 발생했습니다.', error)
-      setStatus(apiStatus.error)
+      setStatus('error')
     }
   }
 
@@ -66,7 +116,7 @@ const SearchPrice = () => {
 
   return (
     <>
-      {additions.map((purchase: IPurchase) => {
+      {additions.map((purchase: ITransaction) => {
         return (
           <PurchaseDetailContainer
             key={purchase.id}
@@ -76,7 +126,7 @@ const SearchPrice = () => {
           />
         )
       })}
-      {status === apiStatus.loading ? (
+      {status === 'loading' ? (
         <Skeleton
           variant="rectangular"
           height={skeletonHeight}
@@ -96,7 +146,9 @@ const SearchPrice = () => {
           가격 입력
         </Button>
       </div>
-      <StatusDescription status={status} />
+      <Typography variant="caption" color={descriptionMessage[status].color}>
+        {descriptionMessage[status].message}
+      </Typography>
     </>
   )
 }

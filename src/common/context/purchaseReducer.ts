@@ -1,18 +1,16 @@
-import {ActionType} from '@/common/lib/constant'
-
 export default function purchaseReducer(
-  state: IPurchase[],
+  state: ITransaction[],
   action: PurchaseAction
 ) {
   switch (action.type) {
-    case ActionType.ADD:
+    case 'add':
       return [...state, action.payload]
-    case ActionType.REMOVE:
+    case 'remove':
       const removedStocks = state.filter(
         stock => stock.id !== action.payload.id
       )
       return removedStocks
-    case ActionType.UPDATE:
+    case 'update':
       const updatedStocks = state.map(stock =>
         stock.id === action.payload.id ? {...stock, ...action.payload} : stock
       )

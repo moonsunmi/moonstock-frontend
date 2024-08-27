@@ -1,7 +1,7 @@
 import {Dispatch, createContext, useContext} from 'react'
 
 interface IAdditionsContext {
-  additions: IPurchase[]
+  additions: ITransaction[]
   additionsDispatch: Dispatch<PurchaseAction>
 }
 

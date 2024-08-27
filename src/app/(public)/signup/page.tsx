@@ -1,9 +1,10 @@
 'use client'
 
+import {ChangeEvent, useCallback, useContext, useState} from 'react'
+
 import {AuthContext} from '@/common/context'
 import Link from 'next/link'
 import {useRouter} from 'next/navigation'
-import {ChangeEvent, useCallback, useContext, useState} from 'react'
 
 type SignUpFormType = Record<'email' | 'password' | 'confirmPassword', string>
 const initFormState = {email: '', password: '', confirmPassword: ''}
