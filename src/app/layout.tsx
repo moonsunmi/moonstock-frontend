@@ -11,6 +11,7 @@ import ThemeRegistry from '../common/context/ThemeRegistry'
 import SignOutHandler from '@/browser/components/client/SignOutHandler'
 import TabCounter from '@/browser/components/client/TabCounter'
 import ReduxProvider from '@/store/provider'
+import {AuthProvider} from '@/common/context'
 
 // Styles
 import './globals.css'
@@ -40,18 +41,20 @@ export default async function RootLayout({
         <AppRouterCacheProvider>
           <ThemeRegistry options={{key: 'mui'}}>
             <CssBaseline />
-            <NextAuthProvider session={session}>
-              <SignOutHandler />
-              {/* <TabCounter /> */}
-              <DrawerLeft>
-                <ReduxProvider>
-                  {/* 하단의 것 지우기 */}
-                  <StockListProvider stockList={stockList}>
-                    {children}
-                  </StockListProvider>
-                </ReduxProvider>
-              </DrawerLeft>
-            </NextAuthProvider>
+            <AuthProvider>
+              <NextAuthProvider session={session}>
+                <SignOutHandler />
+                {/* <TabCounter /> */}
+                <DrawerLeft>
+                  <ReduxProvider>
+                    {/* 하단의 것 지우기 */}
+                    <StockListProvider stockList={stockList}>
+                      {children}
+                    </StockListProvider>
+                  </ReduxProvider>
+                </DrawerLeft>
+              </NextAuthProvider>
+            </AuthProvider>
           </ThemeRegistry>
         </AppRouterCacheProvider>
       </body>

@@ -16,7 +16,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   holdings      Holding[]
-  // transactions  Transaction[]
+  transactions  Transaction[]
  
   createdAt     DateTime        @default(now()) @map("created_at")
   updatedAt     DateTime        @updatedAt @map("updated_at")
@@ -68,7 +68,7 @@ model Stock {
   name          String
   market        String
   holdings      Holding[]
-  // transactions  Transaction[]
+  transactions  Transaction[]
 
   @@map("stocks")
 }
@@ -90,25 +90,25 @@ model Holding {
 }
 
 
-// model Transaction {
-//   id              String        @id @default(cuid())
-//   user            User          @relation(fields: [userId], references: [id])
-//   userId          String        @map("user_id")
-//   stock           Stock         @relation(fields: [stockTicker], references: [ticker])
-//   stockTicker     String        @map("stock_ticker") 
-//   quantity        Int
-//   price           Int
-//   type            TransactionType
-//   transactionAt   DateTime?     @map("transaction_at")
+model Transaction {
+  id              String        @id @default(cuid())
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String        @map("user_id")
+  stock           Stock         @relation(fields: [stockTicker], references: [ticker])
+  stockTicker     String        @map("stock_ticker") 
+  quantity        Int
+  price           Int
+  type            TransactionType
+  transactionAt   DateTime?     @map("transaction_at")
   
-//   createdAt       DateTime      @default(now()) @map("created_at")
-//   updatedAt       DateTime?     @updatedAt @map("updated_at")
-//   deletedAt       DateTime?     @map("deleted_at")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime?     @updatedAt @map("updated_at")
+  deletedAt       DateTime?     @map("deleted_at")
 
-//   @@map("transactions")
-// }
+  @@map("transactions")
+}
 
-// enum TransactionType {
-//   BUY
-//   SELL
-// }
+enum TransactionType {
+  BUY
+  SELL
+}
