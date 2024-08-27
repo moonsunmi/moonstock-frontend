@@ -5,7 +5,7 @@ import {v4 as uuidv4} from 'uuid'
 import {Modal} from '@mui/material'
 import Result from '@/browser/components/averageDown/Result'
 import Card from '@/browser/components/UI/Card'
-import TextField from '@/browser/components/UI/texts/TextField'
+import TextField from '@/browser/components/UI/TextField'
 import AdditionsProvider from '@/common/context/AdditionsProvider'
 import HoldingsProvider from '@/common/context/HoldingsProvider'
 import SearchPrice from '@/browser/components/averageDown/SearchPrice'
@@ -15,7 +15,7 @@ import AddCircleOutline from '@mui/icons-material/AddCircleOutline'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import HoldingStocks from '@/browser/components/averageDown/HoldingStocks'
 
-const AddPurchaseREAL = () => {
+const AddPurchase = () => {
   const [transactions, setTransaction] = useState<ITransaction[]>([
     {id: uuidv4(), price: '', quantity: ''}
   ])
@@ -46,88 +46,69 @@ const AddPurchaseREAL = () => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <Card className="flex flex-col gap-2">
+      <p>추가 매수</p>
       {transactions.map(transaction => {
         return (
-          <Card key={transaction.id}>
-            추가 매수
-            <div className="flex gap-2">
-              <TextField
-                className="w-1/3"
-                name="price"
-                placeholder="가격"
-                value={transaction.price}
-                onChange={e =>
-                  handleOnChange(transaction.id, 'price', e.target.value)
-                }
-              />
-              <TextField
-                className="w-1/3"
-                name="quantity"
-                placeholder="수량"
-                value={transaction.quantity}
-                onChange={e =>
-                  handleOnChange(transaction.id, 'quantity', e.target.value)
-                }
-              />
-              <TextField
-                className="w-1/3"
-                name="result"
-                placeholder="총합"
-                value={Number(transaction.price) * Number(transaction.quantity)}
-                readOnly
-              />
-              <RemoveCircleIcon
-                color="warning"
-                aria-label="Icon To Remove Additional Purchase Field"
-                onClick={() => handleRemove(transaction.id)}
-                fontSize="small"
-              />
+          <>
+            <hr className="pt-1 pb-1 h-1" />
+            <div key={transaction.id}>
+              <div className="flex gap-2">
+                <TextField
+                  className="w-1/3"
+                  name="price"
+                  placeholder="가격"
+                  value={transaction.price}
+                  onChange={e =>
+                    handleOnChange(transaction.id, 'price', e.target.value)
+                  }
+                />
+                <TextField
+                  className="w-1/3"
+                  name="quantity"
+                  placeholder="수량"
+                  value={transaction.quantity}
+                  onChange={e =>
+                    handleOnChange(transaction.id, 'quantity', e.target.value)
+                  }
+                />
+                <TextField
+                  className="w-1/3"
+                  name="result"
+                  placeholder="총합"
+                  value={
+                    Number(transaction.price) * Number(transaction.quantity)
+                  }
+                  readOnly
+                />
+                <RemoveCircleIcon
+                  color="warning"
+                  aria-label="Icon To Remove Additional Purchase Field"
+                  onClick={() => handleRemove(transaction.id)}
+                  fontSize="small"
+                />
+              </div>
             </div>
-          </Card>
+          </>
         )
       })}
+      <div className="h-1" />
       <Button variant="outlined" onClick={addTransaction}>
         <AddCircleOutline />
-        <span> 물타기 빈칸 추가하기</span>
+        물타기 빈칸 추가하기
       </Button>
-    </div>
+    </Card>
   )
 }
 const AverageDownPage = () => {
-  const [openModal_searchPrice, setOpenModal_searchPrice] =
-    useState<boolean>(false)
-
-  // const [transaction, setTransaction] = useState<Transaction>({
-  //   id: 'holding',
-  //   price: '',
-  //   quantity: ''
-  // })
-
-  // const handleOnChange = useCallback(
-  //   (key: keyof Transaction, value: string) => {
-  //     setTransaction(prevState => ({...prevState, [key]: value}))
-  //   },
-  //   [transaction]
-  // )
   return (
     <HoldingsProvider>
       <AdditionsProvider>
         <div className="flex flex-col gap-3">
           <HoldingStocks />
-          <AddPurchaseREAL />
-          <Button onClick={() => setOpenModal_searchPrice(true)}>
-            종목의 현재 가격 검색하기
-          </Button>
+          <AddPurchase />
           <Result />
         </div>
-        <Modal
-          open={openModal_searchPrice}
-          onClose={() => setOpenModal_searchPrice(false)}>
-          <div>
-            <SearchPrice />
-          </div>
-        </Modal>
       </AdditionsProvider>
     </HoldingsProvider>
   )

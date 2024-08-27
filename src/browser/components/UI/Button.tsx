@@ -2,31 +2,32 @@
 
 import {forwardRef} from 'react'
 
-interface ButtonOptions {
+type Ref = HTMLButtonElement
+type Variant = 'outlined' | 'solid' | 'ghost'
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+
+interface Options {
   /**
    * Button display variants
    * @default "solid"
-   * @type ButtonVariant
+   * @type Variant
    */
-  variant?: ButtonVariant
-  size?: ButtonSize
+  variant?: Variant
+  size?: Size
 }
-
-type Ref = HTMLButtonElement
 
 export type ButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 > &
-  ButtonOptions
+  Options
 
-type ButtonVariant = 'outlined' | 'solid' | 'ghost'
-type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
-const getVariant = (variant: ButtonVariant) => {
+const getVariant = (variant: Variant) => {
   switch (variant) {
+    case 'solid':
+      return 'text-white bg-blue-500 hover:opacity-[0.9] focus:opacity-[0.8]'
     case 'outlined':
-      return 'border border-blue-300 bg-opacity-0 text-blue-500'
+      return 'border border-blue-300 bg-opacity-0 text-blue-500 hover:bg-gray-100 focus:bg-gray-200'
     // TODO.
     // .btn-outline {
     //     @apply border border-blue-300 bg-opacity-0 text-blue-500; // done.
@@ -43,24 +44,26 @@ const getVariant = (variant: ButtonVariant) => {
       //       @apply border-gray-300;
       //     }
       //   }
-      return undefined
+      return ''
     default:
-      return undefined
+      return ''
   }
 }
 
-const getSize = (size: ButtonSize) => {
+const getSizeStyle = (size: Size) => {
   switch (size) {
     case 'xs':
-      return 'text-xs'
+      return 'text-xs py-1 px-1'
     case 'sm':
-      return 'text-sm'
+      return 'text-sm py-2 px-2'
     case 'md':
-      return 'text-base'
+      return 'text-base py-3 px-3'
     case 'lg':
-      return 'text-lg py-3 px-6'
+      return 'text-lg py-4 px-4'
     case 'xl':
-      return 'text-xl py-3 px-6'
+      return 'text-xl py-5 px-5'
+    default:
+      return ''
   }
 }
 
@@ -75,13 +78,14 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
 
   const defaultStyle = [
     'align-middle select-none font-sans font-bold text-center uppercase transition-all',
-    'disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-500 text-white shadow-md shadow-gray-900/10',
+    'disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none rounded-lg shadow-md shadow-gray-900/10',
     'hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none'
-  ]
+  ].join(' ')
+
   const mergedClass = [
-    [...defaultStyle],
+    defaultStyle,
     getVariant(variant),
-    getSize(size),
+    getSizeStyle(size),
     className
   ].join(' ')
 
