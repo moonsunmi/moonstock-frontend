@@ -10,8 +10,8 @@ import {
 } from '@mui/x-data-grid'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import {Button} from '../UI'
+import {formatNumber} from '@/common/utils'
 // Libs
-import {formatNumToKR} from '@/common/utils/formatNumber'
 
 const columns: GridColDef[] = [
   {
@@ -24,21 +24,21 @@ const columns: GridColDef[] = [
     headerName: '평균 단가',
     flex: 0.9,
     align: 'right',
-    valueFormatter: value => formatNumToKR(value)
+    valueFormatter: value => formatNumber(value)
   },
   {
     field: 'quantity',
     headerName: '수량',
     flex: 0.5,
     align: 'right',
-    valueFormatter: value => formatNumToKR(value)
+    valueFormatter: value => formatNumber(value)
   },
   {
     field: 'investmentAmount',
     headerName: '투자금액',
     flex: 1,
     align: 'right',
-    valueFormatter: value => formatNumToKR(value)
+    valueFormatter: value => formatNumber(value)
   }
 ]
 

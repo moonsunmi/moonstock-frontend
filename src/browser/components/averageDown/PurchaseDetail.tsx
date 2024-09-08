@@ -9,7 +9,7 @@ import {
 
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import {FormGroup, Grid} from '@mui/material'
-import {ContainerBox, NumericInput} from '../UI'
+import {ContainerBox, Input} from '../UI'
 import {readItemFromStorageP} from '@/common/utils'
 
 type PurchaseDetailProps = {
@@ -70,26 +70,26 @@ const PurchaseDetail = ({
         }}>
         <Grid container spacing={1} sx={{alignItems: 'center'}}>
           <Grid item xs={7} sm={4}>
-            <NumericInput
+            <Input
               name="price"
               value={purchase.price}
-              label="가격"
+              placeholder="가격"
               onBlur={dispatchValue}
             />
           </Grid>
           <Grid item xs={5} sm={2}>
-            <NumericInput
+            <Input
               name="quantity"
               value={purchase.quantity}
-              label="수량"
+              placeholder="수량"
               onBlur={dispatchValue}
             />
           </Grid>
           <Grid item xs={isDeletable ? 11 : 12} sm={5.5}>
-            <NumericInput
+            <Input
               name="investmentAmount"
               value={investmentAmount || ''}
-              label="총합"
+              placeholder="총합"
             />
           </Grid>
           <Grid item xs={1} sm={0.5}>

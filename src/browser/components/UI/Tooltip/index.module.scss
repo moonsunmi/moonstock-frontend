@@ -1,0 +1,9 @@
+@import '@/common/lib/palette.scss';
+
+.container {
+  background-color: rgba($primary-950, 0.8);
+  color: $primary-200;
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-size: 0.75rem;
+}

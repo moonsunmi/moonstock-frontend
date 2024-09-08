@@ -67,6 +67,7 @@ export function SearchStockInput({
       onChange={handleAutocompleteChange}
       renderInput={params => (
         <TextField
+          type="number"
           label="종목 이름"
           {...params}
           size="small"

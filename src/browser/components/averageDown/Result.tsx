@@ -20,7 +20,7 @@ const Result = () => {
   return (
     <div aria-label="Investment Report">
       {isResultShow ? (
-        <p>보유 주식 정보를 입력해 주세요.</p>
+        <p className="text-primary-950">보유 주식 정보를 입력해 주세요.</p>
       ) : (
         <>
           평균단가: <CalculateGap before={holding.price} after={averagePrice} />

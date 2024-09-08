@@ -9,12 +9,12 @@ import {Box, FormControl, FormGroup, Modal, Typography} from '@mui/material'
 import {
   Button,
   ContainerBox,
-  NumericInput2,
+  Input,
   SearchStockInput
 } from '@/browser/components/UI'
 import {useStockListContext} from '@/common/context/StockListContext'
 import useInput from '@/common/hooks/useInput'
-import {stripCommas} from '@/common/utils/formatNumber'
+import {formatNumber} from '@/common/utils'
 // import {Stock} from '@prisma/client'
 
 const modalStyle = {
@@ -49,8 +49,8 @@ function RegisterHoldingPage() {
     const stockTicker =
       stockList.find(stock => stock.name === stockName)?.ticker ?? ''
     const params = new URLSearchParams({
-      price: stripCommas(price),
-      quantity: stripCommas(quantity),
+      price: formatNumber(price),
+      quantity: formatNumber(quantity),
       stockTicker: stockTicker
     })
 
@@ -95,9 +95,9 @@ function RegisterHoldingPage() {
           </FormControl>
 
           <FormControl>
-            <NumericInput2
+            <Input
               name="price"
-              label="가격"
+              placeholder="가격"
               value={price}
               onChange={handlePrice}
               required
@@ -105,9 +105,9 @@ function RegisterHoldingPage() {
           </FormControl>
 
           <FormControl>
-            <NumericInput2
+            <Input
               name="quantity"
-              label="수량"
+              placeholder="수량"
               value={quantity}
               onChange={handleQuantity}
               required

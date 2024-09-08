@@ -2,7 +2,7 @@
 
 import {useCallback, useState} from 'react'
 
-import {Button, Card, TextField} from '../UI'
+import {Button, Card, Input} from '../UI'
 import {Modal} from '@mui/material'
 import SearchPrice from './SearchPrice'
 
@@ -25,23 +25,26 @@ const HoldingStocks = () => {
   return (
     <>
       <Card>
-        보유 주식
+        <p className="text-primary-950">보유 주식</p>
         <div className="flex gap-2">
-          <TextField
+          <Input
+            type="number"
             className="w-1/3"
             name="price"
             placeholder="가격"
             value={transaction.price}
             onChange={e => handleOnChange('price', e.target.value)}
           />
-          <TextField
+          <Input
+            type="number"
             className="w-1/3"
             name="quantity"
             placeholder="수량"
             value={transaction.quantity}
             onChange={e => handleOnChange('quantity', e.target.value)}
           />
-          <TextField
+          <Input
+            type="number"
             className="w-1/3"
             name="result"
             placeholder="총합"

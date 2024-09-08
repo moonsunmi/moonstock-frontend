@@ -10,9 +10,11 @@ import ThemeRegistry from '../common/context/ThemeRegistry'
 import SignOutHandler from '@/browser/components/client/SignOutHandler'
 import ReduxProvider from '@/store/provider'
 import {AuthProvider} from '@/common/context'
+import {Header} from '@/browser/components/common/Header'
 
 // Styles
 import './globals.css'
+// import {Overlays} from '@/browser/components/UI/Overlays'
 
 async function getStockList() {
   try {
@@ -43,14 +45,28 @@ export default async function RootLayout({
               <NextAuthProvider session={session}>
                 <SignOutHandler />
                 {/* <TabCounter /> */}
-                <DrawerLeft>
-                  <ReduxProvider>
-                    {/* 하단의 것 지우기 */}
-                    {/* <StockListProvider stockList={stockList}> */}
+                <Header />
+                <ReduxProvider>
+                  {/* 하단의 것 지우기 */}
+                  {/* <StockListProvider stockList={stockList}> */}
+                  <div
+                    id="root"
+                    className="max-w-screen-md p-3 m-auto"
+                    // todo.
+                    // flex: 1;
+                    // display: flex;
+                    // justify-content: center;
+                    // align-items: center;
+                    // padding: 20px;
+                    // max-width: 1200px;
+                    // margin: 0 auto; /* 중앙 정렬을 위한 자동 마진 */
+                  >
                     {children}
-                    {/* </StockListProvider> */}
-                  </ReduxProvider>
-                </DrawerLeft>
+                  </div>
+                  <div id="overlays"></div>
+                  {/* <Overlays /> */}
+                  {/* </StockListProvider> */}
+                </ReduxProvider>
               </NextAuthProvider>
             </AuthProvider>
           </ThemeRegistry>

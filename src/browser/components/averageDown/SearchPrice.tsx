@@ -11,7 +11,6 @@ import {Button, SearchStockInput} from '../UI'
 // Hooks
 import useInput from '@/common/hooks/useInput'
 // Styles
-import {fontColor} from '@/common/lib/color'
 
 type APIStockDetail = {
   numOfRows: number
@@ -40,29 +39,23 @@ type APIStockDetail = {
   }
 }
 
-const descriptionMessage: Record<ApiStatus, {message: string; color: string}> =
-  {
-    idle: {
-      message: '가격(전날 기준)이 궁금한 종목 이름을 입력해 보세요.',
-      color: fontColor.info
-    },
-    noResult: {
-      message: '종목 이름을 다시 확인해 주세요',
-      color: fontColor.error
-    },
-    loading: {
-      message: 'loading...',
-      color: fontColor.info
-    },
-    success: {
-      message: '가격 정보가 채워졌어요.',
-      color: fontColor.info
-    },
-    error: {
-      message: '서버 문제로 에러가 발생했습니다. 잠시 후 시도해 주세요.',
-      color: fontColor.error
-    }
+const descriptionMessage: Record<ApiStatus, {message: string}> = {
+  idle: {
+    message: '가격(전날 기준)이 궁금한 종목 이름을 입력해 보세요.'
+  },
+  noResult: {
+    message: '종목 이름을 다시 확인해 주세요'
+  },
+  loading: {
+    message: 'loading...'
+  },
+  success: {
+    message: '가격 정보가 채워졌어요.'
+  },
+  error: {
+    message: '서버 문제로 에러가 발생했습니다. 잠시 후 시도해 주세요.'
   }
+}
 
 const SearchPrice = () => {
   const [status, setStatus] = useState<ApiStatus>('idle')
@@ -131,9 +124,7 @@ const SearchPrice = () => {
           가격 입력
         </Button>
       </div>
-      <p color={descriptionMessage[status].color}>
-        {descriptionMessage[status].message}
-      </p>
+      <p>{descriptionMessage[status].message}</p>
     </>
   )
 }

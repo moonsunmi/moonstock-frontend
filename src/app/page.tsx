@@ -1,12 +1,6 @@
 import {Metadata} from 'next'
-import AverageDownPage from './average-down/page'
+import AverageDownPage from './(public)/average-down/page'
 import {headers} from 'next/headers'
-import RegisterHoldingPage from './register-holding/page'
-import {authOptions} from '@/common/lib/auth'
-import {getHoldings} from '@/common/lib/data'
-import {getServerSession} from 'next-auth'
-import {redirect} from 'next/navigation'
-import StockBoardPage from './stock-board/page'
 import {getSelectorsByUserAgent} from 'react-device-detect'
 
 export default async function Page() {

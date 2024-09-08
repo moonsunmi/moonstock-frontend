@@ -3,20 +3,20 @@
 import {useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
 // Components
-import {Button, Card, TextField} from '@/browser/components/UI'
+import {Button, Card, Input} from '@/browser/components/UI'
 // Icons
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 
 export const AddPurchase = () => {
   const [transactions, setTransaction] = useState<ITransaction[]>([
-    {id: uuidv4(), price: '', quantity: ''}
+    {id: uuidv4(), price: 0, quantity: 0}
   ])
 
   const addTransaction = () => {
     setTransaction(prevState => [
       ...prevState,
-      {id: uuidv4(), price: '', quantity: ''}
+      {id: uuidv4(), price: 0, quantity: 0}
     ])
   }
 
@@ -40,14 +40,17 @@ export const AddPurchase = () => {
 
   return (
     <Card className="flex flex-col gap-2">
-      <p>추가 매수</p>
+      <p className="text-primary-950">추가 매수</p>
       {transactions.map(transaction => {
+        console.log(Number(transaction.price) * Number(transaction.quantity))
+
         return (
           <>
-            <hr className="pt-1 pb-1 h-1" />
+            <hr className="h-1 pt-2 pb-2 border-gray-300" />
             <div key={transaction.id}>
               <div className="flex gap-2">
-                <TextField
+                <Input
+                  type="number"
                   className="w-1/3"
                   name="price"
                   placeholder="가격"
@@ -56,7 +59,8 @@ export const AddPurchase = () => {
                     handleOnChange(transaction.id, 'price', e.target.value)
                   }
                 />
-                <TextField
+                <Input
+                  type="number"
                   className="w-1/3"
                   name="quantity"
                   placeholder="수량"
@@ -65,7 +69,8 @@ export const AddPurchase = () => {
                     handleOnChange(transaction.id, 'quantity', e.target.value)
                   }
                 />
-                <TextField
+                <Input // todo. Output component로 대체하기
+                  type="number"
                   className="w-1/3"
                   name="result"
                   placeholder="총합"
@@ -75,7 +80,7 @@ export const AddPurchase = () => {
                   readOnly
                 />
                 <RemoveCircleIcon
-                  color="warning"
+                  className="text-primary-700"
                   aria-label="Icon To Remove Additional Purchase Field"
                   onClick={() => handleRemove(transaction.id)}
                   fontSize="small"

@@ -1,6 +1,6 @@
 import {memo} from 'react'
 
-import {formatNumToKR} from '@/common/utils/formatNumber'
+import {formatNumber} from '@/common/utils/format'
 
 type CalculateGapProps = {
   before: number | ''
@@ -24,7 +24,7 @@ const CalculateGap = memo(({before, after}: CalculateGapProps) => {
   const gap = Number(before) - Number(after)
   const symbolStyle = getChangeType(gap)
 
-  const amount = gap === 0 ? '변화 없음' : `${formatNumToKR(Math.abs(gap))} `
+  const amount = gap === 0 ? '변화 없음' : `${formatNumber(Math.abs(gap))} `
 
   return (
     <div>
