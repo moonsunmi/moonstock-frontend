@@ -3,7 +3,7 @@
 import {useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
 // Components
-import {Button, Card, Input} from '@/browser/components/UI'
+import {Button, Card, Input, Output} from '@/browser/components/UI'
 // Icons
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
@@ -48,8 +48,9 @@ export const AddPurchase = () => {
           <>
             <hr className="h-1 pt-2 pb-2 border-gray-300" />
             <div key={transaction.id}>
-              <div className="flex gap-2">
+              <form className="flex gap-2">
                 <Input
+                  id="price"
                   type="number"
                   className="w-1/3"
                   name="price"
@@ -60,6 +61,7 @@ export const AddPurchase = () => {
                   }
                 />
                 <Input
+                  id="quantity"
                   type="number"
                   className="w-1/3"
                   name="quantity"
@@ -69,23 +71,21 @@ export const AddPurchase = () => {
                     handleOnChange(transaction.id, 'quantity', e.target.value)
                   }
                 />
-                <Input // todo. Output component로 대체하기
+                <Output
                   type="number"
                   className="w-1/3"
                   name="result"
                   placeholder="총합"
-                  value={
-                    Number(transaction.price) * Number(transaction.quantity)
-                  }
-                  readOnly
-                />
+                  for="price quantity">
+                  {Number(transaction.price) * Number(transaction.quantity)}
+                </Output>
                 <RemoveCircleIcon
                   className="text-primary-700"
                   aria-label="Icon To Remove Additional Purchase Field"
                   onClick={() => handleRemove(transaction.id)}
                   fontSize="small"
                 />
-              </div>
+              </form>
             </div>
           </>
         )

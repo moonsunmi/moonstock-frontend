@@ -2,6 +2,7 @@
 
 import {ChangeEvent, useState} from 'react'
 import {formatNumber} from '@/common/utils'
+
 import styles from './index.module.scss'
 
 interface Options {
@@ -20,7 +21,7 @@ type Type = 'number' | 'string'
 
 const Input = ({...props}: InputProps) => {
   const {
-    className,
+    className: _className,
     size = 'md',
     type = 'string',
     value = '',
@@ -28,11 +29,11 @@ const Input = ({...props}: InputProps) => {
     ...restProps
   } = props
 
-  const mergedClass = [
+  const className = [
     styles.container,
     styles[size],
     styles[type],
-    className
+    _className
   ].join(' ')
 
   const [formattedValue, setFormattedValue] = useState<string>(
@@ -57,7 +58,7 @@ const Input = ({...props}: InputProps) => {
 
   return (
     <input
-      className={mergedClass}
+      className={className}
       value={formattedValue}
       onChange={handleChange}
       {...restProps}

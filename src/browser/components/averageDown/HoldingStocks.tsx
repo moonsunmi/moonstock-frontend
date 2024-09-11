@@ -2,7 +2,7 @@
 
 import {useCallback, useState} from 'react'
 
-import {Button, Card, Input} from '../UI'
+import {Button, Card, Input, Output} from '../UI'
 import {Modal} from '@mui/material'
 import SearchPrice from './SearchPrice'
 
@@ -43,14 +43,14 @@ const HoldingStocks = () => {
             value={transaction.quantity}
             onChange={e => handleOnChange('quantity', e.target.value)}
           />
-          <Input
+          <Output
             type="number"
             className="w-1/3"
             name="result"
             placeholder="총합"
-            value={Number(transaction.price) * Number(transaction.quantity)}
-            readOnly
-          />
+            for="price quantity">
+            {Number(transaction.price) * Number(transaction.quantity)}
+          </Output>
         </div>
         <Button size="sm" onClick={() => setOpenModal_searchPrice(true)}>
           현재 가격 입력할 종목 찾기
