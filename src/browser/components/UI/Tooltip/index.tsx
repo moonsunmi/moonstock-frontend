@@ -1,13 +1,21 @@
+'use client'
 import {useFloating, Placement} from '@floating-ui/react'
 import styles from './index.module.scss'
 
 type TooltipProps = {
   placement?: Placement
+  className: string
 }
 
-const Tooltip = ({placement = 'top'}: TooltipProps) => {
+const Tooltip = ({...props}: TooltipProps) => {
+  const {placement = 'top', className: _className, ...restProps} = props
   const {refs, context} = useFloating({placement: placement})
 
-  return <div className={styles.container}>hi</div>
+  const className = [styles.tooltip, _className].join(' ')
+  return (
+    <div className={className} {...restProps}>
+      hi
+    </div>
+  )
 }
 export default Tooltip

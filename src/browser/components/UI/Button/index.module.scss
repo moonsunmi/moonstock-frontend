@@ -1,12 +1,17 @@
 @import '@/common/lib/palette.scss';
 
-.container {
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   vertical-align: middle;
+
   user-select: none;
+  white-space: nowrap;
+
   font-family: sans-serif;
   font-weight: bold;
-  text-align: center;
-  text-transform: uppercase;
+
   transition: all 0.2s ease-in-out;
 
   &:disabled {
@@ -16,10 +21,9 @@
   }
 
   border-radius: 0.5rem;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0.6;
   }
 
   &:focus {
@@ -33,11 +37,17 @@
   }
 }
 
+.text {
+  color: $primary-700;
+}
+
 .solid {
   color: white;
   background-color: $primary-500;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
   &:hover {
-    opacity: 0.9;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
   }
   &:focus {
     opacity: 0.8;
@@ -76,21 +86,26 @@
 /* 크기별 스타일 */
 .xs {
   font-size: 0.75rem;
-  padding: 0.25rem 0.25rem;
+  padding: 0.375rem 0.375rem;
+  line-height: 0.75rem;
 }
 .sm {
   font-size: 0.875rem;
-  padding: 0.375rem 0.375rem;
+  padding: 0.5rem 0.5rem;
+  line-height: 0.875rem;
 }
 .md {
   font-size: 1rem;
-  padding: 0.5rem 0.5rem;
+  padding: 0.75rem 0.75rem;
+  line-height: 1rem;
 }
 .lg {
   font-size: 1.125rem;
-  padding: 0.75rem 0.75rem;
+  padding: 1rem 1rem;
+  line-height: 1.125rem;
 }
 .xl {
   font-size: 1.25rem;
-  padding: 1rem 1rem;
+  padding: 1.125rem 1.125rem;
+  line-height: 1.25rem;
 }

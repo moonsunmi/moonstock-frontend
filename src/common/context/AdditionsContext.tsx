@@ -1,3 +1,4 @@
+'use client'
 import {Dispatch, createContext, useContext} from 'react'
 
 interface IAdditionsContext {

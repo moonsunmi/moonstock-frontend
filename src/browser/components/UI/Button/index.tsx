@@ -4,7 +4,7 @@ import {forwardRef} from 'react'
 import styles from './index.module.scss'
 
 type Ref = HTMLButtonElement
-type Variant = 'outlined' | 'solid' | 'ghost'
+type Variant = 'text' | 'outlined' | 'solid' | 'ghost'
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 interface Options {
@@ -33,7 +33,7 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
   } = props
 
   const mergedClass = [
-    styles.container,
+    styles.button,
     styles[variant],
     styles[size],
     className

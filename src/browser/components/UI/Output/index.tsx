@@ -1,35 +1,25 @@
 'use client'
 
-import {ChangeEvent, ReactNode, useState} from 'react'
-import {formatNumber} from '@/common/utils'
-
+import {ReactNode} from 'react'
+// style
 import styles from './index.module.scss'
-
-interface Options {
-  size?: Size
-  type?: Type
-}
-
-type OutputProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLOutputElement>,
-  HTMLOutputElement
-> &
-  Options
-
-type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-type Type = 'number' | 'string'
+// type
+import {OutputProps} from './index.d'
+// utils
+import {formatNumber} from '@/common/utils'
 
 const Output = ({...props}: OutputProps) => {
   const {
     className: _className,
     size = 'md',
     type = 'string',
+    label = '',
     children,
     ...restProps
   } = props
 
   const className = [
-    styles.container,
+    styles.output,
     styles[size],
     styles[type],
     _className
@@ -44,9 +34,12 @@ const Output = ({...props}: OutputProps) => {
   }
 
   return (
-    <output className={className} {...restProps}>
-      {formattedValue(children)}
-    </output>
+    <div className={styles.container}>
+      <output className={className} {...restProps}>
+        {formattedValue(children)}
+      </output>
+      <label className={styles.label}>{label}</label>
+    </div>
   )
 }
 export default Output

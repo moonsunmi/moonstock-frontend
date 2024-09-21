@@ -5,25 +5,34 @@ import {
   FC,
   PropsWithChildren,
   useCallback,
-  useEffect,
   useState
 } from 'react'
-
-import * as U from '@/common/utils'
 import axios from 'axios'
+import * as U from '@/common/utils'
 
-export type LoggedUser = {email: string; password: string}
+export type UserInfo = {name: string; email: string | null; image: string}
 type Callback = () => void
 
 type ContextType = {
-  loggedUser?: LoggedUser
-  signup: (email: string, password: string, callback?: Callback) => void
+  userInfo?: UserInfo
+  signUp: (
+    name: string,
+    email: string,
+    password: string,
+    callback?: Callback
+  ) => void
   login: (email: string, password: string, callback?: Callback) => void
   logout: (callback?: Callback) => void
 }
 
 export const AuthContext = createContext<ContextType>({
-  signup: (email: string, password: string, callback?: Callback) => {},
+  userInfo: {name: '', email: '', image: null},
+  signUp: (
+    name: string,
+    email: string,
+    password: string,
+    callback?: Callback
+  ) => {},
   login: (email: string, password: string, callback?: Callback) => {},
   logout: (callback?: Callback) => {}
 })
@@ -33,30 +42,34 @@ type AuthProviderProps = {}
 export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({
   children
 }) => {
-  const [loggedUser, setLoggedUser] = useState<LoggedUser | undefined>(
-    undefined
-  )
-  const [jwt, setJwt] = useState<string>('')
+  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  const signup = useCallback(
-    (email: string, password: string, callback?: Callback) => {
-      const user = {email, password}
+  const signUp = useCallback(
+    (name: string, email: string, password: string, callback?: Callback) => {
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('email', email)
+      formData.append('password', password)
 
       axios
-        .post('http://localhost:4000/auth/signup', user)
+        .post('http://localhost:4000/auth/sign-up', formData, {
+          headers: {
+            'Content-Type': undefined //(for 'multipart/form-data')
+          }
+        })
         .then(res => {
           const {status, data} = res
 
-          // todo. store token in a http-only cookie
-          // documnet.cookie = `token=${data.token}; Secure; HttpOnly`;
-          U.writeStringP('jwt', data['body'] ?? '').finally(() => {
-            setJwt(data['body'] ?? '')
-          })
-          setLoggedUser(user)
-          U.writeStringP('user', JSON.stringify(user)).finally(
-            () => callback && callback()
-          )
+          // // todo. store token in a http-only cookie
+          // // document.cookie = `token=${data.token}; Secure; HttpOnly`;
+          // U.writeStringP('jwt', data['body'] ?? '').finally(() => {
+          //   setToken(data['body'] ?? '')
+          // })
+          // // setLoggedUser(user)
+          // U.writeStringP('user', JSON.stringify(formData)).finally(
+          //   () => callback && callback()
+          // )
         })
         .catch(error => {
           if (axios.isAxiosError(error)) {
@@ -64,9 +77,9 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({
           }
         })
 
-      setLoggedUser({email, password})
+      // setLoggedUser({email, password})
 
-      U.writeStringP('user', JSON.stringify(user)).finally(
+      U.writeStringP('user', JSON.stringify(formData)).finally(
         () => callback && callback()
       )
     },
@@ -74,29 +87,43 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({
   )
 
   const login = (email: string, password: string, callback?: Callback) => {
-    const user = {email, password}
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
 
-    axios.post('http://localhost:4000/auth/login', user).then(res => {
-      const {status, data} = res
-      console.log(data)
-    })
+    axios
+      .post('http://localhost:4000/auth/login', formData, {
+        withCredentials: true // cookie 안에 있는 token을 위해
+      })
+      .then(res => {
+        const {status, data} = res
 
-    setLoggedUser({email, password})
-    callback && callback()
+        if (data.ok) {
+          setUserInfo(data.userInfo)
+          callback && callback()
+        } else {
+          console.error(data.errorMessage)
+        }
+      })
+      .catch(error => {
+        if (axios.isAxiosError(error)) {
+          setErrorMessage(error.message)
+        }
+      })
   }
 
   const logout = (callback?: Callback) => {
-    setLoggedUser(undefined)
+    setUserInfo(undefined)
     callback && callback()
   }
 
-  useEffect(() => {
-    U.readStringP('jwt')
-      .then(jwt => jwt ?? '')
-      .catch(() => {})
-  })
+  // useEffect(() => {
+  //   U.readStringP('jwt')
+  //     .then(jwt => jwt ?? '')
+  //     .catch(() => {})
+  // })
 
-  const value = {jwt, errorMessage, loggedUser, signup, login, logout}
+  const value = {errorMessage, userInfo, signUp, login, logout}
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

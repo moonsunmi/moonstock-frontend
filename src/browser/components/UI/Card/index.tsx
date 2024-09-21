@@ -7,7 +7,7 @@ type CardProps = React.DetailedHTMLProps<
 
 const Card = ({...props}: CardProps) => {
   const {className: _className, children, ...restProps} = props
-  const className = [styles.container, _className].join(' ')
+  const className = [styles.card, _className].join(' ')
 
   return (
     <div className={className} {...restProps}>

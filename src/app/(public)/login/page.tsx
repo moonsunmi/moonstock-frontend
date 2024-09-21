@@ -1,17 +1,17 @@
 'use client'
 
-import {ChangeEvent, useContext, useEffect, useState} from 'react'
-
-import Link from 'next/link'
-import * as U from '@/common/utils'
-import {AuthContext} from '@/common/context'
+import {ChangeEvent, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
+// Components
+import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
+// Utils
+import * as U from '@/common/utils'
+import useAuth from '@/common/hooks/useAuth'
 
 type FormType = Record<'email' | 'password', string>
 const LoginPage = () => {
   const router = useRouter()
-
-  const {login} = useContext(AuthContext)
+  const {login, errorMessage} = useAuth()
 
   const [{email, password}, setForm] = useState<FormType>({
     email: '',
@@ -29,47 +29,44 @@ const LoginPage = () => {
 
   useEffect(() => {
     U.readStringP('user').then(user => {
-      if (user) setForm(JSON.parse(user))
+      if (user) {
+        setForm(JSON.parse(user))
+      }
     })
   }, [])
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 border border-gray-300 shadow-xl rounded-xl">
-      <div className="flex flex-col items-center justify-center flex-1 max-w-sm px-2 mx-auto">
-        <div className="w-full px-6 py-8 text-black bg-white rounded shadow-md">
-          <h1 className="mb-8 text-2xl text-center text-primary">Login</h1>
-          <input
-            type="text"
-            className="w-full p-3 mb-4 input input-primary"
+    <div className="flex items-center justify-center w-full px-56">
+      <Card>
+        <div className="mb-4 text-center">
+          <Paragraph type="title">Login</Paragraph>
+        </div>
+        <hr className="h-1 pt-2 pb-2 border-secondary-300" />
+        <div className="flex flex-col gap-6">
+          <Input
             name="email"
-            placeholder="Email"
+            className="w-full"
+            placeholder="이메일"
             value={email}
             onChange={handleOnChange('email')}
           />
-          <input
+          <Input
             type="password"
-            className="w-full p-3 mb-4 input input-primary"
+            className="w-full"
             name="password"
-            placeholder="Password"
+            placeholder="비밀번호"
             value={password}
             onChange={handleOnChange('password')}
           />
-          <button
-            type="submit"
-            className="w-full btn btn-primary"
-            onClick={loginAccount}>
+          <Button type="submit" className="w-full" onClick={loginAccount}>
             LOGIN
-          </button>
-
-          <div className="mt-6 text-gray-800">
-            Create account?
-            <Link className="btn btn-link btn-primary" href="/signup/">
-              Login
-            </Link>
-          </div>
+          </Button>
+          <hr className="h-1 pt-2 pb-2 border-secondary-300" />
+          <Button variant="outlined" onClick={() => router.push('/sign-up')}>
+            SignUp
+          </Button>
         </div>
-      </div>
-      <div className="mt-4"></div>
+      </Card>
     </div>
   )
 }

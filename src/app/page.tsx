@@ -17,17 +17,9 @@ export default async function Page() {
   const {isBrowser, isMobile} = getSelectorsByUserAgent(userAgent ?? '')
 
   if (isBrowser) {
-    return (
-      <div className="max-w-3xl">
-        <AverageDownPage />
-      </div>
-    )
+    return <AverageDownPage />
   } else if (isMobile) {
-    return (
-      <div className="max-w-3xl">
-        <AverageDownPage />
-      </div>
-    )
+    return <AverageDownPage />
   } else {
     return <div>NOT SUPPORT DEVICE</div>
   }

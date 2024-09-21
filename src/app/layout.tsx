@@ -1,4 +1,3 @@
-import DrawerLeft from '@/browser/components/UI/LeftBar'
 import {NextAuthProvider} from '@/common/context/NextAuthProvider'
 import {authOptions} from '@/common/lib/auth'
 import {CssBaseline} from '@mui/material'
@@ -37,38 +36,29 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body className="flex flex-col min-h-screen">
         <AppRouterCacheProvider>
           <ThemeRegistry options={{key: 'mui'}}>
             <CssBaseline />
-            <AuthProvider>
-              <NextAuthProvider session={session}>
-                <SignOutHandler />
-                {/* <TabCounter /> */}
-                <Header />
-                <ReduxProvider>
-                  {/* 하단의 것 지우기 */}
+            <ReduxProvider>
+              <AuthProvider>
+                <NextAuthProvider session={session}>
+                  <SignOutHandler />
+                  {/* <TabCounter /> */}
+                  <Header />
                   {/* <StockListProvider stockList={stockList}> */}
-                  <div
+                  <main
                     id="root"
-                    className="max-w-screen-md p-3 m-auto"
-                    // todo.
-                    // flex: 1;
-                    // display: flex;
-                    // justify-content: center;
-                    // align-items: center;
-                    // padding: 20px;
-                    // max-width: 1200px;
-                    // margin: 0 auto; /* 중앙 정렬을 위한 자동 마진 */
-                  >
+                    className="flex flex-1 w-full max-w-screen-md pt-16 m-auto">
                     {children}
-                  </div>
+                  </main>
                   <div id="overlays"></div>
+                  <div className="h-3" />
                   {/* <Overlays /> */}
                   {/* </StockListProvider> */}
-                </ReduxProvider>
-              </NextAuthProvider>
-            </AuthProvider>
+                </NextAuthProvider>
+              </AuthProvider>
+            </ReduxProvider>
           </ThemeRegistry>
         </AppRouterCacheProvider>
       </body>

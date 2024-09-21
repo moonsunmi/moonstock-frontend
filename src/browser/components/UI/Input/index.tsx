@@ -1,42 +1,33 @@
 'use client'
 
 import {ChangeEvent, useState} from 'react'
-import {formatNumber} from '@/common/utils'
-
+// icons
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+// styles
 import styles from './index.module.scss'
-
-interface Options {
-  size?: Size
-  type?: Type
-}
-
-export type InputProps = React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
-> &
-  Options
-
-type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-type Type = 'number' | 'string'
+import classNames from 'classnames'
+// utils
+import {formatNumber} from '@/common/utils'
+// type
+import {InputProps} from './index.d'
 
 const Input = ({...props}: InputProps) => {
   const {
     className: _className,
     size = 'md',
-    type = 'string',
+    type = 'text',
     value = '',
+    label = '',
     onChange,
     ...restProps
   } = props
 
-  const className = [
-    styles.container,
-    styles[size],
-    styles[type],
-    _className
-  ].join(' ')
+  const containerClassName = classNames(styles.container, _className)
+  const inputClassName = classNames(styles.input, styles[size], styles[type])
 
-  const [formattedValue, setFormattedValue] = useState<string>(
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [formattedNumber, setFormattedNumber] = useState<string>(
     formatNumber(value as string | number)
   )
 
@@ -44,7 +35,7 @@ const Input = ({...props}: InputProps) => {
     const rawValue = e.target.value.replace(/,/g, '')
 
     if (type === 'number' && !isNaN(Number(rawValue))) {
-      setFormattedValue(formatNumber(Number(rawValue)))
+      setFormattedNumber(formatNumber(Number(rawValue)))
 
       const newEvent = {
         ...e,
@@ -56,13 +47,34 @@ const Input = ({...props}: InputProps) => {
     }
   }
 
+  const toggleVisible = () => {
+    setIsVisible(prev => !prev)
+  }
+
+  const getType = () => {
+    if (type === 'number') return 'text'
+    if (type === 'password') {
+      if (isVisible) return 'text'
+    }
+    return type
+  }
+
   return (
-    <input
-      className={className}
-      value={formattedValue}
-      onChange={handleChange}
-      {...restProps}
-    />
+    <div className={containerClassName}>
+      <input
+        className={inputClassName}
+        value={type === 'number' ? formattedNumber : value}
+        type={getType()}
+        onChange={handleChange}
+        {...restProps}
+      />
+      <label className={styles.label}>{label}</label>
+      {type === 'password' && (
+        <div onClick={toggleVisible} className="absolute right-2">
+          {isVisible ? <Visibility /> : <VisibilityOff />}
+        </div>
+      )}
+    </div>
   )
 }
 export default Input
