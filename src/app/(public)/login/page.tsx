@@ -2,16 +2,21 @@
 
 import {ChangeEvent, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
+// Redux
+import {useDispatch} from '@/store/store'
+import {setUserInfo} from '@/store/slices/authSlice'
 // Components
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
-// Utils
-import * as U from '@/common/utils'
+// Hooks
 import useAuth from '@/common/hooks/useAuth'
 
 type FormType = Record<'email' | 'password', string>
 const LoginPage = () => {
   const router = useRouter()
-  const {login, errorMessage} = useAuth()
+  const dispatch = useDispatch()
+
+  // todo. login error 대처 modal이나 snackbar 등.
+  const {login, loginData, loginErrMsg} = useAuth()
 
   const [{email, password}, setForm] = useState<FormType>({
     email: '',
@@ -24,16 +29,15 @@ const LoginPage = () => {
     }
 
   const loginAccount = () => {
-    login(email, password, () => router.push('/'))
+    login(email, password)
   }
 
   useEffect(() => {
-    U.readStringP('user').then(user => {
-      if (user) {
-        setForm(JSON.parse(user))
-      }
-    })
-  }, [])
+    if (loginData) {
+      dispatch(setUserInfo(loginData.userInfo))
+      router.push('/')
+    }
+  }, [loginData])
 
   return (
     <div className="flex items-center justify-center w-full px-56">

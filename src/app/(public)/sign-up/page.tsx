@@ -3,7 +3,6 @@
 import {ChangeEvent, useCallback, useContext, useState} from 'react'
 
 import {AuthContext} from '@/common/context'
-import Link from 'next/link'
 import {useRouter} from 'next/navigation'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 

@@ -17,7 +17,7 @@ export const Header = () => {
       <div className="flex gap-1">
         <Button variant="text">Components</Button>
         <Button variant="text" onClick={() => router.push('/login')}>
-          {userInfo['id'] === null ? 'Login' : 'LogOut'}
+          {userInfo?.id === null ? 'Login' : 'LogOut'}
         </Button>
       </div>
     </div>

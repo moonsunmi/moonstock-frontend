@@ -1,37 +1,25 @@
-import axios from 'axios'
-import {loginAPI, signUpAPI} from '../lib/api/auth'
-import {useDispatch, useSelector} from '@/store/store'
 import {setUserInfo} from '@/store/slices/authSlice'
-import {useState} from 'react'
-
-type Callback = () => void
+import useApi from './useApi'
 
 const useAuth = () => {
-  const dispatch = useDispatch()
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const {execute: loginRequest, data: loginData, errMsg: loginErrMsg} = useApi()
+  const {
+    execute: signUpRequest,
+    data: signUpData,
+    errMsg: signUpErrMsg
+  } = useApi()
 
-  const login = async (
-    email: string,
-    password: string,
-    callback?: Callback
-  ) => {
-    try {
-      const response = await loginAPI(email, password)
-      const {data} = response
+  const login = async (email: string, password: string) => {
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
 
-      if (data.ok) {
-        dispatch(setUserInfo(data.userInfo))
-        if (callback) callback()
-      } else {
-        setErrorMessage(data.errorMessage)
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setErrorMessage(error.message)
-      } else {
-        console.error('Unexpected error', error)
-      }
-    }
+    await loginRequest({
+      url: 'http://localhost:4000/auth/login',
+      method: 'POST',
+      data: formData,
+      withCredentials: true // cookie 안에 있는 token을 위해
+    })
   }
 
   const logout = (callback?: Callback) => {
@@ -39,31 +27,30 @@ const useAuth = () => {
     if (callback) callback()
   }
 
-  const signUp = async (
-    name: string,
-    email: string,
-    password: string,
-    callback?: Callback
-  ) => {
-    try {
-      const response = await signUpAPI(name, email, password)
-      const {data} = response
+  const signUp = async (name: string, email: string, password: string) => {
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('password', password)
 
-      if (data.ok) {
-        setUserInfo(data.userInfo)
-        if (callback) callback()
-      } else {
-        setErrorMessage(data.errorMessage)
+    const response = await signUpRequest({
+      url: 'http://localhost:4000/auth/sign-up',
+      method: 'POST',
+      data: formData,
+      headers: {
+        'Content-Type': undefined //(for 'multipart/form-data')
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setErrorMessage(error.message)
-      } else {
-        console.error('Unexpected error', error)
-      }
-    }
+    })
   }
 
-  return {login, logout, signUp, errorMessage}
+  return {
+    login,
+    loginData,
+    loginErrMsg,
+    logout,
+    signUp,
+    signUpData,
+    signUpErrMsg
+  }
 }
 export default useAuth

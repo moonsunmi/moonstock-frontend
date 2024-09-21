@@ -3,8 +3,6 @@
 import AdditionsProvider from '@/common/context/AdditionsProvider'
 import HoldingsProvider from '@/common/context/HoldingsProvider'
 import {AddPurchase} from '@/browser/components/averageDown/AddPurchase'
-import {Button, Tooltip} from '@/browser/components/UI'
-// import {Modal} from '@/browser/components/UI/Modal'
 // import {useSetAtom} from 'jotai'
 import {uiAtom} from '@/common/lib/state'
 

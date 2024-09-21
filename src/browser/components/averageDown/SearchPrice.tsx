@@ -8,8 +8,6 @@ import {createInitialPurchase} from '@/common/context/initialPurchases'
 // Components
 import PurchaseDetailContainer from './PurchaseDetail'
 import {Button, SearchStockInput} from '../UI'
-// Hooks
-import useInput from '@/common/hooks/useInput'
 // Styles
 
 type APIStockDetail = {
@@ -58,52 +56,52 @@ const descriptionMessage: Record<ApiStatus, {message: string}> = {
 }
 
 const SearchPrice = () => {
-  const [status, setStatus] = useState<ApiStatus>('idle')
-  const [input, setInput, onChange] = useInput('')
-  const route = useRouter()
+  // const [status, setStatus] = useState<ApiStatus>('idle')
+  // const [input, setInput, onChange] = useInput('')
+  // const route = useRouter()
 
-  const {additions, additionsDispatch} = useAdditionsContext()
+  // const {additions, additionsDispatch} = useAdditionsContext()
 
-  const handleClick = async () => {
-    setStatus('loading')
-    setInput('')
+  // const handleClick = async () => {
+  //   setStatus('loading')
+  //   setInput('')
 
-    try {
-      const response = await fetch(
-        `/api/stock-info?stock-name=${encodeURIComponent(input)}`
-      )
-      if (!response.ok) {
-        const errorData = await response.json()
-        console.log('stock-name API call failed', errorData.message)
-        setStatus('error')
-        return
-      }
+  //   try {
+  //     const response = await fetch(
+  //       `/api/stock-info?stock-name=${encodeURIComponent(input)}`
+  //     )
+  //     if (!response.ok) {
+  //       const errorData = await response.json()
+  //       console.log('stock-name API call failed', errorData.message)
+  //       setStatus('error')
+  //       return
+  //     }
 
-      const data: APIStockDetail = await response.json()
-      if (data && data.totalCount > 0) {
-        const newPrice = data.items?.item[0]?.clpr
-        if (newPrice) {
-          const newPurchase: ITransaction = createInitialPurchase({
-            price: Number(newPrice.replace(',', ''))
-          })
-          additionsDispatch({
-            type: 'add',
-            payload: newPurchase
-          })
-        }
-        setStatus('success')
-      } else {
-        setStatus('noResult')
-      }
-    } catch (error) {
-      console.error('네트워크 요청 중 에러가 발생했습니다.', error)
-      setStatus('error')
-    }
-  }
+  //     const data: APIStockDetail = await response.json()
+  //     if (data && data.totalCount > 0) {
+  //       const newPrice = data.items?.item[0]?.clpr
+  //       if (newPrice) {
+  //         const newPurchase: ITransaction = createInitialPurchase({
+  //           price: Number(newPrice.replace(',', ''))
+  //         })
+  //         additionsDispatch({
+  //           type: 'add',
+  //           payload: newPurchase
+  //         })
+  //       }
+  //       setStatus('success')
+  //     } else {
+  //       setStatus('noResult')
+  //     }
+  //   } catch (error) {
+  //     console.error('네트워크 요청 중 에러가 발생했습니다.', error)
+  //     setStatus('error')
+  //   }
+  // }
 
   return (
     <>
-      {additions.map((purchase: ITransaction) => {
+      {/* {additions.map((purchase: ITransaction) => {
         return (
           <PurchaseDetailContainer
             key={purchase.id}
@@ -124,7 +122,7 @@ const SearchPrice = () => {
           가격 입력
         </Button>
       </div>
-      <p>{descriptionMessage[status].message}</p>
+      <p>{descriptionMessage[status].message}</p> */}
     </>
   )
 }
