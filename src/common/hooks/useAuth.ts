@@ -33,7 +33,7 @@ const useAuth = () => {
     formData.append('email', email)
     formData.append('password', password)
 
-    const response = await signUpRequest({
+    await signUpRequest({
       url: 'http://localhost:4000/auth/sign-up',
       method: 'POST',
       data: formData,

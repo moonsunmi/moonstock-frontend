@@ -33,7 +33,7 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    if (loginData) {
+    if (loginData?.ok) {
       dispatch(setUserInfo(loginData.userInfo))
       router.push('/')
     }

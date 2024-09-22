@@ -1,10 +1,10 @@
 'use client'
 
-import {ChangeEvent, useCallback, useContext, useState} from 'react'
-
-import {AuthContext} from '@/common/context'
+import {ChangeEvent, useCallback, useContext, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
+// Hooks
+import useAuth from '@/common/hooks/useAuth'
 
 type SignUpFormType = Record<
   'name' | 'email' | 'password' | 'confirmPassword',
@@ -14,7 +14,8 @@ const initFormState = {name: '', email: '', password: '', confirmPassword: ''}
 
 const SignUpPage = () => {
   const router = useRouter()
-  const {signUp} = useContext(AuthContext)
+
+  const {signUp, signUpData, signUpErrMsg} = useAuth()
 
   const [{name, email, password, confirmPassword}, setForm] =
     useState<SignUpFormType>(initFormState)
@@ -30,8 +31,14 @@ const SignUpPage = () => {
 
   const createAccount = () => {
     if (password != confirmPassword) toggleShowHelper(true)
-    signUp(name, email, password) //, () => router.push('/'))
+    signUp(name, email, password)
   }
+
+  useEffect(() => {
+    if (signUpData?.ok) {
+      router.push('/login')
+    }
+  }, [signUpData])
 
   return (
     <div className="flex items-center justify-center w-full px-56">
