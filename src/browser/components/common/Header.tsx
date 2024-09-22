@@ -1,15 +1,28 @@
 'use client'
 
+import {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 // Components
 import {Button} from '../UI'
 import {useSelector} from '@/store/store'
-import {useEffect, useState} from 'react'
+import useAuth from '@/common/hooks/useAuth'
 
 export const Header = () => {
   const router = useRouter()
+  const {logout} = useAuth()
+
   const {userInfo} = useSelector(state => state.auth)
+
   const [isMounted, setIsMounted] = useState(false)
+
+  const handleOnLogin = () => {
+    router.push('/login')
+  }
+
+  const handleOnLogOut = () => {
+    logout()
+    router.push('/')
+  }
 
   useEffect(() => {
     setIsMounted(true)
@@ -22,9 +35,15 @@ export const Header = () => {
       </div>
       <div className="flex gap-1">
         <Button variant="text">Components</Button>
-        <Button variant="text" onClick={() => router.push('/login')}>
-          {isMounted ? (userInfo?.id === null ? 'LogIn' : 'LogOut') : 'LogIn'}
-        </Button>
+        {isMounted && userInfo?.email !== null ? (
+          <Button variant="text" onClick={handleOnLogOut}>
+            LogOut
+          </Button>
+        ) : (
+          <Button variant="text" onClick={handleOnLogin}>
+            LogIn
+          </Button>
+        )}
       </div>
     </div>
   )

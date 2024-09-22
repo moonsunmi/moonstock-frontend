@@ -1,7 +1,10 @@
-import {setUserInfo} from '@/store/slices/authSlice'
 import useApi from './useApi'
+import {useDispatch} from '@/store/store'
+import {setUserInfo} from '@/store/slices/authSlice'
 
 const useAuth = () => {
+  const dispatch = useDispatch()
+
   const {execute: loginRequest, data: loginData, errMsg: loginErrMsg} = useApi()
   const {
     execute: signUpRequest,
@@ -22,9 +25,8 @@ const useAuth = () => {
     })
   }
 
-  const logout = (callback?: Callback) => {
-    setUserInfo(null)
-    if (callback) callback()
+  const logout = () => {
+    dispatch(setUserInfo({name: null, email: null}))
   }
 
   const signUp = async (name: string, email: string, password: string) => {

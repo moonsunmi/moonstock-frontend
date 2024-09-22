@@ -1,17 +1,17 @@
 import {FC, PropsWithChildren, useContext, useEffect} from 'react'
 
-import {AuthContext} from '@/common/context'
 import {useRouter} from 'next/navigation'
+import {useSelector} from '@/store/store'
 
 type RequireAuthProps = {}
 
 const RequireAuth: FC<PropsWithChildren<RequireAuthProps>> = ({children}) => {
-  const {loggedUser} = useContext(AuthContext)
+  const {userInfo} = useSelector(state => state.auth)
   const router = useRouter()
 
   useEffect(() => {
-    if (!loggedUser) router.back()
-  }, [loggedUser, router])
+    if (!userInfo) router.back()
+  }, [userInfo, router])
   return <>{children}</>
 }
 export default RequireAuth

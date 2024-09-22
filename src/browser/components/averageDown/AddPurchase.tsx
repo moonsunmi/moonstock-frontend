@@ -66,17 +66,17 @@ export const AddPurchase = () => {
     [holding]
   )
 
+  console.log(userInfo)
   return (
     <>
-      <Paragraph>
-        {userInfo['id'] !== null && `${userInfo.name}님 환영합니다.`}
-      </Paragraph>
-      <div className="flex">
+      <div className="flex mt-6">
         <Paragraph type="title" className="w-full">
           보유 주식
         </Paragraph>
         <div className="flex gap-2">
-          <Button size="sm">보유 주식 불러오기</Button>
+          {userInfo?.email !== null && (
+            <Button size="sm">보유 주식 불러오기</Button>
+          )}
           <Button size="sm" onClick={() => setOpenModal_searchPrice(true)}>
             현재 가격 입력할 종목 찾기
           </Button>

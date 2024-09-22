@@ -8,7 +8,6 @@ import {getServerSession} from 'next-auth'
 import ThemeRegistry from '../common/context/ThemeRegistry'
 import SignOutHandler from '@/browser/components/client/SignOutHandler'
 import ReduxProvider from '@/store/provider'
-import {AuthProvider} from '@/common/context'
 import {Header} from '@/browser/components/common/Header'
 
 // Styles
@@ -41,23 +40,21 @@ export default async function RootLayout({
           <ThemeRegistry options={{key: 'mui'}}>
             <CssBaseline />
             <ReduxProvider>
-              <AuthProvider>
-                <NextAuthProvider session={session}>
-                  <SignOutHandler />
-                  {/* <TabCounter /> */}
-                  <Header />
-                  {/* <StockListProvider stockList={stockList}> */}
-                  <main
-                    id="root"
-                    className="flex flex-1 w-full max-w-screen-md pt-16 m-auto">
-                    {children}
-                  </main>
-                  <div id="overlays"></div>
-                  <div className="h-3" />
-                  {/* <Overlays /> */}
-                  {/* </StockListProvider> */}
-                </NextAuthProvider>
-              </AuthProvider>
+              <NextAuthProvider session={session}>
+                <SignOutHandler />
+                {/* <TabCounter /> */}
+                <Header />
+                {/* <StockListProvider stockList={stockList}> */}
+                <main
+                  id="root"
+                  className="flex flex-1 w-full max-w-screen-md pt-16 m-auto">
+                  {children}
+                </main>
+                <div id="overlays"></div>
+                <div className="h-3" />
+                {/* <Overlays /> */}
+                {/* </StockListProvider> */}
+              </NextAuthProvider>
             </ReduxProvider>
           </ThemeRegistry>
         </AppRouterCacheProvider>
