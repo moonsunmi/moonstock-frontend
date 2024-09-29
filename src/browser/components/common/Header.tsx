@@ -15,6 +15,10 @@ export const Header = () => {
 
   const [isMounted, setIsMounted] = useState(false)
 
+  const handleOnStock = () => {
+    router.push('/stock-board')
+  }
+
   const handleOnLogin = () => {
     router.push('/login')
   }
@@ -34,7 +38,11 @@ export const Header = () => {
         MoonStock
       </div>
       <div className="flex gap-1">
-        <Button variant="text">Components</Button>
+        {isMounted && userInfo?.email !== null && (
+          <Button variant="text" onClick={handleOnStock}>
+            내 주식
+          </Button>
+        )}
         {isMounted && userInfo?.email !== null ? (
           <Button variant="text" onClick={handleOnLogOut}>
             LogOut

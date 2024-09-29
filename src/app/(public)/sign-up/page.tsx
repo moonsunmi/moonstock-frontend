@@ -1,6 +1,6 @@
 'use client'
 
-import {ChangeEvent, useCallback, useContext, useEffect, useState} from 'react'
+import {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 // Hooks

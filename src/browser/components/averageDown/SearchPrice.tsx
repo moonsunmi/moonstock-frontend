@@ -3,7 +3,6 @@
 import {useState} from 'react'
 import {useRouter} from 'next/navigation'
 // Context
-import {useAdditionsContext} from '@/common/context/AdditionsContext'
 import {createInitialPurchase} from '@/common/context/initialPurchases'
 // Components
 import PurchaseDetailContainer from './PurchaseDetail'

@@ -1,3 +1,5 @@
+'use client'
+
 import {FC, PropsWithChildren, useContext, useEffect} from 'react'
 
 import {useRouter} from 'next/navigation'

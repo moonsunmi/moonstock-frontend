@@ -6,7 +6,7 @@ import {v4 as uuidv4} from 'uuid'
 import {useSelector} from '@/store/store'
 // Components
 import {Button, Card, Input, Output, Paragraph} from '@/browser/components/UI'
-import {Modal, TextField} from '@mui/material'
+import {Modal} from '@mui/material'
 import SearchPrice from './SearchPrice'
 // Icons
 import {AddCircleOutline, RemoveCircle} from '@mui/icons-material'
@@ -66,7 +66,6 @@ export const AddPurchase = () => {
     [holding]
   )
 
-  console.log(userInfo)
   return (
     <>
       <div className="flex mt-6">

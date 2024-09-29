@@ -1,15 +1,16 @@
-import { getServerSession } from "next-auth";
+'use client'
 // Components
-import StockList from "@/browser/components/stockBoard/StockList";
-import { authOptions } from "@/common/lib/auth";
-import { getHoldings } from "@/common/lib/data";
+import {useEffect} from 'react'
+import useUsers from '@/common/hooks/useUsers'
+import {useSelector} from '@/store/store'
 
-export default async function StockBoardPage() {
-  const session = await getServerSession(authOptions);
-  // if (!session?.user) {
-  //   redirect("api/auth/signin");
-  // }
-  const dataRows = (await getHoldings(session?.user.id || "")) || [];
+export default function StockBoardPage() {
+  const {userInfo} = useSelector(state => state.auth)
+  const {getHoldings} = useUsers()
 
-  return <>{session?.user && <StockList dataRows={dataRows} />}</>;
+  useEffect(() => {
+    getHoldings()
+  }, [])
+
+  return <></>
 }
