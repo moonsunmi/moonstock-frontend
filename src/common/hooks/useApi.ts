@@ -1,3 +1,5 @@
+// reactonly (next.js uses swr)
+
 import {useEffect, useState} from 'react'
 import axios, {AxiosRequestConfig, isAxiosError} from 'axios'
 
