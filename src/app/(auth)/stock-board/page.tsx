@@ -1,10 +1,14 @@
 'use client'
 import {Button} from '@/browser/components/UI'
 // Components
-import useHoldings from '@/common/hooks/useHoldings'
+import useSWR from 'swr'
 
 export default function StockBoardPage() {
-  const {data: holdings, error, isLoading, isValidating} = useHoldings()
+  const {data, error, isLoading, isValidating} = useSWR(
+    [`http://localhost:4000/users/holdings`],
+    {fallbackData: [{ok: false, holdings: []}]}
+  )
+  const {holdings} = data
 
   if (isLoading || isValidating) {
     return <div>Loading...</div>
