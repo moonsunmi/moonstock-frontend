@@ -6,9 +6,7 @@ const useHoldings = () => {
     `http://localhost:4000/users/holdings`,
     url => axios.get(url, {withCredentials: true}).then(res => res.data)
   )
-  // todo. data 가공하여
-  console.log(data)
-  return {data, error, isLoading, isValidating}
+  return {data: data?.holdings || [], error, isLoading, isValidating}
 }
 
 export default useHoldings
