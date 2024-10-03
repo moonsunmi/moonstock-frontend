@@ -2,6 +2,7 @@
 
 import {ChangeEvent, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
+import {useSnackbar} from 'notistack'
 // Redux
 import {useDispatch} from '@/store/store'
 import {setUserInfo} from '@/store/slices/authSlice'
@@ -11,12 +12,13 @@ import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 import useAuth from '@/common/hooks/useAuth'
 
 type FormType = Record<'email' | 'password', string>
+
 const LoginPage = () => {
   const router = useRouter()
   const dispatch = useDispatch()
+  const {enqueueSnackbar} = useSnackbar()
 
-  // todo. login error 대처 modal이나 snackbar 등.
-  const {login, loginData, loginErrMsg} = useAuth()
+  const {loginMutation} = useAuth()
 
   const [{email, password}, setForm] = useState<FormType>({
     email: '',
@@ -28,16 +30,23 @@ const LoginPage = () => {
       setForm(prevObj => ({...prevObj, [key]: e.target.value}))
     }
 
-  const loginAccount = () => {
-    login(email, password)
+  const handleOnClick_Login = () => {
+    loginMutation.trigger({email: email, password: password})
   }
 
   useEffect(() => {
-    if (loginData?.ok) {
-      dispatch(setUserInfo(loginData.userInfo))
+    if (loginMutation.data) {
+      const {userInfo} = loginMutation.data
+      dispatch(setUserInfo(userInfo))
       router.push('/')
+      enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})
     }
-  }, [loginData])
+  }, [loginMutation.data])
+
+  useEffect(() => {
+    if (loginMutation.error)
+      enqueueSnackbar(`로그인 에러:${loginMutation.error}`, {variant: 'error'})
+  }, [loginMutation.error])
 
   return (
     <div className="flex items-center justify-center w-full px-56">
@@ -62,7 +71,10 @@ const LoginPage = () => {
             value={password}
             onChange={handleOnChange('password')}
           />
-          <Button type="submit" className="w-full" onClick={loginAccount}>
+          <Button
+            type="submit"
+            className="w-full"
+            onClick={handleOnClick_Login}>
             LOGIN
           </Button>
           <hr className="h-1 pt-2 pb-2 border-secondary-300" />

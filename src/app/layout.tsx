@@ -6,6 +6,7 @@ import SignOutHandler from '@/browser/components/client/SignOutHandler'
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter'
 import {NextAuthProvider} from '@/common/context/NextAuthProvider'
 import ReduxProvider from '@/store/provider'
+import SnackbarProvider from '@/common/context/SnackbarProvider'
 import {SWRProvider} from '@/common/context/SWRProvider'
 // components
 import {CssBaseline} from '@mui/material'
@@ -47,11 +48,13 @@ export default async function RootLayout({
                   {/* <TabCounter /> */}
                   <Header />
                   {/* <StockListProvider stockList={stockList}> */}
-                  <main
-                    id="root"
-                    className="flex flex-1 w-full max-w-screen-md pt-16 m-auto">
-                    {children}
-                  </main>
+                  <SnackbarProvider>
+                    <main
+                      id="root"
+                      className="flex flex-1 w-full max-w-screen-md pt-16 m-auto">
+                      {children}
+                    </main>
+                  </SnackbarProvider>
                   <div id="overlays"></div>
                   <div className="h-3" />
                   {/* <Overlays /> */}

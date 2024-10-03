@@ -2,8 +2,10 @@
 
 import {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
+import {useSnackbar} from 'notistack'
+// components
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
-// Hooks
+// hooks
 import useAuth from '@/common/hooks/useAuth'
 
 type SignUpFormType = Record<
@@ -14,13 +16,12 @@ const initFormState = {name: '', email: '', password: '', confirmPassword: ''}
 
 const SignUpPage = () => {
   const router = useRouter()
+  const {enqueueSnackbar} = useSnackbar()
 
-  const {signUp, signUpData, signUpErrMsg} = useAuth()
+  const {signUpMutation} = useAuth()
 
   const [{name, email, password, confirmPassword}, setForm] =
     useState<SignUpFormType>(initFormState)
-
-  const [showHelper, toggleShowHelper] = useState<boolean>(false) // todo. helpertext
 
   const handleOnChange = useCallback(
     (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,15 +31,26 @@ const SignUpPage = () => {
   )
 
   const createAccount = () => {
-    if (password != confirmPassword) toggleShowHelper(true)
-    signUp(name, email, password)
+    if (password != confirmPassword) {
+      enqueueSnackbar(`비밀번호가 일치하지 않습니다.`, {variant: 'error'})
+    } else {
+      signUpMutation.trigger({name, email, password})
+    }
   }
 
   useEffect(() => {
-    if (signUpData?.ok) {
+    if (signUpMutation.data) {
       router.push('/login')
+      enqueueSnackbar(`성공적으로 회원 가입되었습니다.`, {variant: 'success'})
     }
-  }, [signUpData])
+  }, [signUpMutation.data])
+
+  useEffect(() => {
+    if (signUpMutation.error)
+      enqueueSnackbar(`회원가입에 실패했습니다:${signUpMutation.error}`, {
+        variant: 'error'
+      })
+  }, [signUpMutation.error])
 
   return (
     <div className="flex items-center justify-center w-full px-56">

@@ -1,13 +1,13 @@
 'use client'
-import {Button} from '@/browser/components/UI'
-// Components
-import useSWR from 'swr'
 
-export default function StockBoardPage() {
-  const {data, error, isLoading, isValidating} = useSWR(
-    [`http://localhost:4000/users/holdings`],
-    {fallbackData: [{ok: false, holdings: []}]}
-  )
+import useSWR from 'swr'
+// Components
+import {Button} from '@/browser/components/UI'
+
+const StockBoardPage = () => {
+  const {data, error, isLoading, isValidating} = useSWR('/users/holdings', {
+    fallbackData: [{ok: false, holdings: []}]
+  })
   const {holdings} = data
 
   if (isLoading || isValidating) {
@@ -29,3 +29,5 @@ export default function StockBoardPage() {
     </div>
   )
 }
+
+export default StockBoardPage

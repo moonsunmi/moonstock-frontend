@@ -1,12 +1,13 @@
 'use client'
-import axios from 'axios'
+
 import {SWRConfig} from 'swr'
+import axiosInstance from '../lib/axios'
+
 export const SWRProvider = ({children}) => {
   return (
     <SWRConfig
       value={{
-        fetcher: url =>
-          axios.get(url, {withCredentials: true}).then(res => res.data)
+        fetcher: url => axiosInstance.get(url).then(res => res.data)
         // refreshInterval: 3000
         //   revalidateOnMount: true, // 컴포넌트가 마운트되었을 때 자동 갱신 여부
         //   revalidateOnFocus: false, // 창이 포커싱되었을 때 자동 갱신 여부

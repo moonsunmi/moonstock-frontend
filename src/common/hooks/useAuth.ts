@@ -1,58 +1,58 @@
-import useApi from './useApi'
+import useSWRMutation from 'swr/mutation'
 import {useDispatch} from '@/store/store'
 import {setUserInfo} from '@/store/slices/authSlice'
+// libs
+import axiosInstance from '../lib/axios'
+
+type loginArg = {email: string; password: string}
+type signUpArg = {name: string; email: string; password: string}
 
 const useAuth = () => {
   const dispatch = useDispatch()
 
-  const {execute: loginRequest, data: loginData, errMsg: loginErrMsg} = useApi()
-  const {
-    execute: signUpRequest,
-    data: signUpData,
-    errMsg: signUpErrMsg
-  } = useApi()
+  const loginMutation = useSWRMutation(
+    '/auth/login',
+    (url, {arg}: {arg: loginArg}) => {
+      const {email, password} = arg
 
-  const login = async (email: string, password: string) => {
-    const formData = new FormData()
-    formData.append('email', email)
-    formData.append('password', password)
+      const formData = new FormData()
+      formData.append('email', email)
+      formData.append('password', password)
 
-    await loginRequest({
-      url: 'http://localhost:4000/auth/login',
-      method: 'POST',
-      data: formData,
-      withCredentials: true // cookie 안에 있는 token을 위해
-    })
-  }
+      return axiosInstance
+        .post(url, formData, {withCredentials: false})
+        .then(res => res.data)
+    }
+  )
 
   const logout = () => {
+    // logout api 연결해야 함. token 무효화 시켜야.
     dispatch(setUserInfo({name: null, email: null}))
   }
 
-  const signUp = async (name: string, email: string, password: string) => {
-    const formData = new FormData()
-    formData.append('name', name)
-    formData.append('email', email)
-    formData.append('password', password)
+  const signUpMutation = useSWRMutation(
+    '/auth/sign-up',
+    (url, {arg}: {arg: signUpArg}) => {
+      const {name, email, password} = arg
 
-    await signUpRequest({
-      url: 'http://localhost:4000/auth/sign-up',
-      method: 'POST',
-      data: formData,
-      headers: {
-        'Content-Type': undefined //(for 'multipart/form-data')
-      }
-    })
-  }
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('email', email)
+      formData.append('password', password)
+
+      return axiosInstance
+        .post(url, formData, {
+          headers: {'Content-Type': undefined}, //(for 'multipart/form-data')
+          withCredentials: false
+        })
+        .then(res => res.data)
+    }
+  )
 
   return {
-    login,
-    loginData,
-    loginErrMsg,
+    loginMutation,
     logout,
-    signUp,
-    signUpData,
-    signUpErrMsg
+    signUpMutation
   }
 }
 export default useAuth
