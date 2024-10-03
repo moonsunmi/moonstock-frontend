@@ -4,12 +4,15 @@ import {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 // Components
 import {Button} from '../UI'
-import {useSelector} from '@/store/store'
+import {useDispatch, useSelector} from '@/store/store'
 import useAuth from '@/common/hooks/useAuth'
+import {setUserInfo} from '@/store/slices/authSlice'
 
 export const Header = () => {
   const router = useRouter()
-  const {logout} = useAuth()
+  const dispatch = useDispatch()
+
+  const {logoutMutation} = useAuth()
 
   const {userInfo} = useSelector(state => state.auth)
 
@@ -24,7 +27,8 @@ export const Header = () => {
   }
 
   const handleOnLogOut = () => {
-    logout()
+    logoutMutation.trigger()
+    dispatch(setUserInfo({name: null, email: null}))
     router.push('/')
   }
 

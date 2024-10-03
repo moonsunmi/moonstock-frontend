@@ -20,6 +20,8 @@ export const AddPurchase = () => {
   const [openModal_searchPrice, setOpenModal_searchPrice] =
     useState<boolean>(false)
 
+  console.log(userInfo)
+
   const [holding, setHolding] = useState<ITransaction>({
     id: 'holding',
     price: 0,

@@ -2,8 +2,6 @@
 
 import {useState} from 'react'
 import {useRouter} from 'next/navigation'
-// Context
-import {createInitialPurchase} from '@/common/context/initialPurchases'
 // Components
 import PurchaseDetailContainer from './PurchaseDetail'
 import {Button, SearchStockInput} from '../UI'

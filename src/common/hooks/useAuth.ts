@@ -1,15 +1,10 @@
 import useSWRMutation from 'swr/mutation'
-import {useDispatch} from '@/store/store'
-import {setUserInfo} from '@/store/slices/authSlice'
-// libs
 import axiosInstance from '../lib/axios'
 
 type loginArg = {email: string; password: string}
 type signUpArg = {name: string; email: string; password: string}
 
 const useAuth = () => {
-  const dispatch = useDispatch()
-
   const loginMutation = useSWRMutation(
     '/auth/login',
     (url, {arg}: {arg: loginArg}) => {
@@ -25,10 +20,9 @@ const useAuth = () => {
     }
   )
 
-  const logout = () => {
-    // logout api 연결해야 함. token 무효화 시켜야.
-    dispatch(setUserInfo({name: null, email: null}))
-  }
+  const logoutMutation = useSWRMutation('/auth/logout', url => {
+    return axiosInstance.post(url)
+  })
 
   const signUpMutation = useSWRMutation(
     '/auth/sign-up',
@@ -51,7 +45,7 @@ const useAuth = () => {
 
   return {
     loginMutation,
-    logout,
+    logoutMutation,
     signUpMutation
   }
 }
