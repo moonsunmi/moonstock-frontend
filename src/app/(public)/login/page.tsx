@@ -2,15 +2,14 @@
 
 import {ChangeEvent, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
+import useSWRMutation from 'swr/mutation'
 import {useSnackbar} from 'notistack'
-// Redux
 import {useDispatch} from '@/store/store'
-import {setUserInfo} from '@/store/slices/authSlice'
-// Components
+import {setJwtToken, setUserInfo} from '@/store/slices/authSlice'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
-// Hooks
-import useAuth from '@/common/hooks/useAuth'
+import axiosInstance from '@/common/lib/axios'
 
+type LoginArg = {email: string; password: string}
 type FormType = Record<'email' | 'password', string>
 
 const LoginPage = () => {
@@ -18,12 +17,25 @@ const LoginPage = () => {
   const dispatch = useDispatch()
   const {enqueueSnackbar} = useSnackbar()
 
-  const {loginMutation} = useAuth()
-
   const [{email, password}, setForm] = useState<FormType>({
     email: '',
     password: ''
   })
+
+  const loginMutation = useSWRMutation(
+    '/auth/login',
+    (url, {arg}: {arg: LoginArg}) => {
+      const {email, password} = arg
+
+      const formData = new FormData()
+      formData.append('email', email)
+      formData.append('password', password)
+
+      return axiosInstance
+        .post(url, formData, {withCredentials: false})
+        .then(res => res.data)
+    }
+  )
 
   const handleOnChange =
     (key: 'email' | 'password') => (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,16 +48,22 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (loginMutation.data) {
-      const {userInfo} = loginMutation.data
+      const {userInfo, jwtToken} = loginMutation.data
       dispatch(setUserInfo(userInfo))
+      dispatch(setJwtToken(jwtToken))
+
       router.push('/')
       enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})
     }
   }, [loginMutation.data])
 
   useEffect(() => {
-    if (loginMutation.error)
-      enqueueSnackbar(`로그인 에러:${loginMutation.error}`, {variant: 'error'})
+    if (loginMutation.error) {
+      enqueueSnackbar(
+        `로그인 에러:${loginMutation.error['response']['data']['errorMessage']}`,
+        {variant: 'error'}
+      )
+    }
   }, [loginMutation.error])
 
   return (

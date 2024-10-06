@@ -10,7 +10,7 @@ import {
   Button,
   ContainerBox,
   Input,
-  SearchStockInput
+  AutoCompleteStock
 } from '@/browser/components/UI'
 import {useStockListContext} from '@/common/context/StockListContext'
 import {formatNumber} from '@/common/utils'

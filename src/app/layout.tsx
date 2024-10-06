@@ -43,23 +43,23 @@ export default async function RootLayout({
             <CssBaseline />
             <ReduxProvider>
               <SWRProvider>
-                <NextAuthProvider session={session}>
-                  <SignOutHandler />
-                  {/* <TabCounter /> */}
-                  <Header />
-                  {/* <StockListProvider stockList={stockList}> */}
-                  <SnackbarProvider>
-                    <main
-                      id="root"
-                      className="flex flex-1 w-full max-w-screen-md pt-16 m-auto">
-                      {children}
-                    </main>
-                  </SnackbarProvider>
-                  <div id="overlays"></div>
-                  <div className="h-3" />
-                  {/* <Overlays /> */}
-                  {/* </StockListProvider> */}
-                </NextAuthProvider>
+                {/* <NextAuthProvider session={session}> */}
+                <SignOutHandler />
+                {/* <TabCounter /> */}
+                <Header />
+                {/* <StockListProvider stockList={stockList}> */}
+                <SnackbarProvider>
+                  <main
+                    id="root"
+                    className="flex flex-1 w-full max-w-screen-md pt-16 m-auto">
+                    {children}
+                  </main>
+                </SnackbarProvider>
+                <div id="overlays"></div>
+                <div className="h-3" />
+                {/* <Overlays /> */}
+                {/* </StockListProvider> */}
+                {/* </NextAuthProvider> */}
               </SWRProvider>
             </ReduxProvider>
           </ThemeRegistry>

@@ -1,14 +1,24 @@
+import {store} from '@/store/store'
 import axios from 'axios'
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:4000',
-  headers: {'Content-Type': 'application/json'},
-  withCredentials: true
+  headers: {
+    'Content-Type': 'application/json'
+  }
+  // withCredentials: true // cookie 설정 시
 })
 
 // request: CSRF 공격 방지하기 위한 XSRF-token 확인
 axiosInstance.interceptors.request.use(
-  config => config,
+  config => {
+    const state = store.getState()
+    const jwtToken = state.auth.jwtToken
+
+    if (jwtToken) config.headers.Authorization = `Bearer ${jwtToken}`
+
+    return config
+  },
   error => {
     return Promise.reject(error)
   }

@@ -2,20 +2,30 @@
 
 import useSWR from 'swr'
 // Components
-import {Button} from '@/browser/components/UI'
+import {AutoCompleteStock, Button} from '@/browser/components/UI'
+import {useState} from 'react'
+import axiosInstance from '@/common/lib/axios'
 
 const StockBoardPage = () => {
   const {data, error, isLoading, isValidating} = useSWR('/users/holdings', {
     fallbackData: [{ok: false, holdings: []}]
   })
-  const {holdings} = data
 
+  const {holdings = []} = data
+
+  console.log('holdings', holdings)
+  // const [stockName, setStockName] = useState('')
   if (isLoading || isValidating) {
     return <div>Loading...</div>
   }
 
   if (error) {
-    return <div>Error occurred: {error.message}</div>
+    return (
+      <div>
+        Error occurred: {error.message}
+        {/* <AutoCompleteStock value={stockName} onChange={setStockName} /> */}
+      </div>
+    )
   }
 
   return (

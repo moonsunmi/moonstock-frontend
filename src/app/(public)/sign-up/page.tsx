@@ -2,26 +2,45 @@
 
 import {ChangeEvent, useCallback, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
+import useSWRMutation from 'swr/mutation'
 import {useSnackbar} from 'notistack'
-// components
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
-// hooks
-import useAuth from '@/common/hooks/useAuth'
+import axiosInstance from '@/common/lib/axios'
+
+type SignUpArg = {name: string; email: string; password: string}
 
 type SignUpFormType = Record<
   'name' | 'email' | 'password' | 'confirmPassword',
   string
 >
+
 const initFormState = {name: '', email: '', password: '', confirmPassword: ''}
 
 const SignUpPage = () => {
   const router = useRouter()
   const {enqueueSnackbar} = useSnackbar()
 
-  const {signUpMutation} = useAuth()
-
   const [{name, email, password, confirmPassword}, setForm] =
     useState<SignUpFormType>(initFormState)
+
+  const signUpMutation = useSWRMutation(
+    '/auth/sign-up',
+    (url, {arg}: {arg: SignUpArg}) => {
+      const {name, email, password} = arg
+
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('email', email)
+      formData.append('password', password)
+
+      return axiosInstance
+        .post(url, formData, {
+          headers: {'Content-Type': undefined}, //(for 'multipart/form-data')
+          withCredentials: false
+        })
+        .then(res => res.data)
+    }
+  )
 
   const handleOnChange = useCallback(
     (key: string) => (e: ChangeEvent<HTMLInputElement>) => {

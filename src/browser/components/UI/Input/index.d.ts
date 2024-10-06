@@ -5,9 +5,12 @@ interface Options {
   label?: string
 }
 
-export type InputProps = React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
+export type InputProps = Omit<
+  React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >,
+  'size'
 > &
   Options
 

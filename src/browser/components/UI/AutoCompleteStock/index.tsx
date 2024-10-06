@@ -2,24 +2,27 @@ import {useStockListContext} from '@/common/context/StockListContext'
 import {
   Autocomplete,
   FilterOptionsState,
-  TextField,
-  TextFieldProps,
   createFilterOptions
 } from '@mui/material'
 import {Stock} from '@prisma/client'
-import {ChangeEvent, useMemo} from 'react'
+import {ChangeEvent, useEffect, useMemo} from 'react'
+import Input from '../Input'
+import {InputProps} from '../Input/index.d'
+import useSWR from 'swr'
 
-type SearchStockInputProps = {
+type AutoCompleteStockProps = {
   value: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
-} & TextFieldProps
+} & InputProps
 
-export function SearchStockInput({
+const AutoCompleteStock = ({
   value,
   onChange,
-  ...textFieldProps
-}: SearchStockInputProps) {
-  const stockList: Stock[] = useStockListContext()
+  ...inputProps
+}: AutoCompleteStockProps) => {
+  const {data, error, isLoading} = useSWR('/stocks')
+  const {stockList} = data
+
   const filter = useMemo(
     () =>
       createFilterOptions<Stock>({
@@ -55,6 +58,14 @@ export function SearchStockInput({
     } as React.ChangeEvent<HTMLInputElement>)
   }
 
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>주식 목록을 불러오는 데 실패했습니다.</div>
+  }
+
   return (
     <Autocomplete
       id="auto-highlight"
@@ -65,21 +76,25 @@ export function SearchStockInput({
         typeof option === 'string' ? option : `${option.name}`
       }
       onChange={handleAutocompleteChange}
-      renderInput={params => (
-        <TextField
-          type="number"
-          label="종목 이름"
-          {...params}
-          size="small"
-          placeholder="ex) 삼성전자"
-          fullWidth
-          {...{value, onChange}}
-          onFocus={(event: React.FocusEvent<HTMLInputElement>) => {
-            event.target.select()
-          }}
-          {...textFieldProps}
-        />
-      )}
+      renderInput={params => {
+        const {size, ...resParams} = params
+        return (
+          <Input
+            // type="number"
+            size="sm"
+            className="w-full"
+            name="price"
+            label="종목이름"
+            placeholder="ex) 삼성전자"
+            {...{value, onChange}}
+            onFocus={(event: React.FocusEvent<HTMLInputElement>) => {
+              event.target.select()
+            }}
+            {...resParams}
+            {...inputProps}
+          />
+        )
+      }}
       renderOption={(props, option) => (
         <li {...props} key={option.ticker}>
           {option.ticker.padStart(6, '0')} {option.name}
@@ -96,3 +111,5 @@ export function SearchStockInput({
     />
   )
 }
+
+export default AutoCompleteStock

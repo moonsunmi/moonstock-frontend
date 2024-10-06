@@ -2,21 +2,23 @@
 
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
-// Components
+import useSWRMutation from 'swr/mutation'
 import {Button} from '../UI'
 import {useDispatch, useSelector} from '@/store/store'
-import useAuth from '@/common/hooks/useAuth'
 import {setUserInfo} from '@/store/slices/authSlice'
+import axiosInstance from '@/common/lib/axios'
 
 export const Header = () => {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const {logoutMutation} = useAuth()
-
   const {userInfo} = useSelector(state => state.auth)
 
   const [isMounted, setIsMounted] = useState(false)
+
+  const logoutMutation = useSWRMutation('/auth/logout', url => {
+    return axiosInstance.post(url)
+  })
 
   const handleOnStock = () => {
     router.push('/stock-board')
