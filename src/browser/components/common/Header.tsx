@@ -16,7 +16,7 @@ export const Header = () => {
 
   const [isMounted, setIsMounted] = useState(false)
 
-  const logoutMutation = useSWRMutation('/auth/logout', url => {
+  const logoutMutation = useSWRMutation('/api/auth/logout', url => {
     return axiosInstance.post(url)
   })
 

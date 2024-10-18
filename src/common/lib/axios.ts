@@ -1,21 +1,18 @@
-import {store} from '@/store/store'
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: '/',
   headers: {
     'Content-Type': 'application/json'
-  }
-  // withCredentials: true // cookie 설정 시
+  },
+  withCredentials: true // cookie 설정 시
 })
 
 // request: CSRF 공격 방지하기 위한 XSRF-token 확인
 axiosInstance.interceptors.request.use(
   config => {
-    const state = store.getState()
-    const jwtToken = state.auth.jwtToken
-
-    if (jwtToken) config.headers.Authorization = `Bearer ${jwtToken}`
+    const token = localStorage.getItem('token')
+    if (token) config.headers.Authorization = `Bearer ${token}`
 
     return config
   },
@@ -27,7 +24,15 @@ axiosInstance.interceptors.request.use(
 // response: JWT 토큰 만료 시, refresh 토큰 날릴 때 씀.
 axiosInstance.interceptors.response.use(
   response => response,
-  error => {
+  async error => {
+    const originalRequest = error.config
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true
+      const response = await axiosInstance.post('/api/auth/refresh-token')
+
+      const token = response.data.token
+      localStorage.setItem('token', token)
+    }
     return Promise.reject(error)
   }
 )

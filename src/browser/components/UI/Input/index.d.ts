@@ -5,7 +5,7 @@ interface Options {
   label?: string
 }
 
-export type InputProps = Omit<
+export type CustomInputProps = Omit<
   React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement

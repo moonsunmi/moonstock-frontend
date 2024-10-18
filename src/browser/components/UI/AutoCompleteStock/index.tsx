@@ -1,4 +1,3 @@
-import {useStockListContext} from '@/common/context/StockListContext'
 import {
   Autocomplete,
   FilterOptionsState,
@@ -7,20 +6,25 @@ import {
 import {Stock} from '@prisma/client'
 import {ChangeEvent, useEffect, useMemo} from 'react'
 import Input from '../Input'
-import {InputProps} from '../Input/index.d'
+import {CustomInputProps} from '../Input/index.d'
 import useSWR from 'swr'
 
 type AutoCompleteStockProps = {
   value: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
-} & InputProps
+} & CustomInputProps
 
 const AutoCompleteStock = ({
   value,
   onChange,
-  ...inputProps
+  ...customInputProps
 }: AutoCompleteStockProps) => {
-  const {data, error, isLoading} = useSWR('/stocks')
+  const {data, error, isLoading} = useSWR<{ok: boolean; stockList: IStock[]}>(
+    '/stocks',
+    {
+      fallbackData: {ok: false, stockList: []}
+    }
+  )
   const {stockList} = data
 
   const filter = useMemo(
@@ -53,9 +57,14 @@ const AutoCompleteStock = ({
       valueToSend = newValue.name
     }
 
-    onChange({
-      target: {value: valueToSend, name: 'autocomplete'}
-    } as React.ChangeEvent<HTMLInputElement>)
+    const customEvent = {
+      target: {
+        value: valueToSend,
+        name: 'autocomplete'
+      }
+    } as ChangeEvent<HTMLInputElement>
+
+    onChange(customEvent)
   }
 
   if (isLoading) {
@@ -77,10 +86,11 @@ const AutoCompleteStock = ({
       }
       onChange={handleAutocompleteChange}
       renderInput={params => {
-        const {size, ...resParams} = params
+        const {size, InputProps, ...resParams} = params
         return (
           <Input
             // type="number"
+            ref={InputProps.ref}
             size="sm"
             className="w-full"
             name="price"
@@ -91,7 +101,7 @@ const AutoCompleteStock = ({
               event.target.select()
             }}
             {...resParams}
-            {...inputProps}
+            {...customInputProps}
           />
         )
       }}

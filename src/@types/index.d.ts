@@ -21,6 +21,12 @@ declare global {
     quantity: number
   }
 
+  export interface IStock {
+    ticker: string
+    name: string
+    market: string
+  }
+
   export type PurchaseAction = {type: ActionType; payload: ITransaction}
 
   export type Output = {

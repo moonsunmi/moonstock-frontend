@@ -7,15 +7,13 @@ export interface IUserType {
 
 interface StateType {
   userInfo: IUserType
-  jwtToken: string
 }
 
 const initialState: StateType = {
   userInfo: {
     name: null,
     email: null
-  },
-  jwtToken: null
+  }
 }
 
 export const authSlice = createSlice({
@@ -27,15 +25,9 @@ export const authSlice = createSlice({
         ...state,
         userInfo: action.payload
       }
-    },
-    setJwtToken: (state, action) => {
-      return {
-        ...state,
-        jwtToken: action.payload
-      }
     }
   }
 })
 
-export const {setUserInfo, setJwtToken} = authSlice.actions
+export const {setUserInfo} = authSlice.actions
 export default authSlice.reducer

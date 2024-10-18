@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+
+const BACKEND_URL = process.env.PUBLIC_NEXT_BACKEND_URL
 const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
@@ -22,8 +24,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path*',
-        destination: '/'
+        source: '/api/:path*',
+        destination: `${BACKEND_URL}/:path*`
       }
     ]
   }

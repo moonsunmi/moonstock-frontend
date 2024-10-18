@@ -5,7 +5,7 @@ import {useRouter} from 'next/navigation'
 import useSWRMutation from 'swr/mutation'
 import {useSnackbar} from 'notistack'
 import {useDispatch} from '@/store/store'
-import {setJwtToken, setUserInfo} from '@/store/slices/authSlice'
+import {setUserInfo} from '@/store/slices/authSlice'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 import axiosInstance from '@/common/lib/axios'
 
@@ -23,7 +23,7 @@ const LoginPage = () => {
   })
 
   const loginMutation = useSWRMutation(
-    '/auth/login',
+    '/api/auth/login',
     (url, {arg}: {arg: LoginArg}) => {
       const {email, password} = arg
 
@@ -48,9 +48,9 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (loginMutation.data) {
-      const {userInfo, jwtToken} = loginMutation.data
+      const {userInfo, token} = loginMutation.data
       dispatch(setUserInfo(userInfo))
-      dispatch(setJwtToken(jwtToken))
+      localStorage.setItem('token', token)
 
       router.push('/')
       enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})

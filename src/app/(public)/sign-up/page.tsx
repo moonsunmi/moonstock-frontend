@@ -24,7 +24,7 @@ const SignUpPage = () => {
     useState<SignUpFormType>(initFormState)
 
   const signUpMutation = useSWRMutation(
-    '/auth/sign-up',
+    '/api/auth/sign-up',
     (url, {arg}: {arg: SignUpArg}) => {
       const {name, email, password} = arg
 
