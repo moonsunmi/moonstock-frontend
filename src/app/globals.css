@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+table,
+th,
+td {
+  border: 1px solid #d0d5dd;
+  padding: 8px;
+}
+
+th,
+tr,
+td {
+  height: 34px;
+}
+
+thead {
+  background-color: #f5f8f5;
+}
+
 :root {
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;

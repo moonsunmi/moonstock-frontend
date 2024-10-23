@@ -11,7 +11,7 @@ interface Options {
   /**
    * Button display variants
    * @default "solid"
-   * @type Variant
+   * @type Variant ('text' | 'outlined' | 'solid' | 'ghost')
    */
   variant?: Variant
   size?: Size

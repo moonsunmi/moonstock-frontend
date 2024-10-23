@@ -31,18 +31,33 @@ const StockBoardPage = () => {
   }
   console.log(holdings)
   return (
-    <div>
+    <table>
+      <thead>
+        <tr>
+          <td>종목명</td>
+          <td>매입금액</td>
+          <td>보유수량</td>
+        </tr>
+      </thead>
       {holdings.length === 0 ? (
         <div>보유주식이 없습니다.</div>
       ) : (
-        holdings.map((holding, index) => <div key={index}>{holding.price}</div>)
+        <tbody>
+          {holdings.map((holding, index) => (
+            <tr key={index}>
+              <td>{holding['name']}</td>
+              <td>{holding['price']}</td>
+              <td>{holding['quantity']}</td>
+            </tr>
+          ))}
+        </tbody>
       )}
       <div className="p-10">
         {/* <AutoCompleteStock2 />
         <AutoCompleteStock value={stockName} onChange={handleStockChange} /> */}
       </div>
       <Button>보유 주식 등록하기</Button>
-    </div>
+    </table>
   )
 }
 

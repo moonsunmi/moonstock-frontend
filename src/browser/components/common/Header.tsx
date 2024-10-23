@@ -31,6 +31,7 @@ export const Header = () => {
   const handleOnLogOut = () => {
     logoutMutation.trigger()
     dispatch(setUserInfo({name: null, email: null}))
+    localStorage.removeItem('token')
     router.push('/')
   }
 

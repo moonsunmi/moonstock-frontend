@@ -5,6 +5,7 @@ import {getSelectorsByUserAgent} from 'react-device-detect'
 
 export default async function Page() {
   const headersList = headers()
+
   // const referer = headersList.get("referer") || "";
   // const session = await getServerSession(authOptions);
   // let page = "average-down";
