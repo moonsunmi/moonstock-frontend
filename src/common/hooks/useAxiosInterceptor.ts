@@ -9,12 +9,20 @@ const useAxiosInterceptor = () => {
   const router = useRouter()
 
   useEffect(() => {
-    // request: CSRF 공격 방지하기 위한 XSRF-token 확인
+    // todo. request: CSRF 공격 방지하기 위한 XSRF-token 확인
     const requestInterceptor = axiosInstance.interceptors.request.use(
       config => {
         const token = localStorage.getItem('token')
-        if (token) config.headers.Authorization = `Bearer ${token}`
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`
+          config.withCredentials = true
+        }
 
+        if (config.data instanceof FormData) {
+          config.headers['Content-Type'] = 'multipart/form-data'
+        } else {
+          config.headers['Content-Type'] = 'application/json'
+        }
         return config
       },
       error => {
