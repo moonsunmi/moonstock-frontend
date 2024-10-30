@@ -8,45 +8,27 @@ import {
   Button,
   Dialog as CustomDialog,
   Dialog_Transaction,
-  Input,
   Paragraph
 } from '@/browser/components/UI'
 // Utils
 import {formatNumber} from '@/common/utils'
 
-type Transaction = {
-  name: string
-  type: 'BUY' | 'SELL'
-  transactionAt: string
-  price: number
-  quantity: number
-}
-
 const TradingPage = () => {
-  const [buyOpen, setBuyOpen] = useState(false)
+  const [newOpen, setNewOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
-  const transactions: Transaction[] = [
-    {
-      name: '삼성전자',
-      type: 'BUY',
-      transactionAt: '2024-02-02',
-      price: 30000,
-      quantity: 20
-    },
-    {
-      name: '삼성전자',
-      type: 'SELL',
-      transactionAt: '2024-09-09',
-      price: 20000,
-      quantity: 50
-    }
-  ]
+
+  const {data, error, isLoading} = useSWR<{transactions: Transaction[]}>(
+    '/api/users/transactions',
+    {fallbackData: {transactions: []}}
+  )
+
+  const {transactions} = data
 
   const buys = transactions.filter(transaction => transaction.type === 'BUY')
   const sells = transactions.filter(transaction => transaction.type === 'SELL')
 
-  const handleOnClick_Buy = index => {
-    setBuyOpen(true)
+  const handleOnClick_NewTransact = index => {
+    setNewOpen(true)
     setSelectedIndex(index)
   }
 
@@ -61,10 +43,10 @@ const TradingPage = () => {
           <Paragraph type="subtitle" className="w-2/12">
             거래일
           </Paragraph>
-          <Paragraph type="subtitle" className="w-2/12">
+          <Paragraph type="subtitle" className="w-2/12 text-right">
             거래금액
           </Paragraph>
-          <Paragraph type="subtitle" className="w-2/12">
+          <Paragraph type="subtitle" className="w-2/12 text-right">
             보유수량
           </Paragraph>
           <div className="w-2/12" />
@@ -73,49 +55,59 @@ const TradingPage = () => {
           {buys.map((transaction, index) => {
             return (
               <div key={`buy-${index}`} className="flex border-t">
+                <div className="w-2/12" />
+                <Paragraph className="w-2/12">
+                  {transaction?.stock?.name}
+                </Paragraph>
+                <Paragraph className="w-2/12">
+                  {getDateFormat(transaction?.transactedAt, 'yyyy.MM.dd')}
+                </Paragraph>
+                <Paragraph className="w-2/12 text-right">
+                  {formatNumber(transaction?.price)}
+                </Paragraph>
+                <Paragraph className="w-2/12 text-right">
+                  {formatNumber(transaction?.quantity)}
+                </Paragraph>
                 <Button variant="text" className="w-2/12">
                   매도하기
                 </Button>
-                <Paragraph className="w-2/12">{transaction.name}</Paragraph>
-                <Paragraph className="w-2/12">
-                  {transaction.transactionAt}
-                </Paragraph>
-                <Paragraph className="w-2/12">
-                  {formatNumber(transaction.price)}
-                </Paragraph>
-                <Paragraph className="w-2/12">
-                  {formatNumber(transaction.quantity)}
-                </Paragraph>
               </div>
             )
           })}
           <div className="p-5 text-center border-t">
-            <Button>새 거래 등록하기</Button>
+            <Button onClick={handleOnClick_NewTransact}>
+              새 거래 등록하기
+            </Button>
           </div>
           {sells.map((transaction, index) => {
             return (
               <div key={`sell-${index}`} className="flex border-t">
                 <div className="w-2/12" />
-                <Paragraph className="w-2/12">{transaction.name}</Paragraph>
-                <Paragraph className="w-2/12">
-                  {transaction.transactionAt}
-                </Paragraph>
-                <Paragraph className="w-2/12">{transaction.price}</Paragraph>
-                <Paragraph className="w-2/12">{transaction.quantity}</Paragraph>
-                <Button
-                  variant="text"
-                  className="w-2/12"
-                  onClick={() => handleOnClick_Buy(index)}>
+                <Button variant="text" className="w-2/12">
                   매수하기
                 </Button>
+                <Paragraph className="w-2/12">
+                  {transaction?.stock?.name}
+                </Paragraph>
+                <Paragraph className="w-2/12">
+                  {getDateFormat(transaction?.transactedAt, 'yyyy.MM.dd')}
+                </Paragraph>
+                <Paragraph className="w-2/12 text-right">
+                  {transaction?.price}
+                </Paragraph>
+                <Paragraph className="w-2/12 text-right">
+                  {transaction?.quantity}
+                </Paragraph>
               </div>
             )
           })}
         </div>
       </div>
       <Dialog_Transaction
-        open={buyOpen}
-        onClose={() => setBuyOpen(false)}
+        open={newOpen}
+        onClose={() => setNewOpen(false)}
+        defaultTicker={transactions[selectedIndex]?.stock?.ticker}
+        type={transactions[selectedIndex]?.type === 'BUY' ? 'SELL' : 'BUY'}
         defaultPrice={transactions[selectedIndex]?.price}
         defaultQuantity={transactions[selectedIndex]?.quantity}
       />

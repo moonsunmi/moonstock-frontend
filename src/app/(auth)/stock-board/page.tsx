@@ -4,8 +4,6 @@ import useSWR from 'swr'
 // Components
 import {AutoCompleteStock, Button} from '@/browser/components/UI'
 import {ChangeEvent, useState} from 'react'
-import {Autocomplete} from '@mui/material'
-import AutoCompleteStock2 from '@/browser/components/UI/AutoCompleteStock2'
 
 const StockBoardPage = () => {
   const {data, error, isLoading, isValidating} = useSWR<{

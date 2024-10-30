@@ -8,6 +8,7 @@ import {useDispatch} from '@/store/store'
 import {setUserInfo} from '@/store/slices/authSlice'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 import axiosInstance from '@/common/lib/axios'
+import {AxiosError} from 'axios'
 
 type LoginArg = {email: string; password: string}
 type FormType = Record<'email' | 'password', string>
@@ -58,6 +59,7 @@ const LoginPage = () => {
   }, [loginMutation.data])
 
   useEffect(() => {
+    // console.log('>', loginMutation)
     if (loginMutation.error) {
       enqueueSnackbar(
         `로그인 에러:${loginMutation.error['response']['data']['errorMessage']}`,

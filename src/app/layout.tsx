@@ -1,4 +1,3 @@
-import {sql} from '@vercel/postgres'
 import {getServerSession} from 'next-auth'
 import ThemeRegistry from '../common/context/ThemeRegistry'
 import SignOutHandler from '@/browser/components/client/SignOutHandler'
@@ -16,24 +15,12 @@ import './globals.css'
 // libs
 import {authOptions} from '@/common/lib/auth'
 
-async function getStockList() {
-  try {
-    const res = await sql`SELECT * from "stocks"`
-    const rows = res.rows
-    // return rows as Stock[]
-  } catch (error) {
-    console.log('주식 리스트를 가져오는 데 실패했습니다: ', error)
-    return []
-  }
-}
-
 export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
   const session = await getServerSession(authOptions)
-  // const stockList: Stock[] = await getStockList()
 
   return (
     <html lang="en">
@@ -47,7 +34,6 @@ export default async function RootLayout({
                 <SignOutHandler />
                 {/* <TabCounter /> */}
                 <Header />
-                {/* <StockListProvider stockList={stockList}> */}
                 <SnackbarProvider>
                   <main
                     id="root"
@@ -58,7 +44,6 @@ export default async function RootLayout({
                 <div id="overlays"></div>
                 <div className="h-3" />
                 {/* <Overlays /> */}
-                {/* </StockListProvider> */}
                 {/* </NextAuthProvider> */}
               </SWRProvider>
             </ReduxProvider>
