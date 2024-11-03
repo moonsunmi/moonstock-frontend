@@ -1,9 +1,7 @@
 import {getServerSession} from 'next-auth'
 import ThemeRegistry from '../common/context/ThemeRegistry'
-import SignOutHandler from '@/browser/components/client/SignOutHandler'
 // providers
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter'
-import {NextAuthProvider} from '@/common/context/NextAuthProvider'
 import ReduxProvider from '@/store/provider'
 import SnackbarProvider from '@/common/context/SnackbarProvider'
 import {SWRProvider} from '@/common/context/SWRProvider'
@@ -31,7 +29,6 @@ export default async function RootLayout({
             <ReduxProvider>
               <SWRProvider>
                 {/* <NextAuthProvider session={session}> */}
-                <SignOutHandler />
                 {/* <TabCounter /> */}
                 <Header />
                 <SnackbarProvider>

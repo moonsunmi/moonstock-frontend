@@ -1,48 +1,31 @@
 import axios from 'axios'
 
+const accessToken = localStorage.getItem('accessToken')
+
 const axiosInstance = axios.create({
   baseURL: process.env.PUBLIC_NEXT_BACKEND_URL
 })
 
-axiosInstance.interceptors.request.use(
-  config => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
-      config.withCredentials = true
-    }
-
-    if (config.data instanceof FormData) {
-      config.headers['Content-Type'] = 'multipart/form-data'
-    } else {
-      config.headers['Content-Type'] = 'application/json'
-    }
-    return config
-  },
-  error => {
-    return Promise.reject(error)
-  }
-)
+axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+axiosInstance.defaults.headers.get['Content-Type'] = 'application/json'
+axiosInstance.defaults.headers.post['Content-Type'] = 'multipart/form-data'
+axiosInstance.defaults.withCredentials = true
 
 axiosInstance.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config
 
-    if (
-      originalRequest.url !== '/api/auth/login' &&
-      originalRequest.url !== '/api/auth/refresh-token' &&
-      error.response?.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true
+
       try {
-        const response = await axiosInstance.post('/api/auth/refresh-token')
+        const response = await axiosInstance.get('/api/auth/refresh-token')
 
-        const token = response.data.token
-        localStorage.setItem('token', token)
+        const accessToken = response.data?.accessToken
+        localStorage.setItem('accessToken', accessToken)
 
-        originalRequest.headers['Authorization'] = `Bearer ${token}`
+        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`
 
         return axiosInstance(originalRequest)
       } catch (error) {

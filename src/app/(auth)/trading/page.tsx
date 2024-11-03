@@ -2,7 +2,7 @@
 
 import useSWR from 'swr'
 // Components
-import {ChangeEvent, useEffect, useState} from 'react'
+import {useState} from 'react'
 import {getDateFormat} from '@/common/utils'
 import {
   Button,

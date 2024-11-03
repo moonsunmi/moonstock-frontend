@@ -24,6 +24,10 @@ export const Header = () => {
     router.push('/stock-board')
   }
 
+  const handleOnTrade = () => {
+    router.push('/trading')
+  }
+
   const handleOnLogin = () => {
     router.push('/login')
   }
@@ -31,7 +35,7 @@ export const Header = () => {
   const handleOnLogOut = () => {
     logoutMutation.trigger()
     dispatch(setUserInfo({name: null, email: null}))
-    localStorage.removeItem('token')
+    localStorage.removeItem('accessToken')
     router.push('/')
   }
 
@@ -48,6 +52,11 @@ export const Header = () => {
         {isMounted && userInfo?.email !== null && (
           <Button variant="text" onClick={handleOnStock}>
             내 주식
+          </Button>
+        )}
+        {isMounted && userInfo?.email !== null && (
+          <Button variant="text" onClick={handleOnTrade}>
+            내 거래
           </Button>
         )}
         {isMounted && userInfo?.email !== null ? (

@@ -8,7 +8,6 @@ import {useDispatch} from '@/store/store'
 import {setUserInfo} from '@/store/slices/authSlice'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 import axiosInstance from '@/common/lib/axios'
-import {AxiosError} from 'axios'
 
 type LoginArg = {email: string; password: string}
 type FormType = Record<'email' | 'password', string>
@@ -49,9 +48,9 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (loginMutation.data) {
-      const {userInfo, token} = loginMutation.data
+      const {userInfo, accessToken} = loginMutation.data
       dispatch(setUserInfo(userInfo))
-      localStorage.setItem('token', token)
+      localStorage.setItem('accessToken', accessToken)
 
       router.push('/')
       enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})
@@ -59,7 +58,6 @@ const LoginPage = () => {
   }, [loginMutation.data])
 
   useEffect(() => {
-    // console.log('>', loginMutation)
     if (loginMutation.error) {
       enqueueSnackbar(
         `로그인 에러:${loginMutation.error['response']['data']['errorMessage']}`,

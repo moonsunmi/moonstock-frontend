@@ -14,6 +14,7 @@ const RequireAuth: FC<PropsWithChildren<RequireAuthProps>> = ({children}) => {
   useEffect(() => {
     if (!userInfo) router.back()
   }, [userInfo, router])
+
   return <>{children}</>
 }
 export default RequireAuth

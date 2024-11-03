@@ -1,8 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 export interface IUserType {
-  name: string | null
-  email: string | null
+  id: string
+  name: string
+  email: string
 }
 
 interface StateType {
@@ -11,6 +12,7 @@ interface StateType {
 
 const initialState: StateType = {
   userInfo: {
+    id: null,
     name: null,
     email: null
   }
