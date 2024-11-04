@@ -7,14 +7,16 @@ import {getDateFormat} from '@/common/utils'
 import {
   Button,
   Dialog as CustomDialog,
-  Dialog_Transaction,
   Paragraph
 } from '@/browser/components/UI'
 // Utils
 import {formatNumber} from '@/common/utils'
+import {Dialog_CreateTransaction, Dialog_LinkTransaction} from '@/common/dialog'
 
 const TradingPage = () => {
-  const [newOpen, setNewOpen] = useState(false)
+  const [linkOpen, setLinkOpen] = useState(false)
+  const [createOpen, setCreateOpen] = useState(false)
+
   const [selectedIndex, setSelectedIndex] = useState(null)
 
   const {data, error, isLoading} = useSWR<{transactions: Transaction[]}>(
@@ -27,9 +29,12 @@ const TradingPage = () => {
   const buys = transactions.filter(transaction => transaction.type === 'BUY')
   const sells = transactions.filter(transaction => transaction.type === 'SELL')
 
-  const handleOnClick_NewTransact = index => {
-    setNewOpen(true)
+  const handleOnClick_CreateTransact = () => {
+    setCreateOpen(true)
+  }
+  const handleOnClick_LinkTransact = index => {
     setSelectedIndex(index)
+    setLinkOpen(true)
   }
 
   return (
@@ -68,14 +73,17 @@ const TradingPage = () => {
                 <Paragraph className="w-2/12 text-right">
                   {formatNumber(transaction?.quantity)}
                 </Paragraph>
-                <Button variant="text" className="w-2/12">
+                <Button
+                  variant="text"
+                  className="w-2/12"
+                  onClick={handleOnClick_LinkTransact}>
                   매도하기
                 </Button>
               </div>
             )
           })}
           <div className="p-5 text-center border-t">
-            <Button onClick={handleOnClick_NewTransact}>
+            <Button onClick={handleOnClick_CreateTransact}>
               새 거래 등록하기
             </Button>
           </div>
@@ -103,24 +111,18 @@ const TradingPage = () => {
           })}
         </div>
       </div>
-      <Dialog_Transaction
-        open={newOpen}
-        onClose={() => setNewOpen(false)}
+      <Dialog_LinkTransaction
+        open={linkOpen}
+        onClose={() => setLinkOpen(false)}
         defaultTicker={transactions[selectedIndex]?.stock?.ticker}
         type={transactions[selectedIndex]?.type === 'BUY' ? 'SELL' : 'BUY'}
         defaultPrice={transactions[selectedIndex]?.price}
         defaultQuantity={transactions[selectedIndex]?.quantity}
       />
-      {/* <CustomDialog
-        open={buyOpen}
-        onClose={() => setBuyOpen(false)}
-        title=""
-        content={`매수`}
-        action="추가"
-        cancel="취소"
-        onAction={() => setBuyOpen(false)}
-        onCancel={() => setBuyOpen(false)}
-      /> */}
+      <Dialog_CreateTransaction
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+      />
     </>
   )
 }

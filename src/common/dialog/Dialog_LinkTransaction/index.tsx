@@ -6,20 +6,20 @@ import {
   Input,
   Paragraph
 } from '@/browser/components/UI'
-import {Dialog_TransactionProps} from './index.d'
+import {Dialog_LinkTransactionProps} from './index.d'
 import {useState} from 'react'
 import useSWRMutation from 'swr/mutation'
 import axiosInstance from '@/common/lib/axios'
-import DatePicker from '../DatePicker'
+import DatePicker from '@/browser/components/UI/DatePicker'
 
-const Dialog_Transaction = ({
+const Dialog_LinkTransaction = ({
   defaultQuantity,
   defaultPrice,
   onClose,
   open,
   defaultTicker,
   type
-}: Dialog_TransactionProps) => {
+}: Dialog_LinkTransactionProps) => {
   const [{transactedAt, ticker, price, quantity}, setTransaction] = useState({
     ticker: defaultTicker,
     transactedAt: null,
@@ -46,8 +46,14 @@ const Dialog_Transaction = ({
     }
   )
 
-  const handleOnChange = (key: string, value: any) => {
-    setTransaction(prevState => ({...prevState, [key]: value}))
+  const handleOnChange = (e: any) => {
+    setTransaction(prevState => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }))
+  }
+  const handleOnChange_Date = (date: any) => {
+    setTransaction(prevState => ({...prevState, transactedAt: date}))
   }
 
   const handleOnTransact = () => {
@@ -71,11 +77,12 @@ const Dialog_Transaction = ({
             name="ticker"
             label="종목코드"
             value={ticker}
-            onChange={e => handleOnChange('ticker', e.target.value)}
+            onChange={handleOnChange}
           />
           <DatePicker
             value={transactedAt}
-            onChange={date => handleOnChange('transactedAt', date)}
+            name="transactedAt"
+            onChange={date => handleOnChange_Date(date)}
           />
           <Input
             type="number"
@@ -83,7 +90,7 @@ const Dialog_Transaction = ({
             name="price"
             label="가격"
             value={price}
-            onChange={e => handleOnChange('price', e.target.value)}
+            onChange={handleOnChange}
           />
           <Input
             type="number"
@@ -91,7 +98,7 @@ const Dialog_Transaction = ({
             name="quantity"
             label="수량"
             value={quantity}
-            onChange={e => handleOnChange('quantity', e.target.value)}
+            onChange={handleOnChange}
           />
         </div>
         <Paragraph>{type === 'BUY' ? '매수' : '매도'}하시겠습니까?</Paragraph>
@@ -106,4 +113,4 @@ const Dialog_Transaction = ({
   )
 }
 
-export default Dialog_Transaction
+export default Dialog_LinkTransaction

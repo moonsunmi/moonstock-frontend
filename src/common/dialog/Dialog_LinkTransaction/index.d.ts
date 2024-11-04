@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction} from 'react'
 
-export interface Dialog_TransactionProps {
+export interface Dialog_LinkTransactionProps {
   defaultQuantity: number
   defaultPrice: number
   defaultTicker: string

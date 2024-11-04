@@ -1,4 +1,6 @@
-export const formatNumber = (value: string | number) => {
+export const formatNumber = (value: string | number | null) => {
+  if (value === null) return ''
+
   const numberValue =
     typeof value === 'number' ? value.toString() : value.replace(/,/g, '')
 

@@ -1,12 +1,13 @@
 import axios from 'axios'
 
-const accessToken = localStorage.getItem('accessToken')
-
 const axiosInstance = axios.create({
   baseURL: process.env.PUBLIC_NEXT_BACKEND_URL
 })
 
-axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+if (typeof window !== 'undefined') {
+  const accessToken = localStorage.getItem('accessToken')
+  axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+}
 axiosInstance.defaults.headers.get['Content-Type'] = 'application/json'
 axiosInstance.defaults.headers.post['Content-Type'] = 'multipart/form-data'
 axiosInstance.defaults.withCredentials = true
@@ -29,7 +30,7 @@ axiosInstance.interceptors.response.use(
 
         return axiosInstance(originalRequest)
       } catch (error) {
-        console.error('Refresh token failed:', error)
+        console.error('Refresh token request failed:', error)
         return Promise.reject(error)
       }
     }
