@@ -49,16 +49,16 @@ export const Header = () => {
         MoonStock
       </div>
       <div className="flex gap-1">
-        {isMounted && userInfo?.email !== null && (
-          <Button variant="text" onClick={handleOnStock}>
-            내 주식
-          </Button>
-        )}
-        {isMounted && userInfo?.email !== null && (
-          <Button variant="text" onClick={handleOnTrade}>
-            내 거래
-          </Button>
-        )}
+        {/* {isMounted && userInfo?.email !== null && ( */}
+        <Button variant="text" onClick={handleOnStock}>
+          내 주식
+        </Button>
+        {/* )} */}
+        {/* {isMounted && userInfo?.email !== null && ( */}
+        <Button variant="text" onClick={handleOnTrade}>
+          내 거래
+        </Button>
+        {/* )} */}
         {isMounted && userInfo?.email !== null ? (
           <Button variant="text" onClick={handleOnLogOut}>
             LogOut

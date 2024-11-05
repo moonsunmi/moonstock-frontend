@@ -11,6 +11,8 @@ import {useState} from 'react'
 import useSWRMutation from 'swr/mutation'
 import axiosInstance from '@/common/lib/axios'
 import DatePicker from '@/browser/components/UI/DatePicker'
+// Styles
+import styles from './index.module.scss'
 
 const Dialog_LinkTransaction = ({
   defaultQuantity,
@@ -68,7 +70,7 @@ const Dialog_LinkTransaction = ({
   }
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} className={styles.container}>
       <DialogContent>
         <div>
           <Input
@@ -104,7 +106,7 @@ const Dialog_LinkTransaction = ({
         <Paragraph>{type === 'BUY' ? '매수' : '매도'}하시겠습니까?</Paragraph>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleOnTransact}>
+        <Button onClick={handleOnTransact} className={styles.action}>
           {type === 'BUY' ? '매수' : '매도'}
         </Button>
         <Button onClick={() => onClose()}>취소</Button>

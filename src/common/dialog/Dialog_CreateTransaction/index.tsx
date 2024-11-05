@@ -19,6 +19,8 @@ import axiosInstance from '@/common/lib/axios'
 import DatePicker from '@/browser/components/UI/DatePicker'
 // Types
 import {Dialog_CreateTransactionProps} from './index.d'
+// Styles
+import styles from './index.module.scss'
 
 const Dialog_CreateTransaction = ({
   onClose,
@@ -86,8 +88,8 @@ const Dialog_CreateTransaction = ({
   }, [open])
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogContent>
+    <Dialog open={open} onClose={onClose} className={styles.container}>
+      <DialogContent className={styles.content}>
         <div>
           <Input
             type="text"
@@ -99,9 +101,10 @@ const Dialog_CreateTransaction = ({
           />
           <DatePicker
             value={transactedAt}
-            name="transactedAt"
             onChange={date => handleOnChange_Date(date)}
           />
+        </div>
+        <div>
           <Input
             type="number"
             className="w-full"
@@ -119,17 +122,20 @@ const Dialog_CreateTransaction = ({
             onChange={handleOnChange}
           />
         </div>
-        <RadioGroup
-          aria-labelledby="demo-controlled-radio-buttons-group"
-          name="type"
-          value={type}
-          onChange={handleOnChange}>
-          <FormControlLabel value="BUY" control={<Radio />} label="매수" />
-          <FormControlLabel value="SELL" control={<Radio />} label="매도" />
-        </RadioGroup>
+        <div>
+          <RadioGroup
+            row
+            aria-labelledby="select-transaction-type"
+            name="type"
+            value={type}
+            onChange={handleOnChange}>
+            <FormControlLabel value="BUY" control={<Radio />} label="매수" />
+            <FormControlLabel value="SELL" control={<Radio />} label="매도" />
+          </RadioGroup>
+        </div>
         <Paragraph>{type === 'BUY' ? '매수' : '매도'}하시겠습니까?</Paragraph>
       </DialogContent>
-      <DialogActions>
+      <DialogActions className={styles.action}>
         <Button onClick={handleOnTransact}>
           {type === 'BUY' ? '매수' : '매도'}
         </Button>
