@@ -1,5 +1,3 @@
-import Dialog_CreateTransaction from './Dialog_CreateTransaction'
-import Dialog_LinkTransaction from './Dialog_LinkTransaction'
+import Dialog_Transaction from './Dialog_Transaction'
 
-export {Dialog_CreateTransaction}
-export {Dialog_LinkTransaction}
+export {Dialog_Transaction}

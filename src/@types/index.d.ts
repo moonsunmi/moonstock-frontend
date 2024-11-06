@@ -18,22 +18,13 @@ declare global {
   // stock
   export type TransactionType = 'BUY' | 'SELL'
 
-  export type Transaction = {
+  export interface ITransaction {
+    id: string
     type: TransactionType
     transactedAt: Date
     price: number
     quantity: number
-    stock: {
-      ticker: string
-      name: string
-      market: string
-    }
-  }
-
-  export interface ITransaction {
-    id: string
-    price: number
-    quantity: number
+    stock: IStock
   }
 
   export interface IStock {

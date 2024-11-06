@@ -11,15 +11,14 @@ import {
 } from '@/browser/components/UI'
 // Utils
 import {formatNumber} from '@/common/utils'
-import {Dialog_CreateTransaction, Dialog_LinkTransaction} from '@/common/dialog'
+import {Dialog_Transaction} from '@/common/dialog'
 
 const TradingPage = () => {
   const [linkOpen, setLinkOpen] = useState(false)
-  const [createOpen, setCreateOpen] = useState(false)
 
   const [selectedIndex, setSelectedIndex] = useState(null)
 
-  const {data, error, isLoading} = useSWR<{transactions: Transaction[]}>(
+  const {data, error, isLoading} = useSWR<{transactions: ITransaction[]}>(
     '/api/users/transactions',
     {fallbackData: {transactions: []}}
   )
@@ -30,7 +29,8 @@ const TradingPage = () => {
   const sells = transactions.filter(transaction => transaction.type === 'SELL')
 
   const handleOnClick_CreateTransact = () => {
-    setCreateOpen(true)
+    setSelectedIndex(null)
+    setLinkOpen(true)
   }
   const handleOnClick_LinkTransact = index => {
     setSelectedIndex(index)
@@ -76,7 +76,7 @@ const TradingPage = () => {
                 <Button
                   variant="text"
                   className="w-2/12"
-                  onClick={handleOnClick_LinkTransact}>
+                  onClick={() => handleOnClick_LinkTransact(index)}>
                   매도하기
                 </Button>
               </div>
@@ -111,17 +111,10 @@ const TradingPage = () => {
           })}
         </div>
       </div>
-      <Dialog_LinkTransaction
+      <Dialog_Transaction
         open={linkOpen}
         onClose={() => setLinkOpen(false)}
-        defaultTicker={transactions[selectedIndex]?.stock?.ticker}
-        type={transactions[selectedIndex]?.type === 'BUY' ? 'SELL' : 'BUY'}
-        defaultPrice={transactions[selectedIndex]?.price}
-        defaultQuantity={transactions[selectedIndex]?.quantity}
-      />
-      <Dialog_CreateTransaction
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
+        defaultTransaction={selectedIndex ? transactions[selectedIndex] : null}
       />
     </>
   )

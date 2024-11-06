@@ -1,4 +1,3 @@
-import {useEffect, useState} from 'react'
 // Components
 import {
   Dialog,
@@ -14,37 +13,35 @@ import {
   Input,
   Paragraph
 } from '@/browser/components/UI'
+import {Dialog_TransactionProps} from './index.d'
+import {useEffect, useState} from 'react'
 import useSWRMutation from 'swr/mutation'
 import axiosInstance from '@/common/lib/axios'
 import DatePicker from '@/browser/components/UI/DatePicker'
-// Types
-import {Dialog_CreateTransactionProps} from './index.d'
 // Styles
 import styles from './index.module.scss'
+import {initTransaction} from '@/common/lib/initData'
+import {oppositeType} from '@/common/utils/transactionUtils'
 
-const Dialog_CreateTransaction = ({
+const Dialog_Transaction = ({
+  defaultTransaction,
   onClose,
   open
-}: Dialog_CreateTransactionProps) => {
-  const [{transactedAt, ticker, type, price, quantity}, setTransaction] =
-    useState({
-      ticker: '',
-      transactedAt: null,
-      type: '',
-      price: '',
-      quantity: ''
-    })
+}: Dialog_TransactionProps) => {
+  const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
 
+  // todo. 새 거래일때 입력이 잘 되도록...
+  console.log(!Boolean(defaultTransaction))
   const postTransaction = useSWRMutation(
     '/api/users/transactions',
     (url, {arg}: {arg: any}) => {
-      const {quantity, price, transactedAt} = arg
+      const {ticker, quantity, price, transactedAt, type} = arg
 
       const formData = new FormData()
       formData.append('stockTicker', ticker)
       formData.append('quantity', quantity)
       formData.append('price', price)
-      formData.append('type', type)
+      formData.append('type', oppositeType(type))
       formData.append('transactedAt', transactedAt)
       // formData.append('matchedTransaction', matchedTransaction)
 
@@ -65,60 +62,52 @@ const Dialog_CreateTransaction = ({
   }
 
   const handleOnTransact = () => {
-    postTransaction.trigger({
-      price,
-      quantity,
-      ticker,
-      transactedAt,
-      type
-    })
+    postTransaction.trigger(transaction)
     onClose()
   }
 
   useEffect(() => {
-    if (!open) {
-      setTransaction({
-        ticker: '',
-        transactedAt: null,
-        type: '',
-        price: '',
-        quantity: ''
-      })
+    if (open) {
+      setTransaction(defaultTransaction || initTransaction)
     }
-  }, [open])
+  }, [open, defaultTransaction])
 
   return (
     <Dialog open={open} onClose={onClose} className={styles.container}>
       <DialogContent className={styles.content}>
-        <div>
-          <Input
-            type="text"
-            className="w-full"
-            name="ticker"
-            label="종목코드"
-            value={ticker}
-            onChange={handleOnChange}
-          />
-          <DatePicker
-            value={transactedAt}
-            onChange={date => handleOnChange_Date(date)}
-          />
-        </div>
+        <Input
+          type="text"
+          className="w-1/2"
+          name="ticker"
+          label="종목코드"
+          value={transaction['stock']?.['ticker']}
+          onChange={handleOnChange}
+          disabled={Boolean(defaultTransaction)}
+        />
+        <DatePicker
+          className="w-full"
+          value={
+            transaction['transactedAt']
+              ? new Date(transaction['transactedAt'])
+              : null
+          }
+          onChange={date => handleOnChange_Date(date)}
+        />
         <div>
           <Input
             type="number"
-            className="w-full"
+            className="w-1/2"
             name="price"
             label="가격"
-            value={price}
+            value={transaction['price']}
             onChange={handleOnChange}
           />
           <Input
             type="number"
-            className="w-1/3"
+            className="w-1/2"
             name="quantity"
             label="수량"
-            value={quantity}
+            value={transaction['quantity']}
             onChange={handleOnChange}
           />
         </div>
@@ -127,17 +116,28 @@ const Dialog_CreateTransaction = ({
             row
             aria-labelledby="select-transaction-type"
             name="type"
-            value={type}
+            value={oppositeType(transaction['type'])}
             onChange={handleOnChange}>
-            <FormControlLabel value="BUY" control={<Radio />} label="매수" />
-            <FormControlLabel value="SELL" control={<Radio />} label="매도" />
+            <FormControlLabel
+              value="BUY"
+              control={<Radio disabled={Boolean(defaultTransaction)} />}
+              label="매수"
+            />
+            <FormControlLabel
+              value="SELL"
+              control={<Radio disabled={Boolean(defaultTransaction)} />}
+              label="매도"
+            />
           </RadioGroup>
         </div>
-        <Paragraph>{type === 'BUY' ? '매수' : '매도'}하시겠습니까?</Paragraph>
+        <Paragraph>
+          {oppositeType(transaction['type']) === 'BUY' ? '매수' : '매도'}
+          하시겠습니까?
+        </Paragraph>
       </DialogContent>
       <DialogActions className={styles.action}>
         <Button onClick={handleOnTransact}>
-          {type === 'BUY' ? '매수' : '매도'}
+          {oppositeType(transaction['type']) === 'BUY' ? '매수' : '매도'}
         </Button>
         <Button onClick={() => onClose()}>취소</Button>
       </DialogActions>
@@ -145,4 +145,4 @@ const Dialog_CreateTransaction = ({
   )
 }
 
-export default Dialog_CreateTransaction
+export default Dialog_Transaction
