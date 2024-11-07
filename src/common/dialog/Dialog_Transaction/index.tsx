@@ -14,7 +14,7 @@ import {
   Paragraph
 } from '@/browser/components/UI'
 import {Dialog_TransactionProps} from './index.d'
-import {useEffect, useState} from 'react'
+import {ChangeEvent, useEffect, useState} from 'react'
 import useSWRMutation from 'swr/mutation'
 import axiosInstance from '@/common/lib/axios'
 import DatePicker from '@/browser/components/UI/DatePicker'
@@ -30,20 +30,20 @@ const Dialog_Transaction = ({
 }: Dialog_TransactionProps) => {
   const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
 
-  // todo. 새 거래일때 입력이 잘 되도록...
-  console.log(!Boolean(defaultTransaction))
   const postTransaction = useSWRMutation(
     '/api/users/transactions',
-    (url, {arg}: {arg: any}) => {
-      const {ticker, quantity, price, transactedAt, type} = arg
+    (url, {arg}: {arg: ITransaction}) => {
+      const {stock, quantity, price, transactedAt, type} = arg
 
       const formData = new FormData()
-      formData.append('stockTicker', ticker)
-      formData.append('quantity', quantity)
-      formData.append('price', price)
+      formData.append('stockTicker', stock['ticker'])
+      formData.append('quantity', quantity.toString())
+      formData.append('price', price.toString())
       formData.append('type', oppositeType(type))
-      formData.append('transactedAt', transactedAt)
-      // formData.append('matchedTransaction', matchedTransaction)
+      formData.append('transactedAt', new Date(transactedAt).toISOString())
+      if (defaultTransaction) {
+        formData.append('matchedId', defaultTransaction.id)
+      }
 
       return axiosInstance
         .post(url, formData, {withCredentials: false})
@@ -51,13 +51,22 @@ const Dialog_Transaction = ({
     }
   )
 
-  const handleOnChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTransaction(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value
     }))
   }
-  const handleOnChange_Date = (date: any) => {
+  const handleChange_Stock = (e: ChangeEvent<HTMLInputElement>) => {
+    setTransaction(prevState => ({
+      ...prevState,
+      stock: {
+        ...prevState.stock,
+        [e.target.name]: e.target.value
+      }
+    }))
+  }
+  const handleChange_Date = (date: any) => {
     setTransaction(prevState => ({...prevState, transactedAt: date}))
   }
 
@@ -81,7 +90,7 @@ const Dialog_Transaction = ({
           name="ticker"
           label="종목코드"
           value={transaction['stock']?.['ticker']}
-          onChange={handleOnChange}
+          onChange={handleChange_Stock}
           disabled={Boolean(defaultTransaction)}
         />
         <DatePicker
@@ -91,7 +100,7 @@ const Dialog_Transaction = ({
               ? new Date(transaction['transactedAt'])
               : null
           }
-          onChange={date => handleOnChange_Date(date)}
+          onChange={date => handleChange_Date(date)}
         />
         <div>
           <Input
@@ -100,7 +109,7 @@ const Dialog_Transaction = ({
             name="price"
             label="가격"
             value={transaction['price']}
-            onChange={handleOnChange}
+            onChange={handleChange}
           />
           <Input
             type="number"
@@ -108,7 +117,7 @@ const Dialog_Transaction = ({
             name="quantity"
             label="수량"
             value={transaction['quantity']}
-            onChange={handleOnChange}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -117,7 +126,7 @@ const Dialog_Transaction = ({
             aria-labelledby="select-transaction-type"
             name="type"
             value={oppositeType(transaction['type'])}
-            onChange={handleOnChange}>
+            onChange={handleChange}>
             <FormControlLabel
               value="BUY"
               control={<Radio disabled={Boolean(defaultTransaction)} />}
