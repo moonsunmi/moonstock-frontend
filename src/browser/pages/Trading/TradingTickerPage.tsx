@@ -17,7 +17,6 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
   const [linkOpen, setLinkOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
 
-  console.log(ticker)
   const {data, error, isLoading} = useSWR<{transactions: ITransaction[]}>(
     '/api/users/transactions',
     {fallbackData: {transactions: []}}
@@ -114,6 +113,7 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
       <Dialog_Transaction
         open={linkOpen}
         onClose={() => setLinkOpen(false)}
+        ticker={ticker}
         defaultTransaction={selectedIndex ? transactions[selectedIndex] : null}
       />
     </>

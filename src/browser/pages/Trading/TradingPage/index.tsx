@@ -6,12 +6,15 @@ import useSWR from 'swr'
 // Components
 import {Button, Card, Paragraph} from '@/browser/components/UI'
 import classes from './index.module.scss'
+import Dialog_Holding from '@/common/dialog/Dialog_Holding'
 
 const TradingPage = () => {
   // const {data, error, isLoading, isValidating} = useSWR<{
   //   holdings: []
   // }>('/api/users/holdings', {fallbackData: {holdings: []}})
   // const {holdings = []} = data
+
+  const [open, setOpen] = useState<boolean>(false)
 
   const holdings = [
     {
@@ -41,15 +44,21 @@ const TradingPage = () => {
   // }
 
   return (
-    <div className={classes.container}>
-      {holdings.map((holding, index) => (
-        <Card key={index}>
-          <Paragraph variant="title">{holding['name']}</Paragraph>
-          <Paragraph>{`진행중인 투자금: ${holding['totalInvestment']}`}</Paragraph>
-          <Paragraph>{`수익률: `}</Paragraph>
+    <>
+      <div className={classes.container}>
+        {holdings.map((holding, index) => (
+          <Card key={index}>
+            <Paragraph variant="title">{holding['name']}</Paragraph>
+            <Paragraph>{`진행중인 투자금: ${holding['totalInvestment']}`}</Paragraph>
+            <Paragraph>{`수익률: `}</Paragraph>
+          </Card>
+        ))}
+        <Card onClick={() => setOpen(true)}>
+          <Paragraph>새 종목으로 거래 시작하기</Paragraph>
         </Card>
-      ))}
-    </div>
+      </div>
+      <Dialog_Holding open={open} onClose={() => setOpen(false)} />
+    </>
   )
 }
 

@@ -1,0 +1,17 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  width: 20rem;
+  padding: 4rem 2rem;
+
+  & > div {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+.action {
+  padding: 2rem;
+}

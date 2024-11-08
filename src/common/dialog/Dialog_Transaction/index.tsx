@@ -21,6 +21,7 @@ import {oppositeType} from '@/common/utils/transactionUtils'
 
 const Dialog_Transaction = ({
   defaultTransaction,
+  ticker,
   onClose,
   open
 }: Dialog_TransactionProps) => {
@@ -29,10 +30,10 @@ const Dialog_Transaction = ({
   const postTransaction = useSWRMutation(
     '/api/users/transactions',
     (url, {arg}: {arg: ITransaction}) => {
-      const {stock, quantity, price, transactedAt, type} = arg
+      const {quantity, price, transactedAt, type} = arg
 
       const formData = new FormData()
-      formData.append('stockTicker', stock['ticker'])
+      formData.append('stockTicker', ticker)
       formData.append('quantity', quantity.toString())
       formData.append('price', price.toString())
       formData.append('type', oppositeType(type))
@@ -53,15 +54,6 @@ const Dialog_Transaction = ({
       [e.target.name]: e.target.value
     }))
   }
-  const handleChange_Stock = (e: ChangeEvent<HTMLInputElement>) => {
-    setTransaction(prevState => ({
-      ...prevState,
-      stock: {
-        ...prevState.stock,
-        [e.target.name]: e.target.value
-      }
-    }))
-  }
   const handleChange_Date = (date: any) => {
     setTransaction(prevState => ({...prevState, transactedAt: date}))
   }
@@ -78,16 +70,14 @@ const Dialog_Transaction = ({
   }, [open, defaultTransaction])
 
   return (
-    <Dialog open={open} onClose={onClose} className={classes.container}>
+    <Dialog open={open} onClose={onClose}>
       <DialogContent className={classes.content}>
         <Input
           type="text"
           className="w-1/2"
           name="ticker"
           label="종목코드"
-          value={transaction['stock']?.['ticker']}
-          onChange={handleChange_Stock}
-          disabled={Boolean(defaultTransaction)}
+          value={ticker}
         />
         <DatePicker
           className="w-full"
