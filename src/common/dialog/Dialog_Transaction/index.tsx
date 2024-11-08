@@ -1,3 +1,7 @@
+import {ChangeEvent, useEffect, useState} from 'react'
+// API
+import useSWRMutation from 'swr/mutation'
+import axiosInstance from '@/common/lib/axios'
 // Components
 import {
   Dialog,
@@ -7,19 +11,11 @@ import {
   Radio,
   RadioGroup
 } from '@mui/material'
-import {
-  Button,
-  Dialog as CustomDialog,
-  Input,
-  Paragraph
-} from '@/browser/components/UI'
-import {Dialog_TransactionProps} from './index.d'
-import {ChangeEvent, useEffect, useState} from 'react'
-import useSWRMutation from 'swr/mutation'
-import axiosInstance from '@/common/lib/axios'
+import {Button, Input, Paragraph} from '@/browser/components/UI'
 import DatePicker from '@/browser/components/UI/DatePicker'
-// Styles
-import styles from './index.module.scss'
+// Etc
+import classes from './index.module.scss'
+import {Dialog_TransactionProps} from './index.d'
 import {initTransaction} from '@/common/lib/initData'
 import {oppositeType} from '@/common/utils/transactionUtils'
 
@@ -82,8 +78,8 @@ const Dialog_Transaction = ({
   }, [open, defaultTransaction])
 
   return (
-    <Dialog open={open} onClose={onClose} className={styles.container}>
-      <DialogContent className={styles.content}>
+    <Dialog open={open} onClose={onClose} className={classes.container}>
+      <DialogContent className={classes.content}>
         <Input
           type="text"
           className="w-1/2"
@@ -144,7 +140,7 @@ const Dialog_Transaction = ({
           하시겠습니까?
         </Paragraph>
       </DialogContent>
-      <DialogActions className={styles.action}>
+      <DialogActions className={classes.action}>
         <Button onClick={handleOnTransact}>
           {oppositeType(transaction['type']) === 'BUY' ? '매수' : '매도'}
         </Button>

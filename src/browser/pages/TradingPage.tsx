@@ -13,11 +13,11 @@ import {
 import {formatNumber} from '@/common/utils'
 import {Dialog_Transaction} from '@/common/dialog'
 
-const TradingPage = () => {
+const TradingPage = ({ticker}: {ticker: string}) => {
   const [linkOpen, setLinkOpen] = useState(false)
-
   const [selectedIndex, setSelectedIndex] = useState(null)
 
+  console.log(ticker)
   const {data, error, isLoading} = useSWR<{transactions: ITransaction[]}>(
     '/api/users/transactions',
     {fallbackData: {transactions: []}}
@@ -42,16 +42,16 @@ const TradingPage = () => {
       <div className="w-full">
         <div className="flex w-full">
           <div className="w-2/12" />
-          <Paragraph type="subtitle" className="w-2/12">
+          <Paragraph variant="subtitle" className="w-2/12">
             종목명
           </Paragraph>
-          <Paragraph type="subtitle" className="w-2/12">
+          <Paragraph variant="subtitle" className="w-2/12">
             거래일
           </Paragraph>
-          <Paragraph type="subtitle" className="w-2/12 text-right">
+          <Paragraph variant="subtitle" className="w-2/12 text-right">
             거래금액
           </Paragraph>
-          <Paragraph type="subtitle" className="w-2/12 text-right">
+          <Paragraph variant="subtitle" className="w-2/12 text-right">
             보유수량
           </Paragraph>
           <div className="w-2/12" />

@@ -70,7 +70,7 @@ const LoginPage = () => {
     <div className="flex items-center justify-center w-full px-56">
       <Card>
         <div className="mb-4 text-center">
-          <Paragraph type="title">Login</Paragraph>
+          <Paragraph variant="title">Login</Paragraph>
         </div>
         <hr className="h-1 pt-2 pb-2 border-secondary-300" />
         <div className="flex flex-col gap-6">

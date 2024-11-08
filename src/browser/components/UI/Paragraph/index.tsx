@@ -1,11 +1,11 @@
-import styles from './index.module.scss'
+import classes from './index.module.scss'
 
 interface Options {
-  type?: Type
+  variant?: Variant
   color?: Color
 }
 
-type Type = 'title' | 'subtitle' | 'body' | 'body2' | 'caption'
+type Variant = 'title' | 'subtitle' | 'body' | 'body2' | 'caption'
 type Color = 'primary' | 'secondary' | 'black'
 
 export type ParagraphProps = React.DetailedHTMLProps<
@@ -16,13 +16,13 @@ export type ParagraphProps = React.DetailedHTMLProps<
 
 const Paragraph = ({...props}: ParagraphProps) => {
   const {
-    type = 'body',
+    variant = 'body',
     color = 'secondary',
     className: _className,
     children,
     ...restProps
   } = props
-  const className = [styles[color], styles[type], _className].join(' ')
+  const className = [classes[color], classes[variant], _className].join(' ')
   return (
     <p className={className} {...restProps}>
       {children}

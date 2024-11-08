@@ -5,7 +5,7 @@ import {ChangeEvent, forwardRef, Ref, useState} from 'react'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 // styles
-import styles from './index.module.scss'
+import classes from './index.module.scss'
 import classNames from 'classnames'
 // utils
 import {formatNumber} from '@/common/utils'
@@ -30,8 +30,12 @@ const Input = forwardRef(
       ...restProps
     } = props
 
-    const containerClassName = classNames(styles.container, _className)
-    const inputClassName = classNames(styles.input, styles[size], styles[type])
+    const containerClassName = classNames(classes.container, _className)
+    const inputClassName = classNames(
+      classes.input,
+      classes[size],
+      classes[type]
+    )
 
     const [isVisible, setIsVisible] = useState<boolean>(false)
     const [formattedNumber, setFormattedNumber] = useState<string>(
@@ -77,7 +81,7 @@ const Input = forwardRef(
           {...inputProps}
           {...restProps}
         />
-        <label className={styles.label}>{label}</label>
+        <label className={classes.label}>{label}</label>
         {type === 'password' && (
           <div onClick={toggleVisible} className="absolute right-2">
             {isVisible ? <Visibility /> : <VisibilityOff />}

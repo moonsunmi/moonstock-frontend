@@ -2,7 +2,7 @@
 
 import {ReactNode} from 'react'
 // style
-import styles from './index.module.scss'
+import classes from './index.module.scss'
 // type
 import {OutputProps} from './index.d'
 // utils
@@ -19,9 +19,9 @@ const Output = ({...props}: OutputProps) => {
   } = props
 
   const className = [
-    styles.output,
-    styles[size],
-    styles[type],
+    classes.output,
+    classes[size],
+    classes[type],
     _className
   ].join(' ')
 
@@ -34,11 +34,11 @@ const Output = ({...props}: OutputProps) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={classes.container}>
       <output className={className} {...restProps}>
         {formattedValue(children)}
       </output>
-      <label className={styles.label}>{label}</label>
+      <label className={classes.label}>{label}</label>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 // https://dev.to/mhcrocky/creating-a-reusable-button-component-with-react-and-tailwind-css-4dh5
 
 import {forwardRef} from 'react'
-import styles from './index.module.scss'
+import classes from './index.module.scss'
 
 type Ref = HTMLButtonElement
 type Variant = 'text' | 'outlined' | 'solid' | 'ghost'
@@ -33,9 +33,9 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
   } = props
 
   const mergedClass = [
-    styles.button,
-    styles[variant],
-    styles[size],
+    classes.button,
+    classes[variant],
+    classes[size],
     className
   ].join(' ')
 

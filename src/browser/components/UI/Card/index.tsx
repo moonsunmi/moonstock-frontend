@@ -1,4 +1,4 @@
-import styles from './index.module.scss'
+import classes from './index.module.scss'
 
 type CardProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -7,7 +7,7 @@ type CardProps = React.DetailedHTMLProps<
 
 const Card = ({...props}: CardProps) => {
   const {className: _className, children, ...restProps} = props
-  const className = [styles.card, _className].join(' ')
+  const className = [classes.card, _className].join(' ')
 
   return (
     <div className={className} {...restProps}>

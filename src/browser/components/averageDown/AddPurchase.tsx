@@ -29,7 +29,7 @@ export const AddPurchase = () => {
     {id: uuidv4(), price: 0, quantity: 0}
   ])
 
-  const {averagePrice, totalQuantity, totalPay, isValid} =
+  const {averagePrice, totalQuantity, totalInvestment, isValid} =
     useCalculatedInvestment(holding, transactions)
 
   const addTransaction = () => {
@@ -69,7 +69,7 @@ export const AddPurchase = () => {
   return (
     <>
       <div className="flex mt-6">
-        <Paragraph type="title" className="w-full">
+        <Paragraph variant="title" className="w-full">
           보유 주식
         </Paragraph>
         <div className="flex gap-2">
@@ -104,7 +104,7 @@ export const AddPurchase = () => {
         </Output>
       </Card>
       <div className="flex">
-        <Paragraph type="title" className="w-full">
+        <Paragraph variant="title" className="w-full">
           추가 매수
         </Paragraph>
         <Button size="sm" onClick={addTransaction}>
@@ -163,27 +163,33 @@ export const AddPurchase = () => {
         })}
       </div>
       <div aria-label="Investment Report">
-        <Paragraph type="title" className="w-full">
+        <Paragraph variant="title" className="w-full">
           물타기 결과
         </Paragraph>
         <hr className="h-1 pt-2 pb-2 border-secondary-300" />
         {isValid ? (
           <div className="flex flex-row gap-3">
             <Card className="w-1/3">
-              <Paragraph type="caption">평균 단가</Paragraph>
-              <Paragraph type="body">{formatNumber(averagePrice)}원</Paragraph>
+              <Paragraph variant="caption">평균 단가</Paragraph>
+              <Paragraph variant="body">
+                {formatNumber(averagePrice)}원
+              </Paragraph>
             </Card>
             <Card className="w-1/3">
-              <Paragraph type="caption">총 개수</Paragraph>
-              <Paragraph type="body">{formatNumber(totalQuantity)}개</Paragraph>
+              <Paragraph variant="caption">총 개수</Paragraph>
+              <Paragraph variant="body">
+                {formatNumber(totalQuantity)}개
+              </Paragraph>
             </Card>
             <Card className="w-1/3">
-              <Paragraph type="caption">총 투자금</Paragraph>
-              <Paragraph type="body">{formatNumber(totalPay)}원</Paragraph>
+              <Paragraph variant="caption">총 투자금</Paragraph>
+              <Paragraph variant="body">
+                {formatNumber(totalInvestment)}원
+              </Paragraph>
             </Card>
           </div>
         ) : (
-          <Paragraph type="body">보유 주식 정보를 입력해 주세요.</Paragraph>
+          <Paragraph variant="body">보유 주식 정보를 입력해 주세요.</Paragraph>
         )}
       </div>
       <Modal
