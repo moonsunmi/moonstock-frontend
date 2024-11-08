@@ -1,18 +1,17 @@
-'use client'
 // Components
-import {AddPurchase} from '@/browser/components/averageDown/AddPurchase'
+import AverageDownPage from '@/browser/pages/AverageDownPage'
 // import {useSetAtom} from 'jotai'
 import {uiAtom} from '@/common/lib/state'
 
-const AverageDownPage = () => {
+const Page = () => {
   // const setUi = useSetAtom(uiAtom)
 
   return (
     <div className="flex flex-col w-full gap-3">
       {/* <HoldingStocks /> */}
-      <AddPurchase />
+      <AverageDownPage />
     </div>
   )
 }
 
-export default AverageDownPage
+export default Page

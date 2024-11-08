@@ -7,7 +7,7 @@ import useSWR from 'swr'
 import {Button, Card, Paragraph} from '@/browser/components/UI'
 import classes from './index.module.scss'
 
-const StockBoardPage = () => {
+const TradingPage = () => {
   // const {data, error, isLoading, isValidating} = useSWR<{
   //   holdings: []
   // }>('/api/users/holdings', {fallbackData: {holdings: []}})
@@ -53,4 +53,4 @@ const StockBoardPage = () => {
   )
 }
 
-export default StockBoardPage
+export default TradingPage

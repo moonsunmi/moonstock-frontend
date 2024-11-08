@@ -7,7 +7,7 @@ import {useSelector} from '@/store/store'
 // Components
 import {Button, Card, Input, Output, Paragraph} from '@/browser/components/UI'
 import {Modal} from '@mui/material'
-import SearchPrice from './SearchPrice'
+import SearchPrice from '../components/averageDown/SearchPrice'
 // Icons
 import {AddCircleOutline, RemoveCircle} from '@mui/icons-material'
 // Hooks
@@ -15,7 +15,7 @@ import useCalculatedInvestment from '@/common/hooks/useCalculatedInvestment'
 // Utils
 import {formatNumber} from '@/common/utils'
 
-export const AddPurchase = () => {
+const AverageDownPage = () => {
   const {userInfo} = useSelector(state => state.auth)
   const [openModal_searchPrice, setOpenModal_searchPrice] =
     useState<boolean>(false)
@@ -202,3 +202,5 @@ export const AddPurchase = () => {
     </>
   )
 }
+
+export default AverageDownPage

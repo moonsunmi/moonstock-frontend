@@ -13,7 +13,7 @@ import {
 import {formatNumber} from '@/common/utils'
 import {Dialog_Transaction} from '@/common/dialog'
 
-const TradingPage = ({ticker}: {ticker: string}) => {
+const TradingTickerPage = ({ticker}: {ticker: string}) => {
   const [linkOpen, setLinkOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
 
@@ -120,4 +120,4 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   )
 }
 
-export default TradingPage
+export default TradingTickerPage
