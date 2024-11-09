@@ -39,42 +39,37 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
   return (
     <>
       <div className="w-full">
+        <Paragraph variant="title">{ticker}</Paragraph>
         <div className="flex w-full">
-          <div className="w-2/12" />
-          <Paragraph variant="subtitle" className="w-2/12">
-            종목명
-          </Paragraph>
-          <Paragraph variant="subtitle" className="w-2/12">
+          <div className="w-1/5" />
+          <Paragraph variant="subtitle" className="w-1/5">
             거래일
           </Paragraph>
-          <Paragraph variant="subtitle" className="w-2/12 text-right">
+          <Paragraph variant="subtitle" className="w-1/5 text-right">
             거래금액
           </Paragraph>
-          <Paragraph variant="subtitle" className="w-2/12 text-right">
+          <Paragraph variant="subtitle" className="w-1/5 text-right">
             보유수량
           </Paragraph>
-          <div className="w-2/12" />
+          <div className="w-1/5" />
         </div>
         <div className="">
           {buys.map((transaction, index) => {
             return (
               <div key={`buy-${index}`} className="flex border-t">
-                <div className="w-2/12" />
-                <Paragraph className="w-2/12">
-                  {transaction?.stock?.name}
-                </Paragraph>
-                <Paragraph className="w-2/12">
+                <div className="w-1/5" />
+                <Paragraph className="w-1/5">
                   {getDateFormat(transaction?.transactedAt, 'yyyy.MM.dd')}
                 </Paragraph>
-                <Paragraph className="w-2/12 text-right">
+                <Paragraph className="w-1/5 text-right">
                   {formatNumber(transaction?.price)}
                 </Paragraph>
-                <Paragraph className="w-2/12 text-right">
+                <Paragraph className="w-1/5 text-right">
                   {formatNumber(transaction?.quantity)}
                 </Paragraph>
                 <Button
                   variant="text"
-                  className="w-2/12"
+                  className="w-1/5"
                   onClick={() => handleOnClick_LinkTransact(index)}>
                   매도하기
                 </Button>
@@ -89,22 +84,19 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
           {sells.map((transaction, index) => {
             return (
               <div key={`sell-${index}`} className="flex border-t">
-                <Button variant="text" className="w-2/12">
+                <Button variant="text" className="w-1/5">
                   매수하기
                 </Button>
-                <Paragraph className="w-2/12">
-                  {transaction?.stock?.name}
-                </Paragraph>
-                <Paragraph className="w-2/12">
+                <Paragraph className="w-1/5">
                   {getDateFormat(transaction?.transactedAt, 'yyyy.MM.dd')}
                 </Paragraph>
-                <Paragraph className="w-2/12 text-right">
+                <Paragraph className="w-1/5 text-right">
                   {transaction?.price}
                 </Paragraph>
-                <Paragraph className="w-2/12 text-right">
+                <Paragraph className="w-1/5 text-right">
                   {transaction?.quantity}
                 </Paragraph>
-                <div className="w-2/12" />
+                <div className="w-1/5" />
               </div>
             )
           })}

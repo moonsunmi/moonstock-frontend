@@ -24,7 +24,6 @@ declare global {
     transactedAt: Date
     price: number
     quantity: number
-    stock: IStock
   }
 
   export interface IStock {

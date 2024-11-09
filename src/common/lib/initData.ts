@@ -3,6 +3,5 @@ export const initTransaction: ITransaction = {
   type: null,
   transactedAt: null,
   price: 0,
-  quantity: 0,
-  stock: null
+  quantity: 0
 }
