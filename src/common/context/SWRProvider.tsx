@@ -7,7 +7,8 @@ export const SWRProvider = ({children}) => {
   return (
     <SWRConfig
       value={{
-        fetcher: url => axiosInstance.get(url).then(res => res.data),
+        // fetcher의 key 지우면 안 됨. 다중인자로 전달하기 위해서
+        fetcher: ([url, key]) => axiosInstance.get(url).then(res => res.data),
         // refreshInterval: 3000
         //   revalidateOnMount: true, // 컴포넌트가 마운트되었을 때 자동 갱신 여부
         revalidateOnFocus: false, // 창이 포커싱되었을 때 자동 갱신 여부

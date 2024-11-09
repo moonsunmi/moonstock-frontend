@@ -12,13 +12,17 @@ import {
 // Utils
 import {formatNumber} from '@/common/utils'
 import {Dialog_Transaction} from '@/common/dialog'
+import {userInfo} from 'os'
+import {useSelector} from '@/store/store'
 
 const TradingTickerPage = ({ticker}: {ticker: string}) => {
+  const {userInfo} = useSelector(state => state.auth)
+
   const [linkOpen, setLinkOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
 
   const {data, error, isLoading} = useSWR<{transactions: ITransaction[]}>(
-    `/api/users/transactions/${ticker}`,
+    [`/api/users/transactions/${ticker}`, userInfo.id],
     {fallbackData: {transactions: []}}
   )
 

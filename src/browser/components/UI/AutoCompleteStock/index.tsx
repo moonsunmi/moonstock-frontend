@@ -1,13 +1,15 @@
+import {ChangeEvent, useEffect, useMemo} from 'react'
 import {
   Autocomplete,
   FilterOptionsState,
   createFilterOptions
 } from '@mui/material'
 import {Stock} from '@prisma/client'
-import {ChangeEvent, useEffect, useMemo} from 'react'
+
 import Input from '../Input'
 import {CustomInputProps} from '../Input/index.d'
 import useSWR from 'swr'
+import {useSelector} from '@/store/store'
 
 type AutoCompleteStockProps = {
   value: string
@@ -19,8 +21,9 @@ const AutoCompleteStock = ({
   onChange,
   ...customInputProps
 }: AutoCompleteStockProps) => {
+  const {userInfo} = useSelector(state => state.auth)
   const {data, error, isLoading} = useSWR<{ok: boolean; stockList: IStock[]}>(
-    '/stocks',
+    ['/stocks', userInfo.id],
     {
       fallbackData: {ok: false, stockList: []}
     }
