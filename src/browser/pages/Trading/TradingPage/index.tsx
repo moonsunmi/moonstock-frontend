@@ -7,35 +7,36 @@ import useSWR from 'swr'
 import {Button, Card, Paragraph} from '@/browser/components/UI'
 import classes from './index.module.scss'
 import Dialog_Holding from '@/common/dialog/Dialog_Holding'
+import {useRouter} from 'next/navigation'
 
 const TradingPage = () => {
   // const {data, error, isLoading, isValidating} = useSWR<{
-  //   holdings: []
-  // }>('/api/users/holdings', {fallbackData: {holdings: []}})
-  // const {holdings = []} = data
-
+  //   transactions: []
+  // }>('/api/users/transactions', {fallbackData: {transactions: []}})
+  // const {transactions = []} = data
+  const router = useRouter()
   const [open, setOpen] = useState<boolean>(false)
 
-  const holdings = [
+  const transactions = [
     {
-      ticker: '123',
-      name: '미포',
-      totalInvestment: 30
+      ticker: '10620',
+      name: '현대미포조선'
+      // totalInvestment: 30
     },
     {
-      ticker: '1245',
-      name: '민원',
-      totalInvestment: 22
+      ticker: '60310',
+      name: '3S'
+      // totalInvestment: 22
     },
     {
-      ticker: '1241125',
-      name: '협력',
-      totalInvestment: 22
+      ticker: '300720',
+      name: '한일시멘트'
+      // totalInvestment: 22
     },
     {
-      ticker: '1241s5',
-      name: '업체',
-      totalInvestment: 22
+      ticker: '45226K',
+      name: '한화갤러리아우'
+      // totalInvestment: 22
     }
   ]
 
@@ -43,13 +44,19 @@ const TradingPage = () => {
   //   return <div>Error occurred: {error.message}</div>
   // }
 
+  const handleOnClick = (ticker: string) => {
+    router.push(`/trading/${ticker}`)
+  }
+
   return (
     <>
       <div className={classes.container}>
-        {holdings.map((holding, index) => (
-          <Card key={index}>
-            <Paragraph variant="title">{holding['name']}</Paragraph>
-            <Paragraph>{`진행중인 투자금: ${holding['totalInvestment']}`}</Paragraph>
+        {transactions.map((transaction, index) => (
+          <Card
+            key={index}
+            onClick={() => handleOnClick(transaction['ticker'])}>
+            <Paragraph variant="title">{transaction['name']}</Paragraph>
+            <Paragraph>{`진행중인 투자금: ${transaction['totalInvestment']}`}</Paragraph>
             <Paragraph>{`수익률: `}</Paragraph>
           </Card>
         ))}
@@ -57,7 +64,6 @@ const TradingPage = () => {
           <Paragraph>새 종목으로 거래 시작하기</Paragraph>
         </Card>
       </div>
-      <Dialog_Holding open={open} onClose={() => setOpen(false)} />
     </>
   )
 }

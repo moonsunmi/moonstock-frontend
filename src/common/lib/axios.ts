@@ -1,12 +1,12 @@
 import axios from 'axios'
-import {useRouter} from 'next/navigation'
+import {readItemFromStorageP, writeItemFromStorageP} from '../utils'
 
 const axiosInstance = axios.create({
   baseURL: process.env.PUBLIC_NEXT_BACKEND_URL
 })
 
 if (typeof window !== 'undefined') {
-  const accessToken = localStorage.getItem('accessToken')
+  const accessToken = readItemFromStorageP('accessToken')
   axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`
 }
 axiosInstance.defaults.headers.get['Content-Type'] = 'application/json'
@@ -25,13 +25,13 @@ axiosInstance.interceptors.response.use(
         const response = await axiosInstance.get('/api/auth/refresh-token')
 
         const accessToken = response.data?.accessToken
-        localStorage.setItem('accessToken', accessToken)
+        writeItemFromStorageP('accessToken', accessToken)
 
         originalRequest.headers['Authorization'] = `Bearer ${accessToken}`
 
         return axiosInstance(originalRequest)
       } catch (error) {
-        console.error('Refresh token request failed:', error)
+        localStorage.removeItem('accessToken')
         return Promise.reject(error)
       }
     }

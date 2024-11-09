@@ -18,7 +18,7 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
   const [selectedIndex, setSelectedIndex] = useState(null)
 
   const {data, error, isLoading} = useSWR<{transactions: ITransaction[]}>(
-    '/api/users/transactions',
+    `/api/users/transactions/${ticker}`,
     {fallbackData: {transactions: []}}
   )
 
@@ -89,7 +89,6 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
           {sells.map((transaction, index) => {
             return (
               <div key={`sell-${index}`} className="flex border-t">
-                <div className="w-2/12" />
                 <Button variant="text" className="w-2/12">
                   매수하기
                 </Button>
@@ -105,6 +104,7 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
                 <Paragraph className="w-2/12 text-right">
                   {transaction?.quantity}
                 </Paragraph>
+                <div className="w-2/12" />
               </div>
             )
           })}

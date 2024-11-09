@@ -8,6 +8,7 @@ import {useDispatch} from '@/store/store'
 import {setUserInfo} from '@/store/slices/authSlice'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 import axiosInstance from '@/common/lib/axios'
+import {writeItemFromStorageP} from '@/common/utils'
 
 type LoginArg = {email: string; password: string}
 type FormType = Record<'email' | 'password', string>
@@ -50,7 +51,7 @@ const LoginPage = () => {
     if (loginMutation.data) {
       const {userInfo, accessToken} = loginMutation.data
       dispatch(setUserInfo(userInfo))
-      localStorage.setItem('accessToken', accessToken)
+      writeItemFromStorageP('accessToken', accessToken)
 
       router.push('/')
       enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})
