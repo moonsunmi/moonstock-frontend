@@ -43,16 +43,15 @@ const Input = forwardRef(
     )
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      const rawValue = e.target.value.replace(/,/g, '')
+      if (type === 'number') {
+        const rawValue = e.target.value.replace(/,/g, '')
 
-      if (type === 'number' && !isNaN(Number(rawValue))) {
-        setFormattedNumber(formatNumber(Number(rawValue)))
+        if (!isNaN(Number(rawValue))) {
+          setFormattedNumber(formatNumber(Number(rawValue)))
+          e.target.value = rawValue
 
-        const newEvent = {
-          ...e,
-          target: {...e.target, value: rawValue}
+          onChange(e)
         }
-        onChange(newEvent as ChangeEvent<HTMLInputElement>)
       } else {
         onChange(e)
       }
