@@ -4,7 +4,7 @@ import {ChangeEvent, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import useSWRMutation from 'swr/mutation'
 import {useSnackbar} from 'notistack'
-import {useDispatch} from '@/store/store'
+import {useTypedDispatch} from '@/store/store'
 import {setUserInfo} from '@/store/slices/authSlice'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 import axiosInstance from '@/common/lib/axios'
@@ -15,7 +15,7 @@ type FormType = Record<'email' | 'password', string>
 
 const LoginPage = () => {
   const router = useRouter()
-  const dispatch = useDispatch()
+  const dispatch = useTypedDispatch()
   const {enqueueSnackbar} = useSnackbar()
 
   const [{email, password}, setForm] = useState<FormType>({

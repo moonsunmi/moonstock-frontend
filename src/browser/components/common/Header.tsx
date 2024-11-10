@@ -4,15 +4,15 @@ import {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import useSWRMutation from 'swr/mutation'
 import {Button} from '../UI'
-import {useDispatch, useSelector} from '@/store/store'
+import {useTypedDispatch, useTypedSelector} from '@/store/store'
 import {setUserInfo} from '@/store/slices/authSlice'
 import axiosInstance from '@/common/lib/axios'
 
 export const Header = () => {
   const router = useRouter()
-  const dispatch = useDispatch()
+  const dispatch = useTypedDispatch()
 
-  const {userInfo} = useSelector(state => state.auth)
+  const {userInfo} = useTypedSelector(state => state.auth)
 
   const [isMounted, setIsMounted] = useState(false)
 

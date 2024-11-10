@@ -1,10 +1,7 @@
 import {combineReducers} from 'redux'
 import {persistReducer, persistStore} from 'redux-persist'
-import {
-  TypedUseSelectorHook,
-  useDispatch as useReduxDispatch,
-  useSelector as useReduxSelector
-} from 'react-redux'
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
+
 import {configureStore} from '@reduxjs/toolkit'
 
 // CSR 환경에서는 잘되나 SSR 환경에서는 아래와 같이 변경해야 함
@@ -14,9 +11,7 @@ import createWebStorage from 'redux-persist/es/storage/createWebStorage'
 
 // import accountSlice from './slices/accountSlice'
 import authSlice from './slices/authSlice'
-// import commonSlice from './slices/commonSlice'
-// import managementSlice from './slices/managementSlice'
-// import roadwaySlice from './slices/roadwaySlice'
+import {stockSlice} from './slices/stockSlice'
 
 // SSR 환경에서는 window
 const createNoopStorage = () => {
@@ -51,7 +46,8 @@ const authPersistConfig = {
 export const store = configureStore({
   reducer: combineReducers({
     // account: accountSlice,
-    auth: persistReducer(authPersistConfig, authSlice)
+    auth: persistReducer(authPersistConfig, authSlice),
+    stock: stockSlice
     // common: commonSlice,
   }),
   middleware: getDefaultMiddleware =>
@@ -62,5 +58,5 @@ export const persistor = persistStore(store)
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
-export const useDispatch = () => useReduxDispatch<AppDispatch>()
-export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
+export const useTypedDispatch = () => useDispatch<AppDispatch>()
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector

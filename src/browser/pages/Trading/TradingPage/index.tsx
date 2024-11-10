@@ -9,12 +9,14 @@ import {Dialog_Transaction} from '@/common/dialog'
 import useGetHoldings from '@/common/hooks/fetch/useGetHoldings'
 // Etcs.
 import classes from './index.module.scss'
+import {useTypedSelector} from '@/store/store'
 
 const TradingPage = () => {
   const router = useRouter()
   const [transactionOpen, setTransactionOpen] = useState<boolean>(false)
 
   const {data, error, isLoading} = useGetHoldings()
+
   const {holdings} = data
 
   const handleOnClick = (ticker: string) => {
