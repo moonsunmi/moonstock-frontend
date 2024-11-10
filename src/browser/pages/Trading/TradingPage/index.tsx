@@ -4,15 +4,16 @@ import {ChangeEvent, useState} from 'react'
 
 import useSWR from 'swr'
 // Components
-import {Button, Card, Paragraph} from '@/browser/components/UI'
+import {Card, Paragraph} from '@/browser/components/UI'
 import classes from './index.module.scss'
-import Dialog_Holding from '@/common/dialog/Dialog_Holding'
 import {useRouter} from 'next/navigation'
 import {useSelector} from '@/store/store'
+import {Dialog_Transaction} from '@/common/dialog'
 
 const TradingPage = () => {
   const router = useRouter()
-  const [open, setOpen] = useState<boolean>(false)
+  const [transactionOpen, setTransactionOpen] = useState<boolean>(false)
+
   const {userInfo} = useSelector(state => state.auth)
 
   const {data, error, isLoading} = useSWR<{holdings: IStock[]}>(
@@ -35,10 +36,14 @@ const TradingPage = () => {
             <Paragraph>{`수익률: `}</Paragraph>
           </Card>
         ))}
-        <Card onClick={() => setOpen(true)}>
+        <Card onClick={() => setTransactionOpen(true)}>
           <Paragraph>새 종목으로 거래 시작하기</Paragraph>
         </Card>
       </div>
+      <Dialog_Transaction
+        open={transactionOpen}
+        onClose={() => setTransactionOpen(false)}
+      />
     </>
   )
 }

@@ -33,7 +33,10 @@ const LoginPage = () => {
       formData.append('password', password)
 
       return axiosInstance
-        .post(url, formData, {withCredentials: false})
+        .post(url, formData, {
+          headers: {'Content-Type': 'multipart/form-data'},
+          withCredentials: false
+        })
         .then(res => res.data)
     }
   )

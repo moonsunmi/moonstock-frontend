@@ -1,8 +1,8 @@
 import {Dispatch, SetStateAction} from 'react'
 
 export interface Dialog_TransactionProps {
-  defaultTransaction?: ITransaction
-  ticker: string
-  onClose: () => void
   open: boolean
+  defaultTransaction?: ITransaction
+  defaultTicker?: string
+  onClose: () => void
 }

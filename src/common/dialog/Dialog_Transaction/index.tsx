@@ -1,4 +1,6 @@
 import {ChangeEvent, useEffect, useState} from 'react'
+
+import {useSnackbar} from 'notistack'
 // API
 import useSWRMutation from 'swr/mutation'
 import axiosInstance from '@/common/lib/axios'
@@ -20,11 +22,14 @@ import {initTransaction} from '@/common/lib/initData'
 import {oppositeType} from '@/common/utils/transactionUtils'
 
 const Dialog_Transaction = ({
+  open,
   defaultTransaction,
-  ticker,
-  onClose,
-  open
+  defaultTicker,
+  onClose
 }: Dialog_TransactionProps) => {
+  const {enqueueSnackbar} = useSnackbar()
+
+  const [ticker, setTicker] = useState('')
   const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
 
   const postTransaction = useSWRMutation(
@@ -43,12 +48,19 @@ const Dialog_Transaction = ({
       }
 
       return axiosInstance
-        .post(url, formData, {withCredentials: false})
+        .post(url, formData, {
+          headers: {'Content-Type': 'multipart/form-data'},
+          withCredentials: false
+        })
         .then(res => res.data)
     }
   )
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange_Ticker = (e: ChangeEvent<HTMLInputElement>) => {
+    setTicker(e.target.value)
+  }
+  const handleChange_Transaction = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target)
     setTransaction(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value
@@ -65,9 +77,22 @@ const Dialog_Transaction = ({
 
   useEffect(() => {
     if (open) {
+      setTicker(defaultTicker || '')
       setTransaction(defaultTransaction || initTransaction)
     }
   }, [open, defaultTransaction])
+
+  useEffect(() => {
+    if (postTransaction.error) {
+      const {errorCode} = postTransaction.error
+
+      if (errorCode === 'ERROR_CODE_STOCK_NOT_FOUND') {
+        enqueueSnackbar('존재하지 않는 종목입니다.', {variant: 'error'})
+      } else {
+        console.error(postTransaction.error)
+      }
+    }
+  }, [postTransaction.error])
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -78,6 +103,7 @@ const Dialog_Transaction = ({
           name="ticker"
           label="종목코드"
           value={ticker}
+          onChange={handleChange_Ticker}
         />
         <DatePicker
           className="w-full"
@@ -95,7 +121,7 @@ const Dialog_Transaction = ({
             name="price"
             label="가격"
             value={transaction['price']}
-            onChange={handleChange}
+            onChange={handleChange_Transaction}
           />
           <Input
             type="number"
@@ -103,7 +129,7 @@ const Dialog_Transaction = ({
             name="quantity"
             label="수량"
             value={transaction['quantity']}
-            onChange={handleChange}
+            onChange={handleChange_Transaction}
           />
         </div>
         <div>
@@ -112,7 +138,7 @@ const Dialog_Transaction = ({
             aria-labelledby="select-transaction-type"
             name="type"
             value={oppositeType(transaction['type'])}
-            onChange={handleChange}>
+            onChange={handleChange_Transaction}>
             <FormControlLabel
               value="BUY"
               control={<Radio disabled={Boolean(defaultTransaction)} />}
@@ -131,7 +157,9 @@ const Dialog_Transaction = ({
         </Paragraph>
       </DialogContent>
       <DialogActions className={classes.action}>
-        <Button onClick={handleOnTransact}>
+        <Button
+          onClick={handleOnTransact}
+          disabled={postTransaction.isMutating}>
           {oppositeType(transaction['type']) === 'BUY' ? '매수' : '매도'}
         </Button>
         <Button onClick={() => onClose()}>취소</Button>

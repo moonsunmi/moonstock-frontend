@@ -1,18 +1,13 @@
 'use client'
 
+import {useState} from 'react'
 import useSWR from 'swr'
 // Components
-import {useState} from 'react'
 import {getDateFormat} from '@/common/utils'
-import {
-  Button,
-  Dialog as CustomDialog,
-  Paragraph
-} from '@/browser/components/UI'
+import {Button, Paragraph} from '@/browser/components/UI'
 // Utils
 import {formatNumber} from '@/common/utils'
 import {Dialog_Transaction} from '@/common/dialog'
-import {userInfo} from 'os'
 import {useSelector} from '@/store/store'
 
 const TradingTickerPage = ({ticker}: {ticker: string}) => {
@@ -109,7 +104,7 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
       <Dialog_Transaction
         open={linkOpen}
         onClose={() => setLinkOpen(false)}
-        ticker={ticker}
+        defaultTicker={ticker}
         defaultTransaction={selectedIndex ? transactions[selectedIndex] : null}
       />
     </>

@@ -35,7 +35,7 @@ const SignUpPage = () => {
 
       return axiosInstance
         .post(url, formData, {
-          headers: {'Content-Type': undefined}, //(for 'multipart/form-data')
+          // headers: {'Content-Type': undefined}, //(for 'multipart/form-data')
           withCredentials: false
         })
         .then(res => res.data)
