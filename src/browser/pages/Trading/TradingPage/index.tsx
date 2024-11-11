@@ -1,25 +1,20 @@
 'use client'
 
-import {ChangeEvent, useState} from 'react'
-
-import useSWR from 'swr'
+import {useState} from 'react'
+import {useRouter} from 'next/navigation'
 // Components
 import {Card, Paragraph} from '@/browser/components/UI'
-import classes from './index.module.scss'
-import {useRouter} from 'next/navigation'
-import {useSelector} from '@/store/store'
 import {Dialog_Transaction} from '@/common/dialog'
+// Hooks
+import useGetHoldings from '@/common/hooks/fetch/useGetHoldings'
+// Etcs.
+import classes from './index.module.scss'
 
 const TradingPage = () => {
   const router = useRouter()
   const [transactionOpen, setTransactionOpen] = useState<boolean>(false)
 
-  const {userInfo} = useSelector(state => state.auth)
-
-  const {data, error, isLoading} = useSWR<{holdings: IStock[]}>(
-    ['/api/users/holdings', userInfo.id],
-    {fallbackData: {holdings: []}}
-  )
+  const {data, error, isLoading} = useGetHoldings()
   const {holdings} = data
 
   const handleOnClick = (ticker: string) => {

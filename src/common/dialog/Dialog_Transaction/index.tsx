@@ -1,5 +1,4 @@
 import {ChangeEvent, useEffect, useState} from 'react'
-
 import {useSnackbar} from 'notistack'
 // API
 import useSWRMutation from 'swr/mutation'
@@ -15,6 +14,9 @@ import {
 } from '@mui/material'
 import {Button, Input, Paragraph} from '@/browser/components/UI'
 import DatePicker from '@/browser/components/UI/DatePicker'
+// Hooks
+import useGetHoldings from '@/common/hooks/fetch/useGetHoldings'
+import useGetTransactions from '@/common/hooks/fetch/useGetTransactions'
 // Etc
 import classes from './index.module.scss'
 import {Dialog_TransactionProps} from './index.d'
@@ -31,6 +33,9 @@ const Dialog_Transaction = ({
 
   const [ticker, setTicker] = useState('')
   const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
+  const {mutate: holdingMutate} = useGetHoldings()
+  const {data: transactionData, mutate: transactionMutate} =
+    useGetTransactions(ticker)
 
   const postTransaction = useSWRMutation(
     '/api/users/transactions',
@@ -53,6 +58,29 @@ const Dialog_Transaction = ({
           withCredentials: false
         })
         .then(res => res.data)
+    },
+    {
+      onSuccess: async data => {
+        try {
+          await holdingMutate()
+          await transactionMutate()
+          onClose()
+        } catch (error) {
+          console.error('데이터를 업데이트 중 오류가 발생했습니다.', error)
+        }
+      },
+      onError: error => {
+        const {errorCode, message} = error
+
+        if (errorCode === 'ERROR_CODE_STOCK_NOT_FOUND') {
+          enqueueSnackbar('존재하지 않는 종목입니다.', {variant: 'error'})
+        } else {
+          enqueueSnackbar(message || '예상치 못한 오류가 발생했습니다.', {
+            variant: 'error'
+          })
+          console.error(error)
+        }
+      }
     }
   )
 
@@ -60,10 +88,11 @@ const Dialog_Transaction = ({
     setTicker(e.target.value)
   }
   const handleChange_Transaction = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target)
+    const {name, value} = e.target
+
     setTransaction(prevState => ({
       ...prevState,
-      [e.target.name]: e.target.value
+      [name]: value
     }))
   }
   const handleChange_Date = (date: any) => {
@@ -72,7 +101,6 @@ const Dialog_Transaction = ({
 
   const handleOnTransact = () => {
     postTransaction.trigger(transaction)
-    onClose()
   }
 
   useEffect(() => {
@@ -81,18 +109,6 @@ const Dialog_Transaction = ({
       setTransaction(defaultTransaction || initTransaction)
     }
   }, [open, defaultTransaction])
-
-  useEffect(() => {
-    if (postTransaction.error) {
-      const {errorCode} = postTransaction.error
-
-      if (errorCode === 'ERROR_CODE_STOCK_NOT_FOUND') {
-        enqueueSnackbar('존재하지 않는 종목입니다.', {variant: 'error'})
-      } else {
-        console.error(postTransaction.error)
-      }
-    }
-  }, [postTransaction.error])
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -141,12 +157,12 @@ const Dialog_Transaction = ({
             onChange={handleChange_Transaction}>
             <FormControlLabel
               value="BUY"
-              control={<Radio disabled={Boolean(defaultTransaction)} />}
+              control={<Radio disabled={!!defaultTransaction} />}
               label="매수"
             />
             <FormControlLabel
               value="SELL"
-              control={<Radio disabled={Boolean(defaultTransaction)} />}
+              control={<Radio disabled={!!defaultTransaction} />}
               label="매도"
             />
           </RadioGroup>

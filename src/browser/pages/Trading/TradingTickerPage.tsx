@@ -1,14 +1,16 @@
 'use client'
 
 import {useState} from 'react'
-import useSWR from 'swr'
-// Components
-import {getDateFormat} from '@/common/utils'
-import {Button, Paragraph} from '@/browser/components/UI'
-// Utils
-import {formatNumber} from '@/common/utils'
-import {Dialog_Transaction} from '@/common/dialog'
+// Redux
 import {useSelector} from '@/store/store'
+// Components
+import {Button, Paragraph} from '@/browser/components/UI'
+import {Dialog_Transaction} from '@/common/dialog'
+// Hooks
+import useGetTransactions from '@/common/hooks/fetch/useGetTransactions'
+// Ects
+import {formatNumber} from '@/common/utils'
+import {getDateFormat} from '@/common/utils'
 
 const TradingTickerPage = ({ticker}: {ticker: string}) => {
   const {userInfo} = useSelector(state => state.auth)
@@ -16,11 +18,7 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
   const [linkOpen, setLinkOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
 
-  const {data, error, isLoading} = useSWR<{transactions: ITransaction[]}>(
-    [`/api/users/transactions/${ticker}`, userInfo.id],
-    {fallbackData: {transactions: []}}
-  )
-
+  const {data, error, isLoading} = useGetTransactions(ticker)
   const {transactions} = data
 
   const buys = transactions.filter(transaction => transaction.type === 'BUY')
