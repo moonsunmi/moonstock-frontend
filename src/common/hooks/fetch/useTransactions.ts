@@ -1,8 +1,8 @@
 import useSWR from 'swr'
-import {useSelector} from '@/store/store'
+import {useTypedSelector} from '@/store/store'
 
-const useGetTransactions = ticker => {
-  const {userInfo} = useSelector(state => state.auth)
+const useTransactions = ticker => {
+  const {userInfo} = useTypedSelector(state => state.auth)
 
   const {data, error, isLoading, mutate} = useSWR<{
     transactions: ITransaction[]
@@ -12,4 +12,4 @@ const useGetTransactions = ticker => {
   return {data, error, isLoading, mutate}
 }
 
-export default useGetTransactions
+export default useTransactions

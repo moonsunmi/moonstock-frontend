@@ -15,8 +15,8 @@ import {
 import {Button, Input, Paragraph} from '@/browser/components/UI'
 import DatePicker from '@/browser/components/UI/DatePicker'
 // Hooks
-import useGetHoldings from '@/common/hooks/fetch/useGetHoldings'
-import useGetTransactions from '@/common/hooks/fetch/useGetTransactions'
+import useGetHoldings from '@/common/hooks/fetch/useHoldings'
+import useGetTransactions from '@/common/hooks/fetch/useTransactions'
 // Etc
 import classes from './index.module.scss'
 import {Dialog_TransactionProps} from './index.d'
@@ -34,8 +34,7 @@ const Dialog_Transaction = ({
   const [ticker, setTicker] = useState('')
   const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
   const {mutate: holdingMutate} = useGetHoldings()
-  const {data: transactionData, mutate: transactionMutate} =
-    useGetTransactions(ticker)
+  const {mutate: transactionMutate} = useGetTransactions(ticker)
 
   const postTransaction = useSWRMutation(
     '/api/users/transactions',
@@ -62,8 +61,10 @@ const Dialog_Transaction = ({
     {
       onSuccess: async data => {
         try {
-          await holdingMutate()
-          await transactionMutate()
+          if (defaultTicker === null) {
+            await holdingMutate() // 디폴트 값이 있다면 이건 UPDATE할 필요가 없다.
+          }
+          await transactionMutate() // todo. [...data, ...] 이런 식으로 가능할 듯
           onClose()
         } catch (error) {
           console.error('데이터를 업데이트 중 오류가 발생했습니다.', error)

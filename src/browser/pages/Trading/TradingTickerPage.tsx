@@ -2,18 +2,18 @@
 
 import {useState} from 'react'
 // Redux
-import {useSelector} from '@/store/store'
+import {useTypedSelector} from '@/store/store'
 // Components
 import {Button, Paragraph} from '@/browser/components/UI'
 import {Dialog_Transaction} from '@/common/dialog'
 // Hooks
-import useGetTransactions from '@/common/hooks/fetch/useGetTransactions'
+import useGetTransactions from '@/common/hooks/fetch/useTransactions'
 // Ects
 import {formatNumber} from '@/common/utils'
 import {getDateFormat} from '@/common/utils'
 
 const TradingTickerPage = ({ticker}: {ticker: string}) => {
-  const {userInfo} = useSelector(state => state.auth)
+  const {userInfo} = useTypedSelector(state => state.auth)
 
   const [linkOpen, setLinkOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)

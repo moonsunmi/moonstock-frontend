@@ -1,8 +1,8 @@
 import useSWR from 'swr'
-import {useSelector} from '@/store/store'
+import {useTypedSelector} from '@/store/store'
 
-const useGetHoldings = () => {
-  const {userInfo} = useSelector(state => state.auth)
+const useHoldings = () => {
+  const {userInfo} = useTypedSelector(state => state.auth)
 
   const {data, error, isLoading, mutate} = useSWR<{holdings: IStock[]}>(
     ['/api/users/holdings', userInfo.id],
@@ -11,4 +11,4 @@ const useGetHoldings = () => {
   return {data, error, isLoading, mutate}
 }
 
-export default useGetHoldings
+export default useHoldings

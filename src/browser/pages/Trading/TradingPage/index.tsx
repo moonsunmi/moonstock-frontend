@@ -6,7 +6,7 @@ import {useRouter} from 'next/navigation'
 import {Card, Paragraph} from '@/browser/components/UI'
 import {Dialog_Transaction} from '@/common/dialog'
 // Hooks
-import useGetHoldings from '@/common/hooks/fetch/useGetHoldings'
+import useGetHoldings from '@/common/hooks/fetch/useHoldings'
 // Etcs.
 import classes from './index.module.scss'
 import {useTypedSelector} from '@/store/store'
