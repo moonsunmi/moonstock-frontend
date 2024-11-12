@@ -20,12 +20,8 @@ export const Header = () => {
     return axiosInstance.post(url)
   })
 
-  const handleOnStock = () => {
-    router.push('/stock-board')
-  }
-
-  const handleOnTrade = () => {
-    router.push('/trading')
+  const handleOnLink = url => {
+    router.push(url)
   }
 
   const handleOnLogin = () => {
@@ -50,13 +46,16 @@ export const Header = () => {
       </div>
       <div className="flex gap-1">
         {/* {isMounted && userInfo?.email !== null && ( */}
-        <Button variant="text" onClick={handleOnStock}>
+        <Button variant="text" onClick={() => handleOnLink('/stock-board')}>
           내 주식
         </Button>
         {/* )} */}
         {/* {isMounted && userInfo?.email !== null && ( */}
-        <Button variant="text" onClick={handleOnTrade}>
-          내 거래
+        <Button variant="text" onClick={() => handleOnLink('/trading')}>
+          진행중인거래
+        </Button>
+        <Button variant="text" onClick={() => handleOnLink('/profit')}>
+          내 수익
         </Button>
         {/* )} */}
         {isMounted && userInfo?.email !== null ? (

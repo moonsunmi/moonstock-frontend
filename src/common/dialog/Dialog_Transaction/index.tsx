@@ -106,7 +106,7 @@ const Dialog_Transaction = ({
 
   useEffect(() => {
     if (open) {
-      setTicker(defaultTicker || '')
+      setTicker(defaultTicker ?? '')
       setTransaction(defaultTransaction || initTransaction)
     }
   }, [open, defaultTransaction])
