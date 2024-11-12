@@ -47,6 +47,9 @@ module.exports = {
           800: '#1d2939',
           900: '#101828'
         }
+      },
+      gridTemplateColumns: {
+        'auto-fill-minmax': 'repeat(auto-fill, minmax(10rem, 1fr))'
       }
     }
   },

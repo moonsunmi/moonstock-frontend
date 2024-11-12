@@ -9,7 +9,6 @@ import {Dialog_Transaction} from '@/common/dialog'
 import useGetHoldings from '@/common/hooks/fetch/useHoldings'
 // Etcs.
 import classes from './index.module.scss'
-import {useTypedSelector} from '@/store/store'
 
 const TradingPage = () => {
   const router = useRouter()
@@ -25,15 +24,18 @@ const TradingPage = () => {
 
   return (
     <>
-      <div className={classes.container}>
+      <div className="w-full grid grid-cols-auto-fill-minmax gap-8">
         {holdings.map((holding, index) => (
-          <Card key={index} onClick={() => handleOnClick(holding['ticker'])}>
+          <Card
+            key={index}
+            className="h-48"
+            onClick={() => handleOnClick(holding['ticker'])}>
             <Paragraph variant="title">{holding['name']}</Paragraph>
             <Paragraph>{`진행중인 투자금: ${holding['totalInvestment']}`}</Paragraph>
             <Paragraph>{`수익률: `}</Paragraph>
           </Card>
         ))}
-        <Card onClick={() => setTransactionOpen(true)}>
+        <Card className="h-48" onClick={() => setTransactionOpen(true)}>
           <Paragraph>새 종목으로 거래 시작하기</Paragraph>
         </Card>
       </div>

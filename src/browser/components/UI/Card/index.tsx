@@ -1,8 +1,9 @@
+import classNames from 'classnames'
 import classes from './index.module.scss'
 
 type CardProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement & {className: string}
+  HTMLDivElement
 >
 
 const Card = ({...props}: CardProps) => {
