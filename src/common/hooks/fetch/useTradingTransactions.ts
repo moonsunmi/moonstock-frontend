@@ -22,8 +22,28 @@ const useTradingTransactions = ticker => {
 
   const stock = data.stock
   const tradings = data.transactions
+  const buys: ITransaction[] = tradings
+    .filter(transaction => transaction.partiallyDone === 'BUY')
+    .map(transaction => ({
+      id: transaction.id,
+      type: transaction.partiallyDone,
+      stockTicker: transaction.stockTicker,
+      quantity: transaction.quantity,
+      transactedAt: transaction.buyCreatedAt,
+      price: transaction.buyPrice
+    }))
+  const sells: ITransaction[] = tradings
+    .filter(transaction => transaction.partiallyDone !== 'BUY')
+    .map(transaction => ({
+      id: transaction.id,
+      type: transaction.partiallyDone,
+      stockTicker: transaction.stockTicker,
+      quantity: transaction.quantity,
+      transactedAt: transaction.sellCreatedAt,
+      price: transaction.sellPrice
+    }))
 
-  return {stock, tradings, error, isLoading, mutate}
+  return {stock, tradings, buys, sells, error, isLoading, mutate}
 }
 
 export default useTradingTransactions

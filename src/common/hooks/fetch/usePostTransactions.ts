@@ -6,25 +6,32 @@ import {oppositeType} from '@/common/utils/transactionUtils'
 
 type Props = {
   ticker: string
-  defaultTransaction?: ITransaction
+  matchId?: string
+  transaction?: ITransaction
 }
-const usePostTransactions = ({ticker, defaultTransaction}) => {
+const usePostTransactions = ({ticker, matchId, transaction}: Props) => {
+  const {quantity, price, transactedAt, type} = transaction
+
+  const formData = new FormData()
+  formData.append('stockTicker', ticker)
+  formData.append('quantity', quantity.toString())
+  formData.append('type', oppositeType(type))
+
+  if (oppositeType(type) === 'BUY') {
+    formData.append('buyPrice', price.toString())
+    formData.append('buyCreatedAt', new Date(transactedAt).toISOString())
+  } else {
+    formData.append('sellPrice', price.toString())
+    formData.append('sellCreatedAt', new Date(transactedAt).toISOString())
+  }
+
+  if (matchId) {
+    formData.append('matchedId', matchId)
+  }
+
   const {data, trigger, error, isMutating} = useSWRMutation(
     '/api/users/transactions',
     (url, {arg}: {arg: ITransaction}) => {
-      const {quantity, price, transactedAt, type} = arg
-
-      const formData = new FormData()
-      formData.append('stockTicker', ticker)
-      formData.append('quantity', quantity.toString())
-      formData.append('type', oppositeType(type))
-      // type이 buy면, buyPrice, buyCreatedAt이 필수임. todo. 아래 것 수정되어야 함.
-      formData.append('price', price.toString())
-      formData.append('transactedAt', new Date(transactedAt).toISOString())
-      if (defaultTransaction) {
-        formData.append('matchedId', defaultTransaction.id)
-      }
-
       return axiosInstance
         .post(url, formData, {
           headers: {'Content-Type': 'multipart/form-data'},

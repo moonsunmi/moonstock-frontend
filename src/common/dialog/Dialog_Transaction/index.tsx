@@ -23,7 +23,7 @@ import {oppositeType} from '@/common/utils/transactionUtils'
 
 const Dialog_Transaction = ({
   open,
-  defaultTransaction,
+  defaultTransaction, //<< todo. matchTransaction으로 이름 바꿔야 하나?
   defaultTicker,
   onClose
 }: Dialog_TransactionProps) => {
@@ -32,7 +32,9 @@ const Dialog_Transaction = ({
   const {mutate: transactionMutate} = useDoneTransactions(defaultTicker)
 
   const [ticker, setTicker] = useState(defaultTicker ?? '')
-  const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
+  const [transaction, setTransaction] = useState<ITransaction>(
+    defaultTransaction ?? initTransaction
+  )
 
   const {
     trigger: postTransactionTrigger,
@@ -40,7 +42,8 @@ const Dialog_Transaction = ({
     isMutating
   } = usePostTransactions({
     ticker,
-    defaultTransaction
+    matchId: defaultTransaction?.id,
+    transaction
   })
 
   const handleChange_Ticker = (e: ChangeEvent<HTMLInputElement>) => {
@@ -84,10 +87,9 @@ const Dialog_Transaction = ({
           }
         }
       })
-      enqueueSnackbar('트랜잭션이 성공적으로 처리되었습니다.')
       onClose()
     } catch (e) {
-      console.error('트랜잭션 처리 중 오류 발생:', e)
+      console.error('거래 처리 중 오류 발생:', e)
     }
   }
 
