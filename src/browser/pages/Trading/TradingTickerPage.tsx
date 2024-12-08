@@ -15,13 +15,12 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
   const [linkOpen, setLinkOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
 
-  const {tradings, error, isLoading} = useTradingTransactions(ticker)
-  const {stock, transactions} = tradings
+  const {stock, tradings, error, isLoading} = useTradingTransactions(ticker)
 
-  const buys = transactions.filter(
+  const buys = tradings.filter(
     transaction => transaction.partiallyDone === 'BUY'
   )
-  const sells = transactions.filter(
+  const sells = tradings.filter(
     transaction => transaction.partiallyDone !== 'BUY'
   )
 

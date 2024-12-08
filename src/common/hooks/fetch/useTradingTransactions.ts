@@ -20,7 +20,10 @@ const useTradingTransactions = ticker => {
     }
   )
 
-  return {tradings: data, error, isLoading, mutate}
+  const stock = data.stock
+  const tradings = data.transactions
+
+  return {stock, tradings, error, isLoading, mutate}
 }
 
 export default useTradingTransactions
