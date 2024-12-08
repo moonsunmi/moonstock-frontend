@@ -7,22 +7,23 @@ import {useTypedSelector} from '@/store/store'
 import {Button, Paragraph} from '@/browser/components/UI'
 import {Dialog_Transaction} from '@/common/dialog'
 // Hooks
-import useGetTransactions from '@/common/hooks/fetch/useTransactions'
+import useTradingTransactions from '@/common/hooks/fetch/useTradingTransactions'
 // Ects
-import {formatNumber} from '@/common/utils'
-import {getDateFormat} from '@/common/utils'
+import {formatNumber, getDateFormat} from '@/common/utils'
 
 const TradingTickerPage = ({ticker}: {ticker: string}) => {
-  const {userInfo} = useTypedSelector(state => state.auth)
-
   const [linkOpen, setLinkOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(null)
 
-  const {data, error, isLoading} = useGetTransactions(ticker)
-  const {transactions} = data
+  const {tradings, error, isLoading} = useTradingTransactions(ticker)
+  const {stock, transactions} = tradings
 
-  const buys = transactions.filter(transaction => transaction.type === 'BUY')
-  const sells = transactions.filter(transaction => transaction.type === 'SELL')
+  const buys = transactions.filter(
+    transaction => transaction.partiallyDone === 'BUY'
+  )
+  const sells = transactions.filter(
+    transaction => transaction.partiallyDone !== 'BUY'
+  )
 
   const handleOnClick_CreateTransact = () => {
     setSelectedIndex(null)
@@ -36,7 +37,9 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
   return (
     <>
       <div className="w-full">
-        <Paragraph variant="title">{ticker}</Paragraph>
+        <Paragraph variant="title">
+          {`${stock?.name}(${stock?.ticker})`}
+        </Paragraph>
         <div className="flex w-full">
           <div className="w-1/5" />
           <Paragraph variant="subtitle" className="w-1/5">
@@ -56,10 +59,10 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
               <div key={`buy-${index}`} className="flex border-t">
                 <div className="w-1/5" />
                 <Paragraph className="w-1/5">
-                  {getDateFormat(transaction?.transactedAt, 'yyyy.MM.dd')}
+                  {getDateFormat(transaction?.buyCreatedAt, 'yyyy.MM.dd')}
                 </Paragraph>
                 <Paragraph className="w-1/5 text-right">
-                  {formatNumber(transaction?.price)}
+                  {formatNumber(transaction?.buyPrice)}
                 </Paragraph>
                 <Paragraph className="w-1/5 text-right">
                   {formatNumber(transaction?.quantity)}
@@ -85,10 +88,10 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
                   매수하기
                 </Button>
                 <Paragraph className="w-1/5">
-                  {getDateFormat(transaction?.transactedAt, 'yyyy.MM.dd')}
+                  {getDateFormat(transaction?.sellCreatedAt, 'yyyy.MM.dd')}
                 </Paragraph>
                 <Paragraph className="w-1/5 text-right">
-                  {transaction?.price}
+                  {transaction?.sellPrice}
                 </Paragraph>
                 <Paragraph className="w-1/5 text-right">
                   {transaction?.quantity}
@@ -103,7 +106,7 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
         open={linkOpen}
         onClose={() => setLinkOpen(false)}
         defaultTicker={ticker}
-        defaultTransaction={selectedIndex ? transactions[selectedIndex] : null}
+        // defaultTransaction={selectedIndex ? transactions[selectedIndex] : null}
       />
     </>
   )

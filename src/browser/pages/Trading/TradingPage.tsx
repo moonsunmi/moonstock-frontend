@@ -14,9 +14,7 @@ const TradingPage = () => {
   const router = useRouter()
   const [transactionOpen, setTransactionOpen] = useState<boolean>(false)
 
-  const {data, error, isLoading} = useGetHoldings()
-
-  const {holdings} = data
+  const {holdings, error, isLoading} = useGetHoldings()
 
   const handleOnClick = (ticker: string) => {
     router.push(`/trading/${ticker}`)
@@ -24,7 +22,7 @@ const TradingPage = () => {
 
   return (
     <>
-      <div className="w-full grid grid-cols-auto-fill-minmax gap-8">
+      <div className="grid w-full gap-8 grid-cols-auto-fill-minmax">
         {holdings.map((holding, index) => (
           <Card
             key={index}

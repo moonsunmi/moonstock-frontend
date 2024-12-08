@@ -1,10 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 type StateType = {
+  holdings: IStock[]
   selectedTicker: string
 }
 
 const initialState: StateType = {
+  holdings: [],
   selectedTicker: null
 }
 
@@ -15,12 +17,14 @@ export const stockSlice = createSlice({
     init: () => {
       return {...initialState}
     },
+    setHoldings: (state, action) => {
+      state.holdings = action.payload
+    },
     setSelectedTicker: (state, action) => {
-      console.log('action', action.payload)
-      return {...state, selectedTicker: action.payload}
+      state.selectedTicker = action.payload
     }
   }
 })
 
-export const {setSelectedTicker} = stockSlice.actions
+export const {setHoldings, setSelectedTicker} = stockSlice.actions
 export const stockReducer = stockSlice.reducer

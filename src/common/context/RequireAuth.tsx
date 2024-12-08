@@ -1,6 +1,6 @@
 'use client'
 
-import {FC, PropsWithChildren, useContext, useEffect} from 'react'
+import {FC, PropsWithChildren, useEffect} from 'react'
 
 import {useRouter} from 'next/navigation'
 import {readItemFromStorageP} from '../utils'

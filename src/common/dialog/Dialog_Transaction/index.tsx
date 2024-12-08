@@ -16,12 +16,12 @@ import {Button, Input, Paragraph} from '@/browser/components/UI'
 import DatePicker from '@/browser/components/UI/DatePicker'
 // Hooks
 import useGetHoldings from '@/common/hooks/fetch/useHoldings'
-import useGetTransactions from '@/common/hooks/fetch/useTransactions'
 // Etc
 import classes from './index.module.scss'
 import {Dialog_TransactionProps} from './index.d'
 import {initTransaction} from '@/common/lib/initData'
 import {oppositeType} from '@/common/utils/transactionUtils'
+import useDoneTransactions from '@/common/hooks/fetch/useDoneTransactions'
 
 const Dialog_Transaction = ({
   open,
@@ -34,7 +34,7 @@ const Dialog_Transaction = ({
   const [ticker, setTicker] = useState('')
   const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
   const {mutate: holdingMutate} = useGetHoldings()
-  const {mutate: transactionMutate} = useGetTransactions(ticker)
+  const {mutate: transactionMutate} = useDoneTransactions(ticker)
 
   const postTransaction = useSWRMutation(
     '/api/users/transactions',
@@ -44,8 +44,9 @@ const Dialog_Transaction = ({
       const formData = new FormData()
       formData.append('stockTicker', ticker)
       formData.append('quantity', quantity.toString())
-      formData.append('price', price.toString())
       formData.append('type', oppositeType(type))
+      // type이 buy면, buyPrice, buyCreatedAt이 필수임. todo. 아래 것 수정되어야 함.
+      formData.append('price', price.toString())
       formData.append('transactedAt', new Date(transactedAt).toISOString())
       if (defaultTransaction) {
         formData.append('matchedId', defaultTransaction.id)
