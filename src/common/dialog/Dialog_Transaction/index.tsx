@@ -1,8 +1,5 @@
 import {ChangeEvent, useEffect, useState} from 'react'
 import {useSnackbar} from 'notistack'
-// API
-import useSWRMutation from 'swr/mutation'
-import axiosInstance from '@/common/lib/axios'
 // Components
 import {
   Dialog,
@@ -16,12 +13,13 @@ import {Button, Input, Paragraph} from '@/browser/components/UI'
 import DatePicker from '@/browser/components/UI/DatePicker'
 // Hooks
 import useGetHoldings from '@/common/hooks/fetch/useHoldings'
+import useDoneTransactions from '@/common/hooks/fetch/useDoneTransactions'
+import usePostTransactions from '@/common/hooks/fetch/usePostTransactions'
 // Etc
 import classes from './index.module.scss'
 import {Dialog_TransactionProps} from './index.d'
 import {initTransaction} from '@/common/lib/initData'
 import {oppositeType} from '@/common/utils/transactionUtils'
-import useDoneTransactions from '@/common/hooks/fetch/useDoneTransactions'
 
 const Dialog_Transaction = ({
   open,
@@ -30,61 +28,20 @@ const Dialog_Transaction = ({
   onClose
 }: Dialog_TransactionProps) => {
   const {enqueueSnackbar} = useSnackbar()
-
-  const [ticker, setTicker] = useState('')
-  const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
   const {mutate: holdingMutate} = useGetHoldings()
-  const {mutate: transactionMutate} = useDoneTransactions(ticker)
+  const {mutate: transactionMutate} = useDoneTransactions(defaultTicker)
 
-  const postTransaction = useSWRMutation(
-    '/api/users/transactions',
-    (url, {arg}: {arg: ITransaction}) => {
-      const {quantity, price, transactedAt, type} = arg
+  const [ticker, setTicker] = useState(defaultTicker ?? '')
+  const [transaction, setTransaction] = useState<ITransaction>(initTransaction)
 
-      const formData = new FormData()
-      formData.append('stockTicker', ticker)
-      formData.append('quantity', quantity.toString())
-      formData.append('type', oppositeType(type))
-      // type이 buy면, buyPrice, buyCreatedAt이 필수임. todo. 아래 것 수정되어야 함.
-      formData.append('price', price.toString())
-      formData.append('transactedAt', new Date(transactedAt).toISOString())
-      if (defaultTransaction) {
-        formData.append('matchedId', defaultTransaction.id)
-      }
-
-      return axiosInstance
-        .post(url, formData, {
-          headers: {'Content-Type': 'multipart/form-data'},
-          withCredentials: false
-        })
-        .then(res => res.data)
-    },
-    {
-      onSuccess: async data => {
-        try {
-          if (defaultTicker === null) {
-            await holdingMutate() // 디폴트 값이 있다면 이건 UPDATE할 필요가 없다.
-          }
-          await transactionMutate() // todo. [...data, ...] 이런 식으로 가능할 듯
-          onClose()
-        } catch (error) {
-          console.error('데이터를 업데이트 중 오류가 발생했습니다.', error)
-        }
-      },
-      onError: error => {
-        const {errorCode, message} = error
-
-        if (errorCode === 'ERROR_CODE_STOCK_NOT_FOUND') {
-          enqueueSnackbar('존재하지 않는 종목입니다.', {variant: 'error'})
-        } else {
-          enqueueSnackbar(message || '예상치 못한 오류가 발생했습니다.', {
-            variant: 'error'
-          })
-          console.error(error)
-        }
-      }
-    }
-  )
+  const {
+    trigger: postTransactionTrigger,
+    error,
+    isMutating
+  } = usePostTransactions({
+    ticker,
+    defaultTransaction
+  })
 
   const handleChange_Ticker = (e: ChangeEvent<HTMLInputElement>) => {
     setTicker(e.target.value)
@@ -101,8 +58,37 @@ const Dialog_Transaction = ({
     setTransaction(prevState => ({...prevState, transactedAt: date}))
   }
 
-  const handleOnTransact = () => {
-    postTransaction.trigger(transaction)
+  const handleOnTransact = async () => {
+    try {
+      await postTransactionTrigger(transaction, {
+        onSuccess: async data => {
+          try {
+            if (ticker === null) {
+              await holdingMutate() // 디폴트 값이 있다면 이건 UPDATE할 필요가 없다.
+            }
+            await transactionMutate() // todo. [...data, ...] 이런 식으로 가능할 듯
+          } catch (error) {
+            console.error('데이터를 업데이트 중 오류가 발생했습니다.', error)
+          }
+        },
+        onError: error => {
+          const {errorCode, message} = error
+
+          if (errorCode === 'ERROR_CODE_STOCK_NOT_FOUND') {
+            enqueueSnackbar('존재하지 않는 종목입니다.', {variant: 'error'})
+          } else {
+            enqueueSnackbar(message || '예상치 못한 오류가 발생했습니다.', {
+              variant: 'error'
+            })
+            console.error(error)
+          }
+        }
+      })
+      enqueueSnackbar('트랜잭션이 성공적으로 처리되었습니다.')
+      onClose()
+    } catch (e) {
+      console.error('트랜잭션 처리 중 오류 발생:', e)
+    }
   }
 
   useEffect(() => {
@@ -175,9 +161,7 @@ const Dialog_Transaction = ({
         </Paragraph>
       </DialogContent>
       <DialogActions className={classes.action}>
-        <Button
-          onClick={handleOnTransact}
-          disabled={postTransaction.isMutating}>
+        <Button onClick={handleOnTransact} disabled={isMutating}>
           {oppositeType(transaction['type']) === 'BUY' ? '매수' : '매도'}
         </Button>
         <Button onClick={() => onClose()}>취소</Button>
