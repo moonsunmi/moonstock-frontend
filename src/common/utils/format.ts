@@ -10,9 +10,8 @@ export const formatNumber = (value: string | number | null) => {
 }
 
 export const getDateFormat = (value: Date | null, format: string) => {
-  if (value === null) {
-    return ''
-  }
+  if (!value) return ''
+
   const date = new Date(value)
 
   const year = String(date.getFullYear())
