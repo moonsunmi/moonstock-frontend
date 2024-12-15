@@ -10,7 +10,7 @@ import useTradingTransactions from '@/common/hooks/fetch/useTradingTransactions'
 // Etc
 import {formatNumber, getDateFormat} from '@/common/utils'
 
-const TradingTickerPage = ({ticker}: {ticker: string}) => {
+const TradingPage = ({ticker}: {ticker: string}) => {
   const {state, handleCloseDialog, handleCreateTransact, handleLinkTransact} =
     useMakeTransaction()
 
@@ -133,4 +133,4 @@ const Blank = () => {
   return <div className="w-1/5" />
 }
 
-export default TradingTickerPage
+export default TradingPage

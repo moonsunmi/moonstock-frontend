@@ -46,7 +46,7 @@ export const Header = () => {
       </div>
       <div className="flex gap-1">
         {/* {isMounted && userInfo?.email !== null && ( */}
-        <Button variant="text" onClick={() => handleOnLink('/stock-board')}>
+        <Button variant="text" onClick={() => handleOnLink('/board')}>
           내 주식
         </Button>
         {/* )} */}
@@ -54,8 +54,8 @@ export const Header = () => {
         <Button variant="text" onClick={() => handleOnLink('/trading')}>
           진행중인거래
         </Button>
-        <Button variant="text" onClick={() => handleOnLink('/profit')}>
-          내 수익
+        <Button variant="text" onClick={() => handleOnLink('/recording')}>
+          거래기록
         </Button>
         {/* )} */}
         {isMounted && userInfo?.email !== null ? (
