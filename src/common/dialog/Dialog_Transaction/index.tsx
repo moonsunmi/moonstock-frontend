@@ -23,7 +23,7 @@ import {oppositeType} from '@/common/utils/transactionUtils'
 
 const Dialog_Transaction = ({
   open,
-  defaultTransaction, //<< todo. matchTransaction으로 이름 바꿔야 하나?
+  matchTransaction,
   defaultTicker,
   onClose
 }: Dialog_TransactionProps) => {
@@ -33,7 +33,7 @@ const Dialog_Transaction = ({
 
   const [ticker, setTicker] = useState(defaultTicker ?? '')
   const [transaction, setTransaction] = useState<ITransaction>(
-    defaultTransaction ?? initTransaction
+    matchTransaction ?? initTransaction
   )
 
   const {
@@ -42,7 +42,7 @@ const Dialog_Transaction = ({
     isMutating
   } = usePostTransactions({
     ticker,
-    matchId: defaultTransaction?.id,
+    matchIds: matchTransaction ? [matchTransaction?.id] : [], // todo 여러 id 전달할 수 있도록 수정
     transaction
   })
 
@@ -96,9 +96,9 @@ const Dialog_Transaction = ({
   useEffect(() => {
     if (open) {
       setTicker(defaultTicker ?? '')
-      setTransaction(defaultTransaction || initTransaction)
+      setTransaction(matchTransaction || initTransaction)
     }
-  }, [open, defaultTransaction])
+  }, [open, matchTransaction])
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -147,12 +147,12 @@ const Dialog_Transaction = ({
             onChange={handleChange_Transaction}>
             <FormControlLabel
               value="BUY"
-              control={<Radio disabled={!!defaultTransaction} />}
+              control={<Radio disabled={!!matchTransaction} />}
               label="매수"
             />
             <FormControlLabel
               value="SELL"
-              control={<Radio disabled={!!defaultTransaction} />}
+              control={<Radio disabled={!!matchTransaction} />}
               label="매도"
             />
           </RadioGroup>

@@ -1,28 +1,20 @@
 'use client'
 
-import {useState} from 'react'
+import {useReducer, useState} from 'react'
 // Components
 import {Button, Paragraph} from '@/browser/components/UI'
 import {Dialog_Transaction} from '@/common/dialog'
 // Hooks
+import useMakeTransaction from '@/common/hooks/etc/useTransactionDialog'
 import useTradingTransactions from '@/common/hooks/fetch/useTradingTransactions'
-// Ects
+// Etc
 import {formatNumber, getDateFormat} from '@/common/utils'
 
 const TradingTickerPage = ({ticker}: {ticker: string}) => {
-  const [linkOpen, setLinkOpen] = useState(false)
-  const [selected, setSelected] = useState(null)
+  const {state, handleCloseDialog, handleCreateTransact, handleLinkTransact} =
+    useMakeTransaction()
 
   const {stock, buys, sells, error, isLoading} = useTradingTransactions(ticker)
-
-  const handleOnClick_CreateTransact = () => {
-    setSelected(null)
-    setLinkOpen(true)
-  }
-  const handleOnClick_LinkTransact = (transaction: ITransaction) => {
-    setSelected(transaction)
-    setLinkOpen(true)
-  }
 
   // todo. 매수를 매도로 매칭해줘도, 다른 transactions로 추가되어 나오는 현상 수정해야 함.
   return (
@@ -33,31 +25,31 @@ const TradingTickerPage = ({ticker}: {ticker: string}) => {
         </Paragraph>
         <Titles />
         {error && <div>오류가 발생했습니다. 나중에 다시 시도해 주세요.</div>}
-        <div className="">
-          {buys?.length > 0 && (
-            <BuyTransactions
-              buys={buys}
-              handleOnClick_LinkTransact={handleOnClick_LinkTransact}
-            />
-          )}
-          <div className="p-5 text-center border-t">
-            <Button onClick={handleOnClick_CreateTransact}>
-              새 거래 등록하기
-            </Button>
+        {!error && (
+          <div className="">
+            {buys?.length > 0 && (
+              <BuyTransactions
+                buys={buys}
+                handleLinkTransact={handleLinkTransact}
+              />
+            )}
+            <div className="p-5 text-center border-t">
+              <Button onClick={handleCreateTransact}>새 거래 등록하기</Button>
+            </div>
+            {sells?.length > 0 && (
+              <SellTransactions
+                sells={sells}
+                handleLinkTransact={handleLinkTransact}
+              />
+            )}
           </div>
-          {sells?.length > 0 && (
-            <SellTransactions
-              sells={sells}
-              handleOnClick_LinkTransact={handleOnClick_LinkTransact}
-            />
-          )}
-        </div>
+        )}
       </div>
       <Dialog_Transaction
-        open={linkOpen}
-        onClose={() => setLinkOpen(false)}
+        open={state.dialogOpen}
+        onClose={handleCloseDialog}
         defaultTicker={ticker}
-        defaultTransaction={selected}
+        matchTransaction={state.selectedTransaction}
       />
     </>
   )
@@ -81,7 +73,7 @@ const Titles = () => {
   )
 }
 
-const BuyTransactions = ({buys, handleOnClick_LinkTransact}) => {
+const BuyTransactions = ({buys, handleLinkTransact}) => {
   return (
     <>
       {buys.map((transaction, index) => {
@@ -92,7 +84,7 @@ const BuyTransactions = ({buys, handleOnClick_LinkTransact}) => {
             <Button
               variant="text"
               className="w-1/5"
-              onClick={() => handleOnClick_LinkTransact(transaction)}>
+              onClick={() => handleLinkTransact(transaction)}>
               매도하기
             </Button>
           </div>
@@ -102,7 +94,7 @@ const BuyTransactions = ({buys, handleOnClick_LinkTransact}) => {
   )
 }
 
-const SellTransactions = ({sells, handleOnClick_LinkTransact}) => {
+const SellTransactions = ({sells, handleLinkTransact}) => {
   return (
     <>
       {sells.map((transaction, index) => {
@@ -111,7 +103,7 @@ const SellTransactions = ({sells, handleOnClick_LinkTransact}) => {
             <Button
               variant="text"
               className="w-1/5"
-              onClick={() => handleOnClick_LinkTransact(transaction)}>
+              onClick={() => handleLinkTransact(transaction)}>
               매수하기
             </Button>
             <Transaction transaction={transaction} />
