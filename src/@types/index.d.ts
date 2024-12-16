@@ -18,9 +18,17 @@ declare global {
   // stock
   export type TransactionType = 'BUY' | 'SELL'
 
-  export interface IHolding {
-    stock: IStock
-    transactions: IMatchedTrade[]
+  // export interface IHolding {
+  //   stock: IStock
+  //   transactions: IMatchedTrade[]
+  // }
+
+  export interface IRecording extends IMatchedTrade {
+    profit: number
+    duration: number
+    rateOfProfit: number
+    rateOfProfitYear: number
+    /// .... more
   }
 
   export interface IMatchedTrade {

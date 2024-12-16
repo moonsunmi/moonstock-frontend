@@ -5,7 +5,7 @@ interface Options {
   color?: Color
 }
 
-type Variant = 'title' | 'subtitle' | 'body' | 'body2' | 'caption'
+type Variant = 'header' | 'title' | 'subtitle' | 'body' | 'body2' | 'caption'
 type Color = 'primary' | 'secondary' | 'black'
 
 export type ParagraphProps = React.DetailedHTMLProps<

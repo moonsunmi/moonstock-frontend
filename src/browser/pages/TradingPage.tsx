@@ -115,7 +115,7 @@ const SellTransactions = ({sells, handleLinkTransact}) => {
   )
 }
 
-const Transaction = ({transaction}) => {
+const Transaction = ({transaction}: {transaction: ITransaction}) => {
   return (
     <>
       <Paragraph className="w-1/5">

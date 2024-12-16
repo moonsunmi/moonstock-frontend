@@ -8,7 +8,10 @@ const useTradingTransactions = ticker => {
 
   const shouldFetch = !!ticker && !!userInfo.id
 
-  const {data, error, isLoading, mutate} = useSWR<IHolding>(
+  const {data, error, isLoading, mutate} = useSWR<{
+    stock: IStock
+    transactions: IMatchedTrade[]
+  }>(
     shouldFetch
       ? [`/api/users/transactions/${ticker}/trading`, userInfo.id]
       : null,

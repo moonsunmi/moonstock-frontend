@@ -33,7 +33,9 @@ const Dialog_Transaction = ({
 
   const [ticker, setTicker] = useState(defaultTicker ?? '')
   const [transaction, setTransaction] = useState<ITransaction>(
-    matchTransaction ?? initTransaction
+    matchTransaction
+      ? {...matchTransaction, type: oppositeType(matchTransaction.type)}
+      : initTransaction
   )
 
   const {
@@ -90,13 +92,18 @@ const Dialog_Transaction = ({
       onClose()
     } catch (e) {
       console.error('거래 처리 중 오류 발생:', e)
+      enqueueSnackbar('거래 처리 중 오류가 발생했습니다.')
     }
   }
 
   useEffect(() => {
     if (open) {
       setTicker(defaultTicker ?? '')
-      setTransaction(matchTransaction || initTransaction)
+      setTransaction(
+        matchTransaction
+          ? {...matchTransaction, type: oppositeType(matchTransaction.type)}
+          : initTransaction
+      )
     }
   }, [open, matchTransaction])
 
@@ -143,7 +150,7 @@ const Dialog_Transaction = ({
             row
             aria-labelledby="select-transaction-type"
             name="type"
-            value={oppositeType(transaction['type'])}
+            value={transaction['type']}
             onChange={handleChange_Transaction}>
             <FormControlLabel
               value="BUY"
@@ -158,13 +165,13 @@ const Dialog_Transaction = ({
           </RadioGroup>
         </div>
         <Paragraph>
-          {oppositeType(transaction['type']) === 'BUY' ? '매수' : '매도'}
+          {transaction['type'] === 'BUY' ? '매수' : '매도'}
           하시겠습니까?
         </Paragraph>
       </DialogContent>
       <DialogActions className={classes.action}>
         <Button onClick={handleOnTransact} disabled={isMutating}>
-          {oppositeType(transaction['type']) === 'BUY' ? '매수' : '매도'}
+          {transaction['type'] === 'BUY' ? '매수' : '매도'}
         </Button>
         <Button onClick={() => onClose()}>취소</Button>
       </DialogActions>
