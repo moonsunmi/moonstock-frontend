@@ -20,10 +20,10 @@ const usePostTransactions = ({ticker, matchIds, transaction}: Props) => {
   const formData = new FormData()
   formData.append('stockTicker', ticker)
   formData.append('quantity', quantity.toString())
-  formData.append('type', oppositeType(type))
+  formData.append('type', type)
   formData.append('matchIds', JSON.stringify(matchIds))
 
-  if (oppositeType(type) === 'BUY') {
+  if (type === 'BUY') {
     formData.append('buyPrice', price.toString())
     formData.append('buyCreatedAt', new Date(transactedAt).toISOString())
   } else {

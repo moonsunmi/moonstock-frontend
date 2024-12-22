@@ -1,3 +1,7 @@
+export const isDate = (date: any) => {
+  return typeof date?.getMonth === 'function'
+}
+
 export const formatNumber = (value: string | number | null) => {
   if (value === null) return ''
 

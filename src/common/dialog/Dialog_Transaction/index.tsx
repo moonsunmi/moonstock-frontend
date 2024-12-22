@@ -13,13 +13,13 @@ import {Button, Input, Paragraph} from '@/browser/components/UI'
 import DatePicker from '@/browser/components/UI/DatePicker'
 // Hooks
 import useGetHoldings from '@/common/hooks/fetch/useHoldings'
-import useDoneTransactions from '@/common/hooks/fetch/useDoneTransactions'
 import usePostTransactions from '@/common/hooks/fetch/usePostTransactions'
 // Etc
 import classes from './index.module.scss'
 import {Dialog_TransactionProps} from './index.d'
 import {initTransaction} from '@/common/lib/initData'
 import {oppositeType} from '@/common/utils/transactionUtils'
+import useTradingTransactions from '@/common/hooks/fetch/useTradingTransactions'
 
 const Dialog_Transaction = ({
   open,
@@ -29,9 +29,10 @@ const Dialog_Transaction = ({
 }: Dialog_TransactionProps) => {
   const {enqueueSnackbar} = useSnackbar()
   const {mutate: holdingMutate} = useGetHoldings()
-  const {mutate: transactionMutate} = useDoneTransactions(defaultTicker)
 
   const [ticker, setTicker] = useState(defaultTicker ?? '')
+  const {mutate: tradingTransactionMutate} = useTradingTransactions(ticker)
+
   const [transaction, setTransaction] = useState<ITransaction>(
     matchTransaction
       ? {...matchTransaction, type: oppositeType(matchTransaction.type)}
@@ -69,9 +70,9 @@ const Dialog_Transaction = ({
         onSuccess: async data => {
           try {
             if (ticker === null) {
-              await holdingMutate() // 디폴트 값이 있다면 이건 UPDATE할 필요가 없다.
+              await holdingMutate()
             }
-            await transactionMutate() // todo. [...data, ...] 이런 식으로 가능할 듯
+            await tradingTransactionMutate()
           } catch (error) {
             console.error('데이터를 업데이트 중 오류가 발생했습니다.', error)
           }

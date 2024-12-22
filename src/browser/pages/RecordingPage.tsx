@@ -1,13 +1,20 @@
 'use client'
 
-// Hooks
+import {usePathname, useRouter} from 'next/navigation'
 import useDoneTransactions from '@/common/hooks/fetch/useDoneTransactions'
 import {Paragraph} from '../components/UI'
 import {formatNumber, getDateFormat} from '@/common/utils'
 
 const RecordingPage = ({ticker}: {ticker: string}) => {
+  const router = useRouter()
+  const path = usePathname()
+
   const {transactions, total, stock, error, isLoading, mutate} =
     useDoneTransactions(ticker)
+
+  const handleOnClick = id => {
+    router.push(`${path}/${id}`)
+  }
 
   return (
     <>
@@ -18,7 +25,13 @@ const RecordingPage = ({ticker}: {ticker: string}) => {
         {!error && (
           <div className="">
             {transactions.map(transaction => {
-              return <Transaction transaction={transaction} />
+              return (
+                <Transaction
+                  key={transaction?.id}
+                  transaction={transaction}
+                  handleOnClick={() => handleOnClick(transaction.id)}
+                />
+              )
             })}
           </div>
         )}
@@ -83,9 +96,17 @@ const Titles = () => {
   )
 }
 
-const Transaction = ({transaction}: {transaction: IRecording}) => {
+const Transaction = ({
+  transaction,
+  handleOnClick
+}: {
+  transaction: IRecording
+  handleOnClick: (id: string) => void
+}) => {
   return (
-    <div className="flex border border-t-primary-900">
+    <div
+      className="flex border border-t-primary-900"
+      onClick={() => handleOnClick(transaction.id)}>
       <Paragraph className="w-1/12 text-right">
         {getDateFormat(transaction?.buyCreatedAt, 'yy.MM.dd')}
       </Paragraph>
