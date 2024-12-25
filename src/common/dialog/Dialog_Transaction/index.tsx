@@ -12,30 +12,31 @@ import {
 import {Button, Input, Paragraph} from '@/browser/components/UI'
 import DatePicker from '@/browser/components/UI/DatePicker'
 // Hooks
-import useGetHoldings from '@/common/hooks/fetch/useHoldings'
-import usePostTransactions from '@/common/hooks/fetch/usePostTransactions'
+import useGetHoldings from '@/common/hooks/api/useHoldings'
+import usePostTransactions from '@/common/hooks/api/useTransactionMutation'
+import useTradingTransactions from '@/common/hooks/api/useTradingTransactions'
 // Etc
 import classes from './index.module.scss'
 import {Dialog_TransactionProps} from './index.d'
 import {initTransaction} from '@/common/lib/initData'
 import {oppositeType} from '@/common/utils/transactionUtils'
-import useTradingTransactions from '@/common/hooks/fetch/useTradingTransactions'
 
 const Dialog_Transaction = ({
   open,
-  matchTransaction,
-  defaultTicker,
+  targetTransaction, /// << match , update 둘 다 쓸 수 있도록 이름 수정.
+  requestType,
+  defaultTicker, // todo. 새거래 시, 티커가 필요하기는 함.
   onClose
 }: Dialog_TransactionProps) => {
   const {enqueueSnackbar} = useSnackbar()
-  const {mutate: holdingMutate} = useGetHoldings()
 
-  const [ticker, setTicker] = useState(defaultTicker ?? '')
-  const {mutate: tradingTransactionMutate} = useTradingTransactions(ticker)
+  const {mutate: tradingTransactionMutate} = useTradingTransactions(
+    targetTransaction?.stockTicker
+  )
 
   const [transaction, setTransaction] = useState<ITransaction>(
-    matchTransaction
-      ? {...matchTransaction, type: oppositeType(matchTransaction.type)}
+    targetTransaction
+      ? {...targetTransaction, type: oppositeType(targetTransaction.type)}
       : initTransaction
   )
 
@@ -44,14 +45,11 @@ const Dialog_Transaction = ({
     error,
     isMutating
   } = usePostTransactions({
-    ticker,
-    matchIds: matchTransaction ? [matchTransaction?.id] : [], // todo 여러 id 전달할 수 있도록 수정
+    requestType,
+    matchIds: targetTransaction ? [targetTransaction?.id] : [], // todo 여러 id 전달할 수 있도록 수정
     transaction
   })
 
-  const handleChange_Ticker = (e: ChangeEvent<HTMLInputElement>) => {
-    setTicker(e.target.value)
-  }
   const handleChange_Transaction = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
 
@@ -69,9 +67,9 @@ const Dialog_Transaction = ({
       await postTransactionTrigger(transaction, {
         onSuccess: async data => {
           try {
-            if (ticker === null) {
-              await holdingMutate()
-            }
+            // if (ticker === null) {
+            //   await holdingMutate()
+            // }
             await tradingTransactionMutate()
           } catch (error) {
             console.error('데이터를 업데이트 중 오류가 발생했습니다.', error)
@@ -99,14 +97,14 @@ const Dialog_Transaction = ({
 
   useEffect(() => {
     if (open) {
-      setTicker(defaultTicker ?? '')
+      // setTicker(defaultTicker ?? '')
       setTransaction(
-        matchTransaction
-          ? {...matchTransaction, type: oppositeType(matchTransaction.type)}
+        targetTransaction
+          ? {...targetTransaction, type: oppositeType(targetTransaction.type)}
           : initTransaction
       )
     }
-  }, [open, matchTransaction])
+  }, [open, targetTransaction])
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -114,10 +112,10 @@ const Dialog_Transaction = ({
         <Input
           type="text"
           className="w-1/2"
-          name="ticker"
+          name="stockTicker"
           label="종목코드"
-          value={ticker}
-          onChange={handleChange_Ticker}
+          value={transaction['stockTicker']}
+          onChange={handleChange_Transaction}
         />
         <DatePicker
           className="w-full"
@@ -155,12 +153,12 @@ const Dialog_Transaction = ({
             onChange={handleChange_Transaction}>
             <FormControlLabel
               value="BUY"
-              control={<Radio disabled={!!matchTransaction} />}
+              control={<Radio disabled={!!targetTransaction} />}
               label="매수"
             />
             <FormControlLabel
               value="SELL"
-              control={<Radio disabled={!!matchTransaction} />}
+              control={<Radio disabled={!!targetTransaction} />}
               label="매도"
             />
           </RadioGroup>

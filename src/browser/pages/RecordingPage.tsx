@@ -1,7 +1,7 @@
 'use client'
 
 import {usePathname, useRouter} from 'next/navigation'
-import useDoneTransactions from '@/common/hooks/fetch/useDoneTransactions'
+import useDoneTransactions from '@/common/hooks/api/useDoneTransactions'
 import {Paragraph} from '../components/UI'
 import {formatNumber, getDateFormat} from '@/common/utils'
 

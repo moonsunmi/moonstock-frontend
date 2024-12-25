@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router'
-import useTransactionInfo from '@/common/hooks/fetch/useTransactionInfo'
+import useTransactionInfo from '@/common/hooks/api/useTransactionInfo'
 
 // detailpage 다른 곳으로 옮겨야 하나아... 404 에러 남.
 const RecordingDetailPage = () => {

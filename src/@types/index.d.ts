@@ -8,6 +8,7 @@ declare global {
   export type ActionType = 'add' | 'update' | 'remove'
 
   // api
+  export type RequestType = 'CREATE' | 'UPDATE' | 'DELETE'
   export type ApiStatus = 'idle' | 'loading' | 'error' | 'success' | 'noResult'
   export type ApiState<T> = {
     data: T | null

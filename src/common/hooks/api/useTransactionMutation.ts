@@ -1,24 +1,30 @@
 // API
 import useSWRMutation from 'swr/mutation'
 import axiosInstance from '@/common/lib/axios'
-// Etc
-import {oppositeType} from '@/common/utils/transactionUtils'
 
 const request = {
-  create: {method: 'POST', url: '/api/users/transactions'},
-  match: {method: 'PUT', url: '/api/users/transactions/match'}
+  CREATE: {method: 'POST', url: '/api/users/transactions'},
+  MATCH: {method: 'PUT', url: '/api/users/transactions/match'},
+  UPDATE: {method: 'PUT', url: '/api/users/transactions'},
+  DELETE: {method: 'DELETE', url: '/api/users/transactions'}
 }
 
 type Props = {
-  ticker: string
+  // ticker: string
+  requestType: RequestType | 'MATCH'
   matchIds?: string[]
   transaction?: ITransaction
 }
-const usePostTransactions = ({ticker, matchIds, transaction}: Props) => {
-  const {quantity, price, transactedAt, type} = transaction
+const useTransactionMutation = ({
+  // ticker,
+  matchIds,
+  requestType,
+  transaction
+}: Props) => {
+  const {quantity, price, transactedAt, type, stockTicker} = transaction
 
   const formData = new FormData()
-  formData.append('stockTicker', ticker)
+  formData.append('stockTicker', stockTicker)
   formData.append('quantity', quantity.toString())
   formData.append('type', type)
   formData.append('matchIds', JSON.stringify(matchIds))
@@ -31,7 +37,7 @@ const usePostTransactions = ({ticker, matchIds, transaction}: Props) => {
     formData.append('sellCreatedAt', new Date(transactedAt).toISOString())
   }
 
-  const {url, method} = request[matchIds.length === 0 ? 'create' : 'match']
+  const {url, method} = request[requestType] ?? {url: '', method: ''}
 
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
@@ -48,4 +54,4 @@ const usePostTransactions = ({ticker, matchIds, transaction}: Props) => {
   return {trigger, isMutating, error}
 }
 
-export default usePostTransactions
+export default useTransactionMutation

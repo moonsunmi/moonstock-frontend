@@ -9,9 +9,9 @@ import {configureStore} from '@reduxjs/toolkit'
 // import sessionStorage from "redux-persist/lib/storage/session";
 import createWebStorage from 'redux-persist/es/storage/createWebStorage'
 
-// import accountSlice from './slices/accountSlice'
 import authSlice from './slices/authSlice'
 import {stockSlice} from './slices/stockSlice'
+import dialogSlice from './slices/dialogSlice'
 
 // SSR 환경에서는 window
 const createNoopStorage = () => {
@@ -47,7 +47,8 @@ export const store = configureStore({
   reducer: combineReducers({
     // account: accountSlice,
     auth: persistReducer(authPersistConfig, authSlice),
-    stock: stockSlice
+    stock: stockSlice,
+    dialog: dialogSlice
     // common: commonSlice,
   }),
   middleware: getDefaultMiddleware =>
