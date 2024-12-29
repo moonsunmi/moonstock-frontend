@@ -1,14 +1,7 @@
 import {ChangeEvent, useEffect, useState} from 'react'
 import {useSnackbar} from 'notistack'
 // Components
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  FormControlLabel,
-  Radio,
-  RadioGroup
-} from '@mui/material'
+import {Dialog, FormControlLabel, Radio, RadioGroup} from '@mui/material'
 import {Button, Input, Paragraph} from '@/browser/components/UI'
 import DatePicker from '@/browser/components/UI/DatePicker'
 // Hooks
@@ -36,7 +29,13 @@ const Dialog_Transaction = ({
 
   const [transaction, setTransaction] = useState<ITransaction>(
     targetTransaction
-      ? {...targetTransaction, type: oppositeType(targetTransaction.type)}
+      ? {
+          ...targetTransaction,
+          type:
+            requestType === 'MATCH'
+              ? oppositeType(targetTransaction.type)
+              : targetTransaction.type
+        }
       : initTransaction
   )
 
@@ -45,7 +44,7 @@ const Dialog_Transaction = ({
     error,
     isMutating
   } = usePostTransactions({
-    requestType,
+    requestType: requestType || 'CREATE',
     matchIds: targetTransaction ? [targetTransaction?.id] : [], // todo 여러 id 전달할 수 있도록 수정
     transaction
   })
@@ -62,7 +61,7 @@ const Dialog_Transaction = ({
     setTransaction(prevState => ({...prevState, transactedAt: date}))
   }
 
-  const handleOnTransact = async () => {
+  const handleTransact = async () => {
     try {
       await postTransactionTrigger(transaction, {
         onSuccess: async data => {
@@ -108,73 +107,122 @@ const Dialog_Transaction = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogContent className={classes.content}>
+      <DialogContent
+        transaction={transaction}
+        disabled={!!targetTransaction}
+        handleChange_Transaction={handleChange_Transaction}
+        handleChange_Date={handleChange_Date}
+      />
+      <DialogAction
+        requestType={requestType}
+        transaction={transaction}
+        disabled={isMutating}
+        handleTransact={handleTransact}
+        onClose={onClose}
+      />
+    </Dialog>
+  )
+}
+
+const DialogContent = ({
+  transaction,
+  disabled,
+  handleChange_Transaction,
+  handleChange_Date
+}) => {
+  return (
+    <div className={classes.content}>
+      <Input
+        type="text"
+        className="w-1/2"
+        name="stockTicker"
+        label="종목코드"
+        value={transaction['stockTicker']}
+        onChange={handleChange_Transaction}
+      />
+      <DatePicker
+        className="w-full"
+        value={
+          transaction['transactedAt']
+            ? new Date(transaction['transactedAt'])
+            : null
+        }
+        onChange={date => handleChange_Date(date)}
+      />
+      <div>
         <Input
-          type="text"
+          type="number"
           className="w-1/2"
-          name="stockTicker"
-          label="종목코드"
-          value={transaction['stockTicker']}
+          name="price"
+          label="가격"
+          value={transaction['price']}
           onChange={handleChange_Transaction}
         />
-        <DatePicker
-          className="w-full"
-          value={
-            transaction['transactedAt']
-              ? new Date(transaction['transactedAt'])
-              : null
-          }
-          onChange={date => handleChange_Date(date)}
+        <Input
+          type="number"
+          className="w-1/2"
+          name="quantity"
+          label="수량"
+          value={transaction['quantity']}
+          onChange={handleChange_Transaction}
         />
-        <div>
-          <Input
-            type="number"
-            className="w-1/2"
-            name="price"
-            label="가격"
-            value={transaction['price']}
-            onChange={handleChange_Transaction}
+      </div>
+      <div>
+        <RadioGroup
+          row
+          aria-labelledby="select-transaction-type"
+          name="type"
+          value={transaction['type']}
+          onChange={handleChange_Transaction}>
+          <FormControlLabel
+            value="BUY"
+            control={<Radio disabled={disabled} />}
+            label="매수"
           />
-          <Input
-            type="number"
-            className="w-1/2"
-            name="quantity"
-            label="수량"
-            value={transaction['quantity']}
-            onChange={handleChange_Transaction}
+          <FormControlLabel
+            value="SELL"
+            control={<Radio disabled={disabled} />}
+            label="매도"
           />
-        </div>
-        <div>
-          <RadioGroup
-            row
-            aria-labelledby="select-transaction-type"
-            name="type"
-            value={transaction['type']}
-            onChange={handleChange_Transaction}>
-            <FormControlLabel
-              value="BUY"
-              control={<Radio disabled={!!targetTransaction} />}
-              label="매수"
-            />
-            <FormControlLabel
-              value="SELL"
-              control={<Radio disabled={!!targetTransaction} />}
-              label="매도"
-            />
-          </RadioGroup>
-        </div>
-        <Paragraph>
-          {transaction['type'] === 'BUY' ? '매수' : '매도'}
-          하시겠습니까?
-        </Paragraph>
-      </DialogContent>
-      <DialogActions className={classes.action}>
-        <Button onClick={handleOnTransact} disabled={isMutating}>
-          {transaction['type'] === 'BUY' ? '매수' : '매도'}
-        </Button>
-        <Button onClick={() => onClose()}>취소</Button>
-      </DialogActions>
-    </Dialog>
+        </RadioGroup>
+      </div>
+    </div>
+  )
+}
+
+const DialogAction = ({
+  transaction,
+  requestType,
+  disabled,
+  handleTransact,
+  onClose
+}) => {
+  let actionText = ''
+  let description = ''
+
+  switch (requestType) {
+    case 'CREATE':
+    case 'MATCH':
+      actionText = transaction.type === 'BUY' ? '매수' : '매도'
+      description = `${actionText}하시겠습니까?`
+      break
+    case 'UPDATE':
+    case 'DELETE':
+      actionText = requestType === 'UPDATE' ? '수정' : '삭제'
+      description = `거래 내용을 ${actionText}하시겠습니까?`
+      break
+    default:
+      return null
+  }
+
+  return (
+    <div className={classes.action}>
+      <Paragraph>{description}</Paragraph>
+      <Button onClick={handleTransact} disabled={disabled}>
+        {actionText}
+      </Button>
+      <Button onClick={onClose}>취소</Button>
+    </div>
   )
 }
 

@@ -1,18 +1,17 @@
 'use client'
 
-import {useState} from 'react'
 import {useRouter} from 'next/navigation'
 // Components
 import {Button, Card, Paragraph} from '@/browser/components/UI'
-import {Dialog_Transaction} from '@/common/dialog'
 // Hooks
 import useGetHoldings from '@/common/hooks/api/useHoldings'
 // Etc
-import classes from './index.module.scss'
+import {useTypedDispatch} from '@/store/store'
+import {createTransaction} from '@/store/slices/dialogSlice'
 
 const BoardPage = () => {
   const router = useRouter()
-  const [transactionOpen, setTransactionOpen] = useState<boolean>(false)
+  const dispatch = useTypedDispatch()
 
   const {holdings, error, isLoading} = useGetHoldings()
 
@@ -42,14 +41,14 @@ const BoardPage = () => {
             <Paragraph>{`수익률: `}</Paragraph> */}
           </Card>
         ))}
-        <Card className="h-48" onClick={() => setTransactionOpen(true)}>
+        <Card
+          className="h-48"
+          onClick={() => {
+            dispatch(createTransaction())
+          }}>
           <Paragraph>새 종목으로 거래 시작하기</Paragraph>
         </Card>
       </div>
-      <Dialog_Transaction
-        open={transactionOpen}
-        onClose={() => setTransactionOpen(false)}
-      />
     </>
   )
 }

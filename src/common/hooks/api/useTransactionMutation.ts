@@ -5,8 +5,14 @@ import axiosInstance from '@/common/lib/axios'
 const request = {
   CREATE: {method: 'POST', url: '/api/users/transactions'},
   MATCH: {method: 'PUT', url: '/api/users/transactions/match'},
-  UPDATE: {method: 'PUT', url: '/api/users/transactions'},
-  DELETE: {method: 'DELETE', url: '/api/users/transactions'}
+  UPDATE: (id: string) => ({
+    method: 'PUT',
+    url: `/api/users/transactions/${id}`
+  }),
+  DELETE: (id: string) => ({
+    method: 'DELETE',
+    url: `/api/users/transactions/${id}`
+  })
 }
 
 type Props = {
@@ -21,23 +27,29 @@ const useTransactionMutation = ({
   requestType,
   transaction
 }: Props) => {
-  const {quantity, price, transactedAt, type, stockTicker} = transaction
+  const {id, quantity, price, transactedAt, type, stockTicker} = transaction
+
+  console.log(transaction)
 
   const formData = new FormData()
   formData.append('stockTicker', stockTicker)
-  formData.append('quantity', quantity.toString())
+  formData.append('quantity', quantity?.toString())
   formData.append('type', type)
   formData.append('matchIds', JSON.stringify(matchIds))
 
   if (type === 'BUY') {
-    formData.append('buyPrice', price.toString())
+    formData.append('buyPrice', price?.toString())
     formData.append('buyCreatedAt', new Date(transactedAt).toISOString())
   } else {
-    formData.append('sellPrice', price.toString())
+    formData.append('sellPrice', price?.toString())
     formData.append('sellCreatedAt', new Date(transactedAt).toISOString())
   }
 
-  const {url, method} = request[requestType] ?? {url: '', method: ''}
+  console.log(requestType)
+  const {url, method} =
+    requestType === 'UPDATE' || requestType === 'DELETE'
+      ? request[requestType](id)
+      : request[requestType]
 
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
