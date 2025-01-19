@@ -5,43 +5,42 @@ import {useState} from 'react'
 import {Button, Paragraph} from '@/browser/components/UI'
 import {TableHeader, TableRow} from '@/browser/components/UI/Table'
 // Hooks
-import useTradingTransactions from '@/common/hooks/api/useTradingTransactions'
+import useActiveTransactions from '@/common/hooks/api/useActiveTransactions'
+import {useTransactionDialog} from '@/common/context/TransactionDialogProvider'
 // Etc
 import {formatNumber, getDateFormat} from '@/common/utils'
-import {useTypedDispatch} from '@/store/store'
-import {
-  createTransaction,
-  deleteTransaction,
-  matchTransaction,
-  updateTransaction
-} from '@/store/slices/dialogSlice'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {IconButton, Menu, MenuItem} from '@mui/material'
+import {initTransaction} from '@/common/lib/initData'
 
 const TradingPage = ({ticker}: {ticker: string}) => {
-  const dispatch = useTypedDispatch()
-
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [selectedTransaction, setSelectedTransaction] =
     useState<ITransaction | null>(null)
 
-  const {stock, buys, sells, error, isLoading} = useTradingTransactions(ticker)
+  const {stock, buys, error, isLoading} = useActiveTransactions(ticker)
+  const {openDialog} = useTransactionDialog()
 
-  const handleClick = (
+  const handleBuy = () => {
+    openDialog('buy', {...initTransaction, stockTicker: ticker})
+  }
+  const handleUpdate = () => {
+    openDialog('update', selectedTransaction)
+  }
+  const handleSell = (row: ITransaction) => {
+    openDialog('sell', row)
+  }
+
+  const handleDelete = () => {
+    openDialog('delete')
+  }
+
+  const handleMoreClick = (
     event: React.MouseEvent<HTMLElement>,
     transaction: ITransaction
   ) => {
     setAnchorEl(event.currentTarget)
     setSelectedTransaction(transaction)
-  }
-
-  const handleEdit = () => {
-    setAnchorEl(null)
-    dispatch(updateTransaction(selectedTransaction))
-  }
-  const handleDelete = () => {
-    setAnchorEl(null)
-    dispatch(deleteTransaction(selectedTransaction.id))
   }
   const handleClose = () => {
     setAnchorEl(null)
@@ -49,29 +48,15 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   }
 
   const columns: {
-    key: keyof ITransaction | 'buyButton' | 'sellButton' | 'more'
+    key: keyof ITransaction | 'sellButton' | 'more'
     header: string
     className?: string
     render?: (row: ITransaction) => React.ReactNode
   }[] = [
     {
-      key: 'buyButton',
-      header: '',
-      render: row =>
-        row?.type === 'SELL' ? (
-          <Button
-            variant="text"
-            className="w-1/5"
-            onClick={() => dispatch(matchTransaction(row))}>
-            매수하기
-          </Button>
-        ) : null,
-      className: 'text-center'
-    },
-    {
-      key: 'transactedAt',
+      key: 'createdAt',
       header: '거래일',
-      render: row => getDateFormat(row.transactedAt, 'yy.MM.dd')
+      render: row => getDateFormat(row.createdAt, 'yy.MM.dd')
     },
     {
       key: 'price',
@@ -88,24 +73,23 @@ const TradingPage = ({ticker}: {ticker: string}) => {
     {
       key: 'sellButton',
       header: '',
-      render: row =>
-        row?.type === 'BUY' ? (
-          <>
-            <Button
-              variant="text"
-              className="w-1/5"
-              onClick={() => dispatch(matchTransaction(row))}>
-              매도하기
-            </Button>
-          </>
-        ) : null,
+      render: row => (
+        <>
+          <Button
+            variant="text"
+            className="w-1/5"
+            onClick={() => handleSell(row)}>
+            매도하기
+          </Button>
+        </>
+      ),
       className: 'text-center'
     },
     {
       key: 'more',
       header: '',
       render: row => (
-        <IconButton onClick={event => handleClick(event, row)}>
+        <IconButton onClick={event => handleMoreClick(event, row)}>
           <MoreVertIcon />
         </IconButton>
       )
@@ -141,14 +125,9 @@ const TradingPage = ({ticker}: {ticker: string}) => {
             })}
             <tr>
               <td colSpan={columns.length} className="text-center">
-                <Button onClick={() => dispatch(createTransaction())}>
-                  새 거래 등록하기
-                </Button>
+                <Button onClick={handleBuy}>새 거래 등록하기</Button>
               </td>
             </tr>
-            {sells.map(sell => {
-              return <TableRow key={sell.id} row={sell} columns={columns} />
-            })}
           </tbody>
         </table>
       </div>
@@ -157,7 +136,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         disableAutoFocusItem>
-        <MenuItem onClick={handleEdit}>수정하기</MenuItem>
+        <MenuItem onClick={handleUpdate}>수정하기</MenuItem>
         <MenuItem onClick={handleDelete}>삭제하기</MenuItem>
       </Menu>
     </>

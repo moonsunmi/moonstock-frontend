@@ -19,7 +19,7 @@ const Table = <T extends {id: string | number}>({
       <TableHeader columns={columns} />
       <tbody>
         {data.map(row => {
-          return <TableRow row={row} columns={columns} />
+          return <TableRow key={row.id} row={row} columns={columns} />
         })}
       </tbody>
     </table>

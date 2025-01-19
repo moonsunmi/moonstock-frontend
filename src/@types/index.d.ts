@@ -46,12 +46,12 @@ declare global {
 
   export interface ITransaction {
     id: string
-    type: TransactionType
+    type?: TransactionType
     stockTicker: string
     quantity: number
-    // partiallyDone?: TransactionType
-    transactedAt: Date
     price: number
+    createdAt: Date
+    relatedBuyId?: string
   }
 
   export interface IStock {

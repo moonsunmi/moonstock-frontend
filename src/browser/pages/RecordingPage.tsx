@@ -9,7 +9,7 @@ const RecordingPage = ({ticker}: {ticker: string}) => {
   const router = useRouter()
   const path = usePathname()
 
-  const {transactions, total, stock, error, isLoading, mutate} =
+  const {transactions, stock, error, isLoading, mutate} =
     useDoneTransactions(ticker)
 
   const handleOnClick = id => {
@@ -19,7 +19,7 @@ const RecordingPage = ({ticker}: {ticker: string}) => {
   return (
     <>
       <div className="w-full">
-        <Header stock={stock} total={total} />
+        {/* <Header stock={stock} total={total} /> */}
         <Titles />
         {error && <div>오류가 발생했습니다. 나중에 다시 시도해 주세요.</div>}
         {!error && (

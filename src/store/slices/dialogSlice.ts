@@ -1,63 +1,40 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+
+///////
+// 매수와 매도의 CRUD를 한 다이얼로그에서 할지 생각해 보기
+///////
+
 interface DialogState {
-  open: boolean
   ticker: string
-  type: RequestType | 'MATCH'
-  transaction: ITransaction | null
-  transactionId: string | null
+  type: RequestType
+  transaction: ITransaction
 }
 
 const initialState: DialogState = {
-  open: false,
   ticker: '',
   type: null,
-  transaction: null,
-  transactionId: null
+  transaction: null
 }
 
 const dialogSlice = createSlice({
   name: 'dialog',
   initialState,
   reducers: {
-    createTransaction(state) {
-      state.open = true
-      state.type = 'CREATE'
-      state.transaction = null
-      state.transactionId = null
+    openTransactionDialog(
+      state,
+      action: PayloadAction<{type: RequestType; transaction: ITransaction}>
+    ) {
+      state.type = action.payload.type
+      state.transaction = action.payload.transaction
     },
-    matchTransaction(state, action: PayloadAction<ITransaction>) {
-      state.open = true
-      state.type = 'MATCH'
-      state.transaction = action.payload
-      state.transactionId = action.payload.id
-    },
-    updateTransaction(state, action: PayloadAction<ITransaction>) {
-      state.open = true
-      state.type = 'UPDATE'
-      state.transaction = action.payload
-      state.transactionId = action.payload.id
-    },
-    deleteTransaction(state, action: PayloadAction<string>) {
-      state.open = true
-      state.type = 'DELETE'
-      state.transactionId = action.payload
-      state.transaction = null
-    },
-    closeDialog(state) {
-      state.open = false
+    closeTransactionDialog(state) {
       state.type = null
       state.transaction = null
-      state.transactionId = null
     }
   }
 })
 
-export const {
-  createTransaction,
-  matchTransaction,
-  updateTransaction,
-  deleteTransaction,
-  closeDialog
-} = dialogSlice.actions
+export const {openTransactionDialog, closeTransactionDialog} =
+  dialogSlice.actions
 
 export default dialogSlice.reducer

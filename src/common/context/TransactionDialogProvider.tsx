@@ -1,27 +1,49 @@
-import {useTypedDispatch, useTypedSelector} from '@/store/store'
-import {Dialog_Transaction} from '../dialog'
-import {closeDialog} from '@/store/slices/dialogSlice'
+import {createContext, ReactNode, useContext, useState} from 'react'
 
-const TransactionDialogProvider = () => {
-  const {open, type, ticker, transaction} = useTypedSelector(
-    state => state.dialog
-  )
-  const dispatch = useTypedDispatch()
+interface DialogContextType {
+  dialogType: 'buy' | 'sell' | 'update' | 'delete'
+  dialogData: any
+  openDialog: (type: 'buy' | 'sell' | 'update' | 'delete', data?: any) => void
+  closeDialog: () => void
+}
 
-  const handleClose = () => {
-    dispatch(closeDialog())
+const DialogContext = createContext<DialogContextType | undefined>(undefined)
+
+const TransactionDialogProvider: React.FC<{children: ReactNode}> = ({
+  children
+}) => {
+  const [dialogType, setDialogType] = useState<
+    'buy' | 'sell' | 'update' | 'delete'
+  >(null)
+  const [dialogData, setDialogData] = useState<any>(null)
+
+  const openDialog = (
+    type: 'buy' | 'sell' | 'update' | 'delete',
+    data?: any
+  ) => {
+    setDialogType(type)
+    setDialogData(data || null)
+  }
+
+  const closeDialog = () => {
+    setDialogType(null)
+    setDialogData(null)
   }
 
   return (
-    <>
-      <Dialog_Transaction
-        open={open}
-        targetTransaction={transaction}
-        defaultTicker={ticker}
-        requestType={type}
-        onClose={handleClose}
-      />
-    </>
+    <DialogContext.Provider
+      value={{dialogType, dialogData, openDialog, closeDialog}}>
+      {children}
+    </DialogContext.Provider>
   )
 }
+
+export const useTransactionDialog = () => {
+  const context = useContext(DialogContext)
+  if (!context) {
+    throw new Error('useTransactionDialog must be used within a DialogProvider')
+  }
+  return context
+}
+
 export default TransactionDialogProvider

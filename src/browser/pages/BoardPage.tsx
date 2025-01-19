@@ -5,13 +5,11 @@ import {useRouter} from 'next/navigation'
 import {Button, Card, Paragraph} from '@/browser/components/UI'
 // Hooks
 import useGetHoldings from '@/common/hooks/api/useHoldings'
-// Etc
-import {useTypedDispatch} from '@/store/store'
-import {createTransaction} from '@/store/slices/dialogSlice'
+import {useTransactionDialog} from '@/common/context/TransactionDialogProvider'
 
 const BoardPage = () => {
   const router = useRouter()
-  const dispatch = useTypedDispatch()
+  const {openDialog} = useTransactionDialog()
 
   const {holdings, error, isLoading} = useGetHoldings()
 
@@ -44,7 +42,7 @@ const BoardPage = () => {
         <Card
           className="h-48"
           onClick={() => {
-            dispatch(createTransaction())
+            openDialog('buy')
           }}>
           <Paragraph>새 종목으로 거래 시작하기</Paragraph>
         </Card>

@@ -2,39 +2,35 @@ import {ChangeEvent, useEffect, useState} from 'react'
 import {useSnackbar} from 'notistack'
 // Components
 import {Dialog, FormControlLabel, Radio, RadioGroup} from '@mui/material'
-import {Button, Input, Paragraph} from '@/browser/components/UI'
-import DatePicker from '@/browser/components/UI/DatePicker'
+import {Button, DatePicker, Input, Paragraph} from '@/browser/components/UI'
 // Hooks
 import useGetHoldings from '@/common/hooks/api/useHoldings'
-import usePostTransactions from '@/common/hooks/api/useTransactionMutation'
-import useTradingTransactions from '@/common/hooks/api/useTradingTransactions'
+import useTransactionMutation from '@/common/hooks/api/useTransactionMutation'
+import useActiveTransactions from '@/common/hooks/api/useActiveTransactions'
 // Etc
 import classes from './index.module.scss'
 import {Dialog_TransactionProps} from './index.d'
 import {initTransaction} from '@/common/lib/initData'
 import {oppositeType} from '@/common/utils/transactionUtils'
+import {ERROR_CODES} from '@/common/utils/constants'
 
 const Dialog_Transaction = ({
   open,
-  targetTransaction, /// << match , update 둘 다 쓸 수 있도록 이름 수정.
-  requestType,
+  type,
+  defaultTransaction,
   defaultTicker, // todo. 새거래 시, 티커가 필요하기는 함.
   onClose
 }: Dialog_TransactionProps) => {
   const {enqueueSnackbar} = useSnackbar()
 
-  const {mutate: tradingTransactionMutate} = useTradingTransactions(
-    targetTransaction?.stockTicker
+  const {mutate: tradingTransactionMutate} = useActiveTransactions(
+    defaultTransaction.stockTicker
   )
 
   const [transaction, setTransaction] = useState<ITransaction>(
-    targetTransaction
+    defaultTransaction
       ? {
-          ...targetTransaction,
-          type:
-            requestType === 'MATCH'
-              ? oppositeType(targetTransaction.type)
-              : targetTransaction.type
+          ...defaultTransaction
         }
       : initTransaction
   )
@@ -43,9 +39,9 @@ const Dialog_Transaction = ({
     trigger: postTransactionTrigger,
     error,
     isMutating
-  } = usePostTransactions({
-    requestType: requestType || 'CREATE',
-    matchIds: targetTransaction ? [targetTransaction?.id] : [], // todo 여러 id 전달할 수 있도록 수정
+  } = useTransactionMutation({
+    requestType: type || 'CREATE',
+    // matchIds: transactions, // todo 여러 id 전달할 수 있도록 수정
     transaction
   })
 
@@ -77,7 +73,7 @@ const Dialog_Transaction = ({
         onError: error => {
           const {errorCode, message} = error
 
-          if (errorCode === 'ERROR_CODE_STOCK_NOT_FOUND') {
+          if (errorCode === ERROR_CODES.NOT_EXIST) {
             enqueueSnackbar('존재하지 않는 종목입니다.', {variant: 'error'})
           } else {
             enqueueSnackbar(message || '예상치 못한 오류가 발생했습니다.', {
@@ -98,23 +94,23 @@ const Dialog_Transaction = ({
     if (open) {
       // setTicker(defaultTicker ?? '')
       setTransaction(
-        targetTransaction
-          ? {...targetTransaction, type: oppositeType(targetTransaction.type)}
+        transaction
+          ? {...transaction, type: oppositeType(transaction.type)}
           : initTransaction
       )
     }
-  }, [open, targetTransaction])
+  }, [open, transaction])
 
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogContent
         transaction={transaction}
-        disabled={!!targetTransaction}
+        disabled={!!transaction}
         handleChange_Transaction={handleChange_Transaction}
         handleChange_Date={handleChange_Date}
       />
       <DialogAction
-        requestType={requestType}
+        requestType={type}
         transaction={transaction}
         disabled={isMutating}
         handleTransact={handleTransact}
