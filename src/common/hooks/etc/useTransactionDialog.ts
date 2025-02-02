@@ -1,69 +1,39 @@
-// todo. dialog 완성 후 삭제
-// import {useReducer, useState} from 'react'
+import {useContext} from 'react'
+import {SellDialogData, UpdateDialogData} from '@/@types/DialogTypes'
+import {DialogContext} from '@/common/context/DialogProvider'
 
-// const ActionTypes = {
-//   CLOSE_DIALOG: 'CLOSE_DIALOG',
-//   OPEN_DIALOG: 'OPEN_DIALOG',
-//   CREATE_TRANSACTION: 'CREATE_TRANSACTION',
-//   LINK_TRANSACTION: 'LINK_TRANSACTION',
-//   UPDATE_TRANSACTION: 'UPDATE_TRANSACTION'
-// } as const
+export const useTypedDialog = () => {
+  const context = useContext(DialogContext)
 
-// interface State {
-//   dialogOpen: boolean
-//   selectedTransaction: ITransaction | null
-// }
+  if (!context)
+    throw new Error('useTypedDialog must be used within a DialogProvider')
 
-// type Action =
-//   | {type: typeof ActionTypes.CLOSE_DIALOG}
-//   | {type: typeof ActionTypes.OPEN_DIALOG}
-//   | {type: typeof ActionTypes.CREATE_TRANSACTION}
-//   | {type: typeof ActionTypes.LINK_TRANSACTION; payload: ITransaction}
-//   | {type: typeof ActionTypes.UPDATE_TRANSACTION; payload: ITransaction}
+  const {dialogType, dialogData, openDialog, closeDialog} = context
 
-// const initState: State = {
-//   dialogOpen: false,
-//   selectedTransaction: null
-// }
+  const openBuyDialog = (data: ITransaction) => openDialog('buy', data)
+  const openSellDialog = (data: SellDialogData) => openDialog('sell', data)
+  const openUpdateDialog = (data: UpdateDialogData) =>
+    openDialog('update', data)
 
-// const reducer = (state: State, action: Action): State => {
-//   switch (action.type) {
-//     case ActionTypes.CREATE_TRANSACTION:
-//       return {...state, dialogOpen: true, selectedTransaction: null}
-//     case ActionTypes.LINK_TRANSACTION:
-//       return {...state, dialogOpen: true, selectedTransaction: action.payload}
-//     case ActionTypes.UPDATE_TRANSACTION:
-//       return {...state, dialogOpen: true, selectedTransaction: action.payload}
-//     case ActionTypes.CLOSE_DIALOG:
-//       return {...state, dialogOpen: false, selectedTransaction: null}
-//     default:
-//       throw new Error('Unknown action type')
-//   }
-// }
+  const getDialogData = () => {
+    switch (dialogType) {
+      case 'buy':
+        return dialogData as ITransaction
+      case 'sell':
+        return dialogData as SellDialogData
+      case 'update':
+        return dialogData as UpdateDialogData
+      default:
+        return null
+    }
+  }
 
-// const useTransactionDialog = () => {
-//   const [state, dispatch] = useReducer(reducer, initState)
-
-//   const handleCreateTransact = () => {
-//     dispatch({type: ActionTypes.CREATE_TRANSACTION})
-//   }
-//   const handleLinkTransact = (transaction: ITransaction) => {
-//     dispatch({type: ActionTypes.LINK_TRANSACTION, payload: transaction})
-//   }
-//   const handleUpdateTransact = (transaction: ITransaction) => {
-//     dispatch({type: ActionTypes.UPDATE_TRANSACTION, payload: transaction})
-//   }
-//   const handleCloseDialog = () => {
-//     dispatch({type: ActionTypes.CLOSE_DIALOG})
-//   }
-
-//   return {
-//     state,
-//     handleCreateTransact,
-//     handleLinkTransact,
-//     handleUpdateTransact,
-//     handleCloseDialog
-//   }
-// }
-
-// export default useTransactionDialog
+  return {
+    dialogType,
+    dialogData: getDialogData(),
+    openBuyDialog,
+    openSellDialog,
+    openUpdateDialog,
+    closeDialog
+  }
+}

@@ -2,8 +2,6 @@
 
 import {useCallback, useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
-// Redux
-import {useTypedSelector} from '@/store/store'
 // Components
 import {Button, Card, Input, Output, Paragraph} from '@/browser/components/UI'
 import {Modal} from '@mui/material'
@@ -14,18 +12,26 @@ import {AddCircleOutline, RemoveCircle} from '@mui/icons-material'
 import useCalculatedInvestment from '@/common/hooks/useCalculatedInvestment'
 // Utils
 import {formatNumber} from '@/common/utils'
+import {useUserStore} from '@/stores/useUserStore'
+
+type SimpleTransaction = {
+  id: string
+  price: number
+  quantity: number
+}
 
 const AverageDownPage = () => {
-  const {userInfo} = useTypedSelector(state => state.auth)
+  const {userInfo} = useUserStore()
+
   const [openModal_searchPrice, setOpenModal_searchPrice] =
     useState<boolean>(false)
 
-  const [holding, setHolding] = useState<ITransaction>({
+  const [holding, setHolding] = useState<SimpleTransaction>({
     id: 'holding',
     price: 0,
     quantity: 0
   })
-  const [transactions, setTransactions] = useState<ITransaction[]>([
+  const [transactions, setTransactions] = useState<SimpleTransaction[]>([
     {id: uuidv4(), price: 0, quantity: 0}
   ])
 

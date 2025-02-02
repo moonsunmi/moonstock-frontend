@@ -4,15 +4,13 @@ import {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import useSWRMutation from 'swr/mutation'
 import {Button} from '../UI'
-import {useTypedDispatch, useTypedSelector} from '@/store/store'
-import {setUserInfo} from '@/store/slices/authSlice'
 import axiosInstance from '@/common/lib/axios'
+import {useUserStore} from '@/stores/useUserStore'
 
 export const Header = () => {
   const router = useRouter()
-  const dispatch = useTypedDispatch()
 
-  const {userInfo} = useTypedSelector(state => state.auth)
+  const {userInfo, resetUserInfo} = useUserStore()
 
   const [isMounted, setIsMounted] = useState(false)
 
@@ -30,7 +28,7 @@ export const Header = () => {
 
   const handleOnLogOut = () => {
     logoutMutation.trigger()
-    dispatch(setUserInfo({name: null, email: null}))
+    resetUserInfo()
     localStorage.removeItem('accessToken')
     router.push('/')
   }

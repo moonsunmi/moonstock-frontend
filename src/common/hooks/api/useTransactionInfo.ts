@@ -1,8 +1,8 @@
+import {useUserStore} from '@/stores/useUserStore'
 import useSWR from 'swr'
-import {useTypedSelector} from '@/store/store'
 
 const useTransactionInfo = (transactionId: string | null) => {
-  const {userInfo} = useTypedSelector(state => state.auth)
+  const {userInfo} = useUserStore()
 
   const shouldFetch = !!transactionId && !!userInfo
 

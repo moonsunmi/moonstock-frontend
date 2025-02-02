@@ -1,34 +1,15 @@
-import {useTransactionDialog} from '@/common/context/TransactionDialogProvider'
-import DeleteDialog from '@/common/dialog/DeleteDialog'
 import BuyDialog from './BuyDialog'
+import DeleteDialog from './DeleteDialog'
+import SellDialog from './SellDialog'
+import UpdateDialog from './UpdateDialog'
 
-const GlobalDialog = () => {
-  const {dialogType, dialogData, openDialog, closeDialog} =
-    useTransactionDialog()
+const GlobalDialog = () => (
+  <>
+    <BuyDialog />
+    <SellDialog />
+    <UpdateDialog />
+    {/* <DeleteDialog /> */}
+  </>
+)
 
-  if (!dialogType) return null
-
-  const renderDialog = () => {
-    switch (dialogType) {
-      case 'buy':
-        return <BuyDialog onClose={closeDialog} defaultValue={dialogData} />
-      case 'sell':
-        return <></>
-      // return (
-      //   <UpdateDialog
-      //     defaultTransaction={transaction}
-      //     defaultTicker={ticker}
-      //     type={type}
-      //     onClose={handleClose}
-      //   />
-      // )
-      case 'delete':
-        return <DeleteDialog onClose={closeDialog} transaction={dialogData} />
-      default:
-        return null
-    }
-  }
-
-  return <>{renderDialog()}</>
-}
 export default GlobalDialog

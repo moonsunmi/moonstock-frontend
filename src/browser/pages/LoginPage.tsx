@@ -4,20 +4,19 @@ import {ChangeEvent, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import useSWRMutation from 'swr/mutation'
 import {useSnackbar} from 'notistack'
-import {useTypedDispatch} from '@/store/store'
-import {setUserInfo} from '@/store/slices/authSlice'
 import {Button, Card, Input, Paragraph} from '@/browser/components/UI'
 import axiosInstance from '@/common/lib/axios'
 import {writeItemFromStorageP} from '@/common/utils'
+import {useUserStore} from '@/stores/useUserStore'
 
 type LoginArg = {email: string; password: string}
 type FormType = Record<'email' | 'password', string>
 
 const LoginPage = () => {
   const router = useRouter()
-  const dispatch = useTypedDispatch()
   const {enqueueSnackbar} = useSnackbar()
 
+  const {setUserInfo} = useUserStore()
   const [{email, password}, setForm] = useState<FormType>({
     email: '',
     password: ''
@@ -53,7 +52,8 @@ const LoginPage = () => {
   useEffect(() => {
     if (loginMutation.data) {
       const {userInfo, accessToken} = loginMutation.data
-      dispatch(setUserInfo(userInfo))
+
+      setUserInfo(userInfo)
       writeItemFromStorageP('accessToken', accessToken)
 
       router.push('/')

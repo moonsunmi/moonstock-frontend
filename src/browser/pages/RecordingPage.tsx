@@ -16,6 +16,7 @@ const RecordingPage = ({ticker}: {ticker: string}) => {
     router.push(`${path}/${id}`)
   }
 
+  console.log('transactionsss ', transactions)
   return (
     <>
       <div className="w-full">
@@ -103,6 +104,7 @@ const Transaction = ({
   transaction: IRecording
   handleOnClick: (id: string) => void
 }) => {
+  console.log(transaction)
   return (
     <div
       className="flex border border-t-primary-900"

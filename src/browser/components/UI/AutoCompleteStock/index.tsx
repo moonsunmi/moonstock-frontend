@@ -9,7 +9,7 @@ import {Stock} from '@prisma/client'
 import Input from '../Input'
 import {CustomInputProps} from '../Input/index.d'
 import useSWR from 'swr'
-import {useTypedSelector} from '@/store/store'
+import {useUserStore} from '@/stores/useUserStore'
 
 type AutoCompleteStockProps = {
   value: string
@@ -21,9 +21,10 @@ const AutoCompleteStock = ({
   onChange,
   ...customInputProps
 }: AutoCompleteStockProps) => {
-  const {userInfo} = useTypedSelector(state => state.auth)
+  const {userInfo} = useUserStore()
+
   const {data, error, isLoading} = useSWR<{ok: boolean; stockList: IStock[]}>(
-    ['/stocks', userInfo.id],
+    ['/api/stocks', userInfo.id],
     {
       fallbackData: {ok: false, stockList: []}
     }

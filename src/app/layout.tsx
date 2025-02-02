@@ -2,7 +2,6 @@ import {getServerSession} from 'next-auth'
 import ThemeRegistry from '../common/context/ThemeRegistry'
 // providers
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter'
-import ReduxProvider from '@/store/provider'
 import SnackbarProvider from '@/common/context/SnackbarProvider'
 import {SWRProvider} from '@/common/context/SWRProvider'
 // components
@@ -26,24 +25,22 @@ export default async function RootLayout({
         <AppRouterCacheProvider>
           <ThemeRegistry options={{key: 'mui'}}>
             <CssBaseline />
-            <ReduxProvider>
-              <SWRProvider>
-                {/* <NextAuthProvider session={session}> */}
-                {/* <TabCounter /> */}
-                <Header />
-                <SnackbarProvider>
-                  <main
-                    id="root"
-                    className="flex flex-1 w-full max-w-screen-lg pt-16 m-auto">
-                    {children}
-                  </main>
-                </SnackbarProvider>
-                <div id="overlays"></div>
-                <div className="h-3" />
-                {/* <Overlays /> */}
-                {/* </NextAuthProvider> */}
-              </SWRProvider>
-            </ReduxProvider>
+            <SWRProvider>
+              {/* <NextAuthProvider session={session}> */}
+              {/* <TabCounter /> */}
+              <Header />
+              <SnackbarProvider>
+                <main
+                  id="root"
+                  className="flex flex-1 w-full max-w-screen-lg pt-16 m-auto">
+                  {children}
+                </main>
+              </SnackbarProvider>
+              <div id="overlays"></div>
+              <div className="h-3" />
+              {/* <Overlays /> */}
+              {/* </NextAuthProvider> */}
+            </SWRProvider>
           </ThemeRegistry>
         </AppRouterCacheProvider>
       </body>

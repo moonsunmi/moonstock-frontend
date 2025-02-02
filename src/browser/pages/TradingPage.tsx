@@ -6,12 +6,14 @@ import {Button, Paragraph} from '@/browser/components/UI'
 import {TableHeader, TableRow} from '@/browser/components/UI/Table'
 // Hooks
 import useActiveTransactions from '@/common/hooks/api/useActiveTransactions'
-import {useTransactionDialog} from '@/common/context/TransactionDialogProvider'
 // Etc
 import {formatNumber, getDateFormat} from '@/common/utils'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {IconButton, Menu, MenuItem} from '@mui/material'
 import {initTransaction} from '@/common/lib/initData'
+import useBuyDialog from '@/stores/useBuyDialogStore'
+import useSellDialog from '@/stores/useSellDialogStore'
+import useUpdateDialog from '@/stores/useUpdateDialogStore'
 
 const TradingPage = ({ticker}: {ticker: string}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
@@ -19,20 +21,22 @@ const TradingPage = ({ticker}: {ticker: string}) => {
     useState<ITransaction | null>(null)
 
   const {stock, buys, error, isLoading} = useActiveTransactions(ticker)
-  const {openDialog} = useTransactionDialog()
+  const {openDialog: openBuyDialog} = useBuyDialog()
+  const {openDialog: openSellDialog} = useSellDialog()
+  const {openDialog: openUpdateDialog} = useUpdateDialog()
 
   const handleBuy = () => {
-    openDialog('buy', {...initTransaction, stockTicker: ticker})
+    openBuyDialog({...initTransaction, stockTicker: ticker})
   }
-  const handleUpdate = () => {
-    openDialog('update', selectedTransaction)
+  const handleUpdate = (row: ITransaction) => {
+    openUpdateDialog('buy', row)
   }
   const handleSell = (row: ITransaction) => {
-    openDialog('sell', row)
+    openSellDialog(row)
   }
 
   const handleDelete = () => {
-    openDialog('delete')
+    // openDialog('delete')
   }
 
   const handleMoreClick = (
@@ -136,7 +140,12 @@ const TradingPage = ({ticker}: {ticker: string}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         disableAutoFocusItem>
-        <MenuItem onClick={handleUpdate}>수정하기</MenuItem>
+        <MenuItem
+          onClick={() =>
+            selectedTransaction && handleUpdate(selectedTransaction)
+          }>
+          수정하기
+        </MenuItem>
         <MenuItem onClick={handleDelete}>삭제하기</MenuItem>
       </Menu>
     </>

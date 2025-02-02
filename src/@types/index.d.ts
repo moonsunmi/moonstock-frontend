@@ -24,12 +24,21 @@ declare global {
   //   transactions: IMatchedTrade[]
   // }
 
-  export interface IRecording extends IMatchedTrade {
+  export interface IRecording {
+    id: string
+    quantity: number
+    buyPrice: number
+    buyCreatedAt: Date
     profit: number
     duration: number
     rateOfProfit: number
-    rateOfProfitYear: number
-    /// .... more
+    sellTransactions: {
+      id: string
+      quantity: number
+      sellPrice: number
+      sellCreatedAt: Date
+    }[]
+    // rateOfProfitYear: number
   }
 
   export interface IMatchedTrade {
@@ -46,12 +55,11 @@ declare global {
 
   export interface ITransaction {
     id: string
-    type?: TransactionType
+    type?: TransactionType // 삭제될 예정
     stockTicker: string
     quantity: number
     price: number
     createdAt: Date
-    relatedBuyId?: string
   }
 
   export interface IStock {

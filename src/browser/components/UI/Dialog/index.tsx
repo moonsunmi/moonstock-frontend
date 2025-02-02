@@ -1,8 +1,9 @@
 import classNames from 'classnames'
 import Card from '../Card'
 import classes from './index.module.scss'
-import {DatePicker, Input, Paragraph} from '@/browser/components/UI'
+import {DatePicker, Input} from '@/browser/components/UI'
 import {ChangeEvent, Dispatch, HTMLAttributes, SetStateAction} from 'react'
+import StockAutocomplete from '../StockAutocomplete'
 
 interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {
   className?: string
@@ -50,7 +51,7 @@ export const DialogTransaction = ({
   const handleChange_Transaction = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
 
-    setTransaction(prevState => ({
+    setTransaction((prevState: ITransaction) => ({
       ...prevState,
       [name]: value
     }))
@@ -69,8 +70,12 @@ export const DialogTransaction = ({
         value={transaction['stockTicker']}
         onChange={handleChange_Transaction}
       />
+      <StockAutocomplete
+        onSelect={stock => console.log('선택한 종목:', stock)}
+      />
       <DatePicker
         className="w-full"
+        disableFuture
         value={
           transaction['createdAt'] ? new Date(transaction['createdAt']) : null
         }

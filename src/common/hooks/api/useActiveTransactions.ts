@@ -1,11 +1,10 @@
+import {useUserStore} from '@/stores/useUserStore'
 import useSWR from 'swr'
-import {useTypedSelector} from '@/store/store'
 
 const initStock = {ticker: '', name: '', market: ''}
 
 const useActiveTransactions = ticker => {
-  const {userInfo} = useTypedSelector(state => state.auth)
-
+  const {userInfo} = useUserStore()
   const shouldFetch = !!ticker && !!userInfo.id
 
   const {data, error, isLoading, mutate} = useSWR<{
