@@ -29,6 +29,7 @@ const StockAutocomplete = ({onSelect}: {onSelect: (stock: any) => void}) => {
 
   return (
     <Autocomplete
+      size="small"
       options={filteredStocks}
       getOptionLabel={option => `${option.ticker} - ${option.name}`}
       filterOptions={options => options} // 클라이언트에서 필터링했으므로 그대로 사용

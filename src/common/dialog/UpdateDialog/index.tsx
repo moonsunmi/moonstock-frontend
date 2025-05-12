@@ -5,7 +5,7 @@ import {
   DialogAction,
   Dialog,
   DialogTransaction
-} from '@/browser/components/UI/Dialog'
+} from '@/browser/components/UI/Dialog/Dialog'
 import {Button} from '@/browser/components/UI'
 import useUpdateDialog from '@/stores/useUpdateDialogStore'
 

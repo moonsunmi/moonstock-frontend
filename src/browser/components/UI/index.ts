@@ -2,7 +2,7 @@ import AutoCompleteStock from './AutoCompleteStock'
 import Button from './Button'
 import Card from './Card'
 import DatePicker from './DatePicker'
-import Dialog from './Dialog'
+import {Dialog, DialogAction, DialogContent} from './Dialog'
 import Input from './Input'
 import Output from './Output'
 import Paragraph from './Paragraph'
@@ -12,7 +12,7 @@ export {AutoCompleteStock}
 export {Button}
 export {Card}
 export {DatePicker}
-export {Dialog}
+export {Dialog, DialogAction, DialogContent}
 export {Input}
 export {Output}
 export {Paragraph}

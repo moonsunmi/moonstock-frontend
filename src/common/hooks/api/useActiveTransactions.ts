@@ -25,7 +25,7 @@ const useActiveTransactions = ticker => {
     stockTicker: '', // todo.
     quantity: transaction.quantity,
     price: transaction.price,
-    createdAt: transaction.createdAt,
+    tradeAt: transaction.tradeAt,
     relatedBuyId: null
   }))
 

@@ -1,0 +1,10 @@
+.transaction {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & > div {
+    display: flex;
+    gap: 1rem;
+  }
+}

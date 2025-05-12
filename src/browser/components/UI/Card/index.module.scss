@@ -1,7 +1,25 @@
 @import '@/common/lib/palette.scss';
 
 .card {
-  background-color: $secondary-050;
-  padding: 1rem;
   border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: $secondary-050;
+  transition: box-shadow 0.2s ease;
+  border: 1px solid $gray-200;
+}
+
+.size-sm {
+  width: 10rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+.size-md {
+  width: 20rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+.size-lg {
+  width: 30rem;
+  padding: 1.5rem;
+  border-radius: 1.75rem;
 }

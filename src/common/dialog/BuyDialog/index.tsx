@@ -1,20 +1,82 @@
-import {useState} from 'react'
+import {ChangeEvent, Dispatch, HTMLAttributes, SetStateAction} from 'react'
 import axiosInstance from '@/common/lib/axios'
 import useSWRMutation from 'swr/mutation'
 import {initTransaction} from '@/common/lib/initData'
+import classes from './index.module.scss'
+
 import {
+  Button,
+  DatePicker,
   DialogAction,
-  Dialog,
-  DialogTransaction
-} from '@/browser/components/UI/Dialog'
-import {Button} from '@/browser/components/UI'
+  DialogContent,
+  Input,
+  Paragraph
+} from '@/browser/components/UI'
 import useBuyDialog from '@/stores/useBuyDialogStore'
+import StockAutocomplete from '@/browser/components/UI/StockAutocomplete'
+import {Dialog, DialogTitle} from '@/browser/components/UI/Dialog'
+import classNames from 'classnames'
+
+interface DialogTransactionProps extends HTMLAttributes<HTMLDivElement> {
+  transaction: ITransaction
+  setTransaction: Dispatch<SetStateAction<ITransaction>>
+}
+
+const DialogTransaction = ({
+  transaction,
+  setTransaction,
+  className = '',
+  ...props
+}: DialogTransactionProps) => {
+  const handleChange_Transaction = (e: ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target
+
+    setTransaction((prevState: ITransaction) => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+  const handleChange_Date = (date: any) => {
+    setTransaction(prevState => ({...prevState, tradeAt: date}))
+  }
+
+  return (
+    <div className={classNames(classes.transaction, className)} {...props}>
+      <DatePicker
+        className="w-full"
+        disableFuture
+        value={
+          transaction['tradeAt'] ? new Date(transaction['tradeAt']) : new Date()
+        }
+        onChange={date => handleChange_Date(date)}
+      />
+      <div>
+        <Input
+          type="number"
+          className="w-1/2"
+          name="price"
+          label="가격"
+          value={transaction['price']}
+          onChange={handleChange_Transaction}
+        />
+        <Input
+          type="number"
+          className="w-1/2"
+          name="quantity"
+          label="수량"
+          value={transaction['quantity']}
+          onChange={handleChange_Transaction}
+        />
+      </div>
+    </div>
+  )
+}
 
 const BuyDialog = () => {
   const {isOpen, data: defaultValue, setData, closeDialog} = useBuyDialog()
 
   const transaction = defaultValue ?? initTransaction
-  const url = `/api/transactions/buy`
+  const url = `/api/trade/create`
 
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
@@ -28,6 +90,9 @@ const BuyDialog = () => {
     }
   )
 
+  const handleChangeStock = (stock: IStock) => {
+    setData(prevState => ({...prevState, stockTicker: stock.ticker}))
+  }
   const handleTransaction = () => {
     trigger(transaction)
     closeDialog()
@@ -36,8 +101,16 @@ const BuyDialog = () => {
   if (!isOpen) return null
 
   return (
-    <Dialog open={true} onClose={closeDialog} title={'매수 거래 기록'}>
-      <DialogTransaction transaction={transaction} setTransaction={setData} />
+    <Dialog open={true} onClose={closeDialog}>
+      <DialogTitle>매수 거래 기록</DialogTitle>
+      <DialogContent>
+        {defaultValue ? (
+          <Paragraph>{defaultValue.stockTicker}</Paragraph>
+        ) : (
+          <StockAutocomplete onSelect={stock => handleChangeStock(stock)} />
+        )}
+        <DialogTransaction transaction={transaction} setTransaction={setData} />
+      </DialogContent>
       <DialogAction>
         <Button variant="outlined" onClick={closeDialog}>
           취소

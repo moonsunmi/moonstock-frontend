@@ -8,18 +8,19 @@ import {Button, Paragraph} from '@/browser/components/UI'
 import {TableHeader, TableRow} from '@/browser/components/UI/Table'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {IconButton, Menu, MenuItem} from '@mui/material'
+import useDeleteDialog from '@/stores/useDeleteDialogStore'
 
 const RecordingDetailPage = ({id}: {id: string}) => {
+  const {openDialog: openDeleteDialog} = useDeleteDialog()
+
   const {transaction, error, isLoading} = useTransactionInfo(id)
-  const {openDialog} = useUpdateDialog()
+  const {openDialog: openUpdateDialog} = useUpdateDialog()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [selectedSell, setSelectedSell] = useState<any | null>(null)
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading transaction.</p>
   if (!transaction) return <p>거래 정보가 없습니다.</p>
-
-  console.log(transaction)
 
   const handleMoreClick = (
     event: React.MouseEvent<HTMLElement>,
@@ -113,7 +114,6 @@ const RecordingDetailPage = ({id}: {id: string}) => {
         </Button>
       </div>
 
-      {/* 매도 거래 테이블 */}
       <Paragraph variant="subtitle">매도 내역</Paragraph>
       {transaction.sellTransactions.length > 0 ? (
         <table className="w-full">
@@ -131,10 +131,10 @@ const RecordingDetailPage = ({id}: {id: string}) => {
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {selectedSell && (
           <>
-            <MenuItem onClick={() => openDialog('sell', selectedSell)}>
+            <MenuItem onClick={() => openUpdateDialog('sell', selectedSell)}>
               매도 수정
             </MenuItem>
-            <MenuItem onClick={() => console.log('매도 삭제', selectedSell.id)}>
+            <MenuItem onClick={() => openDeleteDialog(selectedSell)}>
               매도 삭제
             </MenuItem>
           </>

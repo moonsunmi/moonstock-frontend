@@ -34,6 +34,7 @@ axiosInstance.interceptors.response.use(
 
         return axiosInstance(originalRequest)
       } catch (error) {
+        window.location.href = '/login'
         localStorage.removeItem('accessToken')
         return Promise.reject(error)
       }

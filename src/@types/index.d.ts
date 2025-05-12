@@ -59,7 +59,7 @@ declare global {
     stockTicker: string
     quantity: number
     price: number
-    createdAt: Date
+    tradeAt: Date
   }
 
   export interface IStock {

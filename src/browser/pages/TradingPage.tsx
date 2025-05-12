@@ -8,12 +8,13 @@ import {TableHeader, TableRow} from '@/browser/components/UI/Table'
 import useActiveTransactions from '@/common/hooks/api/useActiveTransactions'
 // Etc
 import {formatNumber, getDateFormat} from '@/common/utils'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import {IconButton, Menu, MenuItem} from '@mui/material'
+import {Menu, MenuItem} from '@mui/material'
 import {initTransaction} from '@/common/lib/initData'
 import useBuyDialog from '@/stores/useBuyDialogStore'
 import useSellDialog from '@/stores/useSellDialogStore'
 import useUpdateDialog from '@/stores/useUpdateDialogStore'
+
+const GAP_PERCENT = 0.05 // todo. api로
 
 const TradingPage = ({ticker}: {ticker: string}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
@@ -39,28 +40,28 @@ const TradingPage = ({ticker}: {ticker: string}) => {
     // openDialog('delete')
   }
 
-  const handleMoreClick = (
-    event: React.MouseEvent<HTMLElement>,
-    transaction: ITransaction
-  ) => {
-    setAnchorEl(event.currentTarget)
-    setSelectedTransaction(transaction)
-  }
+  // const handleMoreClick = (
+  //   event: React.MouseEvent<HTMLElement>,
+  //   transaction: ITransaction
+  // ) => {
+  //   setAnchorEl(event.currentTarget)
+  //   setSelectedTransaction(transaction)
+  // }
   const handleClose = () => {
     setAnchorEl(null)
     setSelectedTransaction(null)
   }
 
   const columns: {
-    key: keyof ITransaction | 'sellButton' | 'more'
+    key: keyof ITransaction | 'sellButton' | 'more' | 'targetPrice'
     header: string
     className?: string
     render?: (row: ITransaction) => React.ReactNode
   }[] = [
     {
-      key: 'createdAt',
+      key: 'tradeAt',
       header: '거래일',
-      render: row => getDateFormat(row.createdAt, 'yy.MM.dd')
+      render: row => getDateFormat(row.tradeAt, 'yy.MM.dd')
     },
     {
       key: 'price',
@@ -72,6 +73,12 @@ const TradingPage = ({ticker}: {ticker: string}) => {
       key: 'quantity',
       header: '보유수량',
       render: row => formatNumber(row.quantity),
+      className: 'text-right'
+    },
+    {
+      key: 'targetPrice',
+      header: '목표 매도 가격',
+      render: row => formatNumber(row.price * (1 + GAP_PERCENT)),
       className: 'text-right'
     },
     {
@@ -88,16 +95,16 @@ const TradingPage = ({ticker}: {ticker: string}) => {
         </>
       ),
       className: 'text-center'
-    },
-    {
-      key: 'more',
-      header: '',
-      render: row => (
-        <IconButton onClick={event => handleMoreClick(event, row)}>
-          <MoreVertIcon />
-        </IconButton>
-      )
     }
+    // {
+    //   key: 'more',
+    //   header: '',
+    //   render: row => (
+    //     <IconButton onClick={event => handleMoreClick(event, row)}>
+    //       <MoreVertIcon />
+    //     </IconButton>
+    //   )
+    // }
   ]
 
   if (error) {
@@ -129,7 +136,11 @@ const TradingPage = ({ticker}: {ticker: string}) => {
             })}
             <tr>
               <td colSpan={columns.length} className="text-center">
-                <Button onClick={handleBuy}>새 거래 등록하기</Button>
+                <Paragraph>
+                  목표 매수 가격:{' '}
+                  {formatNumber(buys?.at(-1)?.price * (1 - GAP_PERCENT))}
+                </Paragraph>
+                <Button onClick={handleBuy}>추가 매수하기</Button>
               </td>
             </tr>
           </tbody>

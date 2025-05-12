@@ -4,16 +4,43 @@ import classes from './index.module.scss'
 type CardProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
->
+> & {
+  variant?: 'default' | 'stock' | 'dialog'
+  size?: 'sm' | 'md' | 'lg'
+}
 
-const Card = ({...props}: CardProps) => {
-  const {className: _className, children, ...restProps} = props
-  const className = [classes.card, _className].join(' ')
+const getSizeByVariant = (variant: CardProps['variant']) => {
+  switch (variant) {
+    case 'dialog':
+      return 'lg'
+    case 'stock':
+      return 'sm'
+    default:
+      return 'md'
+  }
+}
+
+const Card = ({
+  className,
+  children,
+  variant = 'default',
+  size = 'md',
+  ...restProps
+}: CardProps) => {
+  const resolvedSize = variant ? getSizeByVariant(variant) : size
+
+  const composedClassName = classNames(
+    classes.card,
+    // classes[`variant-${variant}`],
+    classes[`size-${resolvedSize}`],
+    className
+  )
 
   return (
-    <div className={className} {...restProps}>
+    <div className={composedClassName} {...restProps}>
       {children}
     </div>
   )
 }
+
 export default Card
