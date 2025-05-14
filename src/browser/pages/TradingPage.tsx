@@ -10,7 +10,7 @@ import useActiveTransactions from '@/common/hooks/api/useActiveTransactions'
 import {formatNumber, getDateFormat} from '@/common/utils'
 import {Menu, MenuItem} from '@mui/material'
 import {initTransaction} from '@/common/lib/initData'
-import useBuyDialog from '@/stores/useBuyDialogStore'
+import useBuyDialog from '@/stores/useTradeDialogStore'
 import useSellDialog from '@/stores/useSellDialogStore'
 import useUpdateDialog from '@/stores/useUpdateDialogStore'
 

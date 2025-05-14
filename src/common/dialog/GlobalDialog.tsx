@@ -1,11 +1,9 @@
-import BuyDialog from './BuyDialog'
+import BuyDialog from './TradeDialog'
 import DeleteDialog from './DeleteDialog'
-import UpdateDialog from './UpdateDialog'
 
 const GlobalDialog = () => (
   <>
     <BuyDialog />
-    <UpdateDialog />
     <DeleteDialog />
   </>
 )

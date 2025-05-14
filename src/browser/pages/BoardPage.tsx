@@ -5,7 +5,7 @@ import {useRouter} from 'next/navigation'
 import {Button, Card, Paragraph} from '@/browser/components/UI'
 // Hooks
 import useGetHoldings from '@/common/hooks/api/useHoldings'
-import useBuyDialog from '@/stores/useBuyDialogStore'
+import useBuyDialog from '@/stores/useTradeDialogStore'
 
 const BoardPage = () => {
   const router = useRouter()
@@ -42,7 +42,7 @@ const BoardPage = () => {
         <Card
           className="h-48"
           onClick={() => {
-            openDialog()
+            openDialog('create')
           }}>
           <Paragraph>새 종목으로 거래 시작하기</Paragraph>
         </Card>

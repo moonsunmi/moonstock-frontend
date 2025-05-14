@@ -12,7 +12,7 @@ import {
   Input,
   Paragraph
 } from '@/browser/components/UI'
-import useBuyDialog from '@/stores/useBuyDialogStore'
+import useTradeDialog from '@/stores/useTradeDialogStore'
 import StockAutocomplete from '@/browser/components/UI/StockAutocomplete'
 import {Dialog, DialogTitle} from '@/browser/components/UI/Dialog'
 import classNames from 'classnames'
@@ -72,11 +72,20 @@ const DialogTransaction = ({
   )
 }
 
-const BuyDialog = () => {
-  const {isOpen, data: defaultValue, setData, closeDialog} = useBuyDialog()
+const TradeDialog = () => {
+  const {
+    isOpen,
+    mode,
+    data: defaultValue,
+    setData,
+    closeDialog
+  } = useTradeDialog()
 
   const transaction = defaultValue ?? initTransaction
-  const url = `/api/trade/create`
+  const isCreate = mode === 'create'
+  const url = isCreate
+    ? `/api/trade/create`
+    : `/api/trade/${transaction?.id}/update/`
 
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
@@ -104,11 +113,7 @@ const BuyDialog = () => {
     <Dialog open={true} onClose={closeDialog}>
       <DialogTitle>매수 거래 기록</DialogTitle>
       <DialogContent>
-        {defaultValue ? (
-          <Paragraph>{defaultValue.stockTicker}</Paragraph>
-        ) : (
-          <StockAutocomplete onSelect={stock => handleChangeStock(stock)} />
-        )}
+        <StockAutocomplete onSelect={stock => handleChangeStock(stock)} />
         <DialogTransaction transaction={transaction} setTransaction={setData} />
       </DialogContent>
       <DialogAction>
@@ -120,4 +125,4 @@ const BuyDialog = () => {
     </Dialog>
   )
 }
-export default BuyDialog
+export default TradeDialog
