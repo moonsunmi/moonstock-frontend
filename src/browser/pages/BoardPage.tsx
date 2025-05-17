@@ -5,19 +5,19 @@ import {useRouter} from 'next/navigation'
 import {Button, Card, Paragraph} from '@/browser/components/UI'
 // Hooks
 import useGetHoldings from '@/common/hooks/api/useHoldings'
-import useBuyDialog from '@/stores/useTradeDialogStore'
+import useTradeDialog from '@/stores/useTradeDialogStore'
 
 const BoardPage = () => {
   const router = useRouter()
 
-  const {openDialog} = useBuyDialog()
+  const {openDialog} = useTradeDialog()
   const {holdings, error, isLoading} = useGetHoldings()
 
   return (
-    <>
-      <div className="grid w-full gap-8 grid-cols-auto-fill-minmax">
+    <div className="flex flex-col gap-8">
+      <div className="grid w-full grid-cols-3 gap-8">
         {holdings.map((holding, index) => (
-          <Card key={index} className="flex flex-col justify-between h-48">
+          <Card key={index} className="flex flex-col justify-between h-40">
             <Paragraph variant="title">{holding['name']}</Paragraph>
             <div>
               <Button
@@ -39,15 +39,16 @@ const BoardPage = () => {
             <Paragraph>{`수익률: `}</Paragraph> */}
           </Card>
         ))}
-        <Card
-          className="h-48"
-          onClick={() => {
-            openDialog('create')
-          }}>
-          <Paragraph>새 종목으로 거래 시작하기</Paragraph>
-        </Card>
       </div>
-    </>
+      <Button
+        variant="outlined"
+        className="w-full"
+        onClick={() => {
+          openDialog('create')
+        }}>
+        새 종목으로 거래 시작하기
+      </Button>
+    </div>
   )
 }
 

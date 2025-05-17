@@ -16,6 +16,7 @@ import useTradeDialog from '@/stores/useTradeDialogStore'
 import StockAutocomplete from '@/browser/components/UI/StockAutocomplete'
 import {Dialog, DialogTitle} from '@/browser/components/UI/Dialog'
 import classNames from 'classnames'
+import Radio from '@/browser/components/UI/Radio'
 
 interface DialogTransactionProps extends HTMLAttributes<HTMLDivElement> {
   transaction: ITransaction
@@ -40,8 +41,27 @@ const DialogTransaction = ({
     setTransaction(prevState => ({...prevState, tradeAt: date}))
   }
 
+  console.log(transaction)
   return (
     <div className={classNames(classes.transaction, className)} {...props}>
+      <div>
+        <Radio
+          name="type"
+          value="BUY"
+          checked={transaction?.type === 'BUY'}
+          onChange={handleChange_Transaction}
+          label="매수"
+          customSize="sm"
+        />
+        <Radio
+          name="type"
+          value="SELL"
+          checked={transaction?.type === 'SELL'}
+          onChange={handleChange_Transaction}
+          label="매도"
+          customSize="sm"
+        />
+      </div>
       <DatePicker
         className="w-full"
         disableFuture

@@ -1,6 +1,6 @@
 import AutoCompleteStock from './AutoCompleteStock'
 import Button from './Button'
-import Card from './Card'
+import Card from './Card/Card'
 import DatePicker from './DatePicker'
 import {Dialog, DialogAction, DialogContent} from './Dialog'
 import Input from './Input'

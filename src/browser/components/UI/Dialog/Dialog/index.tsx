@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import Card from '../../Card'
+import Card from '../../Card/Card'
 import classes from './index.module.scss'
 import {HTMLAttributes} from 'react'
 

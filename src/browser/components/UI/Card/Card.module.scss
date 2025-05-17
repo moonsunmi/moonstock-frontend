@@ -1,6 +1,7 @@
 @import '@/common/lib/palette.scss';
 
 .card {
+  width: 100%;
   border-radius: 0.5rem;
   padding: 1rem;
   background-color: $secondary-050;
@@ -9,17 +10,17 @@
 }
 
 .size-sm {
-  width: 10rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
+  min-width: 160px;
 }
 .size-md {
-  width: 20rem;
   padding: 1rem;
   border-radius: 1rem;
+  min-width: 240px;
 }
 .size-lg {
-  width: 30rem;
   padding: 1.5rem;
   border-radius: 1.75rem;
+  min-width: 320px;
 }

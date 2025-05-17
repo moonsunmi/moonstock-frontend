@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import classes from './index.module.scss'
+import classes from './Card.module.scss'
 
 type CardProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
