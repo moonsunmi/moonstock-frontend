@@ -1,4 +1,3 @@
-import AutoCompleteStock from './AutoCompleteStock'
 import Button from './Button'
 import Card from './Card/Card'
 import DatePicker from './DatePicker'
@@ -8,7 +7,6 @@ import Output from './Output'
 import Paragraph from './Paragraph'
 import Tooltip from './Tooltip'
 
-export {AutoCompleteStock}
 export {Button}
 export {Card}
 export {DatePicker}

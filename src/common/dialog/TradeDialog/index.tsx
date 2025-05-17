@@ -1,3 +1,5 @@
+'use client'
+
 import {ChangeEvent, Dispatch, HTMLAttributes, SetStateAction} from 'react'
 import axiosInstance from '@/common/lib/axios'
 import useSWRMutation from 'swr/mutation'
@@ -9,8 +11,7 @@ import {
   DatePicker,
   DialogAction,
   DialogContent,
-  Input,
-  Paragraph
+  Input
 } from '@/browser/components/UI'
 import useTradeDialog from '@/stores/useTradeDialogStore'
 import StockAutocomplete from '@/browser/components/UI/StockAutocomplete'
@@ -42,6 +43,7 @@ const DialogTransaction = ({
   }
 
   console.log(transaction)
+
   return (
     <div className={classNames(classes.transaction, className)} {...props}>
       <div>
@@ -92,7 +94,11 @@ const DialogTransaction = ({
   )
 }
 
-const TradeDialog = () => {
+interface TradeDialogProps {
+  stockList: IStock[]
+}
+
+const TradeDialog = ({stockList}: TradeDialogProps) => {
   const {
     isOpen,
     mode,
@@ -105,13 +111,13 @@ const TradeDialog = () => {
   const isCreate = mode === 'create'
   const url = isCreate
     ? `/api/trade/create`
-    : `/api/trade/${transaction?.id}/update/`
+    : `/api/trade/${transaction?.id}/update`
 
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
     (url, {arg}: {arg: ITransaction}) => {
       return axiosInstance(url, {
-        method: 'post',
+        method: isCreate ? 'post' : 'put',
         data: arg,
         headers: {'Content-Type': 'multipart/form-data'},
         withCredentials: false
@@ -133,7 +139,11 @@ const TradeDialog = () => {
     <Dialog open={true} onClose={closeDialog}>
       <DialogTitle>매수 거래 기록</DialogTitle>
       <DialogContent>
-        <StockAutocomplete onSelect={stock => handleChangeStock(stock)} />
+        <StockAutocomplete
+          defaultTicker={transaction.stockTicker}
+          stockList={stockList}
+          onSelect={stock => handleChangeStock(stock)}
+        />
         <DialogTransaction transaction={transaction} setTransaction={setData} />
       </DialogContent>
       <DialogAction>

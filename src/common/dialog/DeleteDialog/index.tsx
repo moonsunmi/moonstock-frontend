@@ -1,3 +1,5 @@
+'use client'
+
 import {Button, Paragraph} from '@/browser/components/UI'
 import {
   DialogAction,
@@ -33,7 +35,7 @@ const DeleteDialog = () => {
       <DialogContent>
         <Paragraph>다음의 거래를 삭제하시겠습니까?</Paragraph>
         <ul>
-          <li>{`${transaction?.tradeAt}`}</li>
+          <li>{`${transaction?.tradeDate}`}</li>
           <li>{`${transaction?.price}원`}</li>
           <li>{`${transaction?.quantity}개`}</li>
         </ul>

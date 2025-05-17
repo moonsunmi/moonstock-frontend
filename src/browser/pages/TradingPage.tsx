@@ -5,14 +5,12 @@ import {useState} from 'react'
 import {Button, Paragraph} from '@/browser/components/UI'
 import {TableHeader, TableRow} from '@/browser/components/UI/Table'
 // Hooks
-import useActiveTransactions from '@/common/hooks/api/useActiveTransactions'
+import useTrading from '@/common/hooks/api/useTrading'
 // Etc
 import {formatNumber, getDateFormat} from '@/common/utils'
 import {Menu, MenuItem} from '@mui/material'
 import {initTransaction} from '@/common/lib/initData'
-import useBuyDialog from '@/stores/useTradeDialogStore'
-import useSellDialog from '@/stores/useSellDialogStore'
-import useUpdateDialog from '@/stores/useUpdateDialogStore'
+import useTradeDialog from '@/stores/useTradeDialogStore'
 
 const GAP_PERCENT = 0.05 // todo. api로
 
@@ -21,19 +19,17 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   const [selectedTransaction, setSelectedTransaction] =
     useState<ITransaction | null>(null)
 
-  const {stock, buys, error, isLoading} = useActiveTransactions(ticker)
-  const {openDialog: openBuyDialog} = useBuyDialog()
-  const {openDialog: openSellDialog} = useSellDialog()
-  const {openDialog: openUpdateDialog} = useUpdateDialog()
+  const {stock, tradings, error, isLoading} = useTrading(ticker)
+  const {openDialog} = useTradeDialog()
 
   const handleBuy = () => {
-    openBuyDialog({...initTransaction, stockTicker: ticker})
+    openDialog('create', {...initTransaction, stockTicker: ticker})
   }
   const handleUpdate = (row: ITransaction) => {
-    openUpdateDialog('buy', row)
+    openDialog('update', row)
   }
   const handleSell = (row: ITransaction) => {
-    openSellDialog(row)
+    openDialog('create', row)
   }
 
   const handleDelete = () => {
@@ -53,15 +49,15 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   }
 
   const columns: {
-    key: keyof ITransaction | 'sellButton' | 'more' | 'targetPrice'
+    key: keyof ITransaction | 'updateButton' | 'more' | 'targetPrice'
     header: string
     className?: string
     render?: (row: ITransaction) => React.ReactNode
   }[] = [
     {
-      key: 'tradeAt',
+      key: 'tradeDate',
       header: '거래일',
-      render: row => getDateFormat(row.tradeAt, 'yy.MM.dd')
+      render: row => getDateFormat(row.tradeDate, 'yy.MM.dd')
     },
     {
       key: 'price',
@@ -82,29 +78,20 @@ const TradingPage = ({ticker}: {ticker: string}) => {
       className: 'text-right'
     },
     {
-      key: 'sellButton',
+      key: 'updateButton',
       header: '',
       render: row => (
         <>
           <Button
             variant="text"
             className="w-1/5"
-            onClick={() => handleSell(row)}>
-            매도하기
+            onClick={() => handleUpdate(row)}>
+            수정하기
           </Button>
         </>
       ),
       className: 'text-center'
     }
-    // {
-    //   key: 'more',
-    //   header: '',
-    //   render: row => (
-    //     <IconButton onClick={event => handleMoreClick(event, row)}>
-    //       <MoreVertIcon />
-    //     </IconButton>
-    //   )
-    // }
   ]
 
   if (error) {
@@ -131,14 +118,14 @@ const TradingPage = ({ticker}: {ticker: string}) => {
         <table className="w-full">
           <TableHeader columns={columns} className="" />
           <tbody>
-            {buys.map(buy => {
+            {tradings.map(buy => {
               return <TableRow key={buy.id} row={buy} columns={columns} />
             })}
             <tr>
               <td colSpan={columns.length} className="text-center">
                 <Paragraph>
                   목표 매수 가격:{' '}
-                  {formatNumber(buys?.at(-1)?.price * (1 - GAP_PERCENT))}
+                  {formatNumber(tradings?.at(-1)?.price * (1 - GAP_PERCENT))}
                 </Paragraph>
                 <Button onClick={handleBuy}>추가 매수하기</Button>
               </td>
