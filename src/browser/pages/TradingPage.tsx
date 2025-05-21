@@ -1,151 +1,242 @@
 'use client'
 
-import {useState} from 'react'
-// Components
-import {Button, Paragraph} from '@/browser/components/UI'
-import {TableHeader, TableRow} from '@/browser/components/UI/Table'
-// Hooks
-import useTrading from '@/common/hooks/api/useTrading'
-// Etc
-import {formatNumber, getDateFormat} from '@/common/utils'
+import {useEffect, useMemo, useState} from 'react'
+import {Button, Dialog, DialogAction, Paragraph} from '@/browser/components/UI'
 import {Menu, MenuItem} from '@mui/material'
-import {initTransaction} from '@/common/lib/initData'
+import {getDateFormat, formatNumber} from '@/common/utils'
+import useTrading from '@/common/hooks/api/useTrading'
 import useTradeDialog from '@/stores/useTradeDialogStore'
-
-const GAP_PERCENT = 0.05 // todo. api로
+import classNames from 'classnames'
+import {DialogContent, DialogTitle} from '../components/UI/Dialog'
 
 const TradingPage = ({ticker}: {ticker: string}) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
-  const [selectedTransaction, setSelectedTransaction] =
-    useState<ITransaction | null>(null)
-
-  const {stock, tradings, error, isLoading} = useTrading(ticker)
+  const {tradings, stock, error} = useTrading(ticker)
   const {openDialog} = useTradeDialog()
 
-  const handleBuy = () => {
-    openDialog('create', {...initTransaction, stockTicker: ticker})
+  const [sortBy, setSortBy] = useState<'price' | 'date'>('price')
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<ITransaction | null>(null)
+  const [matchTransactions, setMatchTransactions] = useState<ITransaction[]>([])
+
+  const [pendingType, setPendingType] = useState<TransactionType>(null)
+
+  const [mode, setMode] = useState<'edit' | 'match'>('match')
+  const [openMatching, setOpenMatching] = useState<boolean>(false)
+
+  // long클릭 시 메뉴 열리게. e는 어떻게 하지?
+  const handleLongPress = (e: React.MouseEvent) => {
+    setAnchorEl(e.currentTarget as HTMLElement)
   }
-  const handleUpdate = (row: ITransaction) => {
-    openDialog('update', row)
+  const handleRowClick = (
+    // e: React.MouseEvent<HTMLElement>,
+    transaction: ITransaction
+  ) => {
+    if (mode === 'edit') {
+      setSelectedTransaction(transaction)
+    } else {
+      // todo. toggle 형태로.
+      setMatchTransactions(prev => [...prev, transaction])
+    }
   }
-  const handleSell = (row: ITransaction) => {
-    openDialog('create', row)
+
+  // const clickHandlers = useLongPress({
+  //   onClick: handleRowClick,
+  //   onLongPress: handleLongPress
+  // })
+
+  const sortedTradings = useMemo(() => {
+    const sorted = [...tradings]
+    return sortBy === 'price'
+      ? sorted.sort((a, b) => b.price - a.price)
+      : sorted.sort(
+          (a, b) =>
+            new Date(b.tradeDate).getTime() - new Date(a.tradeDate).getTime()
+        )
+  }, [tradings, sortBy])
+
+  const handleCreate = (type: TransactionType) => {
+    openDialog('create')
+  }
+
+  const handleUpdate = () => {
+    if (selectedTransaction) {
+      openDialog('update', selectedTransaction)
+      handleCloseMenu()
+    }
   }
 
   const handleDelete = () => {
-    // openDialog('delete')
+    if (selectedTransaction) {
+      openDialog('delete', selectedTransaction)
+      handleCloseMenu()
+    }
   }
 
-  // const handleMoreClick = (
-  //   event: React.MouseEvent<HTMLElement>,
-  //   transaction: ITransaction
-  // ) => {
-  //   setAnchorEl(event.currentTarget)
-  //   setSelectedTransaction(transaction)
-  // }
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null)
     setSelectedTransaction(null)
   }
 
-  const columns: {
-    key: keyof ITransaction | 'updateButton' | 'more' | 'targetPrice'
-    header: string
-    className?: string
-    render?: (row: ITransaction) => React.ReactNode
-  }[] = [
-    {
-      key: 'tradeDate',
-      header: '거래일',
-      render: row => getDateFormat(row.tradeDate, 'yy.MM.dd')
-    },
-    {
-      key: 'price',
-      header: '거래금액',
-      render: row => formatNumber(row.price),
-      className: 'text-right'
-    },
-    {
-      key: 'quantity',
-      header: '보유수량',
-      render: row => formatNumber(row.quantity),
-      className: 'text-right'
-    },
-    {
-      key: 'targetPrice',
-      header: '목표 매도 가격',
-      render: row => formatNumber(row.price * (1 + GAP_PERCENT)),
-      className: 'text-right'
-    },
-    {
-      key: 'updateButton',
-      header: '',
-      render: row => (
-        <>
-          <Button
-            variant="text"
-            className="w-1/5"
-            onClick={() => handleUpdate(row)}>
-            수정하기
-          </Button>
-        </>
-      ),
-      className: 'text-center'
-    }
+  const handleCloseMatching = () => {
+    setMatchTransactions([])
+    setOpenMatching(false)
+  }
+
+  const columns = [
+    '매수 날짜',
+    '매수 금액',
+    '매수 개수',
+    '매도 날짜',
+    '매도 금액',
+    '매도 개수'
   ]
 
-  if (error) {
+  const getRow = (transaction: ITransaction) => {
+    const isBuy = transaction.type === 'BUY'
+
+    const buyCells = isBuy
+      ? [
+          getDateFormat(transaction.tradeDate, 'yy.MM.dd'),
+          formatNumber(transaction.price),
+          formatNumber(transaction.quantity)
+        ]
+      : ['', '', '']
+
+    const sellCells = !isBuy
+      ? [
+          getDateFormat(transaction.tradeDate, 'yy.MM.dd'),
+          formatNumber(transaction.price),
+          formatNumber(transaction.quantity)
+        ]
+      : ['', '', '']
+
     return (
-      <table>
-        <TableHeader columns={columns} />
-        <tbody>
-          <tr>
-            <td colSpan={columns.length}>
-              오류가 발생했습니다. 나중에 다시 시도해 주세요.
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <tr key={transaction.id} className="border-b">
+        {/* 매수 셀 그룹 */}
+        <td colSpan={3} className="p-0">
+          <div
+            className={classNames(
+              'flex divide-x divide-gray-300',
+              isBuy
+                ? 'bg-red-50 hover:bg-red-100 cursor-pointer'
+                : 'cursor-default'
+            )}
+            // {...clickHandlers}
+            onClick={() => handleRowClick(transaction)}>
+            {buyCells.map((cell, i) => (
+              <div key={i} className="flex-1 px-4 py-2 text-center">
+                {cell}
+              </div>
+            ))}
+          </div>
+        </td>
+
+        {/* 매도 셀 그룹 */}
+        <td colSpan={3} className="p-0">
+          <div
+            className={classNames(
+              'flex divide-x divide-gray-300',
+              !isBuy
+                ? 'bg-blue-50 hover:bg-blue-100 cursor-pointer'
+                : 'cursor-default'
+            )}
+            // {...clickHandlers}
+          >
+            {sellCells.map((cell, i) => (
+              <div key={i} className="flex-1 px-4 py-2 text-center">
+                {cell}
+              </div>
+            ))}
+          </div>
+        </td>
+      </tr>
     )
   }
 
+  if (error) {
+    return <div>오류가 발생했습니다. 나중에 다시 시도해 주세요.</div>
+  }
+
+  useEffect(() => {
+    if (matchTransactions?.length === 2) setOpenMatching(true)
+  }, [matchTransactions])
+
   return (
     <>
-      <div className="w-full">
-        <Paragraph variant="title">
-          {`${stock?.name}(${stock?.ticker})`}
-        </Paragraph>
-        <table className="w-full">
-          <TableHeader columns={columns} className="" />
-          <tbody>
-            {tradings.map(buy => {
-              return <TableRow key={buy.id} row={buy} columns={columns} />
-            })}
+      <div className="w-full space-y-4">
+        <div className="flex items-center justify-between">
+          <Paragraph variant="title">
+            {`${stock?.name}(${stock?.ticker})`}
+          </Paragraph>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => setSortBy('price')}
+              variant={sortBy === 'price' ? 'solid' : 'text'}>
+              가격순
+            </Button>
+            <Button
+              onClick={() => setSortBy('date')}
+              variant={sortBy === 'date' ? 'solid' : 'text'}>
+              날짜순
+            </Button>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              disabled={mode === 'match'}
+              onClick={() => setMode('match')}>
+              매칭모드
+            </Button>
+            <Button disabled={mode === 'edit'} onClick={() => setMode('edit')}>
+              수정모드
+            </Button>
+          </div>
+        </div>
+
+        <table className="w-full text-sm border">
+          <thead className="bg-gray-100">
             <tr>
-              <td colSpan={columns.length} className="text-center">
-                <Paragraph>
-                  목표 매수 가격:{' '}
-                  {formatNumber(tradings?.at(-1)?.price * (1 - GAP_PERCENT))}
-                </Paragraph>
-                <Button onClick={handleBuy}>추가 매수하기</Button>
-              </td>
+              {columns.map(col => (
+                <th key={col} className="px-4 py-2 text-center">
+                  {col}
+                </th>
+              ))}
             </tr>
-          </tbody>
+          </thead>
+          <tbody>{sortedTradings.map(getRow)}</tbody>
         </table>
+
+        <div className="flex justify-center gap-4">
+          <Button onClick={() => handleCreate('BUY')} color="error">
+            매수 추가
+          </Button>
+          <Button onClick={() => handleCreate('SELL')} color="primary">
+            매도 추가
+          </Button>
+        </div>
       </div>
+
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={handleCloseMenu}
         disableAutoFocusItem>
-        <MenuItem
-          onClick={() =>
-            selectedTransaction && handleUpdate(selectedTransaction)
-          }>
-          수정하기
-        </MenuItem>
+        <MenuItem onClick={handleUpdate}>수정하기</MenuItem>
         <MenuItem onClick={handleDelete}>삭제하기</MenuItem>
       </Menu>
+
+      <Dialog open={openMatching} onClose={handleCloseMatching}>
+        <DialogTitle>매칭하기</DialogTitle>
+        <DialogContent>
+          {matchTransactions[0]?.id}
+          {matchTransactions[1]?.id}
+          매칭하시겠습니까?
+        </DialogContent>
+        <DialogAction>
+          <Button>취소</Button>
+          <Button>매칭</Button>
+        </DialogAction>
+      </Dialog>
     </>
   )
 }

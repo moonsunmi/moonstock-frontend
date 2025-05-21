@@ -4,12 +4,15 @@ import useSWRMutation from 'swr/mutation'
 import axiosInstance from '@/common/lib/axios'
 // Components
 import {Dialog, DialogActions, DialogContent} from '@mui/material'
-import {Button, Input, Paragraph} from '@/browser/components/UI'
-// Etc
-import classes from './index.module.scss'
-import {Dialog_TransactionProps} from './index.d'
+import {Button, Input} from '@/browser/components/UI'
 
-const Dialog_Holding = ({onClose, open}: Dialog_TransactionProps) => {
+export interface HoldingDialogProps {
+  defaultTransaction?: ITransaction
+  onClose: () => void
+  open: boolean
+}
+
+const HoldingDialog = ({onClose, open}: HoldingDialogProps) => {
   const [ticker, setTicker] = useState<string>('')
 
   const postHolding = useSWRMutation(
@@ -44,7 +47,7 @@ const Dialog_Holding = ({onClose, open}: Dialog_TransactionProps) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogContent className={classes.content}>
+      <DialogContent className="flex flex-col gap-4 px-8 py-16 w-80">
         <Input
           type="text"
           className="w-1/2"
@@ -54,12 +57,12 @@ const Dialog_Holding = ({onClose, open}: Dialog_TransactionProps) => {
           onChange={handleChange}
         />
       </DialogContent>
-      <DialogActions className={classes.action}>
+      <DialogActions className="p-8">
         <Button onClick={handleOnTransact}>등록</Button>
-        <Button onClick={() => onClose()}>취소</Button>
+        <Button onClick={onClose}>취소</Button>
       </DialogActions>
     </Dialog>
   )
 }
 
-export default Dialog_Holding
+export default HoldingDialog
