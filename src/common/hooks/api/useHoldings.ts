@@ -1,4 +1,3 @@
-import {useEffect} from 'react'
 import useSWR from 'swr'
 import {useUserStore} from '@/stores/useUserStore'
 

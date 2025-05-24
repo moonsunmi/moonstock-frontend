@@ -17,8 +17,8 @@ const useTrading = ticker => {
     }
   })
 
-  const stock = data.stock
-  const tradings = data.tradings
+  const stock = data?.stock ?? initStock
+  const tradings = data?.tradings ?? []
 
   return {stock, tradings, error, isLoading, mutate}
 }

@@ -24,33 +24,19 @@ declare global {
   //   transactions: IMatchedTrade[]
   // }
 
-  export interface IRecording {
-    id: string
-    quantity: number
-    buyPrice: number
-    buyCreatedAt: Date
-    profit: number
-    duration: number
-    rateOfProfit: number
-    sellTransactions: {
-      id: string
-      quantity: number
-      sellPrice: number
-      sellCreatedAt: Date
-    }[]
-    // rateOfProfitYear: number
-  }
-
   export interface IMatchedTrade {
     id: string
-    type: TransactionType
-    stockTicker: string
-    quantity: number
-    partiallyDone: TransactionType
-    buyCreatedAt: Date
-    sellCreatedAt: Date
-    buyPrice: number
-    sellPrice: number
+    buyTrade: ITransaction
+    sellTrade: ITransaction
+    matchDate: Date
+    // type: TransactionType
+    // stockTicker: string
+    // quantity: number
+    // partiallyDone: TransactionType
+    // buyCreatedAt: Date
+    // sellCreatedAt: Date
+    // buyPrice: number
+    // sellPrice: number
   }
 
   export interface ITransaction {
@@ -59,7 +45,7 @@ declare global {
     stockTicker: string
     quantity: number
     price: number
-    tradeDate: Date
+    tradeAt: Date
     accountId: string
   }
 

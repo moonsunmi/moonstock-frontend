@@ -1,13 +1,13 @@
 'use client'
 
 import {useEffect, useMemo, useState} from 'react'
-import {Button, Dialog, DialogAction, Paragraph} from '@/browser/components/UI'
+import {Button, Paragraph} from '@/browser/components/UI'
 import {Menu, MenuItem} from '@mui/material'
 import {getDateFormat, formatNumber} from '@/common/utils'
 import useTrading from '@/common/hooks/api/useTrading'
 import useTradeDialog from '@/stores/useTradeDialogStore'
 import classNames from 'classnames'
-import {DialogContent, DialogTitle} from '../components/UI/Dialog'
+import MatchingDialog from '@/common/dialog/MatchDialog'
 
 const TradingPage = ({ticker}: {ticker: string}) => {
   const {tradings, stock, error} = useTrading(ticker)
@@ -24,10 +24,6 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   const [mode, setMode] = useState<'edit' | 'match'>('match')
   const [openMatching, setOpenMatching] = useState<boolean>(false)
 
-  // long클릭 시 메뉴 열리게. e는 어떻게 하지?
-  const handleLongPress = (e: React.MouseEvent) => {
-    setAnchorEl(e.currentTarget as HTMLElement)
-  }
   const handleRowClick = (
     // e: React.MouseEvent<HTMLElement>,
     transaction: ITransaction
@@ -40,18 +36,13 @@ const TradingPage = ({ticker}: {ticker: string}) => {
     }
   }
 
-  // const clickHandlers = useLongPress({
-  //   onClick: handleRowClick,
-  //   onLongPress: handleLongPress
-  // })
-
   const sortedTradings = useMemo(() => {
     const sorted = [...tradings]
     return sortBy === 'price'
       ? sorted.sort((a, b) => b.price - a.price)
       : sorted.sort(
           (a, b) =>
-            new Date(b.tradeDate).getTime() - new Date(a.tradeDate).getTime()
+            new Date(b.tradeAt).getTime() - new Date(a.tradeAt).getTime()
         )
   }, [tradings, sortBy])
 
@@ -97,7 +88,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
 
     const buyCells = isBuy
       ? [
-          getDateFormat(transaction.tradeDate, 'yy.MM.dd'),
+          getDateFormat(transaction.tradeAt, 'yy.MM.dd'),
           formatNumber(transaction.price),
           formatNumber(transaction.quantity)
         ]
@@ -105,7 +96,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
 
     const sellCells = !isBuy
       ? [
-          getDateFormat(transaction.tradeDate, 'yy.MM.dd'),
+          getDateFormat(transaction.tradeAt, 'yy.MM.dd'),
           formatNumber(transaction.price),
           formatNumber(transaction.quantity)
         ]
@@ -142,7 +133,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
                 : 'cursor-default'
             )}
             // {...clickHandlers}
-          >
+            onClick={() => handleRowClick(transaction)}>
             {sellCells.map((cell, i) => (
               <div key={i} className="flex-1 px-4 py-2 text-center">
                 {cell}
@@ -154,13 +145,13 @@ const TradingPage = ({ticker}: {ticker: string}) => {
     )
   }
 
-  if (error) {
-    return <div>오류가 발생했습니다. 나중에 다시 시도해 주세요.</div>
-  }
-
   useEffect(() => {
     if (matchTransactions?.length === 2) setOpenMatching(true)
   }, [matchTransactions])
+
+  if (error) {
+    return <div>오류가 발생했습니다. 나중에 다시 시도해 주세요.</div>
+  }
 
   return (
     <>
@@ -225,18 +216,15 @@ const TradingPage = ({ticker}: {ticker: string}) => {
         <MenuItem onClick={handleDelete}>삭제하기</MenuItem>
       </Menu>
 
-      <Dialog open={openMatching} onClose={handleCloseMatching}>
-        <DialogTitle>매칭하기</DialogTitle>
-        <DialogContent>
-          {matchTransactions[0]?.id}
-          {matchTransactions[1]?.id}
-          매칭하시겠습니까?
-        </DialogContent>
-        <DialogAction>
-          <Button>취소</Button>
-          <Button>매칭</Button>
-        </DialogAction>
-      </Dialog>
+      <MatchingDialog
+        open={openMatching}
+        transactions={matchTransactions}
+        onClose={handleCloseMatching}
+        onConfirm={() => {
+          setOpenMatching(false)
+          setMatchTransactions([])
+        }}
+      />
     </>
   )
 }
