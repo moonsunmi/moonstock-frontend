@@ -30,7 +30,7 @@ const BoardPage = () => {
               <Button
                 variant="text"
                 onClick={() => {
-                  router.push(`/board/${holding['ticker']}/recording`)
+                  router.push(`/board/${holding['ticker']}/matched`)
                 }}>
                 진행완료 기록
               </Button>

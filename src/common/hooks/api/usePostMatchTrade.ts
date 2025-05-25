@@ -11,8 +11,8 @@ const matchTrade = async (
   return res.data
 }
 
-const useMatchTrade = () => {
+const usePostMatchTrade = () => {
   return useSWRMutation('/api/trade/match', matchTrade)
 }
 
-export default useMatchTrade
+export default usePostMatchTrade

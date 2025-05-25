@@ -19,33 +19,31 @@ declare global {
   // stock
   export type TransactionType = 'BUY' | 'SELL'
 
-  // export interface IHolding {
-  //   stock: IStock
-  //   transactions: IMatchedTrade[]
-  // }
-
   export interface IMatchedTrade {
     id: string
+
     buyTrade: ITransaction
     sellTrade: ITransaction
-    matchDate: Date
-    // type: TransactionType
-    // stockTicker: string
-    // quantity: number
-    // partiallyDone: TransactionType
-    // buyCreatedAt: Date
-    // sellCreatedAt: Date
-    // buyPrice: number
-    // sellPrice: number
+
+    stockTicker: string
+    profit: number
+    netProfit: number
+    fee: number
+    tax: number
+    feeRate: number
+    taxRate: number
+
+    matchAt: Date
   }
 
   export interface ITransaction {
     id: string
-    type?: TransactionType // 삭제될 예정
-    stockTicker: string
+    type?: TransactionType
     quantity: number
     price: number
     tradeAt: Date
+
+    stockTicker: string
     accountId: string
   }
 

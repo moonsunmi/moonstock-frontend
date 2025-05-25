@@ -10,7 +10,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {IconButton, Menu, MenuItem} from '@mui/material'
 import useDeleteDialog from '@/stores/useDeleteDialogStore'
 
-const RecordingDetailPage = ({id}: {id: string}) => {
+const MatchedDetailPage = ({id}: {id: string}) => {
   const {openDialog: openDeleteDialog} = useDeleteDialog()
 
   const {transaction, error, isLoading} = useTransactionInfo(id)
@@ -144,4 +144,4 @@ const RecordingDetailPage = ({id}: {id: string}) => {
   )
 }
 
-export default RecordingDetailPage
+export default MatchedDetailPage

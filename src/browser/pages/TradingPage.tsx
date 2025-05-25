@@ -2,7 +2,7 @@
 
 import {useEffect, useMemo, useState} from 'react'
 import {Button, Paragraph} from '@/browser/components/UI'
-import {Menu, MenuItem} from '@mui/material'
+import {Menu, MenuItem, ToggleButton, ToggleButtonGroup} from '@mui/material'
 import {getDateFormat, formatNumber} from '@/common/utils'
 import useTrading from '@/common/hooks/api/useTrading'
 import useTradeDialog from '@/stores/useTradeDialogStore'
@@ -74,14 +74,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
     setOpenMatching(false)
   }
 
-  const columns = [
-    '매수 날짜',
-    '매수 금액',
-    '매수 개수',
-    '매도 날짜',
-    '매도 금액',
-    '매도 개수'
-  ]
+  const columns = ['매수일', '금액', '개수', '매도일', '금액', '개수']
 
   const getRow = (transaction: ITransaction) => {
     const isBuy = transaction.type === 'BUY'
@@ -113,7 +106,6 @@ const TradingPage = ({ticker}: {ticker: string}) => {
                 ? 'bg-red-50 hover:bg-red-100 cursor-pointer'
                 : 'cursor-default'
             )}
-            // {...clickHandlers}
             onClick={() => handleRowClick(transaction)}>
             {buyCells.map((cell, i) => (
               <div key={i} className="flex-1 px-4 py-2 text-center">
@@ -132,7 +124,6 @@ const TradingPage = ({ticker}: {ticker: string}) => {
                 ? 'bg-blue-50 hover:bg-blue-100 cursor-pointer'
                 : 'cursor-default'
             )}
-            // {...clickHandlers}
             onClick={() => handleRowClick(transaction)}>
             {sellCells.map((cell, i) => (
               <div key={i} className="flex-1 px-4 py-2 text-center">
@@ -160,35 +151,31 @@ const TradingPage = ({ticker}: {ticker: string}) => {
           <Paragraph variant="title">
             {`${stock?.name}(${stock?.ticker})`}
           </Paragraph>
-          <div className="flex gap-2">
-            <Button
-              onClick={() => setSortBy('price')}
-              variant={sortBy === 'price' ? 'solid' : 'text'}>
-              가격순
-            </Button>
-            <Button
-              onClick={() => setSortBy('date')}
-              variant={sortBy === 'date' ? 'solid' : 'text'}>
-              날짜순
-            </Button>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              disabled={mode === 'match'}
-              onClick={() => setMode('match')}>
-              매칭모드
-            </Button>
-            <Button disabled={mode === 'edit'} onClick={() => setMode('edit')}>
-              수정모드
-            </Button>
-          </div>
+          <select
+            value={sortBy}
+            onChange={e => setSortBy(e.target.value as 'price' | 'date')}
+            className="px-2 py-1 text-sm border rounded">
+            <option value="price">가격순</option>
+            <option value="date">날짜순</option>
+          </select>
+          <ToggleButtonGroup
+            value={mode}
+            exclusive
+            onChange={(e, val) => val && setMode(val)}
+            size="small"
+            color="primary">
+            <ToggleButton value="match">매칭모드</ToggleButton>
+            <ToggleButton value="edit">수정모드</ToggleButton>
+          </ToggleButtonGroup>
         </div>
 
-        <table className="w-full text-sm border">
+        <table className="w-full text-sm border table-fixed">
           <thead className="bg-gray-100">
             <tr>
               {columns.map(col => (
-                <th key={col} className="px-4 py-2 text-center">
+                <th
+                  key={col}
+                  className="w-1/6 px-4 py-2 text-center whitespace-nowrap">
                   {col}
                 </th>
               ))}
@@ -199,10 +186,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
 
         <div className="flex justify-center gap-4">
           <Button onClick={() => handleCreate('BUY')} color="error">
-            매수 추가
-          </Button>
-          <Button onClick={() => handleCreate('SELL')} color="primary">
-            매도 추가
+            매매 기록 추가
           </Button>
         </div>
       </div>

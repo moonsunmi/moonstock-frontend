@@ -7,7 +7,7 @@ import {
   Button
 } from '@/browser/components/UI'
 import {DialogTitle} from '@/browser/components/UI/Dialog'
-import useMatchTrade from '../hooks/api/useMatch'
+import usePostMatchTrade from '../hooks/api/usePostMatchTrade'
 
 interface MatchingDialogProps {
   open: boolean
@@ -22,7 +22,7 @@ const MatchDialog = ({
   onClose,
   onConfirm
 }: MatchingDialogProps) => {
-  const {trigger} = useMatchTrade()
+  const {trigger} = usePostMatchTrade()
 
   const buyTrade = transactions.find(t => t.type === 'BUY')
   const sellTrade = transactions.find(t => t.type === 'SELL')
