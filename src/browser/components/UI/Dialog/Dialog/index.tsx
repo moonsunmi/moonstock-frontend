@@ -16,7 +16,7 @@ const Dialog = ({
   className = '',
   ...props
 }: DialogProps) => {
-  if (!open) return
+  if (!open) return null
 
   return (
     <div className={classes.overlay} onClick={onClose}>

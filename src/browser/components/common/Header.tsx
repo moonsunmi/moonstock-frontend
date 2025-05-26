@@ -38,7 +38,7 @@ export const Header = () => {
   }, [])
 
   return (
-    <div className="fixed flex flex-row content-center justify-between w-full h-16 p-5 font-bold shadow-md text-primary-950 bg-secondary-200">
+    <div className="fixed flex flex-row content-center justify-between w-full h-16 p-5 font-bold shadow-md text-primary-950 bg-primary-200">
       <div className="cursor-pointer" onClick={() => router.push('/')}>
         MoonStock
       </div>

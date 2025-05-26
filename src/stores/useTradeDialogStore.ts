@@ -33,9 +33,7 @@ const useTradeDialog = create<TradeDialogState & TradeDialogActions>(set => ({
     set(state => ({
       ...state,
       data: typeof data === 'function' ? data(state.data!) : data
-    })),
-  updateQuantity: quantity =>
-    set(state => ({data: state.data ? {...state.data, quantity} : null}))
+    }))
 }))
 
 export default useTradeDialog

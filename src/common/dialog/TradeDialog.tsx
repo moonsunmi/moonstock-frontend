@@ -1,30 +1,27 @@
 'use client'
-
-import {ChangeEvent, Dispatch, HTMLAttributes, SetStateAction} from 'react'
+import {useSWRConfig} from 'swr'
 import axiosInstance from '@/common/lib/axios'
 import useSWRMutation from 'swr/mutation'
 import {initTransaction} from '@/common/lib/initData'
 import classes from './index.module.scss'
 
-import {
-  Button,
-  DatePicker,
-  DialogAction,
-  DialogContent,
-  Input
-} from '@/browser/components/UI'
+import {Button, DialogAction, DialogContent} from '@/browser/components/UI'
 import useTradeDialog from '@/stores/useTradeDialogStore'
 import StockAutocomplete from '@/browser/components/UI/StockAutocomplete'
 import {Dialog, DialogTitle} from '@/browser/components/UI/Dialog'
-import classNames from 'classnames'
-import Radio from '@/browser/components/UI/Radio'
 import DialogTransaction from '@/browser/components/UI/Dialog/DialogTransaction'
+import {useSnackbar} from 'notistack'
+import {useUserStore} from '@/stores/useUserStore'
 
 interface TradeDialogProps {
   stockList: IStock[]
 }
 
 const TradeDialog = ({stockList}: TradeDialogProps) => {
+  const {mutate} = useSWRConfig()
+  const {enqueueSnackbar} = useSnackbar()
+
+  const {userInfo} = useUserStore()
   const {
     isOpen,
     mode,
@@ -54,8 +51,39 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
   const handleChangeStock = (stock: IStock) => {
     setData(prevState => ({...prevState, stockTicker: stock.ticker}))
   }
-  const handleTransaction = () => {
-    trigger(transaction)
+  const handleTransaction = async () => {
+    try {
+      const newTrade = await trigger(transaction)
+      if (!newTrade) return
+
+      // todo, 다른 페이지에서도 가능하도록.
+      const key = [`/api/trade/${newTrade.stockTicker}/trading`, userInfo.id]
+
+      mutate(
+        key,
+        cached => {
+          if (!cached) return cached
+
+          return {
+            ...cached,
+            tradings: isCreate
+              ? [...cached.tradings, newTrade]
+              : cached.tradings.map(item =>
+                  item.id === newTrade.id ? newTrade : item
+                )
+          }
+        },
+        false
+      )
+
+      closeDialog()
+    } catch (err) {
+      console.error('에러 발생:', err)
+      enqueueSnackbar('기록에 실패했습니다.')
+    }
+  }
+  const handleDelete = () => {
+    // todo. delete
     closeDialog()
   }
 
@@ -63,8 +91,8 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
 
   return (
     <Dialog open={true} onClose={closeDialog}>
-      <DialogTitle>매수 거래 기록</DialogTitle>
-      <DialogContent>
+      <DialogTitle>매매 기록</DialogTitle>
+      <DialogContent className="flex flex-col gap-4">
         <StockAutocomplete
           defaultTicker={transaction.stockTicker}
           stockList={stockList}
@@ -76,7 +104,10 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
         <Button variant="outlined" onClick={closeDialog}>
           취소
         </Button>
-        <Button onClick={handleTransaction}>매수</Button>
+        <Button onClick={handleTransaction}>
+          {isCreate ? '기록' : '수정'}
+        </Button>
+        {!isCreate && <Button onClick={handleDelete}>삭제</Button>}
       </DialogAction>
     </Dialog>
   )

@@ -1,7 +1,6 @@
 'use client'
 
 import {usePathname, useRouter} from 'next/navigation'
-import {Paragraph} from '../components/UI'
 import {formatNumber, getDateFormat} from '@/common/utils'
 import useMatchedTrade from '@/common/hooks/api/useMatchedTrade'
 import classNames from 'classnames'
@@ -36,7 +35,6 @@ const Titles = () => {
   const columns = [
     '매수일',
     '금액',
-    '개수',
     '매도일',
     '금액',
     '개수',
@@ -63,7 +61,6 @@ const Transaction = ({
   const sell = transaction.sellTrade
   const quantity = buy.quantity
   const buyAmount = buy.price * quantity
-  const sellAmount = sell.price * quantity
   const profitPerUnit = sell.price - buy.price
   const totalProfit = profitPerUnit * quantity
   const rateOfProfit = (totalProfit / buyAmount) * 100
@@ -77,7 +74,6 @@ const Transaction = ({
       onClick={() => handleOnClick(transaction.id)}>
       <div className="text-right">{getDateFormat(buy.tradeAt, 'yy.MM.dd')}</div>
       <div className="text-right">{formatNumber(buy.price)}</div>
-      <div className="text-right">{formatNumber(quantity)}</div>
       <div className="text-right">
         {getDateFormat(sell.tradeAt, 'yy.MM.dd')}
       </div>

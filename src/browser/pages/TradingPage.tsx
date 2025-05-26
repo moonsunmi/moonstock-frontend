@@ -2,12 +2,13 @@
 
 import {useEffect, useMemo, useState} from 'react'
 import {Button, Paragraph} from '@/browser/components/UI'
-import {Menu, MenuItem, ToggleButton, ToggleButtonGroup} from '@mui/material'
+import {ToggleButton, ToggleButtonGroup} from '@mui/material'
 import {getDateFormat, formatNumber} from '@/common/utils'
 import useTrading from '@/common/hooks/api/useTrading'
 import useTradeDialog from '@/stores/useTradeDialogStore'
 import classNames from 'classnames'
 import MatchingDialog from '@/common/dialog/MatchDialog'
+import {initTransaction} from '@/common/lib/initData'
 
 const TradingPage = ({ticker}: {ticker: string}) => {
   const {tradings, stock, error} = useTrading(ticker)
@@ -15,8 +16,8 @@ const TradingPage = ({ticker}: {ticker: string}) => {
 
   const [sortBy, setSortBy] = useState<'price' | 'date'>('price')
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [selectedTransaction, setSelectedTransaction] =
-    useState<ITransaction | null>(null)
+  // const [selectedTransaction, setSelectedTransaction] =
+  //   useState<ITransaction | null>(null)
   const [matchTransactions, setMatchTransactions] = useState<ITransaction[]>([])
 
   const [pendingType, setPendingType] = useState<TransactionType>(null)
@@ -24,15 +25,16 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   const [mode, setMode] = useState<'edit' | 'match'>('match')
   const [openMatching, setOpenMatching] = useState<boolean>(false)
 
-  const handleRowClick = (
-    // e: React.MouseEvent<HTMLElement>,
-    transaction: ITransaction
-  ) => {
+  const handleRowClick = (transaction: ITransaction) => {
     if (mode === 'edit') {
-      setSelectedTransaction(transaction)
+      // setSelectedTransaction(transaction)
+      openDialog('update', transaction)
     } else {
-      // todo. toggle 형태로.
-      setMatchTransactions(prev => [...prev, transaction])
+      setMatchTransactions(prev =>
+        prev.find(t => t.id === transaction.id)
+          ? prev.filter(t => t.id !== transaction.id)
+          : [...prev, transaction]
+      )
     }
   }
 
@@ -47,26 +49,26 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   }, [tradings, sortBy])
 
   const handleCreate = (type: TransactionType) => {
-    openDialog('create')
+    openDialog('create', {...initTransaction, stockTicker: ticker})
   }
 
-  const handleUpdate = () => {
-    if (selectedTransaction) {
-      openDialog('update', selectedTransaction)
-      handleCloseMenu()
-    }
-  }
+  // const handleUpdate = () => {
+  //   if (selectedTransaction) {
+  //     openDialog('update', selectedTransaction)
+  //     handleCloseMenu()
+  //   }
+  // }
 
-  const handleDelete = () => {
-    if (selectedTransaction) {
-      openDialog('delete', selectedTransaction)
-      handleCloseMenu()
-    }
-  }
+  // const handleDelete = () => {
+  //   if (selectedTransaction) {
+  //     openDialog('delete', selectedTransaction)
+  //     handleCloseMenu()
+  //   }
+  // }
 
   const handleCloseMenu = () => {
     setAnchorEl(null)
-    setSelectedTransaction(null)
+    // setSelectedTransaction(null)
   }
 
   const handleCloseMatching = () => {
@@ -191,14 +193,14 @@ const TradingPage = ({ticker}: {ticker: string}) => {
         </div>
       </div>
 
-      <Menu
+      {/* <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
         disableAutoFocusItem>
         <MenuItem onClick={handleUpdate}>수정하기</MenuItem>
         <MenuItem onClick={handleDelete}>삭제하기</MenuItem>
-      </Menu>
+      </Menu> */}
 
       <MatchingDialog
         open={openMatching}
