@@ -4,12 +4,13 @@ import {usePathname, useRouter} from 'next/navigation'
 import {formatNumber, getDateFormat} from '@/common/utils'
 import useMatchedTrade from '@/common/hooks/api/useMatchedTrade'
 import classNames from 'classnames'
+import {Paragraph} from '../components/UI'
 
 const MatchedPage = ({ticker}: {ticker: string}) => {
   const router = useRouter()
   const path = usePathname()
 
-  const {matched, error, isLoading, mutate} = useMatchedTrade(ticker)
+  const {matched, stock, error, isLoading, mutate} = useMatchedTrade(ticker)
 
   const handleOnClick = (id: string) => {
     router.push(`${path}/${id}`)
@@ -17,6 +18,9 @@ const MatchedPage = ({ticker}: {ticker: string}) => {
 
   return (
     <div className="w-full">
+      <Paragraph variant="title" className="pb-4">
+        {`${stock?.name}(${stock?.ticker})`}
+      </Paragraph>
       <Titles />
       {error && <div>오류가 발생했습니다. 나중에 다시 시도해 주세요.</div>}
       {!error &&

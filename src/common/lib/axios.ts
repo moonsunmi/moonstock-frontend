@@ -2,7 +2,7 @@ import axios from 'axios'
 import {readItemFromStorageP, writeItemFromStorageP} from '../utils'
 
 const axiosInstance = axios.create({
-  baseURL: process.env.PUBLIC_NEXT_BACKEND_URL,
+  baseURL: process.env.NEXT_PUBLIC_NEXT_BACKEND_URL,
   withCredentials: true
 })
 

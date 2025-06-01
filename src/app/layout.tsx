@@ -32,7 +32,7 @@ export default async function RootLayout({
               <SnackbarProvider>
                 <main
                   id="root"
-                  className="flex flex-1 w-full max-w-screen-lg pt-16 m-auto">
+                  className="flex justify-center flex-1 w-full max-w-screen-lg pt-24 m-auto">
                   {children}
                 </main>
               </SnackbarProvider>

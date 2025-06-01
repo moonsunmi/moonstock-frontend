@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const BACKEND_URL = process.env.PUBLIC_NEXT_BACKEND_URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,

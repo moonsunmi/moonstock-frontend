@@ -174,9 +174,9 @@ const TradingPage = ({ticker}: {ticker: string}) => {
         <table className="w-full text-sm border table-fixed">
           <thead className="bg-gray-100">
             <tr>
-              {columns.map(col => (
+              {columns.map((col, index) => (
                 <th
-                  key={col}
+                  key={`${col}_${index}`}
                   className="w-1/6 px-4 py-2 text-center whitespace-nowrap">
                   {col}
                 </th>

@@ -1,3 +1,9 @@
+export const initStock: IStock = {
+  ticker: '',
+  name: '',
+  market: ''
+}
+
 export const initTransaction: ITransaction = {
   id: '',
   stockTicker: '',
