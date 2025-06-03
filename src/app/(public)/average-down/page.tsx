@@ -1,7 +1,7 @@
 // Components
-import AverageDownPage from '@/browser/pages/AverageDownPage'
+import AverageDownPage from '@/features/averageDown/AverageDownPage'
 // import {useSetAtom} from 'jotai'
-import {uiAtom} from '@/common/lib/state'
+// import {uiAtom} from '@/common/lib/state'
 
 const Page = () => {
   // const setUi = useSetAtom(uiAtom)

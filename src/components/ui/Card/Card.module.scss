@@ -1,0 +1,26 @@
+@import '@/utils/palette.scss';
+
+.card {
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: $primary-050;
+  transition: box-shadow 0.2s ease;
+  border: 1px solid $gray-200;
+}
+
+.size-sm {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  min-width: 160px;
+}
+.size-md {
+  padding: 1rem;
+  border-radius: 1rem;
+  min-width: 240px;
+}
+.size-lg {
+  padding: 1.5rem;
+  border-radius: 1.75rem;
+  min-width: 320px;
+}

@@ -1,4 +1,4 @@
-import BoardPage from '@/browser/pages/BoardPage'
+import BoardPage from '@/features/trade/BoardPage'
 
 const Page = () => {
   return <BoardPage />

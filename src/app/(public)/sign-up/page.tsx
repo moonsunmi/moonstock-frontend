@@ -1,4 +1,4 @@
-import SignUpPage from '@/browser/pages/SignUpPage'
+import SignUpPage from '@/features/auth/SignUpPage'
 
 const Page = () => {
   return <SignUpPage />

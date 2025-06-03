@@ -1,13 +1,8 @@
 'use client'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogAction,
-  Button
-} from '@/browser/components/UI'
-import {DialogTitle} from '@/browser/components/UI/Dialog'
-import usePostMatchTrade from '../hooks/api/usePostMatchTrade'
+import {Dialog, DialogContent, DialogAction, Button} from '@/components/ui'
+import {DialogTitle} from '@/components/ui/Dialog'
+import usePostMatchTrade from '../../features/trade/hooks/usePostMatchTrade'
 
 interface MatchingDialogProps {
   open: boolean

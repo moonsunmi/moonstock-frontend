@@ -1,5 +1,5 @@
 import {TradeDialogMode} from '@/@types/DialogTypes'
-import {initTransaction} from '@/common/lib/initData'
+import {initTransaction} from '@/utils/initData'
 import {create} from 'zustand'
 
 interface TradeDialogState {

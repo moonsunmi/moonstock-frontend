@@ -1,4 +1,4 @@
-import LoginPage from '@/browser/pages/LoginPage'
+import LoginPage from '@/features/auth/LoginPage'
 
 const Page = () => {
   return <LoginPage />

@@ -2,15 +2,15 @@ import {getServerSession} from 'next-auth'
 import ThemeRegistry from '../common/context/ThemeRegistry'
 // providers
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter'
-import SnackbarProvider from '@/common/context/SnackbarProvider'
-import {SWRProvider} from '@/common/context/SWRProvider'
+import SnackbarProvider from '@/providers/SnackbarProvider'
+import {SWRProvider} from '@/providers/SWRProvider'
 // components
 import {CssBaseline} from '@mui/material'
-import {Header} from '@/browser/components/common/Header'
+import {Header} from '@/components/common/Header'
 // Styles
 import './globals.css'
 // libs
-import {authOptions} from '@/common/lib/auth'
+import {authOptions} from '@/utils/auth'
 
 export default async function RootLayout({
   children

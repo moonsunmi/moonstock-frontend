@@ -1,10 +1,10 @@
 import {ChangeEvent, useEffect, useState} from 'react'
 // API
 import useSWRMutation from 'swr/mutation'
-import axiosInstance from '@/common/lib/axios'
+import axiosInstance from '@/lib/axios'
 // Components
 import {Dialog, DialogActions, DialogContent} from '@mui/material'
-import {Button, Input} from '@/browser/components/UI'
+import {Button, Input} from '@/components/ui'
 
 export interface HoldingDialogProps {
   defaultTransaction?: ITransaction

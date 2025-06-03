@@ -1,12 +1,8 @@
 'use client'
 
-import {Button, Paragraph} from '@/browser/components/UI'
-import {
-  DialogAction,
-  Dialog,
-  DialogContent
-} from '@/browser/components/UI/Dialog'
-import axiosInstance from '@/common/lib/axios'
+import {Button, Paragraph} from '@/components/ui'
+import {DialogAction, Dialog, DialogContent} from '@/components/ui/Dialog'
+import axiosInstance from '@/lib/axios'
 import useDeleteDialog from '@/stores/useDeleteDialogStore'
 import useSWRMutation from 'swr/mutation'
 

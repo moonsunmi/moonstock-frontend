@@ -1,0 +1,27 @@
+@import '@/utils/palette.scss';
+
+.caption {
+  font-size: 0.75rem;
+}
+.body2 {
+  font-size: 0.875rem;
+}
+.body {
+  font-size: 1rem;
+}
+.subtitle {
+  font-size: 1.125rem;
+}
+.title {
+  font-size: 1.25rem;
+}
+.header {
+  font-size: 3rem;
+}
+
+.primary {
+  color: $primary-900;
+}
+.black {
+  color: $primary-950;
+}

@@ -3,7 +3,7 @@
 import {FC, PropsWithChildren, useEffect} from 'react'
 
 import {useRouter} from 'next/navigation'
-import {readItemFromStorageP} from '../utils'
+import {readItemFromStorageP} from '../../utils'
 
 type RequireAuthProps = {}
 

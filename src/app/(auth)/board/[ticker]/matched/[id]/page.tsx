@@ -1,4 +1,4 @@
-import MatchedDetailPage from '@/browser/pages/MatchedDetailPage'
+import MatchedDetailPage from '@/features/trade/MatchedDetailPage'
 
 const Page = async ({params}: {params: Promise<{id: string}>}) => {
   const id = (await params).id
