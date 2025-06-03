@@ -40,10 +40,10 @@ const MatchDialog = ({
         key={tx.id}
         className={`p-3 border rounded ${color} text-sm space-y-1`}>
         <div className="font-semibold">{label} 거래</div>
-        <div>📈 종목: {tx.stockTicker}</div>
-        <div>🔢 수량: {tx.quantity}주</div>
-        <div>💰 가격: {tx.price.toLocaleString()}원</div>
-        <div>📅 날짜: {new Date(tx.tradeAt).toLocaleDateString('ko-KR')}</div>
+        <div>종목: {tx.stockTicker}</div>
+        <div>수량: {tx.quantity}주</div>
+        <div>가격: {tx.price.toLocaleString()}원</div>
+        <div>날짜: {new Date(tx.tradeAt).toLocaleDateString('ko-KR')}</div>
       </div>
     )
   }

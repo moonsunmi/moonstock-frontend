@@ -73,6 +73,7 @@ const PurchaseDetail = ({
         <Grid container spacing={1} sx={{alignItems: 'center'}}>
           <Grid item xs={7} sm={4}>
             <Input
+              type="number"
               name="price"
               value={purchase.price}
               placeholder="가격"
@@ -81,6 +82,7 @@ const PurchaseDetail = ({
           </Grid>
           <Grid item xs={5} sm={2}>
             <Input
+              type="number"
               name="quantity"
               value={purchase.quantity}
               placeholder="수량"
@@ -89,6 +91,7 @@ const PurchaseDetail = ({
           </Grid>
           <Grid item xs={isDeletable ? 11 : 12} sm={5.5}>
             <Input
+              type="number"
               name="investmentAmount"
               value={investmentAmount || ''}
               placeholder="총합"

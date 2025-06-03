@@ -1,8 +1,8 @@
 'use client'
-import {Stock} from '@prisma/client'
+
 import {createContext, useContext} from 'react'
 
-const StockListContext = createContext<Stock[] | null>(null)
+const StockListContext = createContext<IStock[] | null>(null)
 
 const useStockListContext = () => {
   const stockList = useContext(StockListContext)

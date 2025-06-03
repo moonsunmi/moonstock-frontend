@@ -48,14 +48,6 @@ export const Header = () => {
           내 주식
         </Button>
         {/* )} */}
-        {/* {isMounted && userInfo?.email !== null && ( */}
-        <Button variant="text" onClick={() => handleOnLink('/trading')}>
-          진행중인거래
-        </Button>
-        <Button variant="text" onClick={() => handleOnLink('/matched')}>
-          거래기록
-        </Button>
-        {/* )} */}
         {isMounted && userInfo?.email !== null ? (
           <Button variant="text" onClick={handleOnLogOut}>
             LogOut

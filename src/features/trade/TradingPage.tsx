@@ -41,7 +41,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   const sortedTradings = useMemo(() => {
     const sorted = [...tradings]
     return sortBy === 'price'
-      ? sorted.sort((a, b) => b.price - a.price)
+      ? sorted.sort((a, b) => Number(b.price) - Number(a.price))
       : sorted.sort(
           (a, b) =>
             new Date(b.tradeAt).getTime() - new Date(a.tradeAt).getTime()

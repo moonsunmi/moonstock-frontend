@@ -35,17 +35,16 @@ const MatchedDetailPage = ({id}: {id: string}) => {
     setSelectedSell(null)
   }
 
-  // ✅ 매수 거래 컬럼 정의
   const buyColumns = [
     {
       key: 'buyCreatedAt',
       header: '매수일',
-      render: () => getDateFormat(transaction.buyCreatedAt, 'yy.MM.dd')
+      render: () => getDateFormat(transaction.tradeAt, 'yy.MM.dd')
     },
     {
       key: 'buyPrice',
       header: '매수가',
-      render: () => formatNumber(transaction.buyPrice),
+      render: () => formatNumber(transaction.price),
       className: 'text-right'
     },
     {
@@ -53,13 +52,13 @@ const MatchedDetailPage = ({id}: {id: string}) => {
       header: '수량',
       render: () => formatNumber(transaction.quantity),
       className: 'text-right'
-    },
-    {
-      key: 'profit',
-      header: '수익',
-      render: () => formatNumber(transaction.profit),
-      className: 'text-right'
     }
+    // {
+    //   key: 'profit',
+    //   header: '수익',
+    //   render: () => formatNumber(transaction.profit),
+    //   className: 'text-right'
+    // }
   ]
 
   // ✅ 매도 거래 컬럼 정의
@@ -114,8 +113,9 @@ const MatchedDetailPage = ({id}: {id: string}) => {
         </Button>
       </div>
 
+      {/* 
       <Paragraph variant="subtitle">매도 내역</Paragraph>
-      {transaction.sellTransactions.length > 0 ? (
+      {transaction.length > 0 ? (
         <table className="w-full">
           <TableHeader columns={sellColumns} />
           <tbody>
@@ -126,7 +126,7 @@ const MatchedDetailPage = ({id}: {id: string}) => {
         </table>
       ) : (
         <p className="text-center">매도 내역이 없습니다.</p>
-      )}
+      )} */}
 
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {selectedSell && (

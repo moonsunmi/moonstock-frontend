@@ -39,13 +39,15 @@ declare global {
   export interface ITransaction {
     id: string
     type?: TransactionType
-    quantity: number
-    price: number
+    quantity: number | ''
+    price: number | ''
     tradeAt: Date
 
     stockTicker: string
     accountId: string
   }
+
+  export type ISimpleTrade = Pick<ITransaction, 'id', 'quantity', 'price'>
 
   export interface IStock {
     ticker: string
@@ -53,7 +55,10 @@ declare global {
     market: string
   }
 
-  export type PurchaseAction = {type: ActionType; payload: ITransaction}
+  export type PurchaseAction = {
+    type: ActionType
+    payload: ISimpleTrade
+  }
 
   export type Output = {
     investmentAmount: string

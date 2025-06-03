@@ -1,15 +1,15 @@
 import {useMemo} from 'react'
 
 const useCalculate = (
-  start: ITransaction | ITransaction[],
-  end: ITransaction | ITransaction[]
+  start: ISimpleTrade | ISimpleTrade[],
+  end: ISimpleTrade | ISimpleTrade[]
 ) => {
-  const calculateTotal = (transactions: ITransaction[]) => {
+  const calculateTotal = (transactions: ISimpleTrade[]) => {
     return transactions.reduce(
       (acc, current) => {
-        acc.price += current.price
-        acc.quantity += current.quantity
-        acc.pay += current.price * current.quantity
+        acc.price += Number(current.price)
+        acc.quantity += Number(current.quantity)
+        acc.pay += Number(current.price) * Number(current.quantity)
         return acc
       },
       {price: 0, quantity: 0, pay: 0}

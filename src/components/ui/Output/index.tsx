@@ -4,7 +4,7 @@ import {ReactNode} from 'react'
 // style
 import classes from './index.module.scss'
 // type
-import {OutputProps} from '.'
+import {OutputProps} from './index.d'
 // utils
 import {formatNumber} from '@/utils'
 

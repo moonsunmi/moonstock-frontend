@@ -59,27 +59,20 @@ const DialogTransaction = ({
         onChange={date => handleChange_Date(date)}
       />
       <div className="flex gap-4">
-        {/* <Input
+        <Input
           type="number"
           className="w-1/2"
           name="price"
           label="가격"
-          value={transaction['price']}
+          value={transaction['price'] || ''}
           onChange={handleChange_Transaction}
-        /> */}
-        <NumericFormat
-          value={transaction['price']}
-          displayType={'text'}
-          thousandSeparator={true}
-          renderText={value => <input value={value} />}
-          suffix="원"
         />
         <Input
           type="number"
           className="w-1/2"
           name="quantity"
           label="수량"
-          value={transaction['quantity']}
+          value={transaction['quantity'] || ''}
           onChange={handleChange_Transaction}
         />
       </div>

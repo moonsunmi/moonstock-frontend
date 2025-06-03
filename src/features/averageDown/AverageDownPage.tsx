@@ -7,35 +7,26 @@ import {Button, Card, Input, Output, Paragraph} from '@/components/ui'
 import {Modal} from '@mui/material'
 import SearchPrice from '../../components/averageDown/SearchPrice'
 // Icons
-import {AddCircleOutline, RemoveCircle} from '@mui/icons-material'
+import {RemoveCircle} from '@mui/icons-material'
 // Hooks
 import useCalculatedInvestment from '@/common/hooks/useCalculatedInvestment'
 // Utils
-import {useUserStore} from '@/stores/useUserStore'
 import {formatNumber} from '@/utils/format'
 
-type SimpleTransaction = {
-  id: string
-  price: number
-  quantity: number
-}
-
 const AverageDownPage = () => {
-  const {userInfo} = useUserStore()
-
   const [openModal_searchPrice, setOpenModal_searchPrice] =
     useState<boolean>(false)
 
-  const [holding, setHolding] = useState<SimpleTransaction>({
+  const [holding, setHolding] = useState<ISimpleTrade>({
     id: 'holding',
     price: 0,
     quantity: 0
   })
-  const [transactions, setTransactions] = useState<SimpleTransaction[]>([
+  const [transactions, setTransactions] = useState<ISimpleTrade[]>([
     {id: uuidv4(), price: 0, quantity: 0}
   ])
 
-  const {averagePrice, totalQuantity, totalInvestment, isValid} =
+  const {averagePrice, totalQuantity, totalPay, isValid} =
     useCalculatedInvestment(holding, transactions)
 
   const addTransaction = () => {
@@ -78,14 +69,6 @@ const AverageDownPage = () => {
         <Paragraph variant="title" className="w-full">
           보유 주식
         </Paragraph>
-        <div className="flex gap-2">
-          {userInfo?.email !== null && (
-            <Button size="sm">보유 주식 불러오기</Button>
-          )}
-          <Button size="sm" onClick={() => setOpenModal_searchPrice(true)}>
-            현재 가격 입력할 종목 찾기
-          </Button>
-        </div>
       </div>
       <hr className="h-1 pt-2 pb-2 border-secondary-300" />
       <Card className="flex w-full gap-2">
@@ -94,7 +77,7 @@ const AverageDownPage = () => {
           className="w-full"
           name="price"
           label="가격"
-          value={holding.price}
+          value={holding.price || ''}
           onChange={e => handleOnChange_Holding('price', e.target.value)}
         />
         <Input
@@ -102,7 +85,7 @@ const AverageDownPage = () => {
           className="w-1/3"
           name="quantity"
           label="수량"
-          value={holding.quantity}
+          value={holding.quantity || ''}
           onChange={e => handleOnChange_Holding('quantity', e.target.value)}
         />
         <Output type="number" label="투자금" className="w-1/3">
@@ -145,7 +128,7 @@ const AverageDownPage = () => {
                   className="w-1/3"
                   name="quantity"
                   label="수량"
-                  value={transaction.quantity}
+                  value={transaction.quantity || ''}
                   onChange={e =>
                     handleOnChange_Transaction(
                       transaction.id,
@@ -189,9 +172,7 @@ const AverageDownPage = () => {
             </Card>
             <Card className="w-1/3">
               <Paragraph variant="caption">총 투자금</Paragraph>
-              <Paragraph variant="body">
-                {formatNumber(totalInvestment)}원
-              </Paragraph>
+              <Paragraph variant="body">{formatNumber(totalPay)}원</Paragraph>
             </Card>
           </div>
         ) : (

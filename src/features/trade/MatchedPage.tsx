@@ -4,7 +4,7 @@ import {usePathname, useRouter} from 'next/navigation'
 import {formatNumber, getDateFormat} from '@/utils'
 import useMatchedTrade from '@/features/trade/hooks/useMatchedTrade'
 import classNames from 'classnames'
-import {Paragraph} from '../../components/ui'
+import {Paragraph} from '@/components/ui'
 
 const MatchedPage = ({ticker}: {ticker: string}) => {
   const router = useRouter()
@@ -64,9 +64,9 @@ const Transaction = ({
   const buy = transaction.buyTrade
   const sell = transaction.sellTrade
   const quantity = buy.quantity
-  const buyAmount = buy.price * quantity
-  const profitPerUnit = sell.price - buy.price
-  const totalProfit = profitPerUnit * quantity
+  const buyAmount = Number(buy.price) * Number(quantity)
+  const profitPerUnit = Number(sell.price) - Number(buy.price)
+  const totalProfit = profitPerUnit * Number(quantity)
   const rateOfProfit = (totalProfit / buyAmount) * 100
 
   return (
