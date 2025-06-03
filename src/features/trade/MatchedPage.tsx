@@ -72,10 +72,11 @@ const Transaction = ({
   return (
     <div
       className={classNames(
-        'grid grid-cols-8 items-center py-2 px-4 text-sm border-b hover:bg-gray-50 cursor-pointer',
+        'grid grid-cols-8 items-center py-2 px-4 text-sm border-b hover:bg-gray-50', // cursor-pointer',
         totalProfit >= 0 ? 'text-red-600' : 'text-blue-600'
       )}
-      onClick={() => handleOnClick(transaction.id)}>
+      // onClick={() => handleOnClick(transaction.id)} // detail matched page 완성되면 추가
+    >
       <div className="text-right">{getDateFormat(buy.tradeAt, 'yy.MM.dd')}</div>
       <div className="text-right">{formatNumber(buy.price)}</div>
       <div className="text-right">
