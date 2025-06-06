@@ -2,7 +2,7 @@ import DeleteDialog from './DeleteDialog'
 import TradeDialog from './TradeDialog'
 
 export const getStockList = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stocks`)
+  const res = await fetch(`${process.env.BACKEND_URL}/stocks`)
 
   if (!res.ok) throw new Error('Failed to fetch stock list')
   return res.json()
