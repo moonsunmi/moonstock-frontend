@@ -18,7 +18,7 @@ const DeleteDialog = () => {
     (url, {arg}: {arg: ITransaction}) => {
       return axiosInstance(url, {
         method: 'delete',
-        headers: {'Content-Type': 'multipart/form-data'},
+        headers: {'Content-Type': 'application/json'},
         withCredentials: false
       }).then(res => res.data)
     }

@@ -18,12 +18,9 @@ const HoldingDialog = ({onClose, open}: HoldingDialogProps) => {
   const postHolding = useSWRMutation(
     '/api/users/holding',
     (url, {arg}: {arg: string}) => {
-      const formData = new FormData()
-      formData.append('ticker', arg)
-
       return axiosInstance
-        .post(url, formData, {
-          headers: {'Content-Type': 'multipart/form-data'},
+        .post(url, arg, {
+          headers: {'Content-Type': 'application/json'},
           withCredentials: false
         })
         .then(res => res.data)

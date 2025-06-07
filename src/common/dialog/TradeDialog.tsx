@@ -42,7 +42,7 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
       return axiosInstance(url, {
         method: isCreate ? 'post' : 'put',
         data: arg,
-        headers: {'Content-Type': 'multipart/form-data'},
+        headers: {'Content-Type': 'application/json'},
         withCredentials: false
       }).then(res => res.data)
     }

@@ -25,16 +25,10 @@ const LoginPage = () => {
   const loginMutation = useSWRMutation(
     '/api/auth/login',
     (url, {arg}: {arg: LoginArg}) => {
-      const {email, password} = arg
-
-      const formData = new FormData()
-      formData.append('email', email)
-      formData.append('password', password)
-
       return axiosInstance
-        .post(url, formData, {
-          headers: {'Content-Type': 'multipart/form-data'},
-          withCredentials: false // 이거 뭐지?
+        .post(url, arg, {
+          headers: {'Content-Type': 'application/json'},
+          withCredentials: false
         })
         .then(res => res.data)
     }
