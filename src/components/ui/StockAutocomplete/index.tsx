@@ -5,13 +5,13 @@ import {TextField, Autocomplete} from '@mui/material'
 
 type StockAutoCompleteProps = {
   defaultTicker?: IStock['ticker']
-  stockList: IStock[]
+  stockList?: IStock[]
   onSelect: (stock: any) => void
 }
 
 const StockAutocomplete = ({
   defaultTicker,
-  stockList,
+  stockList = [],
   onSelect
 }: StockAutoCompleteProps) => {
   const [query, setQuery] = useState('')
