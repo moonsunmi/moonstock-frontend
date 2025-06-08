@@ -1,6 +1,6 @@
 'use client'
 
-import {useState, useMemo} from 'react'
+import {useState, useMemo, useRef} from 'react'
 import {TextField, Autocomplete} from '@mui/material'
 import useSWR from 'swr'
 import {getHoldingsKey} from '@/utils/swrKeys'
@@ -19,6 +19,7 @@ const StockAutocomplete = ({
 }: StockAutoCompleteProps) => {
   const {userInfo} = useUserStore()
   const [query, setQuery] = useState('')
+  const hasDefaultTicker = useRef<boolean>(!!defaultTicker)
 
   const filteredStocks = useMemo(() => {
     if (!query) return stockList
@@ -46,7 +47,7 @@ const StockAutocomplete = ({
       size="small"
       options={filteredStocks}
       value={defaultStock}
-      disabled={!data || isLoading}
+      disabled={hasDefaultTicker.current || !data || isLoading}
       getOptionLabel={option => `${option.ticker} - ${option.name}`}
       getOptionDisabled={option => disabledTickers.includes(option.ticker)}
       filterOptions={options => options}
