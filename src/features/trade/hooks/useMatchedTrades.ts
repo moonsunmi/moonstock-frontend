@@ -9,14 +9,14 @@ const useMatchedTrades = ticker => {
   const {data, error, isLoading, mutate} = useSWR<{
     stock: IStock
     matched: any[]
-  }>(getMatchedTradesKey(ticker, userInfo.id), {
-    fallbackData: {stock: initStock, matched: []}
-  })
+  }>(getMatchedTradesKey(ticker, userInfo.id))
 
-  const normalizedMatched: IMatchedTrade[] = data?.matched.map(match => ({
-    ...match,
-    matchAt: match.createdAt
-  }))
+  const normalizedMatched: IMatchedTrade[] = (data?.matched ?? []).map(
+    match => ({
+      ...match,
+      matchAt: match.createdAt
+    })
+  )
 
   return {
     stock: data?.stock,

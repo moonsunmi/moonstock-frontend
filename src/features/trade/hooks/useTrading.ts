@@ -11,12 +11,7 @@ const useTrading = ticker => {
   const {data, error, isLoading, mutate} = useSWR<{
     stock: IStock
     tradings: ITrade[]
-  }>(shouldFetch ? getTradingKey(ticker, userInfo.defaultAccount?.id) : null, {
-    fallbackData: {
-      stock: initStock,
-      tradings: []
-    }
-  })
+  }>(shouldFetch ? getTradingKey(ticker, userInfo.defaultAccount?.id) : null)
 
   const stock = data?.stock ?? initStock
   const tradings = data?.tradings ?? []

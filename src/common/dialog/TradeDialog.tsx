@@ -30,11 +30,26 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
     closeDialog
   } = useTradeDialog()
 
-  const transaction = defaultValue ?? initTransaction
+  const [transaction, setTransaction] = useState<ITrade>(initTransaction)
+
+  useEffect(() => {
+    if (!isOpen) return
+    if (mode === 'create') {
+      setTransaction(initTransaction)
+    } else {
+      // spread 로 복사!
+      setTransaction({...defaultValue!})
+    }
+  }, [isOpen, mode, defaultValue])
+
+  console.log('ticker', transaction.stockTicker)
+
+  // ...아래부터는 transaction, setTransaction 사용
+  // (기존에 defaultValue, setData 대신 transaction, setTransaction)
   const isCreate = mode === 'create'
   const url = isCreate
-    ? `/api/trade/create`
-    : `/api/trade/${transaction?.id}/update`
+    ? '/api/trade/create'
+    : `/api/trade/${transaction.id}/update`
 
   const [selectedAccountId, setSelectedAccountId] = useState<
     string | undefined
@@ -53,8 +68,11 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
     }
   )
 
-  const handleChangeStock = (stock: IStock) => {
-    setData(prevState => ({...prevState, stockTicker: stock.ticker}))
+  const handleChangeStock = (stock: IStock | null) => {
+    setTransaction(prev => ({
+      ...prev,
+      stockTicker: stock ? stock.ticker : ''
+    }))
   }
   const handleTransaction = async () => {
     try {
@@ -63,6 +81,9 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
         accountId: selectedAccountId
       })
       if (!newTrade) return
+
+      //http://localhost:8000/board 여기에서도 바로 업데이트되도록.
+      console.log(newTrade)
 
       mutate(
         getTradingKey(newTrade.stockTicker, userInfo.defaultAccount?.id),
@@ -109,7 +130,10 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
           stockList={stockList}
           onSelect={stock => handleChangeStock(stock)}
         />
-        <DialogTransaction transaction={transaction} setTransaction={setData} />
+        <DialogTransaction
+          transaction={transaction}
+          setTransaction={setTransaction}
+        />
       </DialogContent>
       <DialogAction>
         <Button variant="outlined" onClick={closeDialog}>

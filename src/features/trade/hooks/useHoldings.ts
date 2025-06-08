@@ -6,15 +6,14 @@ const useHoldings = () => {
   const {userInfo} = useUserStore()
 
   const {data, error, isLoading, mutate} = useSWR<{holdings: IStock[]}>(
-    getHoldingsKey(userInfo.id),
-    {fallbackData: {holdings: []}}
+    getHoldingsKey(userInfo.id)
   )
 
   // useEffect(() => {
   //   dispatch(setHoldings(data.holdings))
   // }, [data.holdings])
 
-  return {holdings: data.holdings, error, isLoading, mutate}
+  return {holdings: data?.holdings ?? [], error, isLoading, mutate}
 }
 
 export default useHoldings

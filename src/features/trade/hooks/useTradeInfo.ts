@@ -9,12 +9,7 @@ const useTradeInfo = (tradeId: string | null) => {
 
   const {data, error, isLoading, mutate} = useSWR<{
     trade: ITrade // TODO. 타입을 적절한 이름으로 바꿔야 함.
-  }>(shouldFetch ? getTradeInfoKey(tradeId) : null, {
-    fallbackData: {
-      //   stock: null,
-      trade: null
-    }
-  })
+  }>(shouldFetch ? getTradeInfoKey(tradeId) : null)
 
   const trade = data.trade
 
