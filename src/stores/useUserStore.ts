@@ -18,11 +18,21 @@ interface UserState {
 export const useUserStore = create<UserState>()(
   persist(
     set => ({
-      userInfo: {id: null, name: null, email: null, defaultAccount: null},
+      userInfo: {
+        id: undefined,
+        name: undefined,
+        email: undefined,
+        defaultAccount: null
+      },
       setUserInfo: user => set({userInfo: user}),
       resetUserInfo: () =>
         set({
-          userInfo: {id: null, name: null, email: null, defaultAccount: null}
+          userInfo: {
+            id: undefined,
+            name: undefined,
+            email: undefined,
+            defaultAccount: null
+          }
         })
     }),
     {name: 'user-state'}

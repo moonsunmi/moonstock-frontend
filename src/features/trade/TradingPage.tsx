@@ -16,8 +16,6 @@ const TradingPage = ({ticker}: {ticker: string}) => {
 
   const [sortBy, setSortBy] = useState<'price' | 'date'>('price')
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  // const [selectedTransaction, setSelectedTransaction] =
-  //   useState<ITransaction | null>(null)
   const [matchTransactions, setMatchTransactions] = useState<ITransaction[]>([])
 
   const [pendingType, setPendingType] = useState<TransactionType>(null)

@@ -3,7 +3,6 @@ import {useSWRConfig} from 'swr'
 import axiosInstance from '@/lib/axios'
 import useSWRMutation from 'swr/mutation'
 import {initTransaction} from '@/utils/initData'
-
 import {Button, DialogAction, DialogContent} from '@/components/ui'
 import useTradeDialog from '@/stores/useTradeDialogStore'
 import StockAutocomplete from '@/components/ui/StockAutocomplete'
@@ -11,7 +10,8 @@ import {Dialog, DialogTitle} from '@/components/ui/Dialog'
 import DialogTransaction from '@/components/ui/Dialog/DialogTransaction'
 import {useSnackbar} from 'notistack'
 import {useUserStore} from '@/stores/useUserStore'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
+import {getTradingKey} from '@/utils/swrKeys'
 
 interface TradeDialogProps {
   stockList: IStock[]
@@ -36,9 +36,9 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
     ? `/api/trade/create`
     : `/api/trade/${transaction?.id}/update`
 
-  const [selectedAccountId, setSelectedAccountId] = useState(
-    userInfo?.defaultAccount?.id
-  )
+  const [selectedAccountId, setSelectedAccountId] = useState<
+    string | undefined
+  >(undefined)
 
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
@@ -58,21 +58,14 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
   }
   const handleTransaction = async () => {
     try {
-      const newTrade = await trigger({
+      const {trade: newTrade} = await trigger({
         ...transaction,
         accountId: selectedAccountId
       })
       if (!newTrade) return
 
-      // todo, 다른 페이지에서도 가능하도록.
-      const key = [
-        `/api/trade/${newTrade.stockTicker}/trading`,
-        userInfo.defaultAccount.id,
-        userInfo.id
-      ]
-
       mutate(
-        key,
+        getTradingKey(newTrade.stockTicker, userInfo.defaultAccount?.id),
         cached => {
           if (!cached) return cached
 
@@ -98,6 +91,12 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
     // todo. delete
     closeDialog()
   }
+
+  useEffect(() => {
+    if (userInfo?.defaultAccount?.id) {
+      setSelectedAccountId(userInfo.defaultAccount.id)
+    }
+  }, [userInfo?.defaultAccount?.id])
 
   if (!isOpen) return null
 

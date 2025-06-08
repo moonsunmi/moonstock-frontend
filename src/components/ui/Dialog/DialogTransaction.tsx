@@ -56,7 +56,6 @@ const DialogTransaction = ({
         onChange={date => handleChange_Date(date)}
       />
       <div className="flex gap-4">
-        /////////// 가격, 수량이 전부 0으로 들어 간다. Numberic 제대로 하기.
         <Input
           type="number"
           className="w-1/2"
