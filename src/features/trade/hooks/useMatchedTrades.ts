@@ -1,21 +1,22 @@
 import {initStock} from '@/utils/initData'
 import {useUserStore} from '@/stores/useUserStore'
 import useSWR from 'swr'
+import {getMatchedTradesKey} from '@/utils/swrKeys'
 
-const useMatchedTrade = ticker => {
+const useMatchedTrades = ticker => {
   const {userInfo} = useUserStore()
 
   const {data, error, isLoading, mutate} = useSWR<{
     stock: IStock
     matched: any[]
-  }>([`/api/trade/${ticker}/matched`, userInfo.id], {
-    fallbackData: {stock: initStock, matched: []}
-  })
+  }>(getMatchedTradesKey(ticker, userInfo.id))
 
-  const normalizedMatched: IMatchedTrade[] = data?.matched.map(match => ({
-    ...match,
-    matchAt: match.createdAt
-  }))
+  const normalizedMatched: IMatchedTrade[] = (data?.matched ?? []).map(
+    match => ({
+      ...match,
+      matchAt: match.createdAt
+    })
+  )
 
   return {
     stock: data?.stock,
@@ -26,4 +27,4 @@ const useMatchedTrade = ticker => {
   }
 }
 
-export default useMatchedTrade
+export default useMatchedTrades

@@ -15,10 +15,10 @@ const DeleteDialog = () => {
 
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
-    (url, {arg}: {arg: ITransaction}) => {
+    (url, {arg}: {arg: ITrade}) => {
       return axiosInstance(url, {
         method: 'delete',
-        headers: {'Content-Type': 'multipart/form-data'},
+        headers: {'Content-Type': 'application/json'},
         withCredentials: false
       }).then(res => res.data)
     }

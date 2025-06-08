@@ -26,16 +26,8 @@ const SignUpPage = () => {
   const signUpMutation = useSWRMutation(
     '/api/auth/sign-up',
     (url, {arg}: {arg: SignUpArg}) => {
-      const {name, email, password} = arg
-
-      const formData = new FormData()
-      formData.append('name', name)
-      formData.append('email', email)
-      formData.append('password', password)
-
       return axiosInstance
-        .post(url, formData, {
-          // headers: {'Content-Type': undefined}, //(for 'multipart/form-data')
+        .post(url, arg, {
           withCredentials: false
         })
         .then(res => res.data)

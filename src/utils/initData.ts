@@ -4,11 +4,10 @@ export const initStock: IStock = {
   market: ''
 }
 
-export const initTransaction: ITransaction = {
+export const initTransaction: ITrade = {
   id: '',
   stockTicker: '',
   tradeAt: new Date(),
   price: 0,
-  quantity: 0,
-  accountId: 'cmap9m7vq00008hi2x1knbvie' // todo. account로 연결
+  quantity: 0
 }

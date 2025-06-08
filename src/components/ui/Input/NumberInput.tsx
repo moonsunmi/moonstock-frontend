@@ -36,6 +36,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           onValueChange={values => {
             const fakeEvent = {
               target: {
+                name: props.name,
                 value: values.value
               }
             } as React.ChangeEvent<HTMLInputElement>

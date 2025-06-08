@@ -3,9 +3,7 @@ import useSWRMutation from 'swr/mutation'
 
 const matchTrade = async (
   url: string,
-  {
-    arg
-  }: {arg: {buyTradeId: ITransaction['id']; sellTradeId: ITransaction['id']}}
+  {arg}: {arg: {buyTradeId: ITrade['id']; sellTradeId: ITrade['id']}}
 ) => {
   const res = await axiosInstance.post(url, arg)
   return res.data

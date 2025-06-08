@@ -2,7 +2,7 @@
 
 import {useState} from 'react'
 import useUpdateDialog from '@/stores/useUpdateDialogStore'
-import useTransactionInfo from '@/features/trade/hooks/useTransactionInfo'
+import useTradeInfo from '@/features/trade/hooks/useTradeInfo'
 import {formatNumber, getDateFormat} from '@/utils'
 import {Button, Paragraph} from '@/components/ui'
 import {TableHeader, TableRow} from '@/components/ui/Table'
@@ -13,14 +13,14 @@ import useDeleteDialog from '@/stores/useDeleteDialogStore'
 const MatchedDetailPage = ({id}: {id: string}) => {
   const {openDialog: openDeleteDialog} = useDeleteDialog()
 
-  const {transaction, error, isLoading} = useTransactionInfo(id)
+  const {trade, error, isLoading} = useTradeInfo(id)
   const {openDialog: openUpdateDialog} = useUpdateDialog()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [selectedSell, setSelectedSell] = useState<any | null>(null)
 
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading transaction.</p>
-  if (!transaction) return <p>거래 정보가 없습니다.</p>
+  if (!trade) return <p>거래 정보가 없습니다.</p>
 
   const handleMoreClick = (
     event: React.MouseEvent<HTMLElement>,
@@ -39,18 +39,18 @@ const MatchedDetailPage = ({id}: {id: string}) => {
     {
       key: 'buyCreatedAt',
       header: '매수일',
-      render: () => getDateFormat(transaction.tradeAt, 'yy.MM.dd')
+      render: () => getDateFormat(trade.tradeAt, 'yy.MM.dd')
     },
     {
       key: 'buyPrice',
       header: '매수가',
-      render: () => formatNumber(transaction.price),
+      render: () => formatNumber(trade.price),
       className: 'text-right'
     },
     {
       key: 'quantity',
       header: '수량',
-      render: () => formatNumber(transaction.quantity),
+      render: () => formatNumber(trade.quantity),
       className: 'text-right'
     }
     // {
@@ -99,7 +99,7 @@ const MatchedDetailPage = ({id}: {id: string}) => {
       <table className="w-full mb-4">
         <TableHeader columns={buyColumns} />
         <tbody>
-          <TableRow row={transaction} columns={buyColumns} />
+          <TableRow row={trade} columns={buyColumns} />
         </tbody>
       </table>
 

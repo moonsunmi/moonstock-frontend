@@ -3,8 +3,6 @@ import {useSWRConfig} from 'swr'
 import axiosInstance from '@/lib/axios'
 import useSWRMutation from 'swr/mutation'
 import {initTransaction} from '@/utils/initData'
-import classes from './index.module.scss'
-
 import {Button, DialogAction, DialogContent} from '@/components/ui'
 import useTradeDialog from '@/stores/useTradeDialogStore'
 import StockAutocomplete from '@/components/ui/StockAutocomplete'
@@ -12,6 +10,8 @@ import {Dialog, DialogTitle} from '@/components/ui/Dialog'
 import DialogTransaction from '@/components/ui/Dialog/DialogTransaction'
 import {useSnackbar} from 'notistack'
 import {useUserStore} from '@/stores/useUserStore'
+import {useEffect, useState} from 'react'
+import {getTradingKey} from '@/utils/swrKeys'
 
 interface TradeDialogProps {
   stockList: IStock[]
@@ -36,31 +36,39 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
     ? `/api/trade/create`
     : `/api/trade/${transaction?.id}/update`
 
+  const [selectedAccountId, setSelectedAccountId] = useState<
+    string | undefined
+  >(undefined)
+
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
-    (url, {arg}: {arg: ITransaction}) => {
+    (url, {arg}: {arg: ITrade & {accountId: string}}) => {
+      console.log(arg)
       return axiosInstance(url, {
         method: isCreate ? 'post' : 'put',
         data: arg,
-        headers: {'Content-Type': 'multipart/form-data'},
+        headers: {'Content-Type': 'application/json'},
         withCredentials: false
       }).then(res => res.data)
     }
   )
 
-  const handleChangeStock = (stock: IStock) => {
-    setData(prevState => ({...prevState, stockTicker: stock.ticker}))
+  const handleChangeStock = (stock: IStock | null) => {
+    setData(prevState => ({
+      ...prevState,
+      stockTicker: stock ? stock.ticker : ''
+    }))
   }
   const handleTransaction = async () => {
     try {
-      const newTrade = await trigger(transaction)
+      const {trade: newTrade} = await trigger({
+        ...transaction,
+        accountId: selectedAccountId
+      })
       if (!newTrade) return
 
-      // todo, 다른 페이지에서도 가능하도록.
-      const key = [`/api/trade/${newTrade.stockTicker}/trading`, userInfo.id]
-
       mutate(
-        key,
+        getTradingKey(newTrade.stockTicker, userInfo.defaultAccount?.id),
         cached => {
           if (!cached) return cached
 
@@ -86,6 +94,12 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
     // todo. delete
     closeDialog()
   }
+
+  useEffect(() => {
+    if (userInfo?.defaultAccount?.id) {
+      setSelectedAccountId(userInfo.defaultAccount.id)
+    }
+  }, [userInfo?.defaultAccount?.id])
 
   if (!isOpen) return null
 

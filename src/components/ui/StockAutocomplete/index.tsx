@@ -1,12 +1,15 @@
 'use client'
 
-import {useState, useMemo} from 'react'
+import {useState, useMemo, useRef} from 'react'
 import {TextField, Autocomplete} from '@mui/material'
+import useSWR from 'swr'
+import {getHoldingsKey} from '@/utils/swrKeys'
+import {useUserStore} from '@/stores/useUserStore'
 
 type StockAutoCompleteProps = {
   defaultTicker?: IStock['ticker']
   stockList?: IStock[]
-  onSelect: (stock: any) => void
+  onSelect: (stock: IStock | null) => void
 }
 
 const StockAutocomplete = ({
@@ -14,7 +17,9 @@ const StockAutocomplete = ({
   stockList = [],
   onSelect
 }: StockAutoCompleteProps) => {
+  const {userInfo} = useUserStore()
   const [query, setQuery] = useState('')
+  const hasDefaultTicker = useRef<boolean>(!!defaultTicker)
 
   const filteredStocks = useMemo(() => {
     if (!query) return stockList
@@ -30,20 +35,29 @@ const StockAutocomplete = ({
     return filteredStocks.find(stock => stock.ticker === defaultTicker)
   }, [defaultTicker, filteredStocks])
 
+  const {data, error, isLoading, mutate} = useSWR<{holdings: IStock[]}>(
+    getHoldingsKey(userInfo.id)
+  )
+
+  const holdings = data?.holdings ?? []
+  const disabledTickers = useMemo(() => holdings.map(h => h.ticker), [holdings])
+
   return (
     <Autocomplete
       size="small"
       options={filteredStocks}
       value={defaultStock}
+      disabled={hasDefaultTicker.current || !data || isLoading}
       getOptionLabel={option => `${option.ticker} - ${option.name}`}
-      filterOptions={options => options} // 클라이언트에서 필터링했으므로 그대로 사용
+      getOptionDisabled={option => disabledTickers.includes(option.ticker)}
+      filterOptions={options => options}
       onChange={(_, value) => onSelect(value)}
       noOptionsText="검색 결과 없음"
       renderInput={params => (
         <TextField
           {...params}
           label="종목 검색"
-          onChange={event => setQuery(event.target.value.trim())} // 즉시 검색 반영
+          onChange={event => setQuery(event.target.value.trim())}
           InputProps={{
             ...params.InputProps,
             endAdornment: <>{params.InputProps.endAdornment}</>

@@ -1,4 +1,5 @@
 import {useUserStore} from '@/stores/useUserStore'
+import {getTradingKey} from '@/utils/swrKeys'
 import useSWR from 'swr'
 
 const initStock = {ticker: '', name: '', market: ''}
@@ -9,13 +10,8 @@ const useTrading = ticker => {
 
   const {data, error, isLoading, mutate} = useSWR<{
     stock: IStock
-    tradings: ITransaction[]
-  }>(shouldFetch ? [`/api/trade/${ticker}/trading`, userInfo.id] : null, {
-    fallbackData: {
-      stock: initStock,
-      tradings: []
-    }
-  })
+    tradings: ITrade[]
+  }>(shouldFetch ? getTradingKey(ticker, userInfo.defaultAccount?.id) : null)
 
   const stock = data?.stock ?? initStock
   const tradings = data?.tradings ?? []

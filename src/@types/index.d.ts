@@ -17,13 +17,13 @@ declare global {
   }
 
   // stock
-  export type TransactionType = 'BUY' | 'SELL'
+  export type TradeType = 'BUY' | 'SELL'
 
   export interface IMatchedTrade {
     id: string
 
-    buyTrade: ITransaction
-    sellTrade: ITransaction
+    buyTrade: ITrade
+    sellTrade: ITrade
 
     stockTicker: string
     profit: number
@@ -36,18 +36,17 @@ declare global {
     matchAt: Date
   }
 
-  export interface ITransaction {
+  export interface ITrade {
     id: string
-    type?: TransactionType
+    type?: TradeType
     quantity: number | ''
     price: number | ''
     tradeAt: Date
 
     stockTicker: string
-    accountId: string
   }
 
-  export type ISimpleTrade = Pick<ITransaction, 'id', 'quantity', 'price'>
+  export type ISimpleTrade = Pick<ITrade, 'quantity', 'price'>
 
   export interface IStock {
     ticker: string

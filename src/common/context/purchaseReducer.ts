@@ -1,5 +1,5 @@
 export default function purchaseReducer(
-  state: ITransaction[],
+  state: ITrade[],
   action: PurchaseAction
 ) {
   switch (action.type) {

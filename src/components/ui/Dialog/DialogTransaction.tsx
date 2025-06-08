@@ -1,15 +1,12 @@
 'use client'
 
 import {ChangeEvent, Dispatch, HTMLAttributes, SetStateAction} from 'react'
-
-import {DatePicker, Input} from '@/components/ui'
+import {DatePicker, Input, Radio} from '@/components/ui'
 import classNames from 'classnames'
-import Radio from '@/components/ui/Radio'
-import {NumericFormat} from 'react-number-format'
 
 interface DialogTransactionProps extends HTMLAttributes<HTMLDivElement> {
-  transaction: ITransaction
-  setTransaction: Dispatch<SetStateAction<ITransaction>>
+  transaction: ITrade
+  setTransaction: Dispatch<SetStateAction<ITrade>>
 }
 
 const DialogTransaction = ({
@@ -21,7 +18,7 @@ const DialogTransaction = ({
   const handleChange_Transaction = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
 
-    setTransaction((prevState: ITransaction) => ({
+    setTransaction((prevState: ITrade) => ({
       ...prevState,
       [name]: value
     }))
@@ -64,7 +61,7 @@ const DialogTransaction = ({
           className="w-1/2"
           name="price"
           label="가격"
-          value={transaction['price'] || ''}
+          value={transaction?.price || ''}
           onChange={handleChange_Transaction}
         />
         <Input
@@ -72,7 +69,7 @@ const DialogTransaction = ({
           className="w-1/2"
           name="quantity"
           label="수량"
-          value={transaction['quantity'] || ''}
+          value={transaction?.quantity || ''}
           onChange={handleChange_Transaction}
         />
       </div>

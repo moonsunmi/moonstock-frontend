@@ -8,6 +8,7 @@ import {Button, Card, Input, Paragraph} from '@/components/ui'
 import axiosInstance from '@/lib/axios'
 import {writeItemFromStorageP} from '@/utils'
 import {useUserStore} from '@/stores/useUserStore'
+import {useAccountStore} from '@/stores/useAccountStore'
 
 type LoginArg = {email: string; password: string}
 type FormType = Record<'email' | 'password', string>
@@ -17,6 +18,7 @@ const LoginPage = () => {
   const {enqueueSnackbar} = useSnackbar()
 
   const {setUserInfo} = useUserStore()
+  const {setAccounts} = useAccountStore()
   const [{email, password}, setForm] = useState<FormType>({
     email: '',
     password: ''
@@ -25,16 +27,10 @@ const LoginPage = () => {
   const loginMutation = useSWRMutation(
     '/api/auth/login',
     (url, {arg}: {arg: LoginArg}) => {
-      const {email, password} = arg
-
-      const formData = new FormData()
-      formData.append('email', email)
-      formData.append('password', password)
-
       return axiosInstance
-        .post(url, formData, {
-          headers: {'Content-Type': 'multipart/form-data'},
-          withCredentials: false // 이거 뭐지?
+        .post(url, arg, {
+          headers: {'Content-Type': 'application/json'},
+          withCredentials: false
         })
         .then(res => res.data)
     }
@@ -46,14 +42,18 @@ const LoginPage = () => {
     }
 
   const handleOnClick_Login = () => {
-    loginMutation.trigger({email: email, password: password})
+    loginMutation.trigger({email, password})
   }
 
   useEffect(() => {
     if (loginMutation.data) {
       const {userInfo, accessToken} = loginMutation.data
 
-      setUserInfo(userInfo)
+      setUserInfo({
+        ...userInfo,
+        defaultAccount: userInfo.accounts.find(account => account.isDefault)
+      })
+      setAccounts(userInfo.accounts)
       writeItemFromStorageP('accessToken', accessToken)
 
       router.push('/')
