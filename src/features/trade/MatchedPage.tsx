@@ -2,7 +2,7 @@
 
 import {usePathname, useRouter} from 'next/navigation'
 import {formatNumber, getDateFormat} from '@/utils'
-import useMatchedTrade from '@/features/trade/hooks/useMatchedTrade'
+import useMatchedTrades from '@/features/trade/hooks/useMatchedTrades'
 import classNames from 'classnames'
 import {Paragraph} from '@/components/ui'
 
@@ -10,7 +10,7 @@ const MatchedPage = ({ticker}: {ticker: string}) => {
   const router = useRouter()
   const path = usePathname()
 
-  const {matched, stock, error, isLoading, mutate} = useMatchedTrade(ticker)
+  const {matched, stock, error, isLoading, mutate} = useMatchedTrades(ticker)
 
   const handleOnClick = (id: string) => {
     router.push(`${path}/${id}`)

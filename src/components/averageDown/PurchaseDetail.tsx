@@ -15,7 +15,7 @@ import {ContainerBox, Input} from '../ui'
 import {readItemFromStorageP} from '@/utils'
 
 type PurchaseDetailProps = {
-  purchase: ITransaction
+  purchase: ITrade
   dispatch: Dispatch<PurchaseAction>
   label: string
   isDeletable?: boolean

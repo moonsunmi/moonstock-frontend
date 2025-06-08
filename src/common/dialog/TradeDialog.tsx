@@ -42,7 +42,7 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
 
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
-    (url, {arg}: {arg: ITransaction & {accountId: string}}) => {
+    (url, {arg}: {arg: ITrade & {accountId: string}}) => {
       console.log(arg)
       return axiosInstance(url, {
         method: isCreate ? 'post' : 'put',

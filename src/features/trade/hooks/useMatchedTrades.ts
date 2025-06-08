@@ -1,14 +1,15 @@
 import {initStock} from '@/utils/initData'
 import {useUserStore} from '@/stores/useUserStore'
 import useSWR from 'swr'
+import {getMatchedTradesKey} from '@/utils/swrKeys'
 
-const useMatchedTrade = ticker => {
+const useMatchedTrades = ticker => {
   const {userInfo} = useUserStore()
 
   const {data, error, isLoading, mutate} = useSWR<{
     stock: IStock
     matched: any[]
-  }>([`/api/trade/${ticker}/matched`, userInfo.id], {
+  }>(getMatchedTradesKey(ticker, userInfo.id), {
     fallbackData: {stock: initStock, matched: []}
   })
 
@@ -26,4 +27,4 @@ const useMatchedTrade = ticker => {
   }
 }
 
-export default useMatchedTrade
+export default useMatchedTrades

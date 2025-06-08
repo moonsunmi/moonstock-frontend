@@ -2,10 +2,10 @@ import {create} from 'zustand'
 
 interface DeleteDialogState {
   isOpen: boolean
-  data: ITransaction
-  openDialog: (data?: ITransaction) => void
+  data: ITrade
+  openDialog: (data?: ITrade) => void
   closeDialog: () => void
-  setData: (data: ITransaction | ((prev: ITransaction) => ITransaction)) => void
+  setData: (data: ITrade | ((prev: ITrade) => ITrade)) => void
 }
 
 const useDeleteDialog = create<DeleteDialogState>(set => ({

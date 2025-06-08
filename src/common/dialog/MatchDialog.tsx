@@ -6,7 +6,7 @@ import usePostMatchTrade from '../../features/trade/hooks/usePostMatchTrade'
 
 interface MatchingDialogProps {
   open: boolean
-  transactions: ITransaction[]
+  transactions: ITrade[]
   onClose: () => void
   onConfirm: () => void
 }
@@ -28,7 +28,7 @@ const MatchDialog = ({
     onConfirm?.()
   }
 
-  const renderTrade = (tx: ITransaction, type: 'BUY' | 'SELL') => {
+  const renderTrade = (tx: ITrade, type: 'BUY' | 'SELL') => {
     const label = type === 'BUY' ? '매수' : '매도'
     const color =
       type === 'BUY'

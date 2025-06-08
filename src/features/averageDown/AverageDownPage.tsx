@@ -58,7 +58,7 @@ const AverageDownPage = () => {
   }
 
   const handleOnChange_Holding = useCallback(
-    (key: keyof ITransaction, value: string) => {
+    (key: keyof ITrade, value: string) => {
       setHolding(prevState => ({...prevState, [key]: Number(value)}))
     },
     [holding]

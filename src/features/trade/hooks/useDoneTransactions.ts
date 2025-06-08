@@ -10,7 +10,7 @@
 //     stock: IStock
 //     total: {profit: number; quantity: number}
 //     transactions: IRecording[]
-//   }>(shouldFetch ? [`/api/transactions/${ticker}/closed`, userInfo.id] : null, {
+//   }>(shouldFetch ? [`/api/trade/${ticker}/closed`, userInfo.id] : null, {
 //     fallbackData: {
 //       stock: null,
 //       total: {profit: 0, quantity: 0},

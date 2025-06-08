@@ -5,8 +5,8 @@ import {DatePicker, Input, Radio} from '@/components/ui'
 import classNames from 'classnames'
 
 interface DialogTransactionProps extends HTMLAttributes<HTMLDivElement> {
-  transaction: ITransaction
-  setTransaction: Dispatch<SetStateAction<ITransaction>>
+  transaction: ITrade
+  setTransaction: Dispatch<SetStateAction<ITrade>>
 }
 
 const DialogTransaction = ({
@@ -18,7 +18,7 @@ const DialogTransaction = ({
   const handleChange_Transaction = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
 
-    setTransaction((prevState: ITransaction) => ({
+    setTransaction((prevState: ITrade) => ({
       ...prevState,
       [name]: value
     }))

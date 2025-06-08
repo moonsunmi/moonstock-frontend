@@ -2,11 +2,11 @@ import {create} from 'zustand'
 
 interface UpdateDialogState {
   isOpen: boolean
-  data: ITransaction
+  data: ITrade
   type: 'buy' | 'sell'
-  openDialog: (type: 'buy' | 'sell', data: ITransaction) => void
+  openDialog: (type: 'buy' | 'sell', data: ITrade) => void
   closeDialog: () => void
-  setData: (data: ITransaction | ((prev: ITransaction) => ITransaction)) => void
+  setData: (data: ITrade | ((prev: ITrade) => ITrade)) => void
 }
 
 const useUpdateDialog = create<UpdateDialogState>(set => ({

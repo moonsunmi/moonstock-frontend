@@ -4,14 +4,14 @@ import {create} from 'zustand'
 
 interface TradeDialogState {
   mode: TradeDialogMode
-  tradeType: TransactionType
+  tradeType: TradeType
   isOpen: boolean
-  data: ITransaction
+  data: ITrade
 }
 interface TradeDialogActions {
-  openDialog: (mode: TradeDialogMode, data?: ITransaction) => void
+  openDialog: (mode: TradeDialogMode, data?: ITrade) => void
   closeDialog: () => void
-  setData: (data: ITransaction | ((prev: ITransaction) => ITransaction)) => void
+  setData: (data: ITrade | ((prev: ITrade) => ITrade)) => void
 }
 
 const initialState: TradeDialogState = {

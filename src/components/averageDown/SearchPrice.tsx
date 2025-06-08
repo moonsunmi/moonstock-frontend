@@ -78,7 +78,7 @@ const SearchPrice = () => {
   //     if (data && data.totalCount > 0) {
   //       const newPrice = data.items?.item[0]?.clpr
   //       if (newPrice) {
-  //         const newPurchase: ITransaction = createInitialPurchase({
+  //         const newPurchase: ITrade = createInitialPurchase({
   //           price: Number(newPrice.replace(',', ''))
   //         })
   //         additionsDispatch({
@@ -98,7 +98,7 @@ const SearchPrice = () => {
 
   return (
     <>
-      {/* {additions.map((purchase: ITransaction) => {
+      {/* {additions.map((purchase: ITrade) => {
         return (
           <PurchaseDetailContainer
             key={purchase.id}

@@ -4,7 +4,7 @@ export const initStock: IStock = {
   market: ''
 }
 
-export const initTransaction: ITransaction = {
+export const initTransaction: ITrade = {
   id: '',
   stockTicker: '',
   tradeAt: new Date(),

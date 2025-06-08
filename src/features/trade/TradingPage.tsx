@@ -16,14 +16,14 @@ const TradingPage = ({ticker}: {ticker: string}) => {
 
   const [sortBy, setSortBy] = useState<'price' | 'date'>('price')
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [matchTransactions, setMatchTransactions] = useState<ITransaction[]>([])
+  const [matchTransactions, setMatchTransactions] = useState<ITrade[]>([])
 
-  const [pendingType, setPendingType] = useState<TransactionType>(null)
+  const [pendingType, setPendingType] = useState<TradeType>(null)
 
   const [mode, setMode] = useState<'edit' | 'match'>('match')
   const [openMatching, setOpenMatching] = useState<boolean>(false)
 
-  const handleRowClick = (transaction: ITransaction) => {
+  const handleRowClick = (transaction: ITrade) => {
     if (mode === 'edit') {
       // setSelectedTransaction(transaction)
       openDialog('update', transaction)
@@ -46,7 +46,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
         )
   }, [tradings, sortBy])
 
-  const handleCreate = (type: TransactionType) => {
+  const handleCreate = (type: TradeType) => {
     openDialog('create', {...initTransaction, stockTicker: ticker})
   }
 
@@ -76,7 +76,7 @@ const TradingPage = ({ticker}: {ticker: string}) => {
 
   const columns = ['매수일', '금액', '개수', '매도일', '금액', '개수']
 
-  const getRow = (transaction: ITransaction) => {
+  const getRow = (transaction: ITrade) => {
     const isBuy = transaction.type === 'BUY'
 
     const buyCells = isBuy

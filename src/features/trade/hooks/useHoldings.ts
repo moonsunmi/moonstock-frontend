@@ -1,11 +1,12 @@
 import useSWR from 'swr'
 import {useUserStore} from '@/stores/useUserStore'
+import {getHoldingsKey} from '@/utils/swrKeys'
 
 const useHoldings = () => {
   const {userInfo} = useUserStore()
 
   const {data, error, isLoading, mutate} = useSWR<{holdings: IStock[]}>(
-    ['/api/users/holdings', userInfo.id],
+    getHoldingsKey(userInfo.id),
     {fallbackData: {holdings: []}}
   )
 

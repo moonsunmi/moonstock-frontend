@@ -7,7 +7,7 @@ import {Dialog, DialogActions, DialogContent} from '@mui/material'
 import {Button, Input} from '@/components/ui'
 
 export interface HoldingDialogProps {
-  defaultTransaction?: ITransaction
+  defaultTransaction?: ITrade
   onClose: () => void
   open: boolean
 }
