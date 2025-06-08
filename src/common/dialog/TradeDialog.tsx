@@ -3,7 +3,6 @@ import {useSWRConfig} from 'swr'
 import axiosInstance from '@/lib/axios'
 import useSWRMutation from 'swr/mutation'
 import {initTransaction} from '@/utils/initData'
-import classes from './index.module.scss'
 
 import {Button, DialogAction, DialogContent} from '@/components/ui'
 import useTradeDialog from '@/stores/useTradeDialogStore'
@@ -12,6 +11,7 @@ import {Dialog, DialogTitle} from '@/components/ui/Dialog'
 import DialogTransaction from '@/components/ui/Dialog/DialogTransaction'
 import {useSnackbar} from 'notistack'
 import {useUserStore} from '@/stores/useUserStore'
+import {useState} from 'react'
 
 interface TradeDialogProps {
   stockList: IStock[]
@@ -36,9 +36,14 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
     ? `/api/trade/create`
     : `/api/trade/${transaction?.id}/update`
 
+  const [selectedAccountId, setSelectedAccountId] = useState(
+    userInfo?.defaultAccount?.id
+  )
+
   const {data, trigger, error, isMutating} = useSWRMutation(
     url,
-    (url, {arg}: {arg: ITransaction}) => {
+    (url, {arg}: {arg: ITransaction & {accountId: string}}) => {
+      console.log(arg)
       return axiosInstance(url, {
         method: isCreate ? 'post' : 'put',
         data: arg,
@@ -53,11 +58,18 @@ const TradeDialog = ({stockList}: TradeDialogProps) => {
   }
   const handleTransaction = async () => {
     try {
-      const newTrade = await trigger(transaction)
+      const newTrade = await trigger({
+        ...transaction,
+        accountId: selectedAccountId
+      })
       if (!newTrade) return
 
       // todo, 다른 페이지에서도 가능하도록.
-      const key = [`/api/trade/${newTrade.stockTicker}/trading`, userInfo.id]
+      const key = [
+        `/api/trade/${newTrade.stockTicker}/trading`,
+        userInfo.defaultAccount.id,
+        userInfo.id
+      ]
 
       mutate(
         key,

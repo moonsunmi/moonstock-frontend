@@ -5,7 +5,7 @@ import {v4 as uuidv4} from 'uuid'
 // Components
 import {Button, Card, Input, Output, Paragraph} from '@/components/ui'
 import {Modal} from '@mui/material'
-import SearchPrice from '../../components/averageDown/SearchPrice'
+import SearchPrice from '@/components/averageDown/SearchPrice'
 // Icons
 import {RemoveCircle} from '@mui/icons-material'
 // Hooks
@@ -44,13 +44,14 @@ const AverageDownPage = () => {
 
   const handleOnChange_Transaction = (
     id: string,
-    key: keyof ITransaction,
-    value: string
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    const {name, value} = e.target
+
     setTransactions(prevState =>
       prevState.map(transaction =>
         transaction.id === id
-          ? {...transaction, [key]: Number(value)}
+          ? {...transaction, [name]: Number(value)}
           : transaction
       )
     )
@@ -114,13 +115,7 @@ const AverageDownPage = () => {
                   name="price"
                   label="가격"
                   value={transaction.price || ''}
-                  onChange={e =>
-                    handleOnChange_Transaction(
-                      transaction.id,
-                      'price',
-                      e.target.value
-                    )
-                  }
+                  onChange={e => handleOnChange_Transaction(transaction.id, e)}
                 />
                 <Input
                   id="quantity"
@@ -129,13 +124,7 @@ const AverageDownPage = () => {
                   name="quantity"
                   label="수량"
                   value={transaction.quantity || ''}
-                  onChange={e =>
-                    handleOnChange_Transaction(
-                      transaction.id,
-                      'quantity',
-                      e.target.value
-                    )
-                  }
+                  onChange={e => handleOnChange_Transaction(transaction.id, e)}
                 />
                 <Output type="number" label="투자금" className="w-1/3">
                   {Number(transaction.price) * Number(transaction.quantity)}

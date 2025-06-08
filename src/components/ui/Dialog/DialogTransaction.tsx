@@ -1,11 +1,8 @@
 'use client'
 
 import {ChangeEvent, Dispatch, HTMLAttributes, SetStateAction} from 'react'
-
-import {DatePicker, Input} from '@/components/ui'
+import {DatePicker, Input, Radio} from '@/components/ui'
 import classNames from 'classnames'
-import Radio from '@/components/ui/Radio'
-import {NumericFormat} from 'react-number-format'
 
 interface DialogTransactionProps extends HTMLAttributes<HTMLDivElement> {
   transaction: ITransaction
@@ -59,12 +56,13 @@ const DialogTransaction = ({
         onChange={date => handleChange_Date(date)}
       />
       <div className="flex gap-4">
+        /////////// 가격, 수량이 전부 0으로 들어 간다. Numberic 제대로 하기.
         <Input
           type="number"
           className="w-1/2"
           name="price"
           label="가격"
-          value={transaction['price'] || ''}
+          value={transaction?.price || ''}
           onChange={handleChange_Transaction}
         />
         <Input
@@ -72,7 +70,7 @@ const DialogTransaction = ({
           className="w-1/2"
           name="quantity"
           label="수량"
-          value={transaction['quantity'] || ''}
+          value={transaction?.quantity || ''}
           onChange={handleChange_Transaction}
         />
       </div>

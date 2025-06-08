@@ -5,6 +5,7 @@ import {Dialog, DialogAction, DialogContent} from './Dialog'
 import Input from './Input'
 import Output from './Output'
 import Paragraph from './Paragraph'
+import Radio from './Radio'
 import Tooltip from './Tooltip'
 
 export {Button}
@@ -14,6 +15,7 @@ export {Dialog, DialogAction, DialogContent}
 export {Input}
 export {Output}
 export {Paragraph}
+export {Radio}
 export {Tooltip}
 
 export * from './ContainerBox'

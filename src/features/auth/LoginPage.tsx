@@ -8,6 +8,7 @@ import {Button, Card, Input, Paragraph} from '@/components/ui'
 import axiosInstance from '@/lib/axios'
 import {writeItemFromStorageP} from '@/utils'
 import {useUserStore} from '@/stores/useUserStore'
+import {useAccountStore} from '@/stores/useAccountStore'
 
 type LoginArg = {email: string; password: string}
 type FormType = Record<'email' | 'password', string>
@@ -17,6 +18,7 @@ const LoginPage = () => {
   const {enqueueSnackbar} = useSnackbar()
 
   const {setUserInfo} = useUserStore()
+  const {setAccounts} = useAccountStore()
   const [{email, password}, setForm] = useState<FormType>({
     email: '',
     password: ''
@@ -40,14 +42,18 @@ const LoginPage = () => {
     }
 
   const handleOnClick_Login = () => {
-    loginMutation.trigger({email: email, password: password})
+    loginMutation.trigger({email, password})
   }
 
   useEffect(() => {
     if (loginMutation.data) {
       const {userInfo, accessToken} = loginMutation.data
 
-      setUserInfo(userInfo)
+      setUserInfo({
+        ...userInfo,
+        defaultAccount: userInfo.accounts.find(account => account.isDefault)
+      })
+      setAccounts(userInfo.accounts)
       writeItemFromStorageP('accessToken', accessToken)
 
       router.push('/')

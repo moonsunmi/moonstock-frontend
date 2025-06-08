@@ -44,7 +44,6 @@ declare global {
     tradeAt: Date
 
     stockTicker: string
-    accountId: string
   }
 
   export type ISimpleTrade = Pick<ITransaction, 'id', 'quantity', 'price'>
