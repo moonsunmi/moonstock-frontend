@@ -6,7 +6,7 @@ import useSWRMutation from 'swr/mutation'
 import {useSnackbar} from 'notistack'
 import {Button, Card, Input, Paragraph} from '@/components/ui'
 import axiosInstance from '@/lib/axios'
-import {writeItemFromStorageP} from '@/utils'
+import {writeItemFromStorage} from '@/utils'
 import {useUserStore} from '@/stores/useUserStore'
 import {useAccountStore} from '@/stores/useAccountStore'
 
@@ -54,7 +54,7 @@ const LoginPage = () => {
         defaultAccount: userInfo.accounts.find(account => account.isDefault)
       })
       setAccounts(userInfo.accounts)
-      writeItemFromStorageP('accessToken', accessToken)
+      writeItemFromStorage('accessToken', accessToken)
 
       router.push('/')
       enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})

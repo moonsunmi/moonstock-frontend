@@ -1,28 +1,13 @@
 'use client'
 
-export const readItemFromStorageP = (key: string) =>
-  new Promise<string | null>((resolve, reject) => {
-    if (typeof window !== 'undefined') {
-      try {
-        const item = window.localStorage.getItem(key)
-        resolve(item)
-      } catch (e) {
-        reject(e)
-      }
-    }
-  })
+export const readItemFromStorage = (key: string): string | null => {
+  if (typeof window === 'undefined') return null
+  return window.localStorage.getItem(key)
+}
+export const writeItemFromStorage = (key: string, value: string): void => {
+  if (typeof window === 'undefined') return
+  window.localStorage.setItem(key, value)
+}
 
-export const writeItemFromStorageP = (key: string, value: string) =>
-  new Promise<string>((resolve, reject) => {
-    if (typeof window !== 'undefined') {
-      try {
-        window.localStorage.setItem(key, value)
-        resolve(value)
-      } catch (e) {
-        reject(e)
-      }
-    }
-  })
-
-export const readStringP = readItemFromStorageP
-export const writeStringP = writeItemFromStorageP
+export const readString = readItemFromStorage
+export const writeString = writeItemFromStorage

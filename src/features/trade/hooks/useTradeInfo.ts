@@ -8,10 +8,10 @@ const useTradeInfo = (tradeId: string | null) => {
   const shouldFetch = !!tradeId && !!userInfo
 
   const {data, error, isLoading, mutate} = useSWR<{
-    trade: ITrade // TODO. 타입을 적절한 이름으로 바꿔야 함.
+    trade: ITrade
   }>(shouldFetch ? getTradeInfoKey(tradeId) : null)
 
-  const trade = data.trade
+  const trade = data?.trade
 
   return {
     trade,

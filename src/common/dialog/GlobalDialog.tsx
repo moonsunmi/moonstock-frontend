@@ -2,10 +2,10 @@ import DeleteDialog from './DeleteDialog'
 import TradeDialog from './TradeDialog'
 
 export const getStockList = async () => {
-  const backendUrl = process.env.BACKEND_URL
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   if (!backendUrl) {
-    throw new Error('BACKEND_URL is not defined')
+    throw new Error('NEXT_PUBLIC_BACKEND_URL is not defined')
   }
 
   const res = await fetch(`${backendUrl}/stocks`)

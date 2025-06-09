@@ -3,12 +3,12 @@
 import {FC, PropsWithChildren, useEffect} from 'react'
 
 import {useRouter} from 'next/navigation'
-import {readItemFromStorageP} from '../../utils'
+import {readItemFromStorage} from '../../utils'
 
 type RequireAuthProps = {}
 
 const RequireAuth: FC<PropsWithChildren<RequireAuthProps>> = ({children}) => {
-  const accessToken = readItemFromStorageP('accessToken')
+  const accessToken = readItemFromStorage('accessToken')
   const router = useRouter()
 
   useEffect(() => {

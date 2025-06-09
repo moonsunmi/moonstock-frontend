@@ -1,18 +1,10 @@
 'use client'
 
-import {
-  ChangeEvent,
-  Dispatch,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from 'react'
+import {ChangeEvent, Dispatch, useCallback, useMemo, useState} from 'react'
 
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import {FormGroup, Grid} from '@mui/material'
 import {ContainerBox, Input} from '../ui'
-import {readItemFromStorageP} from '@/utils'
 
 type PurchaseDetailProps = {
   purchase: ITrade
@@ -28,13 +20,6 @@ const PurchaseDetail = ({
   isDeletable = true
 }: PurchaseDetailProps) => {
   const [user, setUser] = useState({email: '', password: ''})
-
-  useEffect(() => {
-    // todo. 여기서 에러 남... 이거 서버 컴포넌트임.
-    readItemFromStorageP('user').then(user => {
-      if (user) JSON.parse(user)
-    }) // todo. 너무 느릴 거 같음.
-  }, [])
 
   const handleRemove = useCallback(() => {
     dispatch({

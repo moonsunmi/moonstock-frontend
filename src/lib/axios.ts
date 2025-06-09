@@ -1,8 +1,8 @@
 import axios from 'axios'
-import {readItemFromStorageP, writeItemFromStorageP} from '../utils'
+import {readItemFromStorage, writeItemFromStorage} from '../utils'
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_NEXT_BACKEND_URL,
+  baseURL: '/',
   withCredentials: true
 })
 
@@ -10,7 +10,7 @@ axiosInstance.defaults.headers.get['Content-Type'] = 'application/json'
 
 axiosInstance.interceptors.request.use(async config => {
   if (typeof window !== 'undefined') {
-    const accessToken = await readItemFromStorageP('accessToken')
+    const accessToken = readItemFromStorage('accessToken')
     if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`
   }
   return config
@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
         const response = await axiosInstance.get('/api/auth/refresh-token')
 
         const accessToken = response.data?.accessToken
-        writeItemFromStorageP('accessToken', accessToken)
+        writeItemFromStorage('accessToken', accessToken)
 
         originalRequest.headers['Authorization'] = `Bearer ${accessToken}`
 
