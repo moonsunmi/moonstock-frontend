@@ -11,26 +11,28 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       size = 'md',
       value = '',
       label = '',
+      type,
       onChange,
       ...rest
     } = props
     const [isVisible, setIsVisible] = useState(false)
 
-    const containerClassName = classNames(classes.container, className)
-    const inputClassName = classNames(
-      classes.input,
-      classes[size],
-      classes.password
-    )
+    const inputClassName = classNames(classes.input, classes[size])
 
     return (
-      <div className={containerClassName}>
+      <>
         <input
+          key={isVisible ? 'visible' : 'hidden'}
           ref={ref}
           className={inputClassName}
           value={value}
           type={isVisible ? 'text' : 'password'}
           onChange={onChange}
+          style={
+            {
+              WebkitTextSecurity: isVisible ? 'none' : 'disc'
+            } as React.CSSProperties
+          }
           {...rest}
         />
         <label className={classes.label}>{label}</label>
@@ -39,7 +41,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           className="absolute cursor-pointer right-2">
           {isVisible ? <Visibility /> : <VisibilityOff />}
         </div>
-      </div>
+      </>
     )
   }
 )

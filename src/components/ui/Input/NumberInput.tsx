@@ -17,15 +17,14 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       ...rest
     } = props
 
-    const containerClassName = classNames(classes.container, className)
     const inputClassName = classNames(
       classes.input,
       classes[size],
-      classes.number
+      'text-right'
     )
 
     return (
-      <div className={containerClassName}>
+      <>
         <NumericFormat
           type="text"
           getInputRef={ref}
@@ -45,7 +44,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           {...rest}
         />
         <label className={classes.label}>{label}</label>
-      </div>
+      </>
     )
   }
 )

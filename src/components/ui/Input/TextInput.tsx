@@ -14,15 +14,10 @@ const TextInput = forwardRef<HTMLInputElement, CustomInputProps>(
       ...rest
     } = props
 
-    const containerClassName = classNames(classes.container, className)
-    const inputClassName = classNames(
-      classes.input,
-      classes[size],
-      classes.text
-    )
+    const inputClassName = classNames(classes.input, classes[size])
 
     return (
-      <div className={containerClassName}>
+      <>
         <input
           ref={ref}
           className={inputClassName}
@@ -32,7 +27,7 @@ const TextInput = forwardRef<HTMLInputElement, CustomInputProps>(
           {...rest}
         />
         <label className={classes.label}>{label}</label>
-      </div>
+      </>
     )
   }
 )
