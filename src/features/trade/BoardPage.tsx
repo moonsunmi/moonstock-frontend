@@ -1,9 +1,7 @@
 'use client'
 
 import {useRouter} from 'next/navigation'
-// Components
 import {Button, Card, Paragraph} from '@/components/ui'
-// Hooks
 import useGetHoldings from '@/features/trade/hooks/useHoldings'
 import useTradeDialog from '@/stores/useTradeDialogStore'
 
@@ -15,7 +13,7 @@ const BoardPage = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="grid w-full grid-cols-3 gap-8">
+      <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {holdings.map((holding, index) => (
           <Card key={index} className="flex flex-col justify-between h-40">
             <Paragraph variant="title">{holding['name']}</Paragraph>

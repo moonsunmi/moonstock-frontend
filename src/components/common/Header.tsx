@@ -47,8 +47,7 @@ export const Header = () => {
         <Button variant="text" onClick={() => handleOnLink('/board')}>
           내 주식
         </Button>
-        {/* )} */}
-        {isMounted && userInfo?.email !== null ? (
+        {isMounted && userInfo?.email ? (
           <Button variant="text" onClick={handleOnLogOut}>
             LogOut
           </Button>

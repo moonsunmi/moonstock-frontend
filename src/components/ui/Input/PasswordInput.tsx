@@ -22,17 +22,11 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     return (
       <>
         <input
-          key={isVisible ? 'visible' : 'hidden'}
           ref={ref}
           className={inputClassName}
           value={value}
           type={isVisible ? 'text' : 'password'}
           onChange={onChange}
-          style={
-            {
-              WebkitTextSecurity: isVisible ? 'none' : 'disc'
-            } as React.CSSProperties
-          }
           {...rest}
         />
         <label className={classes.label}>{label}</label>
