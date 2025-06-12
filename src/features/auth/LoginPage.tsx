@@ -73,7 +73,7 @@ const LoginPage = () => {
   }, [loginMutation.error])
 
   return (
-    <div className="flex items-center justify-center w-full px-56">
+    <div className="flex items-start w-full px-4">
       <Card>
         <div className="mb-4 text-center">
           <Paragraph variant="title">Login</Paragraph>

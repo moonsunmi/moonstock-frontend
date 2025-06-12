@@ -38,12 +38,11 @@ export const Header = () => {
   }, [])
 
   return (
-    <div className="fixed flex flex-row content-center justify-between w-full h-16 p-5 font-bold shadow-md text-primary-950 bg-primary-200">
+    <div className="box-border fixed flex flex-row content-center justify-between w-full h-16 p-5 font-bold border shadow-md text-primary-950 bg-primary-200">
       <div className="cursor-pointer" onClick={() => router.push('/')}>
         MoonStock
       </div>
       <div className="flex gap-1">
-        {/* {isMounted && userInfo?.email !== null && ( */}
         <Button variant="text" onClick={() => handleOnLink('/board')}>
           내 주식
         </Button>
