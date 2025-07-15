@@ -20,7 +20,6 @@ const ListContainer = ({
 
   const handleRowClick = (transaction: ITrade) => {
     if (mode === 'edit') {
-      // setSelectedTransaction(transaction)
       openDialog('update', transaction)
     } else {
       setMatchTransactions(prev =>
@@ -33,6 +32,11 @@ const ListContainer = ({
 
   return (
     <div className="w-full text-sm border">
+      <div className="grid grid-cols-3 font-semibold text-center bg-gray-300">
+        <div>매수</div>
+        <div>가격</div>
+        <div>매도</div>
+      </div>
       {sortedTradings.map(tx => {
         const isBuy = tx.type === 'BUY'
         return (

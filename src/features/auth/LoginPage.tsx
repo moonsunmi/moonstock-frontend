@@ -4,7 +4,14 @@ import {ChangeEvent, useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import useSWRMutation from 'swr/mutation'
 import {useSnackbar} from 'notistack'
-import {Button, Card, Input, Paragraph} from '@/components/ui'
+import {
+  Button,
+  Card,
+  Dialog,
+  DialogContent,
+  Input,
+  Paragraph
+} from '@/components/ui'
 import axiosInstance from '@/lib/axios'
 import {writeItemFromStorage} from '@/utils'
 import {useUserStore} from '@/stores/useUserStore'
@@ -23,6 +30,7 @@ const LoginPage = () => {
     email: '',
     password: ''
   })
+  const [open, setOpen] = useState(false)
 
   const loginMutation = useSWRMutation(
     '/api/auth/login',
@@ -56,7 +64,7 @@ const LoginPage = () => {
       setAccounts(userInfo.accounts)
       writeItemFromStorage('accessToken', accessToken)
 
-      router.push('/')
+      router.push('/board')
       enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})
     }
   }, [loginMutation.data])
@@ -72,42 +80,51 @@ const LoginPage = () => {
     }
   }, [loginMutation.error])
 
+  useEffect(() => {}, [loginMutation.isMutating])
+
   return (
-    <div className="flex items-start w-full px-4">
-      <Card>
-        <div className="mb-4 text-center">
-          <Paragraph variant="title">Login</Paragraph>
-        </div>
-        <hr className="h-1 pt-2 pb-2 border-secondary-300" />
-        <div className="flex flex-col gap-6">
-          <Input
-            name="email"
-            className="w-full"
-            placeholder="이메일"
-            value={email}
-            onChange={handleOnChange('email')}
-          />
-          <Input
-            type="password"
-            className="w-full"
-            name="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={handleOnChange('password')}
-          />
-          <Button
-            type="submit"
-            className="w-full"
-            onClick={handleOnClick_Login}>
-            LOGIN
-          </Button>
+    <>
+      <div className="flex items-start w-full px-4">
+        <Card>
+          <div className="mb-4 text-center">
+            <Paragraph variant="title">Login</Paragraph>
+          </div>
           <hr className="h-1 pt-2 pb-2 border-secondary-300" />
-          <Button variant="outlined" onClick={() => router.push('/sign-up')}>
-            SignUp
-          </Button>
-        </div>
-      </Card>
-    </div>
+          <div className="flex flex-col gap-6">
+            <Input
+              name="email"
+              className="w-full"
+              placeholder="이메일"
+              value={email}
+              onChange={handleOnChange('email')}
+            />
+            <Input
+              type="password"
+              className="w-full"
+              name="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={handleOnChange('password')}
+            />
+            <Button
+              type="submit"
+              className="w-full"
+              onClick={handleOnClick_Login}>
+              LOGIN
+            </Button>
+            <hr className="h-1 pt-2 pb-2 border-secondary-300" />
+            <Button variant="outlined" onClick={() => router.push('/sign-up')}>
+              SignUp
+            </Button>
+          </div>
+        </Card>
+      </div>
+      <Dialog open={open} onClose={close}>
+        <DialogContent>
+          <div>무료 플랜 사용으로 로그인에 다소 시간이 걸릴 수 있습니다.</div>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
 export default LoginPage
