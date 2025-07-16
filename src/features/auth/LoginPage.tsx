@@ -119,7 +119,7 @@ const LoginPage = () => {
           </div>
         </Card>
       </div>
-      <Dialog open={open} onClose={close}>
+      <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogContent>
           <div>무료 플랜 사용으로 로그인에 다소 시간이 걸릴 수 있습니다.</div>
         </DialogContent>
