@@ -32,7 +32,7 @@ const LoginPage = () => {
   })
   const [open, setOpen] = useState(false)
 
-  const loginMutation = useSWRMutation(
+  const {isMutating, trigger} = useSWRMutation(
     '/api/auth/login',
     (url, {arg}: {arg: LoginArg}) => {
       return axiosInstance
@@ -41,6 +41,27 @@ const LoginPage = () => {
           withCredentials: false
         })
         .then(res => res.data)
+    },
+    {
+      onSuccess: res => {
+        const {userInfo, accessToken} = res
+
+        setUserInfo({
+          ...userInfo,
+          defaultAccount: userInfo.accounts.find(account => account.isDefault)
+        })
+        setAccounts(userInfo.accounts)
+        writeItemFromStorage('accessToken', accessToken)
+
+        router.push('/board')
+        enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})
+      },
+      onError: (e: any) => {
+        enqueueSnackbar(
+          `로그인 에러:${e?.response?.data?.errorMessage ?? '알 수 없는 에러'}`,
+          {variant: 'error'}
+        )
+      }
     }
   )
 
@@ -50,37 +71,8 @@ const LoginPage = () => {
     }
 
   const handleOnClick_Login = () => {
-    loginMutation.trigger({email, password})
+    trigger({email, password})
   }
-
-  useEffect(() => {
-    if (loginMutation.data) {
-      const {userInfo, accessToken} = loginMutation.data
-
-      setUserInfo({
-        ...userInfo,
-        defaultAccount: userInfo.accounts.find(account => account.isDefault)
-      })
-      setAccounts(userInfo.accounts)
-      writeItemFromStorage('accessToken', accessToken)
-
-      router.push('/board')
-      enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})
-    }
-  }, [loginMutation.data])
-
-  useEffect(() => {
-    if (loginMutation.error) {
-      enqueueSnackbar(
-        `로그인 에러:${
-          loginMutation.error?.response?.data?.errorMessage ?? '알 수 없는 에러'
-        }`,
-        {variant: 'error'}
-      )
-    }
-  }, [loginMutation.error])
-
-  useEffect(() => {}, [loginMutation.isMutating])
 
   return (
     <>
@@ -109,6 +101,7 @@ const LoginPage = () => {
             <Button
               type="submit"
               className="w-full"
+              disabled={isMutating}
               onClick={handleOnClick_Login}>
               LOGIN
             </Button>

@@ -31,6 +31,22 @@ const SignUpPage = () => {
           withCredentials: false
         })
         .then(res => res.data)
+    },
+    {
+      onSuccess: () => {
+        router.push('/login')
+        enqueueSnackbar(`성공적으로 회원 가입되었습니다.`, {variant: 'success'})
+      },
+      onError: (e: any) => {
+        enqueueSnackbar(
+          `회원가입에 실패했습니다: ${
+            e?.response?.data?.errorMessage ?? '알 수 없는 에러'
+          }`,
+          {
+            variant: 'error'
+          }
+        )
+      }
     }
   )
 
@@ -48,20 +64,6 @@ const SignUpPage = () => {
       signUpMutation.trigger({name, email, password})
     }
   }
-
-  useEffect(() => {
-    if (signUpMutation.data) {
-      router.push('/login')
-      enqueueSnackbar(`성공적으로 회원 가입되었습니다.`, {variant: 'success'})
-    }
-  }, [signUpMutation.data])
-
-  useEffect(() => {
-    if (signUpMutation.error)
-      enqueueSnackbar(`회원가입에 실패했습니다:${signUpMutation.error}`, {
-        variant: 'error'
-      })
-  }, [signUpMutation.error])
 
   return (
     <div className="flex items-center justify-center w-full px-56">
