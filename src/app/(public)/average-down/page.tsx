@@ -1,7 +1,7 @@
-import AverageDownPage from '@/features/averageDown/AverageDownPage'
+import AverageDownView from '@/features/averageDown/components/AverageDownView'
 
 const Page = () => {
-  return <AverageDownPage />
+  return <AverageDownView />
 }
 
 export default Page

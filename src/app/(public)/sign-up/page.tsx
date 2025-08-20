@@ -1,6 +1,6 @@
-import SignUpPage from '@/features/auth/SignUpPage'
+import SignUpFormView from '@/features/auth/components/SignUpFormView'
 
 const Page = () => {
-  return <SignUpPage />
+  return <SignUpFormView />
 }
 export default Page

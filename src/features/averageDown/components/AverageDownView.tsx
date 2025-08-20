@@ -1,64 +1,29 @@
 'use client'
 
-import {useCallback, useState} from 'react'
-import {v4 as uuidv4} from 'uuid'
-import {Button, Card, Input, Output, Paragraph} from '@/components/ui'
-import {Modal} from '@mui/material'
-import {RemoveCircle} from '@mui/icons-material'
 import SearchPrice from '@/components/common/averageDown/SearchPrice'
+import {Button, Card, Input, Output, Paragraph} from '@/components/ui'
 import {formatNumber} from '@/utils'
-import useCalculatedInvestment from '@/common/hooks/useCalculatedInvestment'
+import {RemoveCircle} from '@mui/icons-material'
+import {Modal} from '@mui/material'
+import {useState} from 'react'
+import useAverageDown from '../hooks/useAverageDown'
 
-const AverageDownPage = () => {
+const AverageDownView = () => {
   const [openModal_searchPrice, setOpenModal_searchPrice] =
     useState<boolean>(false)
 
-  const [holding, setHolding] = useState<ISimpleTrade>({
-    id: 'holding',
-    price: 0,
-    quantity: 0
-  })
-  const [transactions, setTransactions] = useState<ISimpleTrade[]>([
-    {id: uuidv4(), price: 0, quantity: 0}
-  ])
-
-  const {averagePrice, totalQuantity, totalPay, isValid} =
-    useCalculatedInvestment(holding, transactions)
-
-  const addTransaction = () => {
-    setTransactions(prevState => [
-      ...prevState,
-      {id: uuidv4(), price: 0, quantity: 0}
-    ])
-  }
-
-  const handleRemove = (id: string) => {
-    setTransactions(prevState =>
-      prevState.filter(transaction => transaction.id !== id)
-    )
-  }
-
-  const handleOnChange_Transaction = (
-    id: string,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const {name, value} = e.target
-
-    setTransactions(prevState =>
-      prevState.map(transaction =>
-        transaction.id === id
-          ? {...transaction, [name]: Number(value)}
-          : transaction
-      )
-    )
-  }
-
-  const handleOnChange_Holding = useCallback(
-    (key: keyof ITrade, value: string) => {
-      setHolding(prevState => ({...prevState, [key]: Number(value)}))
-    },
-    [holding]
-  )
+  const {
+    holding,
+    transactions,
+    averagePrice,
+    totalQuantity,
+    totalPay,
+    isValid,
+    addTransaction,
+    handleRemove,
+    handleOnChange_Transaction,
+    handleOnChange_Holding
+  } = useAverageDown()
 
   return (
     <div className="flex flex-col w-full gap-3 p-4">
@@ -103,9 +68,9 @@ const AverageDownPage = () => {
         {transactions.map(transaction => {
           return (
             <Card key={transaction.id}>
-              <form className="flex gap-2">
+              <div className="flex gap-2">
                 <Input
-                  id="price"
+                  id={`price-${transaction.id}}`}
                   type="number"
                   className="w-1/3"
                   name="price"
@@ -114,7 +79,7 @@ const AverageDownPage = () => {
                   onChange={e => handleOnChange_Transaction(transaction.id, e)}
                 />
                 <Input
-                  id="quantity"
+                  id={`quantity-${transaction.id}}`}
                   type="number"
                   className="w-1/3"
                   name="quantity"
@@ -131,7 +96,7 @@ const AverageDownPage = () => {
                   onClick={() => handleRemove(transaction.id)}
                   fontSize="small"
                 />
-              </form>
+              </div>
             </Card>
           )
         })}
@@ -172,4 +137,4 @@ const AverageDownPage = () => {
   )
 }
 
-export default AverageDownPage
+export default AverageDownView
