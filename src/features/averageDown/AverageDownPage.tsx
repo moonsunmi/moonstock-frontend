@@ -4,10 +4,10 @@ import {useCallback, useState} from 'react'
 import {v4 as uuidv4} from 'uuid'
 import {Button, Card, Input, Output, Paragraph} from '@/components/ui'
 import {Modal} from '@mui/material'
-import SearchPrice from '@/components/averageDown/SearchPrice'
 import {RemoveCircle} from '@mui/icons-material'
+import SearchPrice from '@/components/common/averageDown/SearchPrice'
+import {formatNumber} from '@/utils'
 import useCalculatedInvestment from '@/common/hooks/useCalculatedInvestment'
-import {formatNumber} from '@/utils/format'
 
 const AverageDownPage = () => {
   const [openModal_searchPrice, setOpenModal_searchPrice] =
