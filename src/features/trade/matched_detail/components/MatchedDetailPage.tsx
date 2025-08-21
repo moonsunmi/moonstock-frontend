@@ -3,9 +3,9 @@
 import {Button, Paragraph} from '@/components/ui'
 import {TableHeader, TableRow} from '@/components/ui/Table'
 import {Menu, MenuItem} from '@mui/material'
-import {useMatchedDetailPage} from './useMatchedDetailPage'
+import {useMatchedDetailPage} from '../hooks/useMatchedDetailPage'
 
-const MatchedDetailClient = ({id}: {id: string}) => {
+const MatchedDetailPage = ({id}: {id: string}) => {
   const vm = useMatchedDetailPage(id)
 
   if (vm.isLoading) return <p>Loading...</p>
@@ -16,7 +16,6 @@ const MatchedDetailClient = ({id}: {id: string}) => {
     <div className="w-full">
       <Paragraph variant="title">거래 상세</Paragraph>
 
-      {/* 매수 거래 테이블 */}
       <table className="w-full mb-4">
         <TableHeader columns={vm.buyColumns} />
         <tbody>
@@ -24,7 +23,6 @@ const MatchedDetailClient = ({id}: {id: string}) => {
         </tbody>
       </table>
 
-      {/* 매수 수정 버튼 */}
       <div className="flex gap-2 mb-4">
         <Button
           onClick={() => {
@@ -54,4 +52,4 @@ const MatchedDetailClient = ({id}: {id: string}) => {
   )
 }
 
-export default MatchedDetailClient
+export default MatchedDetailPage

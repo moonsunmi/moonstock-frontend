@@ -2,9 +2,9 @@
 
 import {useEffect, useMemo, useState} from 'react'
 import {Button} from '@/components/ui'
-import useTrading from '@/features/trade/hooks/useTrading'
+import useTrading from '@/features/trade/trading/hooks/useTrading'
 import useTradeDialog from '@/stores/useTradeDialogStore'
-import MatchingDialog from '@/common/dialog/MatchDialog'
+import MatchingDialog from '@/features/trade/dialogs/MatchDialog'
 import {initTransaction} from '@/utils/initData'
 import Header from './Header'
 import ListContainer from './ListContainer'
@@ -34,20 +34,6 @@ const TradingPage = ({ticker}: {ticker: string}) => {
   const handleCreate = (type: TradeType) => {
     openDialog('create', {...initTransaction, stockTicker: ticker})
   }
-
-  // const handleUpdate = () => {
-  //   if (selectedTransaction) {
-  //     openDialog('update', selectedTransaction)
-  //     handleCloseMenu()
-  //   }
-  // }
-
-  // const handleDelete = () => {
-  //   if (selectedTransaction) {
-  //     openDialog('delete', selectedTransaction)
-  //     handleCloseMenu()
-  //   }
-  // }
 
   const handleCloseMatching = () => {
     setMatchTransactions([])

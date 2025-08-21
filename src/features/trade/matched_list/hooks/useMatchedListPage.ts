@@ -2,7 +2,7 @@
 'use client'
 
 import {useRouter} from 'next/navigation'
-import useMatchedTrades from '@/features/trade/hooks/useMatchedTrades'
+import useMatchedTrades from '@/features/trade/matched_list/hooks/useMatchedTrades'
 
 export const useMatchedListPage = (ticker: string) => {
   const router = useRouter()

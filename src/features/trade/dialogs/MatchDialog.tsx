@@ -2,7 +2,7 @@
 
 import {Dialog, DialogContent, DialogAction, Button} from '@/components/ui'
 import {DialogTitle} from '@/components/ui/Dialog'
-import usePostMatchTrade from '../../features/trade/hooks/usePostMatchTrade'
+import usePostMatchTrade from '../hooks/usePostMatchTrade'
 
 interface MatchingDialogProps {
   open: boolean

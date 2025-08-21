@@ -1,4 +1,4 @@
-import {useMatchedListPage} from '../useMatchedListPage'
+import {useMatchedListPage} from '../hooks/useMatchedListPage'
 import MatchedRow from './MatchedRow'
 
 export default function MatchedTable({

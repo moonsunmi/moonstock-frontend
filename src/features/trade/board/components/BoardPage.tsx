@@ -2,14 +2,14 @@
 
 import {useRouter} from 'next/navigation'
 import {Button, Card, Paragraph} from '@/components/ui'
-import useGetHoldings from '@/features/trade/hooks/useHoldings'
+import useHoldings from '@/features/trade/board/hooks/useHoldings'
 import useTradeDialog from '@/stores/useTradeDialogStore'
 
 const BoardPage = () => {
   const router = useRouter()
 
   const {openDialog} = useTradeDialog()
-  const {holdings, error, isLoading} = useGetHoldings()
+  const {holdings, error, isLoading} = useHoldings()
 
   return (
     <div className="flex flex-col gap-8">
