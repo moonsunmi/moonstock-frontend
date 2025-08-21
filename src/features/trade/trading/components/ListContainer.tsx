@@ -1,6 +1,6 @@
 'use client'
 
-import useTradeDialog from '@/stores/useTradeDialogStore'
+import useTradeDialog from '@/features/trade/store/useTradeDialogStore'
 import {formatNumber, getDateFormat} from '@/utils'
 import classNames from 'classnames'
 import {Dispatch, SetStateAction} from 'react'

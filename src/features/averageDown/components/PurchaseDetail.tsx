@@ -4,7 +4,7 @@ import {ChangeEvent, Dispatch, useCallback, useMemo, useState} from 'react'
 
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import {FormGroup, Grid} from '@mui/material'
-import {ContainerBox, Input} from '@/components/ui'
+import {ContainerBox, Input} from '@/shared/ui'
 
 type PurchaseDetailProps = {
   purchase: ITrade

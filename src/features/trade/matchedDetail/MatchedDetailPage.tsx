@@ -1,9 +1,9 @@
 'use client'
 
-import {Button, Paragraph} from '@/components/ui'
-import {TableHeader, TableRow} from '@/components/ui/Table'
+import {Button, Paragraph} from '@/shared/ui'
+import {TableHeader, TableRow} from '@/shared/ui/Table'
 import {Menu, MenuItem} from '@mui/material'
-import {useMatchedDetailPage} from '../hooks/useMatchedDetailPage'
+import {useMatchedDetailPage} from './useMatchedDetailPage'
 
 const MatchedDetailPage = ({id}: {id: string}) => {
   const vm = useMatchedDetailPage(id)

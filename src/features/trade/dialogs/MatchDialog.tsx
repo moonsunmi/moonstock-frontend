@@ -1,7 +1,7 @@
 'use client'
 
-import {Dialog, DialogContent, DialogAction, Button} from '@/components/ui'
-import {DialogTitle} from '@/components/ui/Dialog'
+import {Dialog, DialogContent, DialogAction, Button} from '@/shared/ui'
+import {DialogTitle} from '@/shared/ui/Dialog'
 import usePostMatchTrade from '../hooks/usePostMatchTrade'
 
 interface MatchingDialogProps {

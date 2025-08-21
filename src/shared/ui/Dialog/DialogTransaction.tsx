@@ -1,7 +1,7 @@
 'use client'
 
 import {ChangeEvent, Dispatch, HTMLAttributes, SetStateAction} from 'react'
-import {DatePicker, Input, Radio} from '@/components/ui'
+import {DatePicker, Input, Radio} from '@/shared/ui'
 import classNames from 'classnames'
 
 interface DialogTransactionProps extends HTMLAttributes<HTMLDivElement> {

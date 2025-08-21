@@ -1,9 +1,9 @@
 'use client'
 
-import {Button, Paragraph} from '@/components/ui'
-import {DialogAction, Dialog, DialogContent} from '@/components/ui/Dialog'
+import {Button, Paragraph} from '@/shared/ui'
+import {DialogAction, Dialog, DialogContent} from '@/shared/ui/Dialog'
 import axiosInstance from '@/lib/axios'
-import useDeleteDialog from '@/stores/useDeleteDialogStore'
+import useDeleteDialog from '@/features/trade/store/useDeleteDialogStore'
 import useSWRMutation from 'swr/mutation'
 
 const DeleteDialog = () => {

@@ -10,7 +10,7 @@ import {
 } from '@mui/x-data-grid'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import {formatNumber} from '@/utils'
-import {Button} from '@/components/ui'
+import {Button} from '@/shared/ui'
 // Libs
 
 const columns: GridColDef[] = [

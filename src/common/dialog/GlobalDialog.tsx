@@ -1,4 +1,4 @@
-import DeleteDialog from './DeleteDialog'
+import DeleteDialog from '../../features/trade/dialogs/DeleteDialog'
 import TradeDialog from '@/features/trade/dialogs/TradeDialog'
 
 export const getStockList = async () => {

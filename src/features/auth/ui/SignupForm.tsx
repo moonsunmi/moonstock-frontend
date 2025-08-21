@@ -1,9 +1,9 @@
 'use client'
 
-import {Button, Card, Input, Paragraph} from '@/components/ui'
+import {Button, Card, Input, Paragraph} from '@/shared/ui'
 import useSignup from '../hooks/useSignup'
 
-const SignUpFormView = () => {
+const SignupForm = () => {
   const {
     name,
     email,
@@ -62,4 +62,4 @@ const SignUpFormView = () => {
     </div>
   )
 }
-export default SignUpFormView
+export default SignupForm

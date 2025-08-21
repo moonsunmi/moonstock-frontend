@@ -1,9 +1,9 @@
 'use client'
 
 import {useEffect, useMemo, useState} from 'react'
-import {Button} from '@/components/ui'
+import {Button} from '@/shared/ui'
 import useTrading from '@/features/trade/trading/hooks/useTrading'
-import useTradeDialog from '@/stores/useTradeDialogStore'
+import useTradeDialog from '@/features/trade/store/useTradeDialogStore'
 import MatchingDialog from '@/features/trade/dialogs/MatchDialog'
 import {initTransaction} from '@/utils/initData'
 import Header from './Header'

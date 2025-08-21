@@ -1,8 +1,8 @@
 'use client'
 
-import Header from '@/features/trade/matched_list/components/Header'
-import MatchedList from '@/features/trade/matched_list/components/MatchedList'
-import {Paragraph} from '@/components/ui'
+import {Header} from '@/features/shell'
+import MatchedList from '@/features/trade/matchedList/components/MatchedList'
+import {Paragraph} from '@/shared/ui'
 import {useMatchedListPage} from '../hooks/useMatchedListPage'
 
 const MatchedListClient = ({ticker}: {ticker: string}) => {

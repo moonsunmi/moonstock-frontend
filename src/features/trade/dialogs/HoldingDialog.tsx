@@ -4,7 +4,7 @@ import useSWRMutation from 'swr/mutation'
 import axiosInstance from '@/lib/axios'
 // Components
 import {Dialog, DialogActions, DialogContent} from '@mui/material'
-import {Button, Input} from '@/components/ui'
+import {Button, Input} from '@/shared/ui'
 
 export interface HoldingDialogProps {
   defaultTransaction?: ITrade

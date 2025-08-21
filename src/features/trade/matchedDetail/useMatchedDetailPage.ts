@@ -2,8 +2,8 @@
 'use client'
 
 import {useState, MouseEvent, useMemo} from 'react'
-import useUpdateDialog from '@/stores/useUpdateDialogStore'
-import useDeleteDialog from '@/stores/useDeleteDialogStore'
+import useUpdateDialog from '@/features/trade/store/useUpdateDialogStore'
+import useDeleteDialog from '@/features/trade/store/useDeleteDialogStore'
 import {formatNumber, getDateFormat} from '@/utils'
 import useTradeInfo from '@/features/trade/hooks/useTradeInfo'
 

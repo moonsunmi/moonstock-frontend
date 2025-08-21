@@ -1,9 +1,9 @@
 'use client'
 
 import {useRouter} from 'next/navigation'
-import {Button, Card, Paragraph} from '@/components/ui'
-import useHoldings from '@/features/trade/board/hooks/useHoldings'
-import useTradeDialog from '@/stores/useTradeDialogStore'
+import {Button, Card, Paragraph} from '@/shared/ui'
+import useHoldings from '@/features/trade/board/useHoldings'
+import useTradeDialog from '@/features/trade/store/useTradeDialogStore'
 
 const BoardPage = () => {
   const router = useRouter()

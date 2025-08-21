@@ -1,6 +1,6 @@
 'use client'
 
-import {Paragraph} from '@/components/ui'
+import {Paragraph} from '@/shared/ui'
 import {ToggleButton, ToggleButtonGroup} from '@mui/material'
 
 type HeaderProps = {

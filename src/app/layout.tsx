@@ -5,9 +5,9 @@ import SnackbarProvider from '@/providers/SnackbarProvider'
 import {SWRProvider} from '@/providers/SWRProvider'
 // components
 import {CssBaseline} from '@mui/material'
-import {Header} from '@/components/common/Header'
 // Styles
 import './globals.css'
+import {Header} from '@/features/shell'
 
 export default async function RootLayout({
   children

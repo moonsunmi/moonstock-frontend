@@ -1,6 +1,6 @@
-import LoginViewForm from '@/features/auth/components/LoginFormView'
+import LoginForm from '@/features/auth/ui/LoginForm'
 
 const Page = () => {
-  return <LoginViewForm />
+  return <LoginForm />
 }
 export default Page

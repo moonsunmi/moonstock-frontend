@@ -4,6 +4,7 @@ import axiosInstance from '@/lib/axios'
 import {useAccountStore} from '@/stores/useAccountStore'
 import {useUserStore} from '@/stores/useUserStore'
 import {writeItemFromStorage} from '@/utils'
+import {AxiosError} from 'axios'
 import {useRouter} from 'next/navigation'
 import {useSnackbar} from 'notistack'
 import {ChangeEvent, FormEvent, useState} from 'react'
@@ -18,19 +19,21 @@ const useLogin = () => {
 
   const {setUserInfo} = useUserStore()
   const {setAccounts} = useAccountStore()
-  const [{email, password}, setForm] = useState<FormType>({
+  const [form, setForm] = useState<FormType>({
     email: '',
     password: ''
   })
+  const [error, setError] = useState<string | null>(null)
 
-  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) =>
-    setForm(p => ({...p, email: e.target.value}))
-  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) =>
-    setForm(p => ({...p, password: e.target.value}))
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target
+    setForm(prev => ({...prev, [name]: value}))
+    if (error) setError(null)
+  }
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault()
-    trigger({email, password})
+    trigger(form)
   }
 
   const {isMutating, trigger} = useSWRMutation(
@@ -57,23 +60,20 @@ const useLogin = () => {
         router.push('/board')
         enqueueSnackbar(`로그인되었습니다.`, {variant: 'success'})
       },
-      onError: (e: any) => {
-        enqueueSnackbar(
-          `로그인 에러:${e?.response?.data?.errorMessage ?? '알 수 없는 에러'}`,
-          {variant: 'error'}
-        )
+      onError: (err: AxiosError<{errMessage?: string}>) => {
+        const errorMessage = err.response?.data?.errMessage ?? '알 수 없는 에러'
+        setError(errorMessage)
+        enqueueSnackbar(`로그인 실패:${errorMessage}`, {variant: 'error'})
       }
     }
   )
 
   return {
-    email,
-    password,
+    ...form,
     isSubmitting: isMutating,
-    onChangeEmail,
-    onChangePassword,
-    onSubmit,
-    goSignUp: () => router.push('/sign-up')
+    error,
+    onChange,
+    onSubmit
   }
 }
 
