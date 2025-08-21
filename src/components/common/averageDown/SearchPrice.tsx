@@ -4,7 +4,6 @@ import {useState} from 'react'
 import {useRouter} from 'next/navigation'
 // Components
 import PurchaseDetailContainer from './PurchaseDetail'
-import {Button} from '../ui'
 // Styles
 
 type APIStockDetail = {

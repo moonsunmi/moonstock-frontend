@@ -3,9 +3,9 @@
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import useSWRMutation from 'swr/mutation'
-import {Button} from '../ui'
 import axiosInstance from '@/lib/axios'
 import {useUserStore} from '@/stores/useUserStore'
+import {Button} from '@/components/ui'
 
 export const Header = () => {
   const router = useRouter()
