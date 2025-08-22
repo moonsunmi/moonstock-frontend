@@ -12,7 +12,7 @@ import useLogin from '../hooks/useLogin'
 import Link from 'next/link'
 
 const LoginForm = () => {
-  const {email, password, isSubmitting, error, onChange, onSubmit} = useLogin()
+  const {email, password, isSubmitting, onChange, onSubmit} = useLogin()
 
   const disabled = isSubmitting || !email.trim() || !password.trim()
 
@@ -51,10 +51,6 @@ const LoginForm = () => {
                 value={password}
                 onChange={onChange}
               />
-
-              {error && (
-                <p className="text-sm text-red-600 text-center">{error}</p>
-              )}
 
               <Button type="submit" className="w-full" disabled={disabled}>
                 LOGIN

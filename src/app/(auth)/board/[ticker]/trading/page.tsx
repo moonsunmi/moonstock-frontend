@@ -1,4 +1,4 @@
-import TradingPage from '@/features/trade/trading/components/TradingPage'
+import TradingPage from '@/features/trade/trading/ui/TradingPage'
 
 const Page = async ({params}: {params: Promise<{ticker: string}>}) => {
   const ticker = (await params).ticker

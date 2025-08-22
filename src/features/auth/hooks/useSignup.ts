@@ -5,6 +5,8 @@ import {useRouter} from 'next/navigation'
 import {useSnackbar} from 'notistack'
 import {ChangeEvent, useCallback, useState} from 'react'
 import useSWRMutation from 'swr/mutation'
+import {authQueryKeys} from '../data/key'
+import {authApi} from '../data/api'
 
 type SignUpArg = {name: string; email: string; password: string}
 
@@ -23,16 +25,12 @@ const useSignup = () => {
     useState<SignUpFormType>(initFormState)
 
   const signUpMutation = useSWRMutation(
-    '/api/auth/sign-up',
-    (url, {arg}: {arg: SignUpArg}) => {
-      return axiosInstance
-        .post(url, arg, {
-          withCredentials: false
-        })
-        .then(res => res.data)
+    authQueryKeys.signup,
+    (_key, {arg}: {arg: SignUpArg}) => {
+      return authApi.signup(arg)
     },
     {
-      onSuccess: () => {
+      onSuccess: res => {
         router.push('/login')
         enqueueSnackbar(`성공적으로 회원 가입되었습니다.`, {variant: 'success'})
       },
