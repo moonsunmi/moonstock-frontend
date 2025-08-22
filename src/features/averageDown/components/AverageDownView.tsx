@@ -1,12 +1,12 @@
 'use client'
 
-import SearchPrice from '@/components/common/averageDown/SearchPrice'
-import {Button, Card, Input, Output, Paragraph} from '@/components/ui'
+import {Button, Card, Input, Output, Paragraph} from '@/shared/ui'
 import {formatNumber} from '@/utils'
 import {RemoveCircle} from '@mui/icons-material'
 import {Modal} from '@mui/material'
 import {useState} from 'react'
 import useAverageDown from '../hooks/useAverageDown'
+import SearchPrice from './SearchPrice'
 
 const AverageDownView = () => {
   const [openModal_searchPrice, setOpenModal_searchPrice] =

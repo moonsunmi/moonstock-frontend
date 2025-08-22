@@ -1,5 +1,5 @@
-import DeleteDialog from './DeleteDialog'
-import TradeDialog from './TradeDialog'
+import DeleteDialog from '../../features/trade/dialogs/DeleteDialog'
+import TradeDialog from '@/features/trade/dialogs/TradeDialog'
 
 export const getStockList = async () => {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
